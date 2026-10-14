@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" width="360" height="480">
+  <!-- Sample A: SD anime-style knight, hand-coded vector -->
+  <rect width="360" height="480" fill="#f4efe6"/>
+  <ellipse cx="180" cy="452" rx="72" ry="10" fill="#000" opacity="0.15"/>
+
+  <g stroke="#3b2a20" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <!-- back hair -->
+    <path d="M92 170 Q78 300 122 322 L238 322 Q282 300 268 170 Z" fill="#8a4b2a"/>
+    <!-- legs + boots -->
+    <rect x="150" y="360" width="24" height="45" fill="#6b5a4a"/>
+    <rect x="186" y="360" width="24" height="45" fill="#6b5a4a"/>
+    <rect x="144" y="398" width="34" height="30" rx="8" fill="#4a3426"/>
+    <rect x="182" y="398" width="34" height="30" rx="8" fill="#4a3426"/>
+    <!-- neck -->
+    <rect x="168" y="240" width="24" height="26" fill="#f6d7c3"/>
+    <!-- mail underlayer -->
+    <path d="M130 265 L230 265 L245 372 L115 372 Z" fill="#9aa3ad"/>
+    <!-- tabard -->
+    <path d="M145 262 L215 262 L228 382 L132 382 Z" fill="#b3262e"/>
+    <rect x="175" y="280" width="10" height="70" fill="#e0b43a" stroke-width="2"/>
+    <rect x="158" y="300" width="44" height="10" fill="#e0b43a" stroke-width="2"/>
+    <rect x="126" y="336" width="108" height="10" fill="#5a3b25"/>
+    <rect x="173" y="333" width="14" height="16" fill="#e0b43a" stroke-width="2"/>
+  </g>
+
+  <!-- arms -->
+  <g stroke-linecap="round">
+    <line x1="134" y1="276" x2="114" y2="340" stroke="#3b2a20" stroke-width="30"/>
+    <line x1="134" y1="276" x2="114" y2="340" stroke="#9aa3ad" stroke-width="22"/>
+    <line x1="226" y1="276" x2="248" y2="336" stroke="#3b2a20" stroke-width="30"/>
+    <line x1="226" y1="276" x2="248" y2="336" stroke="#9aa3ad" stroke-width="22"/>
+  </g>
+
+  <!-- sword, point down -->
+  <g stroke="#3b2a20" stroke-width="3" stroke-linejoin="round">
+    <path d="M245 352 L257 352 L257 440 L251 452 L245 440 Z" fill="#d9dee3"/>
+    <rect x="234" y="344" width="34" height="9" rx="3" fill="#e0b43a"/>
+    <rect x="246" y="322" width="10" height="22" fill="#5a3b25"/>
+    <circle cx="251" cy="318" r="7" fill="#e0b43a"/>
+  </g>
+  <circle cx="114" cy="344" r="12" fill="#f6d7c3" stroke="#3b2a20" stroke-width="3"/>
+  <circle cx="250" cy="336" r="12" fill="#f6d7c3" stroke="#3b2a20" stroke-width="3"/>
+
+  <!-- head -->
+  <ellipse cx="180" cy="175" rx="88" ry="82" fill="#f6d7c3" stroke="#3b2a20" stroke-width="4"/>
+
+  <!-- side locks -->
+  <g fill="#8a4b2a" stroke="#3b2a20" stroke-width="4" stroke-linejoin="round">
+    <path d="M94 158 Q82 232 106 268 Q118 222 112 172 Z"/>
+    <path d="M266 158 Q278 232 254 268 Q242 222 248 172 Z"/>
+    <!-- bangs -->
+    <path d="M92 178 Q88 80 180 76 Q272 80 268 178 Q252 132 230 128 L216 162 L200 124 L180 152 L164 120 L142 160 L136 128 Q106 136 92 178 Z"/>
+  </g>
+  <path d="M120 100 Q150 84 186 86" fill="none" stroke="#b9774a" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- ribbon -->
+  <g stroke="#3b2a20" stroke-width="3" stroke-linejoin="round">
+    <path d="M238 104 L262 88 L258 116 Z" fill="#b3262e"/>
+    <path d="M238 104 L230 76 L254 86 Z" fill="#b3262e"/>
+    <circle cx="242" cy="98" r="6" fill="#e0b43a"/>
+  </g>
+
+  <!-- eyes -->
+  <g>
+    <ellipse cx="146" cy="192" rx="15" ry="21" fill="#3a2a5a"/>
+    <ellipse cx="146" cy="198" rx="10" ry="13" fill="#7a5bb5"/>
+    <circle cx="140" cy="184" r="5.5" fill="#fff"/>
+    <circle cx="152" cy="203" r="2.5" fill="#fff"/>
+    <path d="M127 174 Q146 162 166 174" fill="none" stroke="#2a1d16" stroke-width="5" stroke-linecap="round"/>
+
+    <ellipse cx="214" cy="192" rx="15" ry="21" fill="#3a2a5a"/>
+    <ellipse cx="214" cy="198" rx="10" ry="13" fill="#7a5bb5"/>
+    <circle cx="208" cy="184" r="5.5" fill="#fff"/>
+    <circle cx="220" cy="203" r="2.5" fill="#fff"/>
+    <path d="M194 174 Q214 162 233 174" fill="none" stroke="#2a1d16" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <ellipse cx="126" cy="222" rx="13" ry="6" fill="#f29b9b" opacity="0.6"/>
+  <ellipse cx="234" cy="222" rx="13" ry="6" fill="#f29b9b" opacity="0.6"/>
+  <path d="M170 230 Q180 239 190 230" fill="none" stroke="#3b2a20" stroke-width="3" stroke-linecap="round"/>
+</svg>

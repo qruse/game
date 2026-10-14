@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+  <!-- Sample B: medieval illuminated-manuscript style, hand-coded vector -->
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="7"/>
+      <feColorMatrix values="0 0 0 0 0.45  0 0 0 0 0.32  0 0 0 0 0.15  0 0 0 0.35 0"/>
+    </filter>
+    <pattern id="diaper" width="22" height="22" patternUnits="userSpaceOnUse">
+      <rect width="22" height="22" fill="#24407a"/>
+      <path d="M11 0 L22 11 L11 22 L0 11 Z" fill="none" stroke="#c9a227" stroke-width="1.2" opacity="0.7"/>
+      <circle cx="11" cy="11" r="1.8" fill="#c9a227"/>
+    </pattern>
+    <pattern id="mail" width="6" height="6" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="#8f969c"/>
+      <circle cx="3" cy="3" r="2" fill="none" stroke="#5f666c" stroke-width="0.9"/>
+    </pattern>
+    <g id="quatrefoil">
+      <circle cx="0" cy="-7" r="7"/><circle cx="7" cy="0" r="7"/>
+      <circle cx="0" cy="7" r="7"/><circle cx="-7" cy="0" r="7"/>
+    </g>
+  </defs>
+
+  <!-- parchment -->
+  <rect width="400" height="560" fill="#efdfb8"/>
+  <rect width="400" height="560" filter="url(#grain)"/>
+
+  <!-- borders -->
+  <rect x="12" y="12" width="376" height="536" fill="none" stroke="#b8892b" stroke-width="6"/>
+  <rect x="24" y="24" width="352" height="512" fill="none" stroke="#7a1f1f" stroke-width="2"/>
+  <g fill="#24407a" stroke="#c9a227" stroke-width="2">
+    <use href="#quatrefoil" x="24" y="24"/><use href="#quatrefoil" x="376" y="24"/>
+    <use href="#quatrefoil" x="24" y="536"/><use href="#quatrefoil" x="376" y="536"/>
+  </g>
+  <g fill="#c9a227"><circle cx="24" cy="24" r="4"/><circle cx="376" cy="24" r="4"/><circle cx="24" cy="536" r="4"/><circle cx="376" cy="536" r="4"/></g>
+
+  <!-- gothic arch panel -->
+  <path d="M54 432 L54 168 Q54 74 200 62 Q346 74 346 168 L346 432 Z" fill="url(#diaper)"/>
+  <path d="M54 404 Q200 374 346 404 L346 432 L54 432 Z" fill="#4f6b2f"/>
+  <g fill="#7f9a45"><circle cx="90" cy="404" r="3"/><circle cx="120" cy="398" r="2.5"/><circle cx="290" cy="398" r="3"/><circle cx="318" cy="404" r="2.5"/></g>
+  <path d="M54 432 L54 168 Q54 74 200 62 Q346 74 346 168 L346 432 Z" fill="none" stroke="#c9a227" stroke-width="6"/>
+
+  <g stroke="#2b1d14" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <!-- sword (raised) -->
+    <path d="M253 86 L259 76 L265 86 L265 176 L253 176 Z" fill="#e4e6e3"/>
+    <rect x="242" y="176" width="34" height="7" fill="#c9a227"/>
+    <rect x="255" y="183" width="8" height="18" fill="#5a3b25"/>
+    <circle cx="259" cy="204" r="5" fill="#c9a227"/>
+
+    <!-- legs + pointed shoes -->
+    <rect x="186" y="370" width="11" height="28" fill="url(#mail)"/>
+    <rect x="203" y="370" width="11" height="28" fill="url(#mail)"/>
+    <path d="M184 396 L199 396 L199 404 L172 406 Z" fill="#3a2a20"/>
+    <path d="M201 396 L216 396 L228 406 L201 404 Z" fill="#3a2a20"/>
+
+    <!-- raised right arm -->
+    <path d="M222 204 L250 186 L262 198 L232 222 Z" fill="url(#mail)"/>
+    <circle cx="259" cy="192" r="7" fill="#f2dcc4"/>
+
+    <!-- surcoat -->
+    <path d="M176 200 L224 200 L238 378 L162 378 Z" fill="#a52a2a"/>
+    <path d="M162 378 L238 378 L236 368 L164 368 Z" fill="#c9a227"/>
+    <rect x="166" y="276" width="68" height="8" fill="#5a3b25"/>
+
+    <!-- head -->
+    <rect x="193" y="186" width="14" height="16" fill="#f2dcc4"/>
+    <path d="M176 160 Q174 124 200 120 Q226 124 224 160 L230 214 Q216 200 214 172 L186 172 Q184 200 170 214 Z" fill="#6e3b1f"/>
+    <ellipse cx="200" cy="166" rx="19" ry="24" fill="#f2dcc4"/>
+    <path d="M181 152 Q190 132 200 140 Q210 132 219 152 Q210 144 200 148 Q190 144 181 152 Z" fill="#6e3b1f"/>
+    <path d="M190 135 L195 124 L200 133 L205 124 L210 135 Z" fill="#c9a227" stroke-width="1.8"/>
+  </g>
+
+  <!-- face: medieval miniature line work -->
+  <g stroke="#2b1d14" stroke-linecap="round" fill="none">
+    <path d="M187 162 Q192 158 196 162" stroke-width="1.6"/>
+    <path d="M204 162 Q208 158 213 162" stroke-width="1.6"/>
+    <circle cx="192" cy="164" r="1.6" fill="#2b1d14"/>
+    <circle cx="208" cy="164" r="1.6" fill="#2b1d14"/>
+    <path d="M200 164 L198 175 L201 176" stroke-width="1.3"/>
+    <path d="M195 182 Q200 184 205 182" stroke="#8a2a2a" stroke-width="1.8"/>
+  </g>
+  <circle cx="189" cy="174" r="4" fill="#e39a8a" opacity="0.45"/>
+  <circle cx="211" cy="174" r="4" fill="#e39a8a" opacity="0.45"/>
+
+  <!-- heater shield with chevron -->
+  <g stroke="#2b1d14" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M118 236 L172 236 L172 286 Q172 322 145 340 Q118 322 118 286 Z" fill="#ece5d0"/>
+    <path d="M118 300 L145 266 L172 300 L172 314 L145 280 L118 314 Z" fill="#a52a2a" stroke-width="1.5"/>
+    <path d="M118 236 L172 236 L172 286 Q172 322 145 340 Q118 322 118 286 Z" fill="none" stroke="#c9a227" stroke-width="3"/>
+  </g>
+  <g fill="#c9a227"><circle cx="145" cy="252" r="4"/><circle cx="132" cy="252" r="3"/><circle cx="158" cy="252" r="3"/></g>
+
+  <!-- banner scroll -->
+  <g stroke="#2b1d14" stroke-width="2" stroke-linejoin="round">
+    <path d="M70 452 L330 452 L344 470 L330 488 L70 488 L56 470 Z" fill="#f6ecd2"/>
+    <path d="M56 470 L40 462 L48 478 Z" fill="#d9c79c"/>
+    <path d="M344 470 L360 462 L352 478 Z" fill="#d9c79c"/>
+  </g>
+  <text x="200" y="477" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="20" fill="#7a1f1f">Ser Lina of the Fallen Guild</text>
+  <text x="200" y="516" text-anchor="middle" font-family="'Batang', 'Noto Serif KR', serif" font-size="15" fill="#2b1d14">몰락한 길드의 기사, 리나</text>
+</svg>
