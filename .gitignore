@@ -1,0 +1,13 @@
+# Art: raw generations and retries stay local
+art/raw/
+
+# Godot
+.godot/
+*.import.tmp
+export/
+build/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.vscode/
