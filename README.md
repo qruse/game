@@ -1,1 +1,8 @@
 # game
+
+가제 **Project D20**: BG3식 주사위 판정과 선택지, 택티컬 턴제 전투를 빠른 템포로 압축한 2D 서브컬처 모바일 RPG (부분유료 + 가챠).
+
+## 문서
+
+- [시장조사 v0.1](docs/01-market-research.md)
+- [게임 콘셉트 & 핵심 설계 v0.1](docs/02-game-concept.md)
