@@ -7,3 +7,5 @@
 - [시장조사 v0.2](docs/01-market-research.md)
 - [게임 콘셉트 & 핵심 설계 v0.3](docs/02-game-concept.md)
 - [게임 엔진 선정 v0.1](docs/03-engine-selection.md)
+- [게임 진행 흐름 v0.1](docs/04-game-flow.md)
+- [아트 작업 개요](art/README.md)
