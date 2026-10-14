@@ -1,7 +1,8 @@
-# 시장조사 v0.1
+# 시장조사 v0.2
 
-> 작성일 2026-10-15 · 대상: 모바일 / 부분유료+가챠 / 2D / 1인 개발
+> 작성일 2026-10-15 · 대상: 모바일 / 2D / 1인 개발
 > 매출 수치는 외부 추정치(eog.gg 등)이고 공식 실적이 아니다. 순위 비교용으로만 쓴다.
+> **v0.2 변경:** BM을 가챠에서 "메인 무료 + 캐릭터 스토리·확장팩 유료"로 바꿨다. 새 BM 검토는 **8절**에 있다. 1~7절의 가챠 시장 분석은 서브컬처 시장 맥락과 비교 기준으로 남겨 둔다.
 
 ## 1. 요약 (TL;DR)
 
@@ -10,6 +11,7 @@
 3. **소규모 2D 성공 사례가 있다.** 트릭컬 리바이브(에피드게임즈)는 SD 2D, 짧은 플레이 세션, 밈과 커뮤니티 소통으로 2025년 매출 468억 원을 냈다. 3주년 업데이트 때는 국내 구글 매출 66위에서 Top10까지 다시 올라갔다.
 4. **"BG3식 주사위 판정 + 선택지 분기 + 택티컬 전투"를 갖춘 모바일 서브컬처 가챠는 찾지 못했다.** 차별화 포인트로 쓸 수 있는 빈자리다. 비슷한 시도는 PC/콘솔 인디(Depersonalization 등)나 선택지 일부만 넣은 경우(Sword of Convallaria)뿐이다.
 5. **1인 개발 가챠의 핵심 리스크는 "콘텐츠 공급 속도"와 "AI 아트 반발"이다.** 아래 6절을 참고한다.
+6. **(v0.2) 그래서 BM을 가챠에서 "메인 무료 + DLC"로 바꿨다.** 1인 개발과 장르에 더 맞지만 매출 상한은 낮다. Steam 동시 출시가 이를 보완하는 핵심 카드다. 8절을 참고한다.
 
 ## 2. 시장 규모 (참고용)
 
@@ -82,12 +84,13 @@
 
 | 리스크 | 내용 | 대응 |
 |---|---|---|
-| **콘텐츠 공급 속도** | 가챠는 신캐와 이벤트를 계속 내야 하는데, 1인 개발로는 대형사 속도를 따라갈 수 없다 | SD 2D + 재사용 가능한 리그(Spine)로 캐릭터당 제작비를 낮춘다. 업데이트 주기를 4~6주로 잡고 처음부터 공지한다. "적게, 대신 매력 있게" 간다 |
+| **콘텐츠 공급 속도** | 가챠는 신캐와 이벤트를 계속 내야 하는데, 1인 개발로는 대형사 속도를 따라갈 수 없다 | **(v0.2) 가챠를 빼서 대부분 해소.** 동료 팩·확장팩은 준비된 시점에 낸다. SD 2D + 재사용 리그(Spine)로 캐릭터당 제작비는 계속 낮게 유지한다 |
 | **AI 아트 반발** | 2026년 사이게임즈가 AI 스튜디오 발표 후 사과했고, 카오스 제로 나이트메어는 손가락 논란이 있었다. 서브컬처 유저층이 특히 민감하다 | **캐릭터 일러스트와 스토리에는 생성형 AI를 쓰지 않는다**(외주 일러스트레이터 활용). 코드, 툴, 내부 프로토타입에만 쓰고, 사용 범위를 투명하게 공개한다 |
 | **신작 이탈** | 국내 신작 대부분이 1~2개월 만에 이탈했다 | 출시 전 커뮤니티를 먼저 만든다(개발일지, 데모). 소프트런칭으로 리텐션을 검증한다 |
-| **가챠와 선택지의 충돌** | BG3처럼 동료가 죽거나 떠나면, 과금한 캐릭터를 잃는 문제가 생긴다 | 기획서 3.4절 참고. 선택은 "결과/관계/루트"를 바꾸고, 보유 캐릭터를 빼앗지 않는다 |
+| **유료 동료와 선택지의 충돌** | BG3처럼 동료가 죽거나 떠나면, 돈을 낸 캐릭터를 잃는 문제가 생긴다 | **(v0.2) 가챠가 없어 부담이 줄었다.** 유료 동료는 자기 개인 퀘스트 안에서 플레이어가 명확히 선택했을 때만 잃는다. 기획서 6.1절 참고 |
+| **(v0.2) 낮은 매출 상한** | 메인 무료 + DLC는 1인당 지출에 상한이 있고, 무료 유저의 유료 전환율은 보통 한 자릿수 %다 | Steam 동시 출시, 동료 팩 미리보기, 첫 구매 할인. 8절 참고 |
 | **1인 번아웃** | 인디 개발자의 60%가 번아웃을 겪는다는 조사가 있다 | 범위를 엄격히 관리한다. 버티컬 슬라이스로 먼저 검증하고, 아트·사운드는 외주로 돌린다 |
-| **서버 운영** | 가챠, 결제 검증, 세이브는 서버가 필요하다 | BaaS(PlayFab/Nakama/Firebase 등)로 직접 운영 부담을 줄인다 |
+| **서버 운영** | 결제 검증과 클라우드 세이브에 서버가 필요하다 | **(v0.2) 가챠가 없어 범위가 크게 줄었다.** 오프라인 플레이를 기본으로 하고, 영수증 검증과 클라우드 세이브만 BaaS나 스토어 기능으로 처리한다 |
 
 ## 7. 기술 스택 판단 (초안)
 
@@ -100,12 +103,39 @@
 
 > Unity 무료 티어의 매출 기준 등 라이선스 조건은 시작 전에 공식 페이지에서 다시 확인한다.
 
-## 8. 다음에 조사할 것
+## 8. BM 검토: 메인 무료 + 캐릭터 스토리·확장팩 유료 (v0.2)
+
+### 8.1 레퍼런스
+
+| 타이틀 | 모델 | 결과 (외부 추정) | 시사점 |
+|---|---|---|---|
+| **Vampire Survivors** | Steam 저가 유료 + DLC. 모바일은 **무료, 인앱결제 없이 선택형 광고만** | Steam 추정 660만~1,050만 장. 모바일은 출시 몇 주 만에 300만 다운로드 | Steam에서 먼저 터진 뒤 모바일로 확장했다. 모바일은 클론 게임에 대응하려고 급히 냈다고 개발사가 밝혔다 |
+| **Library of Ruina** (프로젝트 문, 한국) | Steam 프리미엄 ($29.99) | 추정 80만~300만 장, 리뷰 94% 긍정. 이후 콘솔 이식 | **한국 인디가 만든 서브컬처 프리미엄 게임이 Steam에서 통한 사례** |
+| **Loop Hero** (모바일) | 1챕터 무료 → 전체 해금 $6.99 | 결과 미공개 | "무료로 시작, 유료로 해금" 구조 |
+| **A Space for the Unbound** (안드로이드) | 프롤로그 무료 → 전체 해금 $9.99 | 결과 미공개 | 스토리 게임의 무료 체험 구조 |
+| **Monument Valley** | 유료 + 유료 확장팩 | 확장팩 구매율이 본편 구매자의 약 10% | 이미 돈을 낸 유저는 DLC 전환율이 높다 |
+| **Super Mario Run** | 무료 시작 → 전체 해금 | 7,800만 다운로드 중 구매 약 5% 이하 (기대치의 절반 이하) | **무료 유저의 유료 전환율은 한 자릿수 %**가 현실이다 |
+
+### 8.2 판단
+
+- **장점:** 업데이트 압박이 없고, 확률형 아이템 규제와 서버 뽑기 부담이 사라지며, BG3식 "진짜 결과가 있는 선택"이 가능해진다. "착한 BM" 자체가 마케팅 포인트가 된다. 1인 개발에는 가챠보다 확실히 맞다
+- **단점:** 1인당 지출에 상한이 있어서 매출이 **다운로드 수에 정비례**한다. 모바일 무료 시장은 발견되기 어렵다
+- **결론:** 이 BM으로 간다. 대신 **Steam(PC) 동시 출시 또는 Steam 선출시**를 강하게 검토한다. Steam은 위시리스트, Next Fest 데모, 스트리머 노출로 1인 개발 게임이 발견될 경로가 모바일보다 많다
+
+### 8.3 규제 영향 (5절 갱신)
+
+- 확률형 아이템이 없으므로 **확률 정보공개 의무와 3배 손해배상 조항은 적용되지 않는다.** 단, 랜덤 보상 상자 같은 것을 유료로 팔면 다시 대상이 되므로 넣지 않는다
+- 여전히 필요한 것: 등급분류(IARC), 개인정보 처리방침, 미성년자 결제 보호, 청약철회(환불) 규정
+
+## 9. 다음에 조사할 것
 
 - [ ] 국내 구글플레이 매출 30~100위 서브컬처의 실제 월매출 구간 (모바일인덱스)
 - [ ] 트릭컬 초기 개발 규모와 실패 후 리바이브 과정 (인터뷰 기사)
 - [ ] SD 캐릭터 1명 외주 단가 (일러스트 + Spine 리깅)
 - [ ] BaaS 요금 비교 (MAU 1만/10만 기준)
+- [ ] (v0.2) 모바일 "무료 시작 + 유료 해금/DLC" 스토리 게임의 최근 구매 전환율 (Sensor Tower, 개발자 포스트모템)
+- [ ] (v0.2) Steam 서브컬처·CRPG 인디의 위시리스트 대비 판매량 (출시 전 목표치 설정용)
+- [ ] (v0.2) 국내 앱마켓 DLC/동료 팩 가격대 시세
 
 ## 출처
 
@@ -130,3 +160,12 @@
 - [Live2D – Cubism SDK for Unity](https://docs.live2d.com/en/cubism-sdk-manual/cubism-sdk-for-unity/)
 - [Live2D – Community SDK](https://docs.live2d.com/en/cubism-sdk-tutorials/community-sdk/)
 - [5StarDesigners – Unity vs Godot for Android 2026](https://5stardesigners.com/blog/best-android-game-engine-2026-unity-vs-godot-compared/)
+- [PocketGamer.biz – Vampire Survivors developer takes new approach to monetisation](https://www.pocketgamer.biz/vampire-survivors-developer-takes-new-approach-to-monetisation)
+- [mobilegamer.biz – Vampire Survivors mobile hits 3m downloads](https://mobilegamer.biz/vampire-survivors-mobile-hits-3m-downloads/)
+- [CGMagazine – Vampire Survivors mobile port released to combat clones](https://www.cgmagonline.com/news/vampire-survivor-mobile-clones-dev/)
+- [Raijin – Vampire Survivors](https://raijin.gg/app/1794680/Vampire_Survivors)
+- [Raijin – Library of Ruina](https://raijin.gg/app/1256670/Library_Of_Ruina)
+- [Vaporlens – Library of Ruina](https://vaporlens.app/app/1256670/library_of_ruina/stats/details)
+- [TouchArcade – Loop Hero mobile](https://toucharcade.com/2024/04/18/loop-hero-mobile-gameplay-video-release-date-playdigious-iphone-android)
+- [PocketGamer.biz – Monument Valley IAP conversion 10%](https://www.pocketgamer.biz/with-a-conversion-rate-of-10-ustwos-monument-valley-iap-has-paid-off)
+- [Android Authority – Super Mario Run 78 million downloads](https://www.androidauthority.com/super-mario-run-78-million-downloads-746406/)
