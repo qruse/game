@@ -63,7 +63,7 @@ GameMaker와 Defold는 모바일 결제·광고·Steam을 모두 확장 기능�
 | 2 | **iOS 결제** | TestFlight 샌드박스에서 구매·복원 성공 |
 | 3 | **보상형 광고** | Android/iOS 테스트 광고 시청 → 보상 콜백 수신, GDPR 동의 창 동작 |
 | 4 | Steam DLC | GodotSteam으로 테스트 앱에서 DLC 보유 여부 확인 |
-| 5 | Spine | SD 캐릭터 1개 애니메이션 재생, 스킨(코스튬) 교체 |
+| 5 | SD 애니메이션 | Spine 런타임으로 SD 캐릭터 1개 재생과 스킨(코스튬) 교체. **함께 비교:** Godot 내장 컷아웃 애니메이션(Skeleton2D + AnimationPlayer). 내장 방식은 애니메이션이 텍스트(.tscn)로 저장돼 Claude가 직접 만들고 고칠 수 있고 Spine 라이선스도 필요 없다. 품질이 충분하면 내장 방식을 쓴다 |
 | 6 | 분기 대화 | Yarn Spinner로 d20 판정이 있는 분기 대화 1개 |
 | 7 | 빌드 | 같은 프로젝트에서 Android / iOS / Windows 빌드 성공 |
 
