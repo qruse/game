@@ -133,10 +133,36 @@
 | N02 | 공증인 바실 (Basil) | 길드 재건 서류를 관리하는 공증인 | `Basil, a thin fussy notary in his 30s, black scholar's robe, quill behind ear, spectacles, ledger under arm` |
 | N03 | 영주 오스왈드 (Oswald) | 지역 영주, 속을 알 수 없다 | `Lord Oswald, a stately nobleman in his 50s, fur-lined mantle, gold chain of office, neatly trimmed beard` |
 | N04 | 주교 엘리노어 (Eleanor) | 수도원과 교회의 권력자 | `Bishop Eleanor, an elderly stern woman, white and gold vestments, mitre, crozier` |
-| N05 | 전 길드장 에드릭 (Edric) | 회상 속 인물, 몰락 사건의 중심 | `Edric, a charismatic guildmaster in his 40s, silver lantern emblem on a blue tabard, scarred hands, warm smile` |
 | N06 | 가면의 남자 | 흑막 | `a mysterious masked figure, plain white porcelain mask, black hooded cloak, faceless and unsettling` |
 | N07 | 마을 사람 (남) | 범용 의뢰인 | `a medieval peasant man, linen tunic, straw hat` |
 | N08 | 마을 사람 (여) | 범용 의뢰인 | `a medieval peasant woman, wool dress, headscarf` |
+
+---
+
+## 과거의 은빛 등불 길드 (회상 전용)
+
+> 봉인된 방의 과거 회상에서 플레이하는 인물들. 회상 파티 3명(P01~P03)은 스탠딩 + SD + 레퍼런스 시트를 만든다. 의상은 1벌(전성기 길드 제복)이고, 표정은 3종(기본, 긍정, 부정)으로 줄인다.
+> 공통 의상 요소: **파란 서코트/망토에 은빛 등불 문장.** 현재 길드 재건 후 쓰일 문장과 같다.
+
+### P01 에드릭 (Edric / エドリック) · 40대 · 전 길드장 · 지휘관
+- 이야기: 몰락 사건의 중심. 현재는 행방불명
+- MUST KEEP: 짧게 다듬은 흑갈색 머리와 수염, 회색 눈, 손등의 흉터, 파란 서코트의 은빛 등불 문장, 장검과 길드장의 등불 모양 펜던트
+- PROMPT: `Edric, a charismatic guildmaster in his early 40s, neatly trimmed dark brown hair and short beard, grey eyes, scarred hands, wearing a blue surcoat with a silver lantern emblem over a mail shirt, a lantern-shaped silver pendant, a longsword, warm confident smile`
+
+### P02 기사 알도 (Sir Aldo / アルド) · 40대 · 탱커 · 리나의 아버지
+- 이야기: 몰락 때 죽었다고 알려져 있다. 리나와 닮은 얼굴
+- MUST KEEP: **리나와 같은 갈색 머리와 연보라색 눈**, 짧은 머리, 듬직한 체격, 리나의 것과 같은 흰 바탕 붉은 셰브런 방패(리나가 물려받은 방패), 파란 서코트의 은빛 등불 문장
+- PROMPT: `Sir Aldo, a broad-shouldered knight in his 40s, short chestnut-brown hair, pale violet eyes, kind but stern face resembling his daughter, wearing chainmail and a blue surcoat with a silver lantern emblem, a white heater shield with a red chevron, a longsword`
+
+### P03 젊은 고드릭 (Young Godric / 若きゴドリック) · 30세 · 석궁수
+- 이야기: 현재의 고드릭. 아직 두 눈이 있고 잘 웃는다
+- MUST KEEP: 짧은 흑회색 머리, **두 눈 모두 멀쩡함(안대 없음)**, 짧은 수염, 파란 망토의 은빛 등불 문장(아직 바래지 않음), 석궁
+- PROMPT: `young Godric, a 30-year-old crossbowman, short dark grey hair, both eyes intact (no eyepatch), light stubble, cheerful cocky grin, wearing a quilted gambeson and a bright blue cloak with a polished silver lantern emblem, a heavy crossbow`
+
+### P04 모르칸트 (Morcant / モルカント) · 30대 · 길드의 검사 (회상 속 NPC)
+- 이야기: **훗날의 흑기사.** 회상마다 표정과 태도가 조금씩 어두워진다
+- MUST KEEP: 어깨까지 오는 검은 머리, 날카로운 검은 눈, 왼쪽 눈썹의 흉터, 파란 서코트의 은빛 등불 문장, 대검
+- PROMPT: `Morcant, a lean swordsman in his 30s, shoulder-length black hair, sharp dark eyes, a scar through his left eyebrow, wearing dark plate pieces over a blue surcoat with a silver lantern emblem, a greatsword on his back, an easy smile that does not reach his eyes`
 
 ---
 
