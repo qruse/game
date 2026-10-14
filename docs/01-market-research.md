@@ -94,6 +94,8 @@
 
 ## 7. 기술 스택 판단 (초안)
 
+> **v0.2 갱신:** BM이 바뀌고 Live2D를 쓰지 않게 되면서 엔진 추천을 **Godot 4 (GDScript)**로 바꿨다. 상세 비교는 [03-engine-selection.md](03-engine-selection.md)에 있다. 아래 표는 가챠 전제였던 v0.1 판단 기록이다.
+
 | 항목 | 추천 | 이유 |
 |---|---|---|
 | 엔진 | **Unity** (2순위 Godot) | 모바일 IAP/광고 SDK, Spine 런타임(2013~), Live2D 공식 SDK가 모두 성숙했다. Godot은 무료/MIT라 좋지만 Live2D 공식 지원이 없고 결제 플러그인이 커뮤니티 의존이다 |
