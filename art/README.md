@@ -4,10 +4,11 @@
 
 | 파일 | 내용 |
 |---|---|
+| [steps/](steps/README.md) | **단계별 작업 (S01~S32).** Codex는 한 단계씩 만들고 멈춰서 피드백을 받는다. 여기서 시작한다 |
 | [AGENTS.md](AGENTS.md) | Codex 작업 지침 (작업 순서, 규칙, 보고 방식) |
 | [style-guide.md](style-guide.md) | 프롬프트 블록, 에셋 종류별 크기, **대화 화면용 스탠딩 규칙**, 배경 제거, 품질 검사 |
 | [characters.md](characters.md) | 캐릭터별 외형, **전투복·일상복**, 노출 등급, 프롬프트 |
-| [manifest.csv](manifest.csv) | 만들어야 할 이미지 전체 목록 (336장). 수정은 `tools/art/gen_manifest.py`를 고친 뒤 `python tools/art/gen_manifest.py art/manifest.csv`로 다시 만든다 (진행 상태가 기록된 뒤에는 직접 수정) |
+| [manifest.csv](manifest.csv) | 만들어야 할 이미지 전체 목록 (336장, `step` 열이 단계 번호). 생성 전에는 `tools/art/gen_manifest.py`를 고친 뒤 다시 만들고 `python tools/art/gen_steps.py`로 단계 파일을 갱신한다(피드백 칸은 보존됨). **진행 상태가 기록되기 시작하면 manifest는 직접 수정한다** |
 | [prompts/](prompts/) | 바로 붙여 넣을 수 있는 완성 프롬프트 (현재: 리나 수정본) |
 
 ## 제작 목록 요약 (총 336장)

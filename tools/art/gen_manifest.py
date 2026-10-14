@@ -224,7 +224,41 @@ for cid in ["C07", "C08"]:
         [ANCHOR, f"art/refs/{cid}_ref_combat.png"], f"art/final/marketing/mk_pack_{cid}.png",
         "인게임 상점 + Steam DLC 상점 이미지의 원본. 규격 이미지는 여기서 파생", outfit="combat")
 
-fields = ["id", "phase", "format", "subject", "outfit", "name_ko", "extra", "refs", "output", "status", "notes"]
+# --- step assignment (see art/steps/README.md) ---
+S03_IDS = {"C01_portrait_combat_neutral", "C01_portrait_combat_smile", "C01_sd_idle", "C01_sd_attack"}
+CHAR_STEPS = {"C02": ("S07", "S08"), "C03": ("S09", "S10"), "C04": ("S11", "S12"),
+              "C05": ("S19", "S20"), "C06": ("S21", "S22"), "C07": ("S23", "S24"), "C08": ("S25", "S26")}
+
+def step_of(r):
+    i, ph, fmt, subj = r["id"], r["phase"], r["format"], r["subject"]
+    if i.startswith("P0_"): return "S01"
+    if i == "C01_ref_combat": return "S02"
+    if i in S03_IDS: return "S03"
+    if i.startswith("C01_"):
+        return "S05" if ("casual" in i) else "S04"
+    if i in ("bg_guildhall_ruined", "bt_ch1_forest_clearing"): return "S06"
+    if subj in CHAR_STEPS and fmt != "cg":
+        ref_step, set_step = CHAR_STEPS[subj]
+        return ref_step if fmt == "ref_sheet" else set_step
+    if subj in ("P01", "P02", "P03", "P04"):
+        return "S13" if (fmt == "ref_sheet" or i == "P04_portrait_neutral") else "S14"
+    if ph == "P1":
+        if subj[:1] in ("E", "B"): return "S15"
+        if fmt in ("bg_scene", "bg_battle"): return "S16"
+        if subj.startswith("N"): return "S17"
+        if fmt == "cg": return "S18"
+    if i.startswith("mk_"): return "S32"
+    if subj in ("E06", "E07", "E08", "E09", "E10", "B02"): return "S27"
+    if subj in ("E11", "E12", "E13", "E14", "E15", "B03"): return "S28"
+    if fmt in ("bg_scene", "bg_battle"): return "S29"
+    if subj.startswith("N"): return "S30"
+    if fmt == "cg": return "S31"
+    raise ValueError(f"no step for {i}")
+
+for r in rows:
+    r["step"] = step_of(r)
+
+fields = ["id", "step", "phase", "format", "subject", "outfit", "name_ko", "extra", "refs", "output", "status", "notes"]
 with open(out_path, "w", newline="", encoding="utf-8") as f:
     w = csv.DictWriter(f, fieldnames=fields)
     w.writeheader()
@@ -233,5 +267,6 @@ with open(out_path, "w", newline="", encoding="utf-8") as f:
 print("total", len(rows))
 print("by phase", dict(Counter(r["phase"] for r in rows)))
 print("by format", dict(Counter(r["format"] for r in rows)))
+print("by step", dict(sorted(Counter(r["step"] for r in rows).items())))
 ids = [r["id"] for r in rows]
 assert len(ids) == len(set(ids)), "duplicate ids"
