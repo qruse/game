@@ -1,8 +1,8 @@
 @echo off
-rem 전투 프로토타입 바로 실행 (더블클릭). Godot 4.7을 winget으로 설치한 경로를 쓴다
+rem Battle prototype launcher (double-click). Uses Godot 4.7 installed by winget.
 set GODOT=%LOCALAPPDATA%\Microsoft\WinGet\Packages\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\Godot_v4.7.2-stable_win64.exe
 if not exist "%GODOT%" (
-  echo Godot 4.7을 찾지 못했습니다: %GODOT%
+  echo Godot 4.7 not found: %GODOT%
   pause
   exit /b 1
 )
