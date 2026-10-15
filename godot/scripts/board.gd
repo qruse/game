@@ -26,6 +26,7 @@ var selected_uid := -1
 var dim_acted := true
 var speed := 1.0
 var sprites := {}  # uid -> Texture2D (SD 그림이 있으면 동그라미 대신 그린다)
+var bg_tex: Texture2D = null  # 전투 맵 배경 그림. 있으면 칸 영역을 battle.bg_grid 에 맞춰 깐다
 
 ## SD 캔버스(512) 안에서 발끝 기준선 위치 (style-guide.md 6절: 아래에서 24px)
 const SD_FEET := 488.0 / 512.0
@@ -101,13 +102,22 @@ func _draw() -> void:
 	var font := get_theme_default_font()
 	var fs := int(_ts * 0.13)
 	var line_w := maxf(2.0, _ts * 0.025)
+	var has_bg: bool = bg_tex != null and battle.bg_grid.z > 0
+	if has_bg:
+		var s := _ts / float(battle.bg_grid.z)
+		draw_texture_rect(bg_tex, Rect2(_origin - Vector2(battle.bg_grid.x, battle.bg_grid.y) * s, Vector2(bg_tex.get_size()) * s), false)
 
 	for y in rows:
 		for x in cols:
 			var c := Vector2i(x, y)
 			var t: String = battle.tile(c)
 			var r := _rect(c)
-			draw_rect(r, TILE_COL.get(t, Color.MAGENTA))
+			if not has_bg:
+				draw_rect(r, TILE_COL.get(t, Color.MAGENTA))
+			elif t != ".":
+				var tc: Color = TILE_COL.get(t, Color.MAGENTA)
+				tc.a = 0.55
+				draw_rect(r, tc)
 			match t:
 				"#":
 					var rr := r.grow(-_ts * 0.2)
@@ -129,7 +139,7 @@ func _draw() -> void:
 				draw_rect(r, Color(1.0, 0.42, 0.08, 0.5))
 			if battle.smoke.has(c):
 				draw_rect(r, Color(0.85, 0.85, 0.85, 0.45))
-			draw_rect(r, Color(0, 0, 0, 0.3), false, 1.0)
+			draw_rect(r, Color(0, 0, 0, 0.18 if has_bg else 0.3), false, 1.0)
 			var label: String = TILE_TXT.get(t, "")
 			if battle.fire.has(c):
 				label = ("불 " + label).strip_edges()

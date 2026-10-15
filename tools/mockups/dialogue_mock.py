@@ -65,7 +65,8 @@ def main() -> None:
     name = sys.argv[3] if len(sys.argv) > 3 else "리나"
     line = sys.argv[4] if len(sys.argv) > 4 else "오늘부터 당신이 단장입니다.\n…열쇠가 좀 녹슬긴 했지만요!"
     right = sys.argv[5] if len(sys.argv) > 5 else ""
-    img = background()
+    bg_path = sys.argv[6] if len(sys.argv) > 6 else ""
+    img = Image.open(bg_path).convert("RGB").resize((W, H)) if bg_path else background()
     if right:
         place_portrait(img, right, int(W * 0.70), dim=True)
         place_portrait(img, src, int(W * 0.30))

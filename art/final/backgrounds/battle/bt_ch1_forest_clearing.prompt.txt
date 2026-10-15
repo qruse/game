@@ -1,0 +1,49 @@
+Tool / model: built-in image_gen.imagegen; underlying model identifier not exposed
+Generation date: 2026-10-15 (Asia/Seoul)
+Use case: stylized-concept
+Asset: bt_ch1_forest_clearing (S06)
+References (generation):
+1. art/refs/style-anchor.png - style only
+Local edit target:
+1. art/final/backgrounds/battle/bt_ch1_forest_clearing.png before cleanup, preserved at art/raw/qa_S06/battle_before_bottom_edit.png
+
+Full actual generation prompt:
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+High-angle three-quarter top-down view of a game battlefield, like a classic JRPG tactics map, looking down at about 60 degrees so that chibi characters drawn in three-quarter view look naturally standing on the ground, no characters, minimal perspective distortion, flat walkable ground in the central area covering about 70% of the image, decorative elements only at the edges, even lighting, no grid lines.
+
+Use case: stylized-concept.
+Asset: bt_ch1_forest_clearing, opaque 1920x1080 tactical battle background.
+Input image 1 is ONLY the game's clean rendering, muted palette and medieval fantasy style reference. Do not depict the woman or her equipment.
+Scene: a forest clearing, flat grass and earth, forest boundary around the periphery. Grounded medieval low fantasy, painterly anime environment, clean readable ground materials.
+
+CRITICAL PIXEL LAYOUT: The image is 1920 pixels wide and 1080 pixels tall, origin at upper left. The entire rectangular playable zone x=400 through x=1520 and y=200 through y=1000 must contain ONLY flat, low mown grass textures and flat bare dirt/path textures. This is a 1120x800 rectangle, for seven columns and five rows of 160px cells, NOT a perspective trapezoid. These coordinates describe an invisible reserved area; do not draw a rectangle, a grid, cells, markers, measurements, labels or lines.
+ABSOLUTELY NO OBJECTS OR OBSTRUCTIONS within or overhanging any part of that rectangle: no trees, roots, branches, bushes, shrubs, rocks, stones, logs, stumps, crates, boxes, barrels, jars, pots, haystacks, cover, tall grass, flowers, ruins, raised ledges, slopes or elevations. No cast tree shadows within it; preserve evenly lit open ground all the way down to y=1000. The game code adds all obstacles and elevations separately. Grass and dirt should be softly textured, organically intermingled and subtly varied; not blank color.
+
+Scenery layout: forest trunks and bushes at the far/top edge must stay ABOVE y=180. Left trees and bushes stay LEFT of x=360; right trees and bushes stay RIGHT of x=1560, with no foliage or roots entering the reserved zone. A small rocky rise may peek in at the extreme upper right OUTSIDE the playable rectangle, around x>1600,y<180. The near/bottom edge y>1020 should contain only sparse low grass and a little flat leaf litter, shallow and unobtrusive, no large foreground trees or rocks. Use a generous safety margin around the exact playable rectangle.
+Camera: looking down about 60 degrees, high three-quarter tactical view, near orthographic with minimal perspective distortion; no visible horizon or sky, ground nearly fills the canvas. No dramatic converging perspective. Match chibi 3/4 standing sprites. Even soft daylight; muted forest green, earth brown and warm ochre. No characters or creatures. Full-bleed opaque 16:9 image, target exact 1920x1080, no transparency, no magenta, no grid.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+
+Full actual local-edit prompt (precise-object-edit):
+Use case: precise-object-edit.
+Edit target: the supplied forest battlefield background, 1920x1080.
+Change ONLY the bottom foreground vegetation. Remove all bushes, shrubs, flowers, broad leaves, tall grass tufts and other raised objects along the BOTTOM edge, particularly at x400..1520,y900..1080. Replace them seamlessly with the same FLAT short grass and bare dirt textures seen immediately above. The entire bottom band should look flat, walkable, softly textured and unobstructed. A little flat dry leaf litter is permitted only at the very edge below y1030. There must be absolutely no object inside x400..1520,y200..1000. Do not add stones, plants or props to fill empty spaces.
+Preserve the top forest, left and right forest boundary, upper right rocky rise, composition, high 60-degree tactical camera, style, lighting and palette unchanged. No grid lines, no characters, no text, no transparency. Fully opaque landscape image. This is a local cleanup of the lowest 180 pixels; do not redesign or regenerate the scene. Keep everything above y900 pixel-identical and blend the edited bottom soil naturally at that boundary.
+
+
+Generation history: first generation 1 call; bottom shrubs intruded into reserved area. Local edit 1 call (retry1; total2). No whole-scene regeneration. Native 1672x941 sources preserved as art/raw/bt_ch1_forest_clearing_v1.png and _v2.png.
+Postprocessing: initial full-frame resize to 1920x1080, no crop or background removal. Built-in tool has no explicit mask argument; tools/art/repair_s06_bottom.ps1 composites ONLY local edited bottom band y901..1079; feather y901..939, full edit y940..1079. Mask saved as art/raw/qa_S06/battle_bottom_mask.png. Saved final re-read confirms outside-mask RGBA diff0 and nonopaque pixels0.
+Final QA: 1920x1080 opaque PNG. High-angle near-orthographic tactical view; x400..1520/y200..1000 rectangle visually checked with 7x5 160px QA grid: flat short grass and dirt only; no trees, rocks, bushes, crates, jars, hay or other objects. Upper/right/left forest and upper-right rocky rise stay outside reserved rectangle. Bottom shallow low turf and flat leaf litter. No people, text, watermark, UI or grid in final.
+Separate QA image: art/raw/qa_S06_grid.png; 1px cyan lines ONLY within x400..1520/y200..1000 at 160px spacing. Final/grid comparison checks no changes outside this rectangle or off grid lines. No actual gameplay grid asset created.
+Live SD-on-map integration remains for Claude/user review. Status generated; user review pending.

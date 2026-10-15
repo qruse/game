@@ -1,0 +1,37 @@
+Tool / model: built-in image_gen.imagegen; underlying model identifier not exposed
+Generation date: 2026-10-15 (Asia/Seoul)
+Use case: stylized-concept
+Asset: bg_guildhall_ruined (S06)
+References (ordered):
+1. art/refs/style-anchor.png - style only
+2. art/final/icons/skills/C01_icon_skill2.png - exact blue banner and silver lantern heraldry
+
+Full actual generation prompt:
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Background art only, no characters, eye-level view, painterly anime background, atmospheric lighting, 16:9 composition, leave the center area uncluttered because character portraits will stand there.
+
+Use case: stylized-concept.
+Asset: bg_guildhall_ruined, opaque 1920x1080 dialogue background.
+Input image 1 is ONLY the game's rendering, palette and medieval-material style reference. Do not depict the woman or her equipment.
+Input image 2 is ONLY the exact banner design reference: royal-blue cloth with narrow gold edging and a silver lantern emblem, consisting of a circular hanging ring, pyramidal cap, vertical lantern cage, a small flame in the center, bowl base and tapered pendant. Preserve this recognizable emblem, aged and embroidered on torn blue cloth; no text.
+
+Scene: Interior of the large ruined hall of the fallen Silver Lantern Guild. Grounded 12th-14th century European stone and timber architecture. Roof broken open, collapsed roof beams at the outer edges, soft daylight shafts through roof gaps illuminating dust motes. An overturned wooden chair and long scarred wooden tables lie along the side walls, with rubble kept near walls. A large torn royal-blue banner with the exact silver lantern design from image 2 hangs on a side wall, clearly readable and naturally integrated. Age, cracks and decay, solemn medieval atmosphere; rich muted warm browns, stone greys and royal blue, restrained golden daylight.
+Composition: eye-level, wide 16:9 establishing shot. Central floor and center foreground must stay spacious, uncluttered and empty for dialogue character portraits. Put tables, overturned chairs, fallen beams, debris, and banner toward the left/right sides and back edges, not the center standing area. Natural depth, no people or creatures. Render the entire background edge to edge, fully opaque, no transparent areas, no magenta, no UI or grid. Target exact 1920x1080 landscape.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+The specifically requested medieval silver lantern heraldic emblem on the banner is permitted; no commercial logos.
+
+
+Generation: 1 call; retries 0. Native 1672x941 PNG preserved as art/raw/bg_guildhall_ruined_v1.png. Native output dimension is controlled by the built-in tool.
+Postprocessing: tools/art/finish_s06.ps1; full-frame high-quality bicubic resize to 1920x1080. No crop, no background removal; opaque RGB PNG.
+QA: 1920x1080; all pixels alpha255. Visually checked saved final: empty central standing area; damaged stone/timber hall; light and dust through broken roof; long side tables and overturned chairs; torn blue silver-lantern flags; no people, text, watermark or modern objects. Minor emblem rendering follows cloth folds. Status generated; user review pending.

@@ -79,6 +79,7 @@ var events: Array = []
 var result := ""
 var downs := 0
 var rumor := ""
+var bg_grid := Vector3i(-1, -1, 0)  # 배경 그림(1920×1080) 안에서 칸 영역의 왼쪽 위 x, y, 칸 크기(px)
 var legends: Array = []       # 전설 장면 {kind, args, text, done} (05-combat.md 12.1)
 var round_events: Array = []  # 라운드 사건 {round, kind, target, spawn, text, done} (12.2)
 var _fire_hits := {}
@@ -107,6 +108,9 @@ func setup(map_path: String, party: Array) -> void:
 			enemy_keys = Array(line.trim_prefix("enemies:").strip_edges().split(" ", false))
 		elif line.begins_with("boss:"):
 			boss_key = line.trim_prefix("boss:").strip_edges()
+		elif line.begins_with("bg:"):
+			var b: PackedStringArray = line.trim_prefix("bg:").strip_edges().split(" ", false)
+			bg_grid = Vector3i(int(b[0]), int(b[1]), int(b[2]))
 		elif line.begins_with("rumor:"):
 			rumor = line.trim_prefix("rumor:").strip_edges()
 		elif line.begins_with("legend:"):

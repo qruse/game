@@ -154,6 +154,7 @@ func _build_hud() -> void:
 	top.add_child(_btn("처음으로", _to_menu))
 
 	board = Board.new()
+	board.clip_contents = true
 	_place(board, 0, 0, 1, 1, 16, 72, -456, -236)
 	board.cell_clicked.connect(_on_cell)
 	hud.add_child(board)
@@ -292,6 +293,13 @@ func _start() -> void:
 ## 저장소의 art/final 에 SD 그림이 있으면 쓴다 (없으면 동그라미)
 func _load_sprites() -> void:
 	board.sprites.clear()
+	board.bg_tex = null
+	var map_id: String = battle.title.get_slice(" ", 0)
+	var bg_path := ProjectSettings.globalize_path("res://").path_join("../art/final/backgrounds/battle/%s.png" % map_id)
+	if battle.bg_grid.z > 0 and FileAccess.file_exists(bg_path):
+		var bimg := Image.load_from_file(bg_path)
+		if bimg != null:
+			board.bg_tex = ImageTexture.create_from_image(bimg)
 	var art_root := ProjectSettings.globalize_path("res://").path_join("../art/final/characters")
 	for u in battle.units:
 		if u.side != "ally":

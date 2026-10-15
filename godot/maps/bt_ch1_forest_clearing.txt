@@ -1,4 +1,5 @@
 # bt_ch1_forest_clearing · 7x5 · 기본
+bg: 400 200 160
 enemies: wolf bandit bandit archer
 rumor: 저 숲은 바짝 말라 있어. 불씨 하나면 끝장이지. 도적 궁수는 나팔을 차고 다닌다더군
 legend: fire_multi | 불씨 하나가 숲속 공터의 도적들을 한꺼번에 삼켰다
