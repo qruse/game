@@ -9,6 +9,14 @@
 - 바로 맵 시작: `godot --path godot -- --map=3 --party=lina,cecile,adelheid`
 - 자동 시뮬레이션 (화면 없음): `godot --headless --path godot -s res://scripts/sim.gd`
 
+## 웹 / 모바일 (Cloudflare)
+
+- 주소: https://project-d20.coolwin200.workers.dev (휴대폰은 가로로 돌려서)
+- 다시 올리기 (저장소 루트에서):
+  1. `powershell -ExecutionPolicy Bypass -File tools/web/build_web.ps1` : 그림·글꼴 복사, 웹 내보내기, 20MB 넘는 파일 gzip
+  2. `cd tools/web/cloudflare; npx wrangler deploy` (Node 포터블: %LOCALAPPDATA%\\node-portable)
+- 작은 화면이나 터치 기기는 960×540 기준 배치(글자·버튼 크게, 기록창 좁게)를 쓴다
+
 ## 들어 있는 것
 
 - 맵 4개 (5×4 매복, 7×5 공터, 9×5 마을 외곽, 8×6 보스 절벽). `maps/*.txt` 텍스트 형식 (전투 규칙서 7.4절)
