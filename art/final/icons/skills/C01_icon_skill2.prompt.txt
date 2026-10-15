@@ -1,8 +1,9 @@
-Tool: built-in image_gen.imagegen (underlying model identifier not exposed)
-Date: 2026-10-15
+Tool / model: built-in image_gen.imagegen; underlying model identifier not exposed
+Generation date: 2026-10-15 (Asia/Seoul)
+Asset: C01_icon_skill2 (S04 feedback rework, TAUNT)
+Use case: stylized-concept
 References (ordered):
-art/refs/style-anchor.png
-art/refs/C01_ref_combat.png
+1. art/refs/style-anchor.png — game style, palette and medieval materials only
 
 Full actual prompt:
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
@@ -15,20 +16,31 @@ forest green, parchment cream, warm browns.
 
 Square game skill icon, single bold symbolic subject centered, painterly, high contrast, dark parchment vignette background, no text, no border.
 
-Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face
-wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps, a longsword in her right hand, a white heater shield with a red chevron strapped to her left forearm (held by its inner straps, not by the rim)
-
-Subject: a raised shield radiating a provoking red glow.
-This is an abstract skill symbol, not a portrait: do not depict Lina's face or entire body. Use her white heater shield with a single red chevron. Exactly one bold integrated symbol, high contrast at 48px. Opaque dark parchment vignette. No UI frame or text.
-TAUNT: one raised white red-chevron shield seen frontally, encircled by a few bold crimson challenge rays directed outward, aggressive provoking signal. Clearly different from the impact shield bash.
+Use case: stylized-concept.
+Asset type: C01_icon_skill2, TAUNT skill icon for Lina, a medieval squire.
+Reference image: style-anchor.png is for the game's medieval materials, palette and rendering only. Do not copy its character, shield, or composition.
+Primary request: one raised, wind-whipped guild battle standard that defiantly draws enemy attention.
+Subject: a single broad royal-blue medieval cloth banner with a large, simple silver lantern heraldic emblem, mounted on a wooden pole thrust diagonally upward. The unfurled cloth has an unmistakable asymmetric waving flag silhouette, with a broad free edge and one deep billowing fold. Make the silver lantern emblem bold and simple, without lettering. It is an embroidered symbol on the cloth, not a separate floating object.
+Composition: center the complete flag and pole as one integrated symbolic subject, with generous clearance from all four edges. The flag fills most of the square. Diagonal pole rising from lower left to upper right, wide cloth streaming to the right. Keep the free cloth edge visibly separated from the pole by dark negative space so the silhouette clearly reads as a flag at 64 pixels. This is a symbolic equipment icon; no human figure or hand is needed.
+Lighting and background: warm crimson light behind the flag against an opaque dark reddish parchment vignette. Strong simple light-dark masses, painterly cloth and wood, restrained detail, no busy scenery. The flag is raised as an unmistakable provocative rallying challenge.
+Constraints: 1024x1024 square output, intended final 256x256 opaque PNG. At 64x64 the silhouette must still read as a billowing flag, distinct from a solid heater shield and from a crossed sword-and-shield. No shield anywhere, no crossed weapons, no circular oath halo. No UI frame. Do not draw a character portrait.
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
+The requested simple medieval silver lantern heraldic emblem is permitted; no commercial logos.
 
-Tool parameters: referenced_image_paths were the absolute workspace paths corresponding to the ordered references above; transparent_background=false.
-Original output preserved: art/raw/C01_icon_skill2_v1.png
-Postprocessing: square1254x1254 original resized to256x256 with high-quality bicubic. Opaque dark parchment vignette, no frame or text. Visual QA at48px in art/raw/qa_S04/icons_contact.png. Gameplay source: docs/05-combat.md section10 C01.
+Generation result:
+Built-in image_gen returned a square 1254x1254 PNG (tool controls native dimensions).
+Native original: art/raw/C01_icon_skill2_v2.png
+Previous final and previous prompt backed up before replacement:
+art/raw/C01_icon_skill2_rework_20261015_01/C01_icon_skill2_before.png
+art/raw/C01_icon_skill2_rework_20261015_01/C01_icon_skill2_before.prompt.txt
 
-Status: generated; pending user review. Built-in image_gen only; no API/CLI image generation. Output: art/final/icons/skills/C01_icon_skill2.png
+Postprocessing:
+tools/art/finish_s04.ps1 -Mode Icon; full square image resized with System.Drawing HighQualityBicubic / PixelOffsetMode.HighQuality to 256x256, opaque parchment background retained; no background removal.
+Final: art/final/icons/skills/C01_icon_skill2.png
+Final QA: 256x256; every pixel alpha255; no text, UI border, shield, or character figure.
+64px comparison: art/raw/qa_S04_icons_64.png, left-to-right skill1 / skill2 / ult; top original color, bottom grayscale. Each tile is exactly 64x64 pixels. Visual review: billowing flag and pole distinct from slamming shield and sword/shield/oath composition without relying on hue.
+Generation calls: 1. Retries: 0. Status remains generated; user review pending.
