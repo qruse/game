@@ -10,8 +10,8 @@ const STATUS := {
 
 const TRAITS := {
 	"iron_wall": "철벽: 밀치기·넘어짐에 걸리지 않음",
-	"guardian": "수호: 인접 아군 AC +1",
-	"slip": "빠져나가기: 기회 공격을 받지 않음",
+	"guardian": "수호: 인접 아군 방어 +1",
+	"slip": "빠져나가기: 빈틈 공격을 받지 않음",
 	"bush_stealth": "덤불에 들어가면 은신",
 	"guide": "인도: 이동 대신 인접 아군과 자리 바꾸기",
 }
@@ -87,6 +87,6 @@ const SKILLS := {
 	"adel_ult": {"name": "금서 해방", "target": "tile", "range": 4, "dmg": "4d6", "desc": "3×3 적에게 4d6 (저항: 민첩, 성공 시 절반)"},
 	"miriam_basic": {"name": "지팡이", "cd": 0, "target": "enemy", "range": 1, "dmg": "1d6+1", "attack": true, "obj": true, "desc": "근접 1d6+1"},
 	"miriam_heal": {"name": "치유의 손", "cd": 2, "target": "ally_down", "range": 2, "dmg": "2d8+3", "desc": "2칸 안 아군 2d8+3 회복, 쓰러진 아군도 일으킴"},
-	"miriam_bless": {"name": "순례자의 축복", "cd": 2, "target": "ally", "range": 2, "desc": "아군 1명 축복(굴림 +1d4) + AC +2, 2턴"},
+	"miriam_bless": {"name": "순례자의 축복", "cd": 2, "target": "ally", "range": 2, "desc": "아군 1명 축복(굴림 +1d4) + 방어 +2, 2턴"},
 	"miriam_ult": {"name": "빛의 기둥", "target": "self", "range": 0, "dmg": "3d8", "desc": "아군 전원 3d8 회복 + 상태이상 해제, 쓰러진 아군도 일으킴"},
 }

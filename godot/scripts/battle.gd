@@ -453,7 +453,7 @@ func _opportunity(mover: Unit, from: Vector2i, to: Vector2i) -> void:
 		if has_st(e, "stun") or has_st(e, "sleep"):
 			continue
 		if dist(e.pos, from) == 1 and dist(e.pos, to) > 1:
-			_log("%s의 기회 공격" % e.name)
+			_log("%s의 빈틈 공격" % e.name)
 			mover.undo_ok = false
 			_basic_hit(e, mover)
 			if not mover.alive():
@@ -643,9 +643,9 @@ func attack(att: Unit, tgt: Unit, dmg: String, ranged: bool, opts := {}) -> bool
 	var hit := crit or (v != 1 and v + bonus >= ac)
 	att.st.erase("stealth")
 	var res := "대성공!" if crit else ("명중" if hit else "빗나감")
-	_log("%s → %s: d20[%s] %s = %d vs AC %d · %s" % [att.name, tgt.name, r["txt"], _sg(bonus), v + bonus, ac, res])
+	_log("%s → %s: d20[%s] %s = %d vs 방어 %d · %s" % [att.name, tgt.name, r["txt"], _sg(bonus), v + bonus, ac, res])
 	if att.side == "ally" and v == 1 and not r["fate"]:
-		fate_gain("자연 1")
+		fate_gain("대실패")
 	if crit:
 		att.resolve = mini(100, att.resolve + 25)
 		_float(tgt.pos, "대성공!", GOLD)
@@ -663,9 +663,9 @@ func save(u: Unit, ability: String, dc: int) -> bool:
 		mod += d(4)
 	var v: int = r["v"]
 	var ok := v + mod >= dc
-	_log("  %s %s 저항: d20[%s] %s = %d vs DC %d · %s" % [u.name, Defs.ABIL[ability], r["txt"], _sg(mod), v + mod, dc, "성공" if ok else "실패"])
+	_log("  %s %s 저항: d20[%s] %s = %d vs 난이도 %d · %s" % [u.name, Defs.ABIL[ability], r["txt"], _sg(mod), v + mod, dc, "성공" if ok else "실패"])
 	if u.side == "ally" and v == 1 and not r["fate"]:
-		fate_gain("자연 1")
+		fate_gain("대실패")
 	return ok
 
 
@@ -1176,7 +1176,7 @@ func guard(u: Unit) -> void:
 		return
 	u.st["guard"] = 1
 	_float(u.pos, "방어", GRAY)
-	_log("%s: 방어 자세 (AC +2)" % u.name)
+	_log("%s: 방어 자세 (방어 +2)" % u.name)
 	_after_action(u, "")
 
 
@@ -1340,7 +1340,7 @@ func preview_text(u: Unit, sid: String, cell: Vector2i, fv: int) -> String:
 			for e in side_units(opp(u.side)):
 				if dist(e.pos, u.pos) <= 2:
 					n += 1
-			parts.append("반경 2칸 적 %d명 · 도발 1턴 (DC %d 매력)" % [n, dc])
+			parts.append("반경 2칸 적 %d명 · 도발 1턴 (매력 난이도 %d)" % [n, dc])
 		"cecile_smoke":
 			parts.append("3×3 연기 2라운드 · 안의 아군 은신")
 		"cecile_ult":
@@ -1351,11 +1351,11 @@ func preview_text(u: Unit, sid: String, cell: Vector2i, fv: int) -> String:
 				var e := unit_at(c)
 				if e != null and e.side != u.side and e.alive():
 					n2 += 1
-			parts.append("범위 안 적 %d명 · 4~24 (민첩 저항 시 절반, DC %d)" % [n2, dc])
+			parts.append("범위 안 적 %d명 · 4~24 (민첩 저항 시 절반, 난이도 %d)" % [n2, dc])
 		"miriam_heal":
 			parts.append("회복 5~19" + (" · 일으킴" if t != null and t.downed else ""))
 		"miriam_bless":
-			parts.append("축복 + AC +2, 2턴")
+			parts.append("축복 + 방어 +2, 2턴")
 		"miriam_ult":
 			parts.append("아군 전원 3~24 회복 + 상태이상 해제")
 		"lina_ult":

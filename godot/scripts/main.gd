@@ -633,7 +633,7 @@ func _update_info() -> void:
 	var t := "[b]%s[/b]" % u.name
 	if u.role != "":
 		t += " (%s)" % u.role
-	t += "   HP %d/%d   AC %d   이동 %d" % [u.hp, u.max_hp, battle.eff_ac(u), u.move]
+	t += "   HP %d/%d   방어 %d   이동 %d" % [u.hp, u.max_hp, battle.eff_ac(u), u.move]
 	if u.side == "ally":
 		t += " (남은 %d)   결의 %d/100" % [u.move_left, u.resolve]
 	else:
@@ -670,7 +670,7 @@ func _update_hint() -> void:
 			var fv: int = battle.fate[fate_pick] if fate_pick >= 0 else 0
 			h = battle.preview_text(sel, cur, pending, fv) + "   → 한 번 더 누르거나 [실행]"
 	elif sel != null and sel.side == "ally" and not sel.downed:
-		h = "파란 칸: 이동 (주황 테두리 = 기회 공격 받음) · 아래에서 행동 선택 · 운명 주사위를 그냥 누르면 적에게 낙인"
+		h = "파란 칸: 이동 (주황 테두리 = 빈틈 공격 받음) · 아래에서 행동 선택 · 운명 주사위를 그냥 누르면 적에게 낙인"
 	else:
 		h = "아군을 누르세요"
 	if _msg != "":
