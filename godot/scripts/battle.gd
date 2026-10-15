@@ -68,6 +68,7 @@ var cols := 0
 var rows := 0
 var tiles: Array = []
 var fire := {}
+var oil_fire := {}  # 기름·항아리에서 시작된 불 (전설 장면 boss_oil 판정용)
 var smoke := {}
 var obj_hp := {}
 var units: Array = []
@@ -76,8 +77,11 @@ var fate: Array = []
 var brand_used := false
 var events: Array = []
 var result := ""
-var star_rounds := 4
 var downs := 0
+var rumor := ""
+var legends: Array = []       # 전설 장면 {kind, args, text, done} (05-combat.md 12.1)
+var round_events: Array = []  # 라운드 사건 {round, kind, target, spawn, text, done} (12.2)
+var _fire_hits := {}
 var _next_uid := 1
 
 
@@ -103,8 +107,14 @@ func setup(map_path: String, party: Array) -> void:
 			enemy_keys = Array(line.trim_prefix("enemies:").strip_edges().split(" ", false))
 		elif line.begins_with("boss:"):
 			boss_key = line.trim_prefix("boss:").strip_edges()
-		elif line.begins_with("stars:"):
-			star_rounds = int(line.trim_prefix("stars:").strip_edges())
+		elif line.begins_with("rumor:"):
+			rumor = line.trim_prefix("rumor:").strip_edges()
+		elif line.begins_with("legend:"):
+			var p := _split_bar(line.trim_prefix("legend:"))
+			legends.append({"kind": p[0], "args": p.slice(1, p.size() - 1), "text": p[p.size() - 1], "done": false})
+		elif line.begins_with("event:"):
+			var p := _split_bar(line.trim_prefix("event:"))
+			round_events.append({"round": int(p[0]), "kind": p[1], "target": p[2], "spawn": Array(p[3].split(" ", false)), "text": p[4], "done": false})
 		else:
 			grid.append(Array(line.split(" ", false)))
 	rows = grid.size()
@@ -148,7 +158,16 @@ func setup(map_path: String, party: Array) -> void:
 		units.append(_make_enemy(boss_key, boss_cell))
 	fate = [d(20), d(20)]
 	_log(title)
+	if rumor != "":
+		_log("소문: " + rumor)
 	_log("운명 주사위를 굴렸다: [%d] [%d]" % [fate[0], fate[1]])
+
+
+func _split_bar(s: String) -> Array:
+	var out: Array = []
+	for part in s.split("|"):
+		out.append(part.strip_edges())
+	return out
 
 
 func _make_ally(key: String, pos: Vector2i) -> Unit:
@@ -660,7 +679,7 @@ func save_fail_chance(u: Unit, ability: String, dc: int) -> float:
 
 # ── 피해와 회복 ─────────────────────────────────────
 
-func damage(target: Unit, amount: int) -> void:
+func damage(target: Unit, amount: int, src := "") -> void:
 	if target.removed or target.downed or amount <= 0:
 		return
 	var t := target
@@ -676,6 +695,10 @@ func damage(target: Unit, amount: int) -> void:
 	_float(t.pos, "-%d" % amount, RED)
 	t.st.erase("sleep")
 	t.resolve = mini(100, t.resolve + 15)
+	if (src == "fire" or src == "oil") and t.side == "enemy":
+		_fire_hits[t.uid] = true
+		if t.is_boss and src == "oil":
+			_legend("boss_oil")
 	if t.hp <= 0:
 		t.hp = 0
 		if t.side == "ally":
@@ -687,6 +710,7 @@ func damage(target: Unit, amount: int) -> void:
 		else:
 			t.removed = true
 			_log("%s 처치" % t.name)
+			_on_enemy_down(t)
 	elif t.is_boss and not t.phase2 and t.hp * 2 <= t.max_hp:
 		_boss_phase2(t)
 	_check_end()
@@ -707,7 +731,7 @@ func heal(t: Unit, amount: int) -> void:
 
 func _fire_hurt(u: Unit) -> void:
 	_log("%s: 불길에 휩싸였다" % u.name)
-	damage(u, roll("1d6"))
+	damage(u, roll("1d6"), "oil" if oil_fire.has(u.pos) else "fire")
 	if u.alive():
 		u.st["burn"] = 2
 
@@ -716,18 +740,77 @@ func _boss_phase2(b: Unit) -> void:
 	b.phase2 = true
 	_log("%s 분노! 한 턴에 두 번 공격하고, 도적 2명이 증원으로 온다" % b.name)
 	_float(b.pos, "분노!", ORANGE)
-	var spawned := 0
+	_spawn(["bandit", "bandit"])
+
+
+## 오른쪽 끝 빈 칸부터 증원을 세운다
+func _spawn(keys: Array) -> void:
+	var n := 0
 	for x in range(cols - 1, -1, -1):
 		for y in range(rows - 1, -1, -1):
-			if spawned >= 2:
-				break
+			if n >= keys.size():
+				return
 			var c := Vector2i(x, y)
 			if is_floor(c) and unit_at(c) == null and not fire.has(c):
-				var e := _make_enemy("bandit", c)
-				e.name = "증원 도적 %d" % (spawned + 1)
+				var e := _make_enemy(keys[n], c)
+				e.name = "증원 %s %d" % [e.name, n + 1]
 				units.append(e)
 				_float(c, "증원", ORANGE)
-				spawned += 1
+				n += 1
+
+
+# ── 전설 장면과 라운드 사건 (05-combat.md 12절) ─────
+
+func _legend(kind: String) -> void:
+	for lg in legends:
+		if not lg["done"] and lg["kind"] == kind:
+			_complete_legend(lg)
+			return
+
+
+func _complete_legend(lg: Dictionary) -> void:
+	lg["done"] = true
+	_log("【전설 장면】 " + lg["text"])
+	if result == "":
+		fate_gain("전설 장면")
+
+
+func _on_enemy_down(e: Unit) -> void:
+	for lg in legends:
+		if lg["done"] or lg["kind"] != "kill_all_by" or lg["args"][0] != e.key:
+			continue
+		var left := false
+		for u in side_units("enemy"):
+			if u.key == e.key:
+				left = true
+		if not left and round_no <= int(lg["args"][1]):
+			_complete_legend(lg)
+
+
+## 적 턴까지 끝난 뒤 부른다. 이번 라운드에 정해진 사건이 터진다
+func end_round() -> void:
+	for ev in round_events:
+		if ev["done"] or ev["round"] != round_no:
+			continue
+		ev["done"] = true
+		var alive := false
+		for u in side_units("enemy"):
+			if u.key == ev["target"]:
+				alive = true
+		if not alive:
+			_log("(사건을 막았다: %s이 이미 쓰러졌다)" % Defs.ENEMIES[ev["target"]].name)
+			continue
+		_log("【사건】 " + ev["text"])
+		_spawn(ev["spawn"])
+
+
+func upcoming_text() -> String:
+	var out: Array = []
+	for ev in round_events:
+		if ev["done"]:
+			continue
+		out.append("%d라운드 끝: %s 남아 있으면 증원 %d" % [ev["round"], Defs.ENEMIES[ev["target"]].name, ev["spawn"].size()])
+	return " · ".join(PackedStringArray(out))
 
 
 func fate_gain(reason: String) -> void:
@@ -762,6 +845,8 @@ func _check_end() -> void:
 	if side_units("enemy").is_empty():
 		result = "win"
 		_log("승리!")
+		if downs == 0:
+			_legend("no_down")
 	elif side_units("ally").is_empty():
 		result = "lose"
 		_log("패배…")
@@ -779,6 +864,8 @@ func ignite(c: Vector2i) -> void:
 		"~", "\"":
 			for cc in _flood(c, t):
 				set_tile(cc, ".")
+				if t == "~":
+					oil_fire[cc] = true
 				_set_fire(cc, true)
 		"=", "X", "v", "#":
 			pass
@@ -818,10 +905,11 @@ func _explode(c: Vector2i) -> void:
 		if tt in ["o", "h", "~", "\""]:
 			chain.append(cc)
 			continue
+		oil_fire[cc] = true
 		_set_fire(cc, false)
 		var u := unit_at(cc)
 		if u != null and u.alive():
-			damage(u, roll("2d6"))
+			damage(u, roll("2d6"), "oil")
 			if u.alive():
 				u.st["burn"] = 2
 	for cc in chain:
@@ -875,6 +963,8 @@ func push(att: Unit, tgt: Unit, n: int) -> void:
 				_float(tgt.pos, "추락!", ORANGE)
 				tgt.hp = 0
 				tgt.removed = true
+				_legend("fall")
+				_on_enemy_down(tgt)
 				_check_end()
 			return
 		var o := unit_at(nxt)
@@ -915,6 +1005,7 @@ func begin_ally_turn() -> void:
 	for c in fire.keys():
 		if fire[c] <= round_no:
 			fire.erase(c)
+			oil_fire.erase(c)
 	for c in smoke.keys():
 		if smoke[c] <= round_no:
 			smoke.erase(c)
@@ -964,7 +1055,7 @@ func _turn_start(u: Unit) -> void:
 	u.turn_start_pos = u.pos
 	if has_st(u, "burn"):
 		_log("%s: 화상" % u.name)
-		damage(u, roll("1d4"))
+		damage(u, roll("1d4"), "fire")
 	if u.alive() and fire.has(u.pos):
 		_fire_hurt(u)
 
@@ -1118,6 +1209,7 @@ func use_skill(u: Unit, sid: String, cell: Vector2i, fate_idx := -1) -> void:
 		fv = fate[fate_idx]
 		fate.remove_at(fate_idx)
 	_log("— %s: %s" % [u.name, s.name])
+	_fire_hits = {}
 	var dc := 8 + u.atk
 	var tgt := unit_at(cell)
 	match sid:
@@ -1191,6 +1283,8 @@ func use_skill(u: Unit, sid: String, cell: Vector2i, fate_idx := -1) -> void:
 				for k in ["burn", "stun", "root", "sleep", "prone", "taunt"]:
 					a.st.erase(k)
 				heal(a, roll(s.dmg))
+	if _fire_hits.size() >= 2:
+		_legend("fire_multi")
 	_after_action(u, sid)
 
 

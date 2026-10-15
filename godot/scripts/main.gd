@@ -8,8 +8,8 @@ const Board = preload("res://scripts/board.gd")
 
 const MAPS := [
 	{"path": "res://maps/bt_ch1_forest_ambush.txt", "name": "숲속 매복 · 5×4 (좁은 맵, 포위당한 채 시작)"},
-	{"path": "res://maps/bt_ch1_forest_clearing.txt", "name": "숲속 공터 · 7×5 (기본, 기름·건초)"},
-	{"path": "res://maps/bt_ch1_village_outskirts.txt", "name": "마을 외곽 · 9×5 (넓은 맵, 진흙길)"},
+	{"path": "res://maps/bt_ch1_forest_clearing.txt", "name": "숲속 공터 · 7×5 (기본, 기름·건초, 궁수의 나팔)"},
+	{"path": "res://maps/bt_ch1_village_outskirts.txt", "name": "마을 외곽 · 9×5 (넓은 맵, 진흙길, 늑대 우두머리)"},
 	{"path": "res://maps/bt_ch1_bandit_cliff.txt", "name": "도적 절벽 · 8×6 (보스: 붉은 수염)"},
 ]
 const NO_CELL := Vector2i(-1, -1)
@@ -44,6 +44,7 @@ var log_box: RichTextLabel
 var over: PanelContainer
 var over_lbl: RichTextLabel
 var party_lbl: Label
+var event_lbl: Label
 
 
 func _ready() -> void:
@@ -140,9 +141,12 @@ func _build_hud() -> void:
 	top.add_child(fl)
 	fate_box = HBoxContainer.new()
 	top.add_child(fate_box)
-	var sp := Control.new()
-	sp.size_flags_horizontal = SIZE_EXPAND_FILL
-	top.add_child(sp)
+	event_lbl = Label.new()
+	event_lbl.size_flags_horizontal = SIZE_EXPAND_FILL
+	event_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	event_lbl.add_theme_color_override("font_color", Color(1.0, 0.65, 0.35))
+	event_lbl.add_theme_font_size_override("font_size", 20)
+	top.add_child(event_lbl)
 	speed_btn = _btn("1배속", _toggle_speed)
 	top.add_child(speed_btn)
 	end_btn = _btn("  턴 종료  ", _end_turn)
@@ -483,6 +487,7 @@ func _end_turn() -> void:
 		return
 	await _wait_board()
 	b.end_enemy_turn()
+	b.end_round()
 	if b.result == "":
 		b.begin_ally_turn()
 	_flush()
@@ -503,13 +508,16 @@ func _check_over() -> void:
 		return
 	state = "over"
 	var win: bool = battle.result == "win"
-	var t := "[font_size=40][b]%s[/b][/font_size]\n\n" % ("승리!" if win else "패배")
-	var s1 := win
-	var s2: bool = win and battle.downs == 0
-	var s3: bool = win and battle.round_no <= battle.star_rounds
-	t += "%s 승리\n" % ("★" if s1 else "☆")
-	t += "%s 아무도 쓰러지지 않음 (쓰러진 횟수 %d)\n" % ["★" if s2 else "☆", battle.downs]
-	t += "%s %d라운드 안에 승리 (걸린 라운드 %d)\n" % ["★" if s3 else "☆", battle.star_rounds, battle.round_no]
+	var t := "[font_size=40][b]%s[/b][/font_size]\n" % ("승리!" if win else "패배")
+	t += "%d라운드 · 쓰러진 횟수 %d\n\n" % [battle.round_no, battle.downs]
+	var hidden := 0
+	for lg in battle.legends:
+		if lg["done"]:
+			t += "[color=#ffd966]【전설 장면】 %s[/color]\n" % lg["text"]
+		else:
+			hidden += 1
+	if hidden > 0:
+		t += "[color=#aaaaaa]아직 남지 않은 장면 %d개 · 소문: %s[/color]\n" % [hidden, battle.rumor]
 	over_lbl.text = t
 	over.visible = true
 	_refresh()
@@ -521,6 +529,7 @@ func _refresh() -> void:
 	if battle == null:
 		return
 	round_lbl.text = "라운드 %d" % battle.round_no
+	event_lbl.text = battle.upcoming_text()
 	for c in fate_box.get_children():
 		c.queue_free()
 	for i in battle.fate.size():

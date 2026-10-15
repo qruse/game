@@ -1,7 +1,9 @@
 # bt_ch1_bandit_cliff · 8x6 · 보스전
 enemies: archer bandit
 boss: redbeard
-stars: 5
+rumor: 붉은 수염은 기름 항아리를 끼고 산다더군. 그 절벽에서 떨어지면 뼈도 못 추리지
+legend: boss_oil | 단장의 일행은 붉은 수염을 그의 기름으로 태웠다
+legend: fall | 붉은 수염의 부하가 절벽 아래로 사라졌다
 v v v v v v v v
 . . " . ^ ^ . .
 A . " . . o . E

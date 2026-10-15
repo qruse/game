@@ -1,6 +1,7 @@
 # bt_ch1_forest_ambush · 5x4 · 좁은 맵 (매복: 포위당한 채 시작)
 enemies: bandit wolf bandit bandit
-stars: 3
+rumor: 매복당하고도 버틴 자들은 오래 기억되지
+legend: no_down | 단장의 일행은 숲속 매복에 포위되고도 한 사람도 쓰러지지 않았다
 " E . . "
 . . A . E
 E . A . "

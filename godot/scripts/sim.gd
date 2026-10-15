@@ -26,6 +26,7 @@ func _init() -> void:
 			var wins := 0
 			var rounds := 0
 			var downs := 0
+			var legend_hits := {}
 			for i in N:
 				var b = Battle.new()
 				b.setup(m, p)
@@ -40,11 +41,18 @@ func _init() -> void:
 					for e in b.side_units("enemy"):
 						b.enemy_act(e)
 					b.end_enemy_turn()
+					b.end_round()
 					b.events.clear()
 				if b.result == "win":
 					wins += 1
 					rounds += b.round_no
 				downs += b.downs
+				for lg in b.legends:
+					if lg["done"]:
+						legend_hits[lg["kind"]] = legend_hits.get(lg["kind"], 0) + 1
 			var avg := float(rounds) / maxf(1.0, float(wins))
-			print("  %-28s 승률 %3d%%  승리까지 평균 %.1f라운드  쓰러짐 평균 %.1f회" % [", ".join(PackedStringArray(p)), roundi(wins * 100.0 / N), avg, float(downs) / N])
+			var lgs: Array = []
+			for k in legend_hits.keys():
+				lgs.append("%s %d%%" % [k, roundi(legend_hits[k] * 100.0 / N)])
+			print("  %-28s 승률 %3d%%  승리까지 평균 %.1f라운드  쓰러짐 평균 %.1f회  전설: %s" % [", ".join(PackedStringArray(p)), roundi(wins * 100.0 / N), avg, float(downs) / N, ", ".join(PackedStringArray(lgs))])
 	quit()

@@ -1,6 +1,9 @@
 # bt_ch1_forest_clearing · 7x5 · 기본
 enemies: wolf bandit bandit archer
-stars: 4
+rumor: 저 숲은 바짝 말라 있어. 불씨 하나면 끝장이지. 도적 궁수는 나팔을 차고 다닌다더군
+legend: fire_multi | 불씨 하나가 숲속 공터의 도적들을 한꺼번에 삼켰다
+legend: kill_all_by | archer | 3 | 도적 궁수는 끝내 나팔을 불지 못했다
+event: 3 | signal | archer | bandit bandit | 도적 궁수가 나팔을 불었다! 숲에서 도적 2명이 달려온다
 . . . " " h ^
 A . . . " . E
 A . , . . . E
