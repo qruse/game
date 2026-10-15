@@ -31,3 +31,61 @@ nudity, see-through clothing, underwear, or poses that focus on body parts.
 
 PROCESSING / QA
 DESIGN QA FAILED after maximum 3 image_gen calls (2 retries); NOT generated/approved. v1: braid/ribbon on near/anatomical-right temple and tall ~3-head body. v2: same braid/ribbon issue plus swapped equipment arms. v3: correct right sword / left strapped shield and approximately2.5-head body, but braid/ribbon remain on exposed near/right side instead of anatomicalLEFT far side. Final-path PNG is a REVIEW-ONLY failed candidate, not a QA-passed production asset. Manifest stays todo with failure notes per art/AGENTS.md workflow6. Do not consume without resolving design QA. Native alpha cleaned and resized using tools/art/finish_s03.ps1: source1254x1254; crop[31,133,1233,1166]; uniform scale0.385702410640066; final512x512 bbox[24,89,487,487], last occupied row487, bottom24 rows transparent. Interioralpha255; partial4555 only inner1px boundary; interior_partial0. No mirroring. QA/checkerboard: art/raw/qa_S03/attack/. Attack head appears smaller than idle due wide sword pose fitting into canvas; Claude combat mockup still pending.
+
+
+================================================================================
+MASKED REWORK - 2026-10-15 (Asia/Seoul)
+This entry supersedes the historical failed-design QA above for the CURRENT final PNG only.
+User-authorized scope: S03 feedback 2026-10-15 C01_sd_attack; local ribbon/braid relocation only. No new full-sprite generation.
+Tool/model: built-in image_gen.imagegen; exact underlying model identifier not exposed.
+Tool calls: 1 local edit, 0 retries for this rework. Previous 3 failed full-image attempts remain preserved.
+transparent_background=true.
+References in order:
+1. art/raw/C01_sd_attack_rework_20261015_01/C01_sd_attack_before.png (512x512 EDIT TARGET, byte-for-byte backup of pre-edit final)
+2. art/final/characters/C01_lina/C01_sd_idle.png (correct-side accessory reference only)
+3. art/raw/C01_sd_attack_rework_20261015_01/edit_mask.png (white editable / black protected, 4px inner feather)
+4. art/refs/C01_ref_combat.png (approved character design reference)
+5. art/refs/style-anchor.png (approved style reference)
+
+FULL ACTUAL EDIT PROMPT
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face.
+Wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps, a longsword in her right hand, a white heater shield with a red chevron strapped to her left forearm (held by its inner straps, not by the rim).
+
+Use case: precise-object-edit. This is a LOCAL MASKED CORRECTION of an existing finished sprite, NOT a new illustration. The existing 512x512 canvas, exact drawing and its coordinates must be retained.
+Input image 1: EDIT TARGET, current C01_sd_attack.png. Edit only this image.
+Input image 2: REFERENCE ONLY, C01_sd_idle.png. This is the correct side and appearance of the small braid and red ribbon. Never edit or copy its pose.
+Input image 3: EDIT MASK. White = editable hair/accessory areas, black = locked original pixels. The left island is the removal region; the right island is the insertion region. Keep all black-mask areas pixel-identical.
+Input image 4: approved character reference sheet, design reference only.
+Input image 5: approved style anchor, style reference only.
+
+Primary request, S03 feedback dated 2026-10-15:
+Remove ONLY the red ribbon AND the small braided/plaited hair currently on the back-of-head side, SCREEN LEFT, around (150,175), including its diagonal braid running toward (205,145) and red tails down to y239. Replace those removed elements with ordinary long LOOSE chestnut-brown hair that follows the neighboring hair strands. That screen-left patch must have NO red fabric, NO braid, NO plait pattern, and NO rope shape.
+Add the SAME small side braid and crimson ribbon at the FACE-SIDE temple, SCREEN RIGHT, as in the idle reference. In this right-facing 3/4 view this is her anatomical LEFT, the far temple at the right edge of the head. The small braid follows the far hair edge around x302-316,y160-190; tie it with a visible crimson bow around x325,y190, its two short fluttering ribbon tails confined to the right editable island around x321-343,y199-224. The ribbon is attached to hair, not to her sword or hand. There must be exactly ONE braid and ONE bow total. The near screen-left side must be loose brown hair only.
+
+Constraints: Change only these two small accessory/hair regions. Preserve the ENTIRE original pose, face, eyes, mouth/expression, bang contour over face, body, costume, arms, hands, sword/blade/guard, shield, and all other hair. Never move/rotate/resize/reframe/mirror the sprite. Keep boots and toes at the exact same pixels: last occupied row y487 on a 512x512 canvas. Never add a second braid. Do not modify facial pixels or sword pixels to accommodate the ribbon. Match the original warm chestnut hair and cel-shaded line art in the replacement hair, with seamless local transitions.
+Background: retain genuine transparency, overriding contextual magenta wording above; no matte, no ground shadow. Return the edited image 1 alone with the same square full canvas and exact original sprite scale and placement. Do not output the mask, overlay, reference images or a collage.
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+PROCESSING / SAVED-FILE QA
+The built-in tool exposes no explicit mask argument. Applied style-guide.md 3.1.4 local-composite fallback to hair/accessory regions: supplied the fixed mask as an image reference, then resized only the tool candidate to the existing 512x512 coordinate frame and composited its two masked hair/accessory regions over the untouched original. Final sprite was never cropped, translated, mirrored, or rescaled. No face, body, clothing, sword, shield, pose or feet edits.
+Tool source (1254x1254) preserved: art/raw/C01_sd_attack_rework_20261015_01/tool_edit_01.png.
+Mask was fixed BEFORE the tool call. Outside zero-weight mask, all original RGBA bytes were copied without modification. Premultiplied local blend; alpha normalization restricted to nonzero mask pixels: opaque interior 255; native soft edge retained on 1px silhouette band. No global alpha changes.
+Saved final reopened and compared against original backup: changed RGBA 7772 pixels; OUTSIDE-MASK RGBA CHANGED 0; changed bbox inclusive [88,134,344,242]. Alpha changes 2908 pixels, all inside mask. Final alpha0=175154; alpha255=82502; partial=4488; partial more than 2px from alpha0=0. Non-binary alpha confirmed. Feet region y400..511 RGBA changes=0. Exact 512x512; last occupied row y487; bottom24 rows transparent.
+Visual QA: screen-left red bow and braid removed and replaced with loose chestnut hair; ONE small braid and red bow now on face-side SCREEN RIGHT as in idle. Face, equipment, clothing, proportions, placement and toes preserved. All 16 other PNG/prompt hashes under art/ outside raw unchanged.
+Pre-edit backup SHA256: DAB004421458FAB5AD55A0E4AA55F5E9287AEEDED94C872F802E91604EA66924
+Final PNG SHA256: 88F26855FB3B347DBCEC54435EBED8D9F15EC13F95A0D0046723A30D098FA2EF
+Reproduction and verification: tools/art/rework_s03_attack.ps1 (Prepare/Composite/Verify).
+QA artifacts: art/raw/C01_sd_attack_rework_20261015_01/{edit_mask.png,mask_overlay.png,before_checkerboard.png,after_checkerboard.png,hair_detail_4x.png,rgba_difference.png,verification.json,protected_hashes.json}.
+Result: design + mask + alpha + geometry QA PASS; manifest C01_sd_attack status=generated. Human approval and Claude screen mockups remain pending. No S04, commit or push.
+
