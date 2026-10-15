@@ -1,0 +1,46 @@
+Model/tool: OpenAI built-in image_gen; exact backend model identifier not exposed and not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: reference-guided new generation, transparent_background=true; no CLI/API fallback.
+References in exact attachment order:
+- art/refs/C03_ref_combat.png
+- art/refs/style-anchor.png
+- art/final/characters/C01_lina/C01_portrait_combat_neutral.png
+- art/final/characters/C02_cecile/C02_portrait_combat_neutral.png
+
+FULL GENERATION PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
+
+Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face
+
+wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff
+
+Use case: stylized-concept. Input 1 is APPROVED C03_ref_combat: the sole identity, hair, costume and equipment design source. Input 2 is approved style-anchor, style only. Inputs 3 and 4 are approved Lina and Cecile matching-format assets: rendering, composition and scale references ONLY, NEVER copy their faces, hair, clothes or equipment. Adelheid's face must stay her own: golden eyes, black bangs, softly oval face, round thin iron wire glasses. Spectacles are REQUIRED character design, not prohibited modern eyewear. Preserve the exact approved navy robe, short gold-edged shoulder cape, cream collar/cuffs, brown belt, chain-bound dark leather grimoire and ornate gnarled wooden staff design; no invented equipment. No casual clothes, candle or ordinary reading book.
+Exactly ONE thick black braid comes over HER anatomical LEFT shoulder and hangs down the LEFT front of her chest; never the other shoulder, never two braids. Her anatomical RIGHT hand holds ONE wooden staff securely, fingers curled around its shaft, thumb opposing. Her anatomical LEFT hand/forearm cradles ONE CLOSED thick grimoire bound visibly with an iron chain, palm supporting its lower edge. Natural hands with five fingers each; no duplicate props. No magical effects, particles, aura, floating runes or floor shadows.
+Neutral calm expression overrides emotional cues: mouth closed, nearly expressionless, dry aloof sarcastic look subtly in the eyelids and brows, no grin, no anger, no exaggerated emotion. No horizontal mirroring. Actual transparent RGBA background: override the format's magenta backdrop with true transparency. Opaque character interior alpha255, antialias only at outer 1-2 pixels, no translucent clothing or skin. No checkerboard drawn into image.
+
+Create ONE 1024x1536 standing portrait. Face directly forward toward viewer, shoulders almost frontal with only a slight natural turn, eye contact. Match inputs 3 and 4 in head scale and knee-up dialogue framing. Small top margin, crown around y20, head similar size to approved portraits, hem cut at knee level by framing. Do not turn sideways. FRONT VIEW anatomical LEFT braid and book on VIEWER RIGHT; RIGHT staff hand on VIEWER LEFT. To keep the whole staff uncut within this knee-up portrait, hold it high enough that its lower end stays fully inside canvas near knee level while the top ornament remains below the top edge and does not obscure face. Both hands, whole grimoire and entire staff including both tips fully inside canvas. Preserve her own approved facial identity, not Lina's or Cecile's.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Raw generation: art/raw/C03_portrait_combat_neutral_v1.png, preserved byte-for-byte.
+Postprocessing: tools/art/finish_s10_asset.ps1; fully opaque interiors alpha255, native antialias retained within1px silhouette neighborhood, transparent RGB zeroed; no horizontal mirroring. Portrait 1024x1536 fixed position; SD uniformly trimmed/scaled to464px height on512x512, occupied y24..487 and foot baseline487.
+Generation QA:
+{"size":[1024,1536],"source_size":[1024,1536],"source_crop":[65,10,1012,1535],"alpha255":954894,"alpha0":597631,"partial_alpha":20339,"interior_partial":0,"visible_rgb_changes":0,"bbox":[64,9,1012,1535],"foot_baseline":null,"alpha_method":"native edge alpha retained within 1px silhouette neighborhood; deep interior forced255; fully covered edge feathered1px; not binary output","mirrored":false,"portrait_position_unchanged":true}
+Calls: generation1 + local lower-staff edit1 =2; retries1; no full regeneration. Initial lower staff tip was cut by bottom canvas edge. Final shortened lower shaft ends inside canvas; fixed through narrow RGB-only mask x190..298,y1090..1535 with12px inward feather, original alpha preserved. Face/hair/glasses/braid/hands/book/cape and all outside-mask pixels identical.
+LOCAL EDIT PROMPT (verbatim):
+Use case: precise-object-edit. Input1 is an EDIT TARGET, an existing approved-composition 1024x1536 transparent dialogue portrait candidate. Fix ONLY the LOWER END OF THE WOODEN STAFF. It currently runs out of the bottom edge at approximately x250,y1535. Shorten ONLY the lower shaft so it ends naturally with a rounded gnarled wooden tip at approximately x235,y1330, fully inside the canvas. Repaint the navy robe fabric and its folds that are revealed below the removed shaft, matching the surrounding robe seamlessly. The staff ABOVE y1100, the staff head, the gripping hand, and the entire face, black hair, braid, glasses, expression, other hand, book, cape, all clothes away from the narrow lower-shaft strip must remain PIXEL IDENTICAL. Do not shorten from the top, do not move the staff or grip, do not change the camera, scale or composition. Exact same 1024x1536 canvas, no crop or rescale or mirroring. The ONLY editable strip is x190..298,y1090..1535; the edited pixels will be composited through this narrow local mask, outside it restored exactly. Lower shaft smoothly transitions from unchanged existing shaft near y1100 and stops by y1350, not out of frame. No detached wood fragments left below. Preserve true transparency, opaque subject interior and soft boundary antialias; no background, text, new objects or other changes.
+
+Edit attachment: art/raw/qa_S10/portrait/before_staff_edit.png (sole edit target). Raw result: art/raw/C03_portrait_combat_neutral_v2.png. tools/art/repair_s10_staff.ps1. Mask/difference and verification preserved:
+{"changed_pixels":45402,"outside_mask_rgba_changed_pixels":0,"alpha_changed_pixels":0,"mask_bounds":[190,1090,298,1535],"method":"RGB-only lower staff strip, 12px inward feather, original alpha preserved"}
+Visual QA: own Adelheid identity, golden eyes, round wire glasses; single black braid over anatomical LEFT shoulder (front viewer-right; right-facing3/4 far/face-side shoulder). Navy modified habit robe and short cape, RIGHT hand securely gripping wooden staff, LEFT hand/forearm supporting thick closed iron-chain grimoire. Calm closed-mouth nearly expressionless aloof face. All props inside frame, no text or watermark, no extra props. SD right-facing3/4, body/head scale compared directly to approved Lina and Cecile at1:1 with shared baseline. Checked light/dark/checker backgrounds and enlarged face/hands. COMBAT clause comparison in art/steps/S10.md. Status generated; S10 intermediate checkpoint awaiting user review; remaining19 not generated. No commit.

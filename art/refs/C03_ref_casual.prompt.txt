@@ -1,12 +1,15 @@
-Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed by this tool; not inferred.
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
 Generation date: 2026-10-15 (Asia/Seoul)
-Mode: built-in generation using local image references; no CLI/API fallback.
+Mode: NEW generation from scratch with identity/style references, NOT a partial edit.
 References in exact attachment order:
-- art/refs/C03_ref_combat.png
-- art/refs/style-anchor.png
-- art/refs/C01_ref_combat.png
-- art/refs/C02_ref_combat.png
-- art/refs/C02_ref_casual.png
+1. art/refs/style-anchor.png — rendering style only.
+2. art/refs/C03_ref_combat.png — face, hair, glasses, body proportions only; clothing, props and silhouette explicitly excluded.
+Prior casual sheet: not attached.
+Backup: art/raw/C03_ref_casual_v3.png and art/raw/C03_ref_casual_v3.prompt.txt
+New raw: art/raw/C03_ref_casual_v4.png
+Generation calls: 1. Local edit calls/retries: 0.
+Background: opaque light grey. Output 1536x1024 RGB. No alpha removal, resizing, mirroring or compositing of the final asset.
+Assembly: STYLE + ref_sheet FORMAT + BODY + new CASUAL + constraints interpreting only those blocks/reference roles + NEGATIVE.
 
 FULL GENERATION PROMPT (verbatim):
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
@@ -21,30 +24,68 @@ Character reference sheet: full body front view, side view and back view of the 
 
 Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face
 
-wearing an oversized dark wool tunic as a nightshirt with long sleeves covering her hands, thick wool stockings, a knitted shawl, her braid loosened and messy, holding a candle and an open book, sleepy cozy expression
+wearing an oversized dark charcoal wool tunic as a nightshirt that ends just above the knees, sleeves so long they cover her hands to the fingertips, thick knitted wool stockings, soft wool house slippers, a knitted shawl around her shoulders, her braid loosened and messy with stray hairs, holding a small candle in a holder and an ordinary open book (not her chained grimoire), sleepy cozy expression, no staff, no weapons
 
-Use case: stylized-concept. Production character model sheet, landscape 1536x1024.
-Match the attached approved Lina and Cecile reference sheets in clean line quality, restrained cel shading with soft highlights, fabric rendering, adult anime anatomy, three equal columns, head and foot alignment and figure scale. Images 2-5 are style/layout references only: do not copy either woman's facial identity, hair, armor, colors or clothes. Adelheid must be a distinct adult woman with a softly oval face, quieter narrow golden eyes, black bangs, small closed mouth and round iron wire spectacles; a bookish dry aloof look, cute rather than seductive. No text, labels, panels or annotations. Plain opaque light grey background. Leave small outer margins; show every staff tip, shoe, hand and book inside the canvas. FRONT at left, LEFT SIDE PROFILE facing canvas left at center, BACK at right. No horizontal mirroring. Back view glasses are visible as correctly wrapping thin iron temples above both ears, not eyes or lenses painted on the back of the head. Glasses lenses/rims unmistakable on front and left profile. No modern plastic glasses. The negative modern-eyewear rule does not prohibit the character's REQUIRED simple round iron wire spectacles.
-Fixed anatomical layout: exactly ONE thick black braid originates at nape, passes OVER HER LEFT SHOULDER and hangs down her LEFT chest. Front: braid on viewer RIGHT. Left profile: braid visible on NEAR left shoulder/chest. Back: braid route on viewer LEFT of nape/left shoulder, tail continues in FRONT and is naturally partly occluded. Never place a second braid down the center back, never switch shoulders. Keep the same body, hair length, garment construction and held-object anatomy in all three views. Navy/charcoal and black silhouette should be distinct from Lina's crimson/brown and Cecile's green/silver.
-Image 1 is the newly made Adelheid COMBAT sheet and is the PRIMARY IDENTITY reference: preserve precisely her face shape, golden eyes, nose, bangs, adult age, body proportions, single braid shoulder, and round iron glasses. Remaining images are style/layout references only; never copy Lina or Cecile's face. Match the combat reference's three columns and figure height.
-Low exposure, cozy cute adult reader. Oversized opaque CHARCOAL/DARK NAVY wool nightshirt with high modest neckline, very long sleeves covering the palms, hem reaching just below knees; thick opaque charcoal wool stockings fully cover legs above the hem so no bare-thigh gap, knitted muted slate-grey shawl. Relaxed drape; no corset, cleavage, bare shoulders, bare midriff, lingerie or seductive posing. Her ONE braid remains over anatomical LEFT shoulder, more loosely plaited and slightly messy with stray hairs, not unbraided loose hair or a second braid. Sleepy cozy closed-mouth expression, same person and adult physique as combat.
-ONE candle in a simple small iron fingerloop holder is held in her anatomical RIGHT hand, visible fingertips emerging just enough from the long sleeve to hold it safely. ONE thick OPEN grimoire is supported by her anatomical LEFT hand/forearm; its SAME iron chain is loosened around the covers without crossing/closing the open pages. No writing on the pages. Preserve the wooden staff as the same recognizable gnarled staff resting on the floor on her anatomical RIGHT, lightly leaning against her outer RIGHT shoulder/upper arm; she does NOT need an extra hand to hold it. Staff stays on the right side in all views. FRONT: candle/right hand and leaning staff viewer LEFT; open book/left hand and braid viewer RIGHT. LEFT profile: near LEFT arm supports open book and near braid visible; far RIGHT candle hand and staff remain identifiable without extra arms. BACK: candle and resting staff viewer RIGHT, left book arm and braid shoulder viewer LEFT. Correct fingers, no merged candle/staff, no extra props. Candle small and clear of sleeves and hair, no environmental lighting effects. All views stand neutrally on the same baseline.
+Generate a completely NEW casual reference sheet from scratch, landscape 1536x1024. Do not edit or reproduce an earlier casual sheet.
+Reference image 1 (style-anchor.png) is ONLY a rendering style reference. Do not borrow its person, clothes or props.
+Reference image 2 (C03_ref_combat.png) is ONLY an identity reference for Adelheid's face, black hair, golden eyes, round iron wire-rimmed glasses and adult body proportions. Do NOT copy its clothing, accessories, props or silhouette. Clothes and props must be ONLY those named in the CASUAL block above. No religious jewelry, belt, gold trim, cape or combat accessories.
+Resolve BODY's aloof face into the CASUAL block's sleepy cozy expression; same adult facial identity, relaxed half-lidded golden eyes. Preserve glasses in front and profile; back shows only temples at ears, no eyes on the back of the head. The required simple round iron spectacles are permitted; no modern eyewear.
+Three equal views: FRONT on the left, anatomical LEFT SIDE profile facing canvas left in the middle, BACK on the right. Same neutral stance, height and baseline, full head and slippers within margins. No captions.
+The single braid remains over her anatomical LEFT shoulder exactly as in the combat identity reference, but now very loosely plaited, visibly untidy and relaxed with loose loops and flyaway stray hairs. FRONT: braid on viewer RIGHT chest. LEFT PROFILE: braid on NEAR shoulder/chest. BACK: braid route at viewer LEFT nape and over left shoulder toward the front; no second braid down the back. Do not mirror the character.
+A broad, loose, unbelted DARK CHARCOAL wool nightshirt, hem JUST ABOVE the knees in all three views, distinctly short rather than an ankle-length robe. Plain opaque wool, modest closed neckline, no bare shoulders, chest, abdomen or leg skin. Thick opaque knitted wool stockings extend upward under the nightshirt hem with no skin gap, closed soft wool HOUSE SLIPPERS with no boot shafts. The sleeves extend ALL THE WAY over her hands INCLUDING fingertips in all three views. Sleeve-covered hands support objects through the fabric; do not expose fingers to hold them. Knitted shawl around shoulders, not a combat cape. Clearly different silhouette from the combat sheet in hem length, loose width, sleeve shape and messy hair.
+Hold only ONE small candle in its simple holder with the sleeve-covered anatomical RIGHT hand and ONE ordinary OPEN reading book with the sleeve-covered anatomical LEFT hand/forearm, supported naturally by the covered palm. Plain unadorned book with blank pages, no chains, clasps or magical symbols. FRONT: candle viewer LEFT, book viewer RIGHT; LEFT PROFILE: book in NEAR left arm, candle in FAR right arm; BACK: candle viewer RIGHT and book viewer LEFT, naturally occluded by body where appropriate. Candle and sleeve kept visibly apart. No additional arms, fingers or objects.
+Exposure grade LOW: fully covered, opaque, cozy and modest. Plain flat opaque light grey sheet background; no scene, vignette or environmental effects. No staff, weapons, chained grimoire, chains, boots, armor, extra jewelry or unlisted props.
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
 
-Raw generation: art/raw/C03_ref_casual_v1.png. Original 1536x1024 opaque grey reference-sheet format retained. No resize, background removal or horizontal flip.
+QA REPORT:
+[S09 보고 · C03_ref_casual 재작업 · 2026-10-15]
 
-LOCAL CLOTHING EDIT PROMPT (verbatim):
-Use case: precise-object-edit. Edit target: image 1, Adelheid casual reference sheet, 1536x1024. Repair ONLY the clothing fabric areas of all three views; keep every face, glasses, black hair/braid, skin/hand, book/pages/iron chain, candle, wooden staff, shoes, stockings, knitted shawl, grey background, figure scale, body proportions, pose and placement unchanged. Do not redraw the sheet. Keep the same full front / left-facing left-profile / back composition. No mirroring.
+만든 것: C03_ref_casual → art/refs/C03_ref_casual.png (1536×1024, 불투명 회색 배경).
+기존 최종 PNG 백업: art/raw/C03_ref_casual_v3.png (기존 .prompt.txt도 같은 v3 이름으로 백업).
+새 생성 원본: art/raw/C03_ref_casual_v4.png.
+프롬프트: art/refs/C03_ref_casual.prompt.txt.
+대조 이미지: art/raw/qa_S09_casual_redo.png (리나 전투복, 세실 전투복, 아델하이트 전투복, 새 일상복의 정면 및 세 방향 시트).
+얼굴·안경 확대: art/raw/qa_S09_casual_redo/identity_glasses.png.
 
-The casual sheet mistakenly looks like an abbreviated embroidered combat nun robe. Replace ONLY her underlying navy clothing and its sleeves with a PLAIN oversized DARK CHARCOAL WOOL TUNIC/NIGHTSHIRT: simple soft bulky wool texture, loose comfortable baggy fit, straight relaxed knee-length hem just below knees, extremely long soft sleeves covering palms with fingers peeking to support the props. Absolutely REMOVE all gold embroidered motifs, gold borders, waist belt, high cream nun collar and cream underskirt/cuff lining from the tunic. No religious nun-habit decorations. The neckline that peeks above the shawl must be a simple modest ribbed high wool neckline. The lower nightshirt hem is plain and softly irregular, not layered and not a flared tailored skirt. Keep existing opaque thick stockings, no bare skin gap. Keep the knitted grey shawl exactly as drawn, including its fringe and cable knit. Preserve front's RIGHT hand on viewer LEFT holding candle and left hand on viewer RIGHT supporting the open chain-bound book; single braid over anatomical LEFT shoulder; staff anatomy and all object positions unchanged. Keep sleeves plain wool on profile and rear too. No writing or labels.
+재시도: 새 생성 1회, 국소 편집 0회, QA 실패 0회. 기존 일상복은 입력 참조로 넣지 않았다.
+조립: STYLE + ref_sheet FORMAT + C03 BODY + 새 CASUAL 원문 + 설정 해석/좌우/참조 한정 지시 + NEGATIVE.
+참조: style-anchor(화풍만), C03_ref_combat(얼굴·머리·안경·체형만). 전투복 옷·소품·실루엣 복사 금지를 명시했다.
+실루엣: 발목 길이 로브에서 무릎 바로 위 잠옷으로, 허리띠 없는 헐렁한 폭과 손끝을 덮는 소매로 변경. 머리는 더 느슨한 땋음과 잔머리.
 
-Critical invariants: face and eye shape pixel-identical, golden eyes and round wire glasses retained, one braid shoulder same; anatomy and hands unchanged. Only clothing regions may change. Same 1536x1024 opaque flat grey sheet.
+| CASUAL 설정 구절 | 결과 | 육안 확인 |
+|---|---|---|
+| oversized dark charcoal wool tunic as a nightshirt | 맞음 | 짙은 차콜, 넉넉하고 허리띠 없는 모직 잠옷 튜닉 |
+| ends just above the knees | 맞음 | 세 방향 모두 무릎 바로 위 짧은 밑단 |
+| sleeves so long they cover her hands to the fingertips | 맞음 | 손과 손끝까지 소매 안에 덮임; 천을 사이에 두고 소품을 받침 |
+| thick knitted wool stockings | 맞음 | 두꺼운 편직 양말, 잠옷 밑으로 다리 피부 틈 없이 덮음 |
+| soft wool house slippers | 맞음 | 부드러운 모직 실내화, 부츠 목 없음 |
+| a knitted shawl around her shoulders | 맞음 | 어깨를 감싸는 편직 숄 |
+| her braid loosened and messy with stray hairs | 맞음 | 느슨해진 큰 땋음과 바깥으로 빠진 잔머리 |
+| holding a small candle in a holder | 맞음 | 작은 촛불과 받침을 오른손 쪽에 받침 |
+| an ordinary open book | 맞음 | 왼팔로 받친 평범한 펼친 책 |
+| not her chained grimoire | 맞음 | 쇠사슬·마법서 장비 없음 |
+| sleepy cozy expression | 맞음 | 반쯤 내려간 눈꺼풀과 편안한 입매 |
+| no staff | 맞음 | 세 방향 모두 지팡이 없음 |
+| no weapons | 맞음 | 세 방향 모두 무기 없음 |
 
-Edit reference: art/raw/C03_ref_casual_v1.png. Edit result: art/raw/C03_ref_casual_v2.png. Tool has no mask argument, so selected clothing pixels from this result were composited over v1 with tools/art/repair_s09_casual.ps1. Mask, difference image and selected result preserved in art/raw/qa_S09. Same model result reused while refining mask boundaries; no further image calls. Verification: outside_mask_RGBA_diff_pixels=0; alpha_diff_pixels=0; changed_inside_mask=665487
-A request with six image references was rejected by tool validation before generation; corrected to five. Not a model QA attempt.
+추가 QA:
+- MUST KEEP: 검은 긴 단일 땋은 머리, 금색 눈, 둥근 철테 안경, 전투복과 같은 얼굴·체형 확인.
+- 머리 방향: 본인 왼어깨 유지. 정면 관찰자 오른쪽, 왼쪽 측면 가까운 어깨, 후면 관찰자 왼쪽 목덜미에서 앞쪽으로 이어짐.
+- 소품 방향: 본인 오른손 촛불 / 왼팔 펼친 책. 정면 관찰자 왼쪽 촛불·오른쪽 책, 후면 반대 배치, 측면 가까운 왼팔이 책을 지지.
+- 안경: 정면 둥근 렌즈/철테, 측면 렌즈·다리, 후면 귀 위 다리 확인.
+- 노출 낮음: 어깨·가슴·배·다리 불투명 옷과 양말로 덮임.
+- 부츠·지팡이·무기·쇠사슬·종교 장신구·추가 소품 없음.
+- 손은 소매에 가려지며 소품 지지 자세가 자연스러움. 잘린 머리·발·소품, 글자·워터마크 없음.
+- ref_sheet 원본 1536×1024 RGB(알파 없음, 완전 불투명). 배경 제거·리사이즈·좌우 반전 없음.
 
-QA: golden eyes and round iron glasses; one black braid over anatomical LEFT shoulder. FRONT staff/candle RIGHT hand on viewer LEFT, grimoire LEFT hand on viewer RIGHT; LEFT-profile near arm carries book; BACK staff/candle on viewer RIGHT, book/braid route viewer LEFT. Back glasses visible at temples/ear, no lenses painted on back of head. Combat navy robe and closed iron-chain book. Casual modest oversized charcoal wool nightshirt, thick opaque stockings, knitted shawl, candle and open iron-chain book. Staff preserved on anatomical RIGHT beside candle. Casual image uses combat as identity reference. No writing/watermark; all props inside canvas. Compare full sheets, faces and front silhouettes in art/raw/qa_S09. Status: generated, awaiting user approval.
+manifest: C03_ref_casual만 generated로 기록 갱신. S09 검토 대기 유지.
+C03_ref_combat 및 다른 기존 아트 파일, characters.md, style-guide.md, S09.md, steps/README.md는 수정하지 않음.
+커밋하지 않음. S10 진행하지 않음. 사용자 C03_ref_casual 검토 대기.
+
+
+Provenance audit - 2026-10-15:
+Current PNG and art/raw/C03_ref_casual_v4.png are byte-identical SHA256 F1BE5D28518B0435A22CFD9C8BAF96F379BAB6F5873377ECB845E4306CE3D8C4. FULL GENERATION PROMPT above exactly matches art/raw/qa_S09_casual_redo/generation_prompt.txt after trimming outer whitespace; the entire prior record matches new_prompt_record.txt. Both ordered reference paths and roles are recorded in that archived record. No missing prompt or references found; no inferred prompt text added. Backend model identifier remains unavailable and is not guessed. PNG untouched. User approved the second casual design unchanged on 2026-10-15.

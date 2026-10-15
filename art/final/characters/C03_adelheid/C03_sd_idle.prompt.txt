@@ -1,0 +1,43 @@
+Model/tool: OpenAI built-in image_gen; exact backend model identifier not exposed and not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: reference-guided new generation, transparent_background=true; no CLI/API fallback.
+References in exact attachment order:
+- art/refs/C03_ref_combat.png
+- art/refs/style-anchor.png
+- art/final/characters/C01_lina/C01_sd_idle.png
+- art/final/characters/C02_cecile/C02_sd_idle.png
+
+FULL GENERATION PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+
+Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face
+
+wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff
+
+Use case: stylized-concept. Input 1 is APPROVED C03_ref_combat: the sole identity, hair, costume and equipment design source. Input 2 is approved style-anchor, style only. Inputs 3 and 4 are approved Lina and Cecile matching-format assets: rendering, composition and scale references ONLY, NEVER copy their faces, hair, clothes or equipment. Adelheid's face must stay her own: golden eyes, black bangs, softly oval face, round thin iron wire glasses. Spectacles are REQUIRED character design, not prohibited modern eyewear. Preserve the exact approved navy robe, short gold-edged shoulder cape, cream collar/cuffs, brown belt, chain-bound dark leather grimoire and ornate gnarled wooden staff design; no invented equipment. No casual clothes, candle or ordinary reading book.
+Exactly ONE thick black braid comes over HER anatomical LEFT shoulder and hangs down the LEFT front of her chest; never the other shoulder, never two braids. Her anatomical RIGHT hand holds ONE wooden staff securely, fingers curled around its shaft, thumb opposing. Her anatomical LEFT hand/forearm cradles ONE CLOSED thick grimoire bound visibly with an iron chain, palm supporting its lower edge. Natural hands with five fingers each; no duplicate props. No magical effects, particles, aura, floating runes or floor shadows.
+Neutral calm expression overrides emotional cues: mouth closed, nearly expressionless, dry aloof sarcastic look subtly in the eyelids and brows, no grin, no anger, no exaggerated emotion. No horizontal mirroring. Actual transparent RGBA background: override the format's magenta backdrop with true transparency. Opaque character interior alpha255, antialias only at outer 1-2 pixels, no translucent clothing or skin. No checkerboard drawn into image.
+
+Create ONE square full-body chibi SD COMBAT IDLE. Match approved input3 Lina sd_idle and input4 Cecile sd_idle EXACTLY in head-to-body ratio (about2.5 heads), head diameter, total BODY height and rendering style. Large rounded chibi head about40% of body height; do not make a taller small-headed mage. Target after scaling on512x512: crown y24, feet soles last occupied row y487, total body height464px, face/chin abouty205. Head, feet, whole staff and whole book entirely in canvas. The staff top must not extend above the hair crown and staff bottom no lower than soles, so equipment does not shrink her body when uniformly scaled.
+Right-facing THREE-QUARTER viewpoint, both eyes visible with far eye foreshortened; torso also faces right. Calm ready COMBAT stance, feet apart slightly, knees soft. Staff must be HELD in her anatomical RIGHT hand, slightly forward in readiness, NOT slung or merely leaning. Book HELD in anatomical LEFT arm; iron chain visibly wrapped around closed cover. In this right-facing3/4 view her anatomical LEFT shoulder is the FAR shoulder toward the FACE/SCREEN RIGHT side: the braid must descend over that FAR left shoulder on the front chest near the far-side edge, not on the near shoulder at screen left/back. Book similarly on far left arm toward screen right; right staff arm on nearer side toward screen left. Keep braid distinguishable from chain and staff. Glasses clearly round with two lenses and temples, golden eyes readable even small. Same head/body scale as both attached approved SDs; robe may cover legs but shoes both visible at baseline. No hat, no veil covering hair, no new objects.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Raw generation: art/raw/C03_sd_idle_v1.png, preserved byte-for-byte.
+Postprocessing: tools/art/finish_s10_asset.ps1; fully opaque interiors alpha255, native antialias retained within1px silhouette neighborhood, transparent RGB zeroed; no horizontal mirroring. Portrait 1024x1536 fixed position; SD uniformly trimmed/scaled to464px height on512x512, occupied y24..487 and foot baseline487.
+Generation QA:
+{"size":[512,512],"source_size":[1254,1254],"source_crop":[234,73,1047,1219],"alpha255":93055,"alpha0":162365,"partial_alpha":6724,"interior_partial":0,"visible_rgb_changes":0,"bbox":[91,24,419,487],"foot_baseline":487,"alpha_method":"native edge alpha retained within 1px silhouette neighborhood; deep interior forced255; fully covered edge feathered1px; not binary output","mirrored":false,"portrait_position_unchanged":null}
+Calls: generation1, retries0, local edits0.
+
+Visual QA: own Adelheid identity, golden eyes, round wire glasses; single black braid over anatomical LEFT shoulder (front viewer-right; right-facing3/4 far/face-side shoulder). Navy modified habit robe and short cape, RIGHT hand securely gripping wooden staff, LEFT hand/forearm supporting thick closed iron-chain grimoire. Calm closed-mouth nearly expressionless aloof face. All props inside frame, no text or watermark, no extra props. SD right-facing3/4, body/head scale compared directly to approved Lina and Cecile at1:1 with shared baseline. Checked light/dark/checker backgrounds and enlarged face/hands. COMBAT clause comparison in art/steps/S10.md. Status generated; S10 intermediate checkpoint awaiting user review; remaining19 not generated. No commit.
