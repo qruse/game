@@ -1,0 +1,45 @@
+Tool: built-in image_gen.imagegen
+Model: underlying backend model identifier not exposed by tool; not guessed
+Date: 2026-10-15 (Asia/Seoul)
+Intent: face-only edit of approved casual neutral; matching approved combat angry expression supplied as reference
+Calls: 1; retries: 0
+transparent_background: true
+References (ordered):
+art/final/characters/C01_lina/C01_portrait_casual_neutral.png
+art/final/characters/C01_lina/C01_portrait_combat_angry.png
+art/refs/style-anchor.png
+art/refs/C01_ref_casual.png
+
+Full actual prompt (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
+
+Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face
+
+wearing a cream linen kirtle dress with a red laced bodice and puffed sleeves rolled up to the elbows, a flour-dusted white apron (she keeps failing at cooking), hair down with the same braid and red ribbon, holding a wooden spoon and a flour-dusted wooden mixing bowl
+
+EDIT ONLY / identity-preserve. Input image 1 is the EDIT TARGET: approved casual neutral portrait. Input image 2 is the approved COMBAT ANGRY expression reference of this SAME woman. Input image 3 is the style anchor. Input image 4 is the approved casual outfit sheet.
+Edit only the masked face interior (eyebrows, eyes, cheeks, nose and mouth, approximately x398..552 y164..316 in the 1024x1536 target); hair and face outline must stay fixed. Change the expression to: angry, frowning, gritted teeth; match the approved combat angry's exact eyebrow tilt, narrowed pale-violet eyes, gaze and clenched-teeth mouth.
+The casual and combat versions must read as the same person making the SAME expression, with the same expression intensity, eye shape and mouth shape. Use image 2 solely for its facial expression; retain image 1's exact head size, angle, feature positions and skin lighting.
+Keep everything outside the facial mask pixel-identical: every hair strand, red ribbon on viewer-right, neck, body, neckline, dress, apron, spoon, bowl, hands, pose, silhouette, alpha channel, background, framing, position and 1024x1536 canvas. Do not redraw the whole character. Preserve image 1's actual approved composition and transparency; the generic FORMAT magenta background/knee-up wording above is archival context and must NOT alter this edit. Preserve the user-approved neckline. No combat armor or weapons.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+
+Raw generation: art/raw/C01_portrait_casual_angry_v1.png
+Finalization: style-guide.md 3.1.4; built-in tool has no explicit mask argument. Composite generated RGB only through three face-interior polygons; 4px inward feather; keep all original neutral alpha values and every RGBA pixel outside mask. No resize or translation. Face outline and all hair excluded. No background removal needed; approved neutral alpha retained.
+Mask and difference image: art/raw/qa_S05_expressions/angry/face_mask.png; rgba_difference.png
+Deterministic processing: tools/art/finish_s05_face.ps1
+Independent saved PNG verification: tools/art/verify_s05.ps1; art/raw/qa_S05_expressions/verification.json
+QA: {"width":1024,"height":1536,"changed_rgb_pixels":12039,"outside_face_rgba_changed_pixels":0,"alpha_changed_pixels":0,"changed_bbox_inclusive":[397,164,548,314],"method":"guide 3.1.4: face interior mask composite; original RGBA retained outside mask"}
+Visual QA: face identity and same expression checked side by side against approved combat; hands/props/outfit/ribbon/hair/neckline preserved; no new text or modern objects; no unresolved issue. User review pending.
