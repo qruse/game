@@ -1,0 +1,44 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
+Generation date: 2026-10-16 (Asia/Seoul).
+No CLI/API fallback. Image calls: 3; retries/local model repairs: 2.
+References in actual attachment order:
+1. art/final/characters/C03_adelheid/C03_sd_idle.png
+2. art/refs/C03_ref_combat.png
+3. art/refs/style-anchor.png
+4. art/final/characters/C01_lina/C01_sd_attack.png
+5. art/final/characters/C02_cecile/C02_sd_attack.png
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art, cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather, expressive anime eyes, appealing character design. Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats, wool, linen, leather, heraldry, candlelight, stone and timber. Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold, forest green, parchment cream, warm browns.
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), transparent background, no ground shadow. One isolated sprite, square canvas1024x1024 for final512x512.
+Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face.
+wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff.
+Input1 approved C03_sd_idle is PRIMARY identity, exact costume, head and body proportions and physical character scale reference. Input2 approved C03 combat sheet is costume/prop design and anatomical side reference. Input3 style-anchor is only rendering. Input4 Lina and input5 Cecile SAME ACTION are references for right-facing3/4 camera, motion, screen placement, head/body scale only; do not copy their identity, costume or weapons. Exactly two hands: anatomical RIGHT carries ONE wooden staff, anatomical LEFT carries ONE thick chained grimoire. Single black braid on HER LEFT shoulder, face-side FAR shoulder when facing right, never duplicated or mirrored. Keep two round iron-rim lenses and golden eyes, cream collar and sleeve linings, navy gold-trim short cape and long navy robe and brown boots exactly consistent with idle. Boots on the same ground plane, final foot baseliney487. Body and face turn toward screen RIGHT in three-quarter; no frontal or left-facing view. Entire staff with both ends and the entire grimoire inside canvas with padding, no ground shadow, no magic particles, spell effects, trails or detached objects, no UI. Opaque character interior, native transparent background, soft edges only.
+Pose: dynamic attack using her main weapon: step/lunge right with both boots grounded, thrust the gnarled wooden staff diagonally forward toward screen right in her RIGHT hand, brace the CLOSED iron-chained grimoire in LEFT arm. Determined eyes. Keep right-facing3/4 camera and same large SD head as idle. This is a mage's staff attack, no added projectile.
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders; modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones); Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props; nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Original raw output: art/raw/C03_sd_attack_v1.png (preserved unmodified).
+Default tool source: C:/Users/이현상/.codex/generated_images/01a141b1-f858-7c93-a7f6-50a51b386cd5/exec-9e091baa-feec-40de-b9c8-65991b490da7.png
+
+Postprocessing: transparent trim, uniform resize to512square, horizontal centering and actual boot baseline487; no mirroring. Opaque interior alpha255; soft silhouette antialias retained1px, not binary. Head width compared at1:1 with approved C03 idle and Lina/Cecile same action. Anatomical right hand staff; left hand chained grimoire. Far left shoulder braid, round iron-rim glasses and golden eyes visually checked. No combat particle/effect asset rendered.
+
+LOCAL EDIT: C03_sd_attack_braid_repair
+Full actual edit prompt:
+Precise local hair repair of FIRST input existing Adelheid SD attack. Keep entire sprite composition, face, glasses, staff, book, fingers, arms, costume, boots and transparent background pixel-identical except the braid attachment and braid itself. Her braid is on the WRONG shoulder in input1: it begins below the prominent near ear on SCREEN LEFT. Her SINGLE black braid must be on HER ANATOMICAL LEFT shoulder, the FAR/FACE-side shoulder in this right-facing three-quarter view, just as input2 approved C03_sd_idle and input3 approved combat sheet. Remove the braid which currently begins beneath the visible near ear at screen-left of her neck, replace only that small area with existing loose back hair/navy cape. Draw ONE equivalent thick black braid beginning at the FAR nape on SCREEN RIGHT behind/below the chin and falling over her FAR LEFT shoulder down the SCREEN-RIGHT edge of her chest. Keep it free of the staff-holding right hand and sleeve. Do not add a second braid. Keep golden eyes and glasses exactly fixed, identical head outline and scale. Do not mirror anything. Output entire same square1254x1254, actual transparent background. No text, effects, additional ornaments or objects.
+Actual attached references in order:
+C:/Users/이현상/.codex/generated_images/01a141b1-f858-7c93-a7f6-50a51b386cd5/exec-9e091baa-feec-40de-b9c8-65991b490da7.png
+C:/Users/이현상/Workplace/game/art/final/characters/C03_adelheid/C03_sd_idle.png
+C:/Users/이현상/Workplace/game/art/refs/C03_ref_combat.png
+
+LOCAL EDIT: C03_sd_attack_hands_repair
+Full actual edit prompt:
+Edit ONLY arms, hands and props in this existing right-facing Adelheid SD attack sprite, and adjoining sleeve/cape pixels needed for the change. Keep HEAD, face, eyes, glasses, hairstyle, single braid on far shoulder, lower skirt, boots, overall head scale and right-facing3/4 direction fixed. The props are in the WRONG anatomical hands. Correct them to match approved idle: ONE gnarled wooden staff in HER RIGHT hand (NEAR arm, starting at SCREEN-LEFT shoulder), ONE CLOSED iron-chained grimoire held in HER LEFT arm (FAR arm at SCREEN-RIGHT of torso). Pose: swing/thrust the staff toward screen RIGHT with the NEAR RIGHT ARM crossing in front of her chest. The book must be braced at her SCREEN-RIGHT hip by the FAR LEFT HAND, never at screen-left hip. Move the old screen-left book away and restore navy sleeve/cape there; move book to screen-right in front of far elbow. Do not change the head to accommodate pose. Exactly two anatomically connected arms and two hands, correctly gripping. Single braid still starts at far nape below SCREEN-RIGHT chin and falls down that shoulder. Keep the gnarled staff crystal and iron chains design from refs. Same1254x1254 entire sprite, transparent background. No magic effects, text, new objects, duplicate props, extra arms or hands. First image is edit target; second is approved idle for HAND ASSIGNMENTS, third approved combat sheet for anatomy.
+Actual attached references in order:
+art/raw/qa_S10_remaining/C03_sd_attack/repaired_source.png
+art/final/characters/C03_adelheid/C03_sd_idle.png
+art/refs/C03_ref_combat.png
+Repair evidence: art/raw/qa_S10_remaining/C03_sd_attack/; original rawv1, braid edit rawv2, arm/prop edit rawv3 retained. Registered braid patch is a local RGB-only composite, outside-mask RGBA0 and alpha0. Final arm/prop correction uses stored local mask; excluded head/face/legs remain original. See repair QA JSON for actual masks and provenance.
+
+Independent saved PNG audit: {"size":[512,512],"opaque":89043,"transparent":166338,"partial":6763,"interior_partial":0,"bbox":[24,77,487,487]}
+QA evidence: art/raw/qa_S10_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_15_comparison.png; cutins_3_comparison.png. 94 prior non-icon final/ref files SHA256 unchanged, including approved C03 checkpoint PNGs and prompts. Verification separately records12 C01/C02 icon PNG/prompt changes/removals made outside this task; this task did not write those files and did not revert external state.
+Status: generated, awaiting user review of S10. Two checkpoint images remain approved and untouched. No commit; no S11; no skill icons.

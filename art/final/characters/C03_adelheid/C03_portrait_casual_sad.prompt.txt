@@ -1,0 +1,21 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
+Generation date: 2026-10-16 (Asia/Seoul).
+No CLI/API fallback. Image calls: 1; retries/local model repairs: 0.
+References in actual attachment order:
+1. art/raw/qa_S10_remaining/casual_face_target.png
+2. art/final/characters/C03_adelheid/C03_portrait_casual_neutral.png
+3. art/refs/style-anchor.png
+
+FULL PROMPT (verbatim):
+Use case: precise local expression edit for existing RPG dialogue portrait. Edit the FIRST input face crop, 1024x1024. This is an enlarged exact crop of the approved neutral; preserve its registration, face shape and head tilt, hair strands, glasses location and round shape, golden irises, skin color, light direction and rendering. Edit ONLY exposed skin of the face from eyebrows to chin. Keep everything outside the face pixel-identical. Keep all hair, ear, neck, collar, braid, ornaments, alpha and outer silhouette unchanged. Do not redraw or shift the head. Keep original framing with exactly the same feature positions except changes inherently required by the expression. Keep both round wire-rimmed glasses and all crossing hair strands. Second reference is the approved full neutral for context, not a second output. Third is style anchor for line quality only, do not copy her face or objects. Output only the first square crop at exactly 1024x1024, preserve existing transparency. Keep the casual neutral identity and loosely messy hair. Change facial expression to: sad, inner eyebrows raised in sorrow, teary golden eyes with small tears, downturned closed mouth. No text, symbols, sweat drops, background effects or new props.
+
+Original raw output: art/raw/C03_portrait_casual_sad_v1.png (preserved unmodified).
+Default tool source: C:/Users/이현상/.codex/generated_images/01a141b1-f858-7c93-a7f6-50a51b386cd5/exec-40d19e49-920d-4e12-b890-3c2e29f069e6.png
+
+Postprocessing: guide3.1.4 explicit face-mask composite. Neutral face crop: 350,102,288,288 enlarged1024square for local expression editing; model result uniformly mapped back to that exact crop. Blend RGB through the stored exposed-face polygons with3px inward feather. Entire original neutral alpha channel and all RGBA outside the mask retained. Canvas1024x1536, body, props, clothing, head silhouette and hair outside mask never moved or mirrored. Crop and mask are QA/edit working files, not game assets. Outfit sheet and design inherited from the neutral target; actual attached reference list above is exact. Saved-PNG independent comparison is below.
+Face audit: {"changed":16023,"outside_mask_rgba_changed":0,"alpha_changed":0}
+Mask, difference and detail evidence: art/raw/qa_S10_remaining/C03_portrait_casual_sad/
+
+Independent saved PNG audit: {"size":[1024,1536],"opaque":848326,"transparent":701943,"partial":22595,"interior_partial":0,"bbox":[77,3,971,1535]}
+QA evidence: art/raw/qa_S10_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_15_comparison.png; cutins_3_comparison.png. 94 prior non-icon final/ref files SHA256 unchanged, including approved C03 checkpoint PNGs and prompts. Verification separately records12 C01/C02 icon PNG/prompt changes/removals made outside this task; this task did not write those files and did not revert external state.
+Status: generated, awaiting user review of S10. Two checkpoint images remain approved and untouched. No commit; no S11; no skill icons.
