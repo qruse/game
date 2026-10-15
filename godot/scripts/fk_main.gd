@@ -15,9 +15,10 @@ var battle = null
 var stage: Control
 var state := "menu"  # menu / wait / player / over
 var actor = null
-var cur := ""
-var pending := {}
-var locks := 0
+var aim_enemy := -1  # 무대에서 고른 적 (공격 대상)
+var aim_ally := -1  # 고른 동료 (치유·축복 대상)
+var aim_obj := -1  # 고른 오브젝트 (불꽃 화살로 불붙이기)
+var locks := 0  # 다음 행동에 쓸 운명 주사위 개수
 var party: Array = ["lina", "cecile", "adelheid"]
 var battle_idx := 0
 var speed := 1.0
@@ -27,7 +28,7 @@ var portraits := {}
 var _demo := false
 var _shot := ""
 var _shot_at: Array = []
-var _pick := ""  # 확인용: 첫 동료 차례에 미리 고를 행동,대상번호 (예: cecile_ambush,0)
+var _pick := ""  # 확인용: 첫 동료 차례에 미리 고를 대상 (행동,대상번호 예: adel_fire,4)
 
 var menu: Control
 var hud: Control
@@ -40,10 +41,8 @@ var log_btn: Button
 var card_pic: TextureRect
 var card_txt: RichTextLabel
 var actions: HFlowContainer
-var dice_row: HBoxContainer
 var hint: RichTextLabel
-var roll_btn: Button
-var cancel_btn: Button
+var fate_btn: Button
 var log_box: RichTextLabel
 var over: PanelContainer
 var over_lbl: RichTextLabel
@@ -223,25 +222,17 @@ func _build_hud() -> void:
 	actions.add_theme_constant_override("v_separation", 4 if touch else 6)
 	scroll.add_child(actions)
 
-	# 판정 칸 미리보기 + 굴리기
+	# 대상 안내 + 운명 주사위
 	var side := VBoxContainer.new()
-	side.custom_minimum_size.x = 260 if touch else 470
+	side.custom_minimum_size.x = 230 if touch else 420
 	row.add_child(side)
 	hint = RichTextLabel.new()
 	hint.bbcode_enabled = true
 	hint.size_flags_vertical = SIZE_EXPAND_FILL
 	hint.add_theme_font_size_override("normal_font_size", 12 if touch else 18)
 	side.add_child(hint)
-	dice_row = HBoxContainer.new()
-	dice_row.add_theme_constant_override("separation", 6)
-	side.add_child(dice_row)
-	var br := HBoxContainer.new()
-	side.add_child(br)
-	roll_btn = _btn("  굴리기  ", _roll)
-	roll_btn.size_flags_horizontal = SIZE_EXPAND_FILL
-	br.add_child(roll_btn)
-	cancel_btn = _btn("  취소  ", _cancel)
-	br.add_child(cancel_btn)
+	fate_btn = _btn("운명 주사위 안 씀", _cycle_fate)
+	side.add_child(fate_btn)
 
 
 func _build_menu() -> void:
@@ -376,9 +367,12 @@ func _loop() -> void:
 				stage.inspect_uid = -1
 				_reset_pick()
 				if _pick != "":
-					cur = _pick.get_slice(",", 0)
-					var tg: Array = b.targets(u, cur)
-					pending = tg[mini(int(_pick.get_slice(",", 1)), tg.size() - 1)]
+					var tg: Array = b.targets(u, _pick.get_slice(",", 0))
+					var ref: Dictionary = tg[mini(int(_pick.get_slice(",", 1)), tg.size() - 1)]
+					if ref.k == "o":
+						aim_obj = ref.id
+					elif ref.k == "u":
+						aim_enemy = ref.uid
 					_pick = ""
 				_refresh()
 				await acted
@@ -428,72 +422,67 @@ func _check_over() -> void:
 		print("demo result: %s, rounds %d, downs %d" % [battle.result, battle.round_no, battle.downs])
 
 
-# ── 동료 차례: 행동 → 대상 → (운명 주사위) → 굴리기 ─
+# ── 동료 차례: 대상은 무대에서 미리 고르고, 행동 버튼을 누르면 바로 굴린다 ─
 
 func _reset_pick() -> void:
-	cur = ""
-	pending = {}
 	locks = 0
+
+
+## 이 행동을 지금 누르면 누구에게 쓰는지. 고른 대상이 맞지 않으면 기본 대상(맨 앞 적, 가장 다친 동료)
+func _target_for(aid: String) -> Dictionary:
+	var tg: Array = battle.targets(actor, aid)
+	if tg.is_empty():
+		return {}
+	if tg[0].k == "self":
+		return tg[0]
+	for ref in [{"k": "o", "id": aim_obj}, {"k": "u", "uid": aim_enemy}, {"k": "u", "uid": aim_ally}]:
+		if ref in tg:
+			return ref
+	var best: Dictionary = {}
+	var best_v := 9.0
+	for ref in tg:
+		if ref.k != "u":
+			continue
+		var u = battle.unit(ref.uid)
+		var v: float = float(u.slot) if u.side == "enemy" else (0.0 if u.downed else float(u.hp) / u.max_hp)
+		if v < best_v:
+			best_v = v
+			best = ref
+	return best if not best.is_empty() else tg[0]
 
 
 func _pick_action(aid: String) -> void:
 	if state != "player":
 		return
-	_reset_pick()
-	cur = aid
-	var tg: Array = battle.targets(actor, aid)
-	if tg.size() == 1:
-		pending = tg[0]
-	_refresh()
-
-
-func _on_pick(ref: Dictionary) -> void:
-	if state != "player":
-		if ref.k == "u":
-			stage.inspect_uid = ref.uid
-			_refresh()
-		return
-	if cur != "" and ref in battle.targets(actor, cur):
-		if pending == ref:
-			_roll()
-		else:
-			pending = ref
-			locks = 0
-			_refresh()
-		return
-	# 아직 행동을 안 골랐을 때: 오브젝트를 누르면 그 환경 행동, 유닛을 누르면 정보
-	if ref.k == "o" and not battle.obj(ref.id).used:
-		_pick_action("env:%d" % ref.id)
-		return
-	if ref.k == "u":
-		stage.inspect_uid = ref.uid
-		_refresh()
-
-
-func _on_die(i: int, auto: int, n: int) -> void:
-	if i < auto:
-		return
-	var k := i - auto
-	if k < locks:
-		locks = k
-	else:
-		locks = mini(k + 1, mini(battle.fate, n - auto))
-	_refresh()
-
-
-func _roll() -> void:
-	if state != "player" or cur == "" or pending.is_empty():
+	var t := _target_for(aid)
+	if t.is_empty():
 		return
 	state = "wait"
-	battle.act(actor, cur, pending, locks)
+	battle.act(actor, aid, t, locks)
 	_reset_pick()
 	acted.emit()
 
 
-func _cancel() -> void:
-	_reset_pick()
+func _on_pick(ref: Dictionary) -> void:
+	if ref.k == "o":
+		if state == "player" and not battle.obj(ref.id).used:
+			aim_obj = -1 if aim_obj == ref.id else ref.id
+			_refresh()
+		return
+	var u = battle.unit(ref.uid)
+	if u.side == "enemy":
+		aim_enemy = u.uid
+		aim_obj = -1
+	else:
+		aim_ally = u.uid
+	stage.inspect_uid = u.uid
 	_refresh()
 
+
+## 운명 주사위: 누를 때마다 다음 행동에 쓸 개수가 0 → 1 → … → 가진 개수 → 0
+func _cycle_fate() -> void:
+	locks = 0 if locks >= battle.fate else locks + 1
+	_refresh()
 
 func _toggle_speed() -> void:
 	speed = 2.0 if speed == 1.0 else 1.0
@@ -567,8 +556,14 @@ func _refresh() -> void:
 	event_lbl.text = battle.upcoming_text()
 	fate_lbl.text = "운명 " + "●".repeat(battle.fate) + "○".repeat(Battle.FATE_MAX - battle.fate)
 	_build_timeline()
-	stage.targets = battle.targets(actor, cur) if state == "player" and cur != "" else []
-	stage.pending = pending
+	_fix_aims()
+	var refs: Array = []
+	if state == "player":
+		for r in [{"k": "u", "uid": aim_enemy}, {"k": "u", "uid": aim_ally}, {"k": "o", "id": aim_obj}]:
+			if (r.k == "u" and r.uid != -1) or (r.k == "o" and r.id != -1):
+				refs.append(r)
+	stage.targets = refs
+	stage.pending = {"k": "o", "id": aim_obj} if aim_obj != -1 else {"k": "u", "uid": aim_enemy}
 	_update_card()
 	_build_actions()
 	_update_side()
@@ -626,6 +621,20 @@ func _update_card() -> void:
 	card_txt.text = t
 
 
+## 쓰러진 적이나 쓴 오브젝트를 고르고 있으면 다시 고른다 (적은 맨 앞)
+func _fix_aims() -> void:
+	var e = battle.unit(aim_enemy)
+	if e == null or not e.alive():
+		var es: Array = battle.side_units("enemy")
+		aim_enemy = es[0].uid if not es.is_empty() else -1
+	var a = battle.unit(aim_ally)
+	if a == null or a.removed:
+		aim_ally = -1
+	if aim_obj != -1 and battle.obj(aim_obj).used:
+		aim_obj = -1
+	locks = mini(locks, battle.fate)
+
+
 func _build_actions() -> void:
 	for c in actions.get_children():
 		c.queue_free()
@@ -635,6 +644,10 @@ func _build_actions() -> void:
 		var label: String = a.name
 		if a.slots > 0:
 			label += " " + "◆".repeat(a.slots)
+		var t := _target_for(a.id) if a.ready else {}
+		if not t.is_empty() and a.slots > 0:
+			var pv: Dictionary = battle.preview(actor, a.id, t)
+			label += " %d%%" % roundi(pv.chance * 100)
 		if a.note != "":
 			label += " (%s)" % a.note
 		var b := _btn(" %s " % label, _pick_action.bind(a.id))
@@ -650,52 +663,33 @@ func _build_actions() -> void:
 			b.add_theme_color_override("font_color", Color(0.75, 1.0, 0.6))
 		elif a.kind == "ult":
 			b.add_theme_color_override("font_color", Color(1.0, 0.85, 0.4))
-		if a.id == cur:
-			b.modulate = Color(1.0, 0.9, 0.4)
 		actions.add_child(b)
 
 
+func _ref_name(r: Dictionary) -> String:
+	if r.k == "o":
+		return battle.obj(r.id).name
+	var u = battle.unit(r.uid)
+	return u.name if u != null else ""
+
+
 func _update_side() -> void:
-	for c in dice_row.get_children():
-		c.queue_free()
-	roll_btn.disabled = true
-	cancel_btn.disabled = cur == ""
+	fate_btn.disabled = state != "player" or battle.fate == 0
+	fate_btn.text = "운명 주사위 %d개 사용 (앞 칸부터 확정 성공)" % locks if locks > 0 else "운명 주사위 안 씀 (%d개 있음)" % battle.fate
+	fate_btn.modulate = Color(0.85, 0.6, 1.0) if locks > 0 else Color.WHITE
 	if state == "over":
 		hint.text = ""
 		return
 	if state != "player":
 		hint.text = "[color=#aaaaaa]%s 차례…[/color]" % (actor.name if actor != null else "")
 		return
-	if cur == "":
-		hint.text = "[b]%s 차례[/b]\n행동을 고르세요. 무대의 오브젝트를 눌러도 됩니다." % actor.name
-		return
-	var desc := ""
-	for a in battle.actions_for(actor):
-		if a.id == cur:
-			desc = a.desc
-	if pending.is_empty():
-		hint.text = "%s\n[color=#ffd966]무대에서 대상을 누르세요[/color]" % desc
-		return
-	var pv: Dictionary = battle.preview(actor, cur, pending)
-	if pv.n == 0:
-		hint.text = "%s\n[color=#ffd966]판정 없이 바로 됩니다[/color]" % desc
-		roll_btn.text = "  실행  "
-		roll_btn.disabled = false
-		return
-	hint.text = "%s\n[color=#ffd966]%s 판정 %d칸 · 칸마다 %d%% (d20 %d 이상)[/color]\n[color=#bbbbbb]주사위를 누르면 운명 주사위로 확정 성공[/color]" % [desc, pv.stat, pv.n, roundi(pv.chance * 100), pv.need]
-	for i in pv.n:
-		var d := Button.new()
-		d.focus_mode = FOCUS_NONE
-		d.custom_minimum_size = Vector2(52, 40) if touch else Vector2(78, 52)
-		if i < pv.auto:
-			d.text = "은신"
-			d.modulate = Color(0.7, 0.7, 1.0)
-		elif i < pv.auto + locks:
-			d.text = "운명"
-			d.modulate = Color(0.85, 0.6, 1.0)
-		else:
-			d.text = "%d%%" % roundi(pv.chance * 100)
-		d.pressed.connect(_on_die.bind(i, pv.auto, pv.n))
-		dice_row.add_child(d)
-	roll_btn.text = "  굴리기  "
-	roll_btn.disabled = false
+	var t := "[b]%s 차례[/b] · 버튼을 누르면 바로 행동\n" % actor.name
+	var e = battle.unit(aim_enemy)
+	if e != null:
+		t += "[color=#ff9a8a]공격 대상: %s (방어 %d)[/color]\n" % [e.name, battle.eff_def(e)]
+	if aim_obj != -1:
+		t += "[color=#ffb060]불붙일 곳: %s[/color]\n" % battle.obj(aim_obj).name
+	if aim_ally != -1:
+		t += "[color=#9aff9a]도울 동료: %s[/color]\n" % battle.unit(aim_ally).name
+	t += "[color=#bbbbbb]대상은 무대에서 눌러 바꾸기 · %는 칸마다 성공 확률[/color]"
+	hint.text = t

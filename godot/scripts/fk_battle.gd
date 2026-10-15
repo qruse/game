@@ -267,7 +267,7 @@ func hurt(t: Unit, amount: int, src := "") -> void:
 	_float(t, "-%d" % amount, RED)
 	_log("  %s %s 피해 %d (HP %d/%d)" % [t.name, src, amount, t.hp, t.max_hp])
 	if t.side == "ally":
-		t.resolve = mini(100, t.resolve + 10)
+		t.resolve = mini(100, t.resolve + 12)
 	if t.hp > 0:
 		if t.boss and not t.raged and t.hp * 2 <= t.max_hp:
 			t.raged = true
@@ -527,6 +527,9 @@ func _is_attack(aid: String) -> bool:
 
 func act(u: Unit, aid: String, t: Dictionary, locks := 0) -> void:
 	u.n_act += 1
+	# 결의: 행동할 때마다 +15 (판정 성공 칸 +8, 맞으면 +12). 대략 3턴에 한 번 궁극기
+	if aid != u.ult:
+		u.resolve = mini(100, u.resolve + 15)
 	if aid == "guard":
 		_pose(u, "skill")
 		add_st(u, "guard", 1)
