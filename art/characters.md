@@ -48,7 +48,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 
 ---
 
-## 무료 동료 (메인 스토리 합류)
+## 본편 동료 (메인 스토리 합류)
 
 ### C01 리나 (Lina / リナ) · 18세 · 탱커 · 견습 기사
 - 특기: 위협, 운동 (힘) · 노출: 전투복 없음 / 일상복 **낮음**
@@ -82,7 +82,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - BODY: `Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face`
 - COMBAT: `wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff`
 - CASUAL: `wearing an oversized dark charcoal wool tunic as a nightshirt that ends just above the knees, sleeves so long they cover her hands to the fingertips, thick knitted wool stockings, soft wool house slippers, a knitted shawl around her shoulders, her braid loosened and messy with stray hairs, holding a small candle in a holder and an ordinary open book (not her chained grimoire), sleepy cozy expression, no staff, no weapons`
-- 일상복 메모 (2026-10-15): S09 첫 시안은 지팡이·부츠·발목 길이 로브로 나와 재작업. 전투복(발목까지 오는 남색 로브 + 지팡이)과 실루엣이 확실히 달라야 한다. 무릎 위 잠옷 + 손을 덮는 소매 + 털양말 + 실내화 + 풀어진 땋은 머리가 핵심
+- 일상복 메모 (2026-10-15 사용자 결정): 두 번째 시안(무릎 길이 니트 잠옷 + 숄 + 꽈배기 털양말 + 털 실내화 + 촛불과 책)을 그대로 승인. 바깥 장면에서도 이 옷을 쓴다. 첫 시안은 지팡이·부츠·발목 길이 로브로 나와 재작업. 전투복(발목까지 오는 남색 로브 + 지팡이)과 실루엣이 확실히 달라야 한다. 무릎 위 잠옷 + 손을 덮는 소매 + 털양말 + 실내화 + 풀어진 땋은 머리가 핵심
 
 ### C04 미리엄 (Miriam / ミリアム) · 24세 · 서포터 · 순례자 사제
 - 특기: 설득 (매력), 치유 · 노출: 일상복 **높음** (청순한 순례자의 의외의 성숙함, 반전 매력)
@@ -116,7 +116,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 
 ---
 
-## 유료 동료 팩 (출시 시점 후보)
+## 첫 확장팩 동료 (출시 후)
 
 ### C07 이졸데 (Isolde / イゾルデ) · 21세 · 근접 딜러 · 몰락 귀족 결투가
 - 특기: 기만, 설득 (매력) · 노출: 일상복 **높음** (귀족 드레스)
