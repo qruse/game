@@ -14,7 +14,19 @@
 - **BODY:** 옷과 상관없이 늘 같은 외형(머리, 눈, 체형, 흉터 등)
 - **COMBAT:** 전투복. 의뢰 수행 중 대화, 전투 SD, 컷인에 쓴다
 - **CASUAL:** 일상복. 길드 하우스, 캠프, 호감도 이벤트 대화에 쓴다
-- **MUST KEEP:** 모든 이미지에서 같아야 하는 항목. 품질 검사(QA)의 기준이다
+- **MUST KEEP:** 모든 이미지에서 같아야 하는 항목(몸). 품질 검사(QA)의 기준이다
+- **전투복 전용:** MUST KEEP 아래 줄. 전투복 이미지에서만 지킨다. **일상복에는 넣지 않는다**
+
+### 설정대로 나오게 하는 규칙 (2026-10-15, S09 아델하이트 일상복에서 나온 문제)
+
+S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정체성 유지"라며 프롬프트에 추가), 전투복 시트를 주 참조로 넣어서 긴 로브·부츠 실루엣이 그대로 따라왔다. 그래서 아래를 지킨다.
+
+1. **블록에 적힌 것만 그린다.** 일상복의 옷과 소품은 CASUAL 블록이 전부다. 무기, 갑옷, 망토, 지팡이, 마법서 같은 전투복 전용 물건은 CASUAL 블록에 이름이 있을 때만 넣는다. "알아보기 쉽게"라는 이유로 소품을 더하지 않는다
+2. **정체성은 BODY와 MUST KEEP(몸)으로만 지킨다.** 얼굴, 머리, 눈, 체형, 흉터, 장신구가 같으면 같은 사람이다
+3. **전투복 시트를 참조로 넣을 때는 얼굴·머리·체형 참조라고 프롬프트에 적고, 옷·소품·실루엣은 따라 하지 말라고 적는다**
+4. **블록에 없는 신발·소품은 장면에 맞게 정한다.** 실내 일상복이면 실내화나 가벼운 신발이다. 전투용 부츠를 기본값으로 쓰지 않는다
+5. **QA에 설정 대조표를 붙인다.** 블록의 구절을 하나씩 나눠 `설정 구절 / 결과(맞음·다름)`로 보고한다. 하나라도 "다름"이면 통과가 아니다
+6. 일상복은 전투복과 **실루엣이 달라야 한다**(길이, 폭, 소매, 머리 모양 중 둘 이상)
 
 ## 노출 수준 규칙
 
@@ -45,7 +57,7 @@
 - 기준 이미지: `art/samples/codex-lina-v1.png` (수정 전 시안)
 - MUST KEEP: 갈색 긴 머리, 연보라색 눈, **왼쪽(보는 사람 기준 오른쪽) 옆머리의 작은 땋은 머리를 묶은 붉은 리본**
   - SD(오른쪽을 보는 3/4 시점)에서는 리본이 **얼굴 쪽 관자놀이**에 보여야 한다. 뒤통수 쪽에 있으면 반대다. 기준: `C01_sd_idle.png`
-  - 전투복: 붉은 서코트의 금색 **크로스 플러리(끝이 꽃잎처럼 퍼지는 십자)**, 서코트 아래 흰 프릴 치맛단, 사슬 갑옷, 흰 바탕에 붉은 셰브런 방패, 롱소드
+  - 전투복 전용(일상복에는 넣지 않음): 붉은 서코트의 금색 **크로스 플러리(끝이 꽃잎처럼 퍼지는 십자)**, 서코트 아래 흰 프릴 치맛단, 사슬 갑옷, 흰 바탕에 붉은 셰브런 방패, 롱소드
 - BODY: `Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face`
 - COMBAT: `wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps, a longsword in her right hand, a white heater shield with a red chevron strapped to her left forearm (held by its inner straps, not by the rim)`
 - CASUAL: `wearing a cream linen kirtle dress with a red laced bodice and puffed sleeves rolled up to the elbows, a flour-dusted white apron (she keeps failing at cooking), hair down with the same braid and red ribbon, holding a wooden spoon and a flour-dusted wooden mixing bowl`
@@ -56,50 +68,51 @@
 - 성격: 장난기 많고 입이 험하지만 의리가 있다. 톰보이
 - 이야기: 길드 금고를 털러 들어왔다가 텅 빈 금고를 보고 어이가 없어 눌러앉은 소매치기
 - MUST KEEP: 짧은 은회색 단발, 초록 눈, 왼쪽 볼의 작은 흉터
-  - 전투복: 짙은 녹색 후드 망토, 가죽 조끼, 쌍단검
+  - 전투복 전용(일상복에는 넣지 않음): 짙은 녹색 후드 망토, 가죽 조끼, 쌍단검
 - BODY: `Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin`
 - COMBAT: `wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt`
-- CASUAL: `wearing a loose off-white linen shirt knotted at the waist showing a little midriff, short brown breeches, knee-high socks, soft shoes, a coin pouch on her hip, tossing an apple, relaxed tomboyish pose`
+- CASUAL: `wearing a loose off-white linen shirt knotted at the waist showing a little midriff, short brown breeches, knee-high socks, soft shoes, a coin pouch on her hip, tossing an apple, relaxed tomboyish pose, no daggers, no cloak`
 
 ### C03 아델하이트 (Adelheid / アーデルハイト) · 20세 · 원거리 딜러 · 마법사
 - 특기: 마법학, 지식 (지능) · 노출: 일상복 **낮음** (귀여움 담당)
 - 성격: 냉소적인 독서광. 사람보다 책을 좋아한다. 밤샘 독서가 일상
 - 이야기: 수도원에서 금서를 몰래 읽다 쫓겨난 견습 수녀 마법사
 - MUST KEEP: 땋아 내린 검은 긴 머리, 금색 눈, 둥근 철테 안경
-  - 전투복: 짙은 남색 수도복을 개조한 로브, 쇠사슬로 묶은 마법서, 나무 지팡이
+  - 전투복 전용(일상복에는 넣지 않음): 짙은 남색 수도복을 개조한 로브, 쇠사슬로 묶은 마법서, 나무 지팡이
 - BODY: `Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face`
 - COMBAT: `wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff`
-- CASUAL: `wearing an oversized dark wool tunic as a nightshirt with long sleeves covering her hands, thick wool stockings, a knitted shawl, her braid loosened and messy, holding a candle and an open book, sleepy cozy expression`
+- CASUAL: `wearing an oversized dark charcoal wool tunic as a nightshirt that ends just above the knees, sleeves so long they cover her hands to the fingertips, thick knitted wool stockings, soft wool house slippers, a knitted shawl around her shoulders, her braid loosened and messy with stray hairs, holding a small candle in a holder and an ordinary open book (not her chained grimoire), sleepy cozy expression, no staff, no weapons`
+- 일상복 메모 (2026-10-15): S09 첫 시안은 지팡이·부츠·발목 길이 로브로 나와 재작업. 전투복(발목까지 오는 남색 로브 + 지팡이)과 실루엣이 확실히 달라야 한다. 무릎 위 잠옷 + 손을 덮는 소매 + 털양말 + 실내화 + 풀어진 땋은 머리가 핵심
 
 ### C04 미리엄 (Miriam / ミリアム) · 24세 · 서포터 · 순례자 사제
 - 특기: 설득 (매력), 치유 · 노출: 일상복 **높음** (청순한 순례자의 의외의 성숙함, 반전 매력)
 - 성격: 다정하고 상냥하지만 속을 알 수 없다
 - 이야기: 떠돌이 순례자. 길드를 찾아온 이유를 말하지 않는다
 - MUST KEEP: 물결치는 금발, 하늘색 눈, 나무 성표 목걸이
-  - 전투복: 흰 베일, 크림색 순례자 망토와 조개 배지, 순례 지팡이
+  - 전투복 전용(일상복에는 넣지 않음): 흰 베일, 크림색 순례자 망토와 조개 배지, 순례 지팡이
 - BODY: `Miriam, a 24-year-old adult woman, wavy golden blonde hair, sky-blue eyes, gentle but mysterious smile, graceful mature figure, wooden holy symbol necklace`
 - COMBAT: `wearing a white veil over her hair, a cream pilgrim's cloak with a scallop-shell badge over a modest grey-blue travel dress, a tall pilgrim's staff`
-- CASUAL: `adult woman, hair down without the veil, wearing an elegant ivory linen dress with an off-shoulder neckline, an open back and a side slit, a thin gold chain around her waist, barefoot, relaxed graceful pose with a faint teasing smile`
+- CASUAL: `adult woman, hair down without the veil, wearing an elegant ivory linen dress with an off-shoulder neckline, an open back and a side slit, a thin gold chain around her waist, barefoot, relaxed graceful pose with a faint teasing smile, no veil, no cloak, no staff`
 
 ### C05 로웬 (Rowen / ローウェン) · 22세 · 컨트롤러 · 음유시인
 - 특기: 공연, 기만 (매력) · 노출: 일상복 **높음** (무대 의상)
 - 성격: 능청스러운 거짓말쟁이이자 정보통. 노래 실력은 진짜다
 - 이야기: 옛 길드의 영웅담을 노래하며 떠돌던 음유시인. 길드가 재건된다는 소문을 듣고 찾아온다
 - MUST KEEP: 붉은 기 도는 주황색 반묶음 머리, 호박색 눈, 류트
-  - 전투복: 깃털 베레모, 겨자색·자주색 두 가지 색 더블릿
+  - 전투복 전용(일상복에는 넣지 않음): 깃털 베레모, 겨자색·자주색 두 가지 색 더블릿
 - BODY: `Rowen, a 22-year-old adult woman bard, reddish-orange hair in a half-up ponytail, amber eyes, sly playful smile, curvy figure`
 - COMBAT: `wearing a feathered beret, a bicolor doublet in mustard yellow and plum purple, dark hose, short travel boots, a lute slung on her back`
-- CASUAL: `adult woman, wearing a tavern stage costume: a plum corset bodice with bare shoulders and a modest neckline, a layered ruffled skirt with a high slit, dark thigh-high stockings, small bells on one ankle, a feather hairpin, holding her lute mid-performance, winking`
+- CASUAL: `adult woman, wearing a tavern stage costume: a plum corset bodice with bare shoulders and a modest neckline, a layered ruffled skirt with a high slit, dark thigh-high stockings, small bells on one ankle, a feather hairpin, simple heeled shoes, holding her lute mid-performance, winking, no beret`
 
 ### C06 고드릭 (Godric / ゴドリック) · 55세 · 원거리 딜러 · 노병 석궁수
 - 특기: 조사 (지능), 운동 (힘) · 노출: 없음
 - 성격: 무뚝뚝하고 말수가 적다. 술을 좋아한다
 - 이야기: 옛 길드 몰락 사건의 **생존자.** 진실을 알지만 말하지 않는다(H1 메인 미스터리의 열쇠)
 - MUST KEEP: 짧은 회색 머리와 수염, 오른쪽 눈의 가죽 안대
-  - 전투복: 낡은 갬비슨, 은빛 등불 문양이 바랜 망토, 석궁
+  - 전투복 전용(일상복에는 넣지 않음): 낡은 갬비슨, 은빛 등불 문양이 바랜 망토, 석궁
 - BODY: `Godric, a 55-year-old veteran, short grey hair and trimmed grey beard, leather eyepatch over his right eye, broad weathered build, stern weary face`
 - COMBAT: `wearing a worn quilted gambeson, a faded cloak with a tarnished silver lantern emblem, a heavy crossbow`
-- CASUAL: `wearing a rolled-sleeve linen shirt and a leather apron, holding a wooden tankard of ale, a faint rare smile`
+- CASUAL: `wearing a rolled-sleeve linen shirt and a leather apron, plain wool trousers, worn ankle boots, holding a wooden tankard of ale, a faint rare smile, no crossbow, no cloak`
 
 ---
 
@@ -110,20 +123,20 @@
 - 성격: 오만하고 자존심이 세지만 약자에게 약하다
 - 이야기: 가문이 몰락해 결투 대리인으로 생계를 잇는 영애. 개인 퀘스트는 가문 몰락의 진실
 - MUST KEEP: 세로 롤 금발 트윈테일, 진홍색 눈, 가문 문장 반지
-  - 전투복: 검은색·진홍색 승마복풍 결투복, 레이피어
+  - 전투복 전용(일상복에는 넣지 않음): 검은색·진홍색 승마복풍 결투복, 레이피어
 - BODY: `Isolde, a 21-year-old adult woman fallen noble, golden blonde twin tails in drill curls, crimson eyes, proud haughty face, elegant slender figure, a signet ring with a family crest`
 - COMBAT: `wearing a black and crimson riding-style dueling coat with silver buttons, fitted breeches, tall black boots, a rapier`
-- CASUAL: `adult woman, wearing a black and crimson evening gown with an off-shoulder neckline and a high leg slit, long black silk gloves, a velvet choker bearing her family crest, holding a folded fan, haughty elegant pose`
+- CASUAL: `adult woman, wearing a black and crimson evening gown with an off-shoulder neckline and a high leg slit, long black silk gloves, a velvet choker bearing her family crest, black heeled shoes, holding a folded fan, haughty elegant pose, no rapier`
 
 ### C08 카샤 (Kasha / カーシャ) · 19세 · 원거리 딜러 · 북방 사냥꾼
 - 특기: 은신 (민첩), 운동 (힘) · 노출: 일상복 **중간**
 - 성격: 과묵하고 자연을 사랑한다. 늑대와는 말이 통한다
 - 이야기: 북방 숲에서 내려온 사냥꾼. 늑대 "스콜"과 함께 다닌다
 - MUST KEEP: 흰 머리 느슨하게 땋은 장발, 청회색 눈, 회색 늑대 스콜
-  - 전투복: 털 달린 갈색 망토, 롱보우
+  - 전투복 전용(일상복에는 넣지 않음): 털 달린 갈색 망토, 롱보우
 - BODY: `Kasha, a 19-year-old adult woman northern huntress, long white hair in loose braids, blue-grey eyes, calm quiet face, a large grey wolf companion`
 - COMBAT: `wearing a brown fur-trimmed cloak over leather hunting garb, a longbow and a quiver of arrows`
-- CASUAL: `adult woman, wearing a Nordic-style embroidered linen dress with bare shoulders, a fur shawl draped loosely on her arms, a flower crown, barefoot on grass, the wolf resting beside her`
+- CASUAL: `adult woman, wearing a Nordic-style embroidered linen dress with bare shoulders, a fur shawl draped loosely on her arms, a flower crown, barefoot on grass, the wolf resting beside her, no bow, no quiver`
 
 ---
 
