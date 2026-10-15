@@ -1,0 +1,42 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in generation. No CLI/API fallback.
+Image calls: 1. Model retries: 0.
+References in attachment order:
+1. art/final/characters/C02_cecile/C02_sd_idle.png
+2. art/final/characters/C02_cecile/C02_sd_attack.png
+3. art/refs/C02_ref_combat.png
+4. art/refs/style-anchor.png
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+
+Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+
+wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
+
+Use case: stylized-concept. ONE new DOWN/DEFEATED sprite based on approved reverse-grip idle input1 and attack input2. EXACT same Cecile identity, chibi head/body proportions, costume and PHYSICAL scale. This pose is FALLEN DOWN ON HER SIDE, NOT standing or merely kneeling. Low horizontal silhouette: head at SCREEN RIGHT, bent legs and boots extending toward SCREEN LEFT, torso resting on the ground behind/beside head, green cloak pooled beneath and left. Curled slightly on hip/side with both knees bent, one forearm braced weakly on ground. Head tilted down slightly, eyes CLOSED and mouth small exhausted grimace, no blood. Face still readable in right-facing THREE-QUARTER, not profile and NEVER mirrored. Keep head large at SAME physical size as idle (final head/hair width about230-245px); entire fallen pose spans about460px wide and about300-340px tall within512canvas. Do NOT enlarge fallen body to fill height. Both boots fully inside left side, lowest boot sole rests on y487 baseline; head and body low near ground. Same TWO short steel daggers, still held loosely but safely in REVERSE grip, one in each hand near ground, round brass pommels above hands and short guards below. Blade tips fully inside frame, away from face/body, not sticking through floor. Both original belt scabbards EMPTY, no extra pommels/handles at waist. Anatomical RIGHT arm is near arm as idle, LEFT arm far arm; do not swap sides. Mandatory small X scar on anatomical LEFT cheek, FAR cheek toward SCREEN RIGHT/front under smaller eye; nearer large cheek unmarked. Same silver bob, forest green cloak hood down, brown leather vest, off-white linen sleeves, dark breeches, fingerless gloves, brown boots. No smoke, shadow puddle, impact/slash effects, ground shadow or background. Render1024square equivalent to idle2x. Input3 exact identity/costume, input4 style.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Actual transparent background, fully opaque interiors alpha255, soft antialias silhouette edge only, no magenta backdrop.
+
+Raw generation/edit result: art/raw/C02_sd_down_v1.png (byte-for-byte original retained).
+Default generated source: C:\Users\이현상\.codex\generated_images\01a13e72-4306-7e11-a723-923469499f6b\exec-7019743d-8151-48cd-b910-96f4a3c6f4a1.png
+Postprocessing: tools/art/finish_s08_asset.ps1. Trim transparent bounds, uniform resize to fit464px, center horizontally on512square, boot baseline y487. Normalize deep interior alpha255 and preserve soft1px antialias. No mirroring. Reference idle is the USER-CONFIRMED reverse-grip dagger revision; both anatomical sides, far LEFT-cheek X scar and hand grips inspected. Face remains right-facing3/4; near RIGHT cheek unmarked. No rendered smoke or combat effect on SD.
+Down alignment exception: lowest visible pixels are dagger tips rather than boots. After standard finishing, translate entire sprite DOWN16px with no resampling or pixel loss; boot sole independently scanned in x70..110 moves y471 to y487. Full final occupied bounds y216..503, all daggers remain inside canvas. Head stays at same physical approximate scale, body fallen sideways and low. foot_alignment.json documents actual FOOT baseline; dagger tips extend below baseline. No arbitrary enlargement to fill full height.
+
+Saved PNG QA: {"size":[512,512],"opaque":68685,"transparent":189376,"partial":4083,"interior_partial":0,"bbox":[24,216,487,503]}
+QA evidence: art/raw/qa_S08_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_5_actions.png; icons_3_64px.png. Existing60 final/ref files including approved two PNGs/prompts remain SHA256-identical.
+Status: generated, awaiting human review of S08; not approved by assistant. No commit, no S09.

@@ -1,0 +1,42 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in generation. No CLI/API fallback.
+Image calls: 1. Model retries: 0.
+References in attachment order:
+1. art/final/characters/C02_cecile/C02_sd_idle.png
+2. art/final/characters/C02_cecile/C02_sd_attack.png
+3. art/refs/C02_ref_combat.png
+4. art/refs/style-anchor.png
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+
+Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+
+wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
+
+Use case: stylized-concept. ONE new skill sprite based on APPROVED reverse-grip IDLE input1 and attack input2. Match EXACT Cecile identity, head size,2.5-head chibi proportions, lineweight, on-canvas character scale and costume. Right-facing THREE-QUARTER view, not mirrored. Pose: throwing a small smoke-bomb bead, at the cocked-back instant BEFORE RELEASE, clearly still HOLDING the bead. HER RIGHT arm (near arm, screen LEFT) raised behind/beside shoulder with elbow bent and hand holding ONE small round dark grey clay SMOKE BEAD about the size of her thumb tip, no larger than fist. Natural thumb and curled fingers pinch the bead. Her LEFT arm (far arm, screen RIGHT) extended down/front with the same left dagger in REVERSE grip, short steel blade extends down from little-finger side, brass pommel above fist. Her RIGHT dagger temporarily SHEATHED at RIGHT hip, ONE hilt only there; LEFT scabbard empty. Exactly TWO daggers TOTAL (one hand-held, one sheathed). Ready weight-shift stance, both boots fully visible and grounded, cloak follows motion without covering face or bead. NO SMOKE whatsoever, no sparks, magic, vapor, trajectory trails, slash effects or floor shadow. Silver-grey bob, green eyes, confident focused expression. Mandatory small X scar on HER anatomical LEFT cheek, the FAR cheek at SCREEN RIGHT underneath smaller eye near nose/front; near screen-left cheek must be unmarked. Match idle size: final512x512 head width235-250px, crown near y24, feet baseline y487; all props inside generous margins. Render1024x1024 equivalent to idle at2x, one sprite only. Input3 exact costume/identity, input4 style.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Transparency override: actual transparent background, opaque subject interiors alpha255, antialias only at silhouette edge. No magenta or ground shadow.
+
+Raw generation/edit result: art/raw/C02_sd_skill_v1.png (byte-for-byte original retained).
+Default generated source: C:\Users\이현상\.codex\generated_images\01a13e72-4306-7e11-a723-923469499f6b\exec-54bbbbb4-2399-4839-a054-68355fd00abe.png
+Postprocessing: tools/art/finish_s08_asset.ps1. Trim transparent bounds, uniform resize to fit464px, center horizontally on512square, boot baseline y487. Normalize deep interior alpha255 and preserve soft1px antialias. No mirroring. Reference idle is the USER-CONFIRMED reverse-grip dagger revision; both anatomical sides, far LEFT-cheek X scar and hand grips inspected. Face remains right-facing3/4; near RIGHT cheek unmarked. No rendered smoke or combat effect on SD.
+Skill hand assignment: near anatomical RIGHT hand holds small dark round smoke bead; far anatomical LEFT hand holds dagger in reverse grip. Right dagger sheathed, left scabbard empty. Exactly two daggers total. No smoke, vapor or trails.
+
+Saved PNG QA: {"size":[512,512],"opaque":90297,"transparent":166039,"partial":5808,"interior_partial":0,"bbox":[33,24,478,487]}
+QA evidence: art/raw/qa_S08_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_5_actions.png; icons_3_64px.png. Existing60 final/ref files including approved two PNGs/prompts remain SHA256-identical.
+Status: generated, awaiting human review of S08; not approved by assistant. No commit, no S09.

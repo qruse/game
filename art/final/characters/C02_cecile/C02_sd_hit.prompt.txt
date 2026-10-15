@@ -1,0 +1,41 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in generation. No CLI/API fallback.
+Image calls: 1. Model retries: 0.
+References in attachment order:
+1. art/final/characters/C02_cecile/C02_sd_idle.png
+2. art/final/characters/C02_cecile/C02_sd_attack.png
+3. art/refs/C02_ref_combat.png
+4. art/refs/style-anchor.png
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+
+Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+
+wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
+
+Use case: stylized-concept. ONE new HIT REACTION sprite based on approved reverse-grip idle input1 and attack input2. EXACT same Cecile identity,235-250px final head width,2.5-head proportions, costume, outlines, body scale. Right-facing THREE-QUARTER view, no mirroring. She has just been hit from screen RIGHT and recoils backward toward SCREEN LEFT: torso leaning back, shoulders hunched, knees flexed, one boot braces behind, pained wincing expression with eyes squinting/one eye squeezed shut, mouth in small hurt grimace. This is unmistakably a RECOIL pose, not attacking. Both hands keep the SAME TWO short daggers in REVERSE/ICEPICK grip, one each; hands instinctively draw apart and slightly back, blade points down/out, brass round pommels above fists and straight short guards below. All blade tips clear of body and within canvas. BOTH belt scabbards EMPTY: dark open mouths, NO extra wrapped dagger handles, no brass ball pommels at waist; only TWO real daggers total. Face toward right3/4, anatomical LEFT X scar on FAR cheek SCREEN RIGHT underneath smaller eye; near screen-left cheek UNMARKED. Hood down, short silver-grey bob, green visible eye, dark green cloak, leather vest linen shirt fingerless gloves brown boots same as idle. No blood, wounds, impact symbols, smoke, speed/slash trails or floor shadow. Entire silhouette within canvas, crown near y24, lowest BOOT sole y487 at final512, same on-canvas scale as idle. Render1024square equivalent to idle2x. Input3 exact costume/identity, input4 style.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Actual transparent RGBA background, opaque interior alpha255, soft edge antialias only. No magenta background.
+
+Raw generation/edit result: art/raw/C02_sd_hit_v1.png (byte-for-byte original retained).
+Default generated source: C:\Users\이현상\.codex\generated_images\01a13e72-4306-7e11-a723-923469499f6b\exec-2e2000d2-0285-494b-a53e-7184fbe66186.png
+Postprocessing: tools/art/finish_s08_asset.ps1. Trim transparent bounds, uniform resize to fit464px, center horizontally on512square, boot baseline y487. Normalize deep interior alpha255 and preserve soft1px antialias. No mirroring. Reference idle is the USER-CONFIRMED reverse-grip dagger revision; both anatomical sides, far LEFT-cheek X scar and hand grips inspected. Face remains right-facing3/4; near RIGHT cheek unmarked. No rendered smoke or combat effect on SD.
+
+Saved PNG QA: {"size":[512,512],"opaque":87829,"transparent":168068,"partial":6247,"interior_partial":0,"bbox":[50,24,460,487]}
+QA evidence: art/raw/qa_S08_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_5_actions.png; icons_3_64px.png. Existing60 final/ref files including approved two PNGs/prompts remain SHA256-identical.
+Status: generated, awaiting human review of S08; not approved by assistant. No commit, no S09.

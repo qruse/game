@@ -1,0 +1,40 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in local expression edit; guide3.1.4 strict face-interior composite. No CLI/API fallback.
+Image calls: 1. Model retries: 0.
+References in attachment order:
+1. art/final/characters/C02_cecile/C02_portrait_combat_neutral.png
+2. art/refs/C02_ref_combat.png
+3. art/refs/style-anchor.png
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
+
+Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+
+wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
+
+Use case: identity-preserve. LOCAL FACE EXPRESSION EDIT of input1 only, NOT a new portrait. Edit only face skin from eyebrows through chin. Change expression to: surprised, wide green eyes, lifted brows and a small clearly open mouth. Keep exact face identity, facial proportions, silver hair strands, eyes color, head tilt, head silhouette, body, clothes, pose, props, framing and canvas1024x1536 unchanged. Preserve her small X scar on anatomical LEFT cheek (viewer RIGHT) exactly. Do not move or redraw hair or ears. Outside face must remain pixel-identical. Input2 approved identity/clothing, input3 style reference. Output the SAME full portrait1024x1536 so it can be composited through a strict face-interior mask. Transparent background; no magenta. Expression instruction overrides BODY grin description.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Raw generation/edit result: art/raw/C02_portrait_combat_surprised_v1.png (byte-for-byte original retained).
+Default generated source: C:\Users\이현상\.codex\generated_images\01a13e72-4306-7e11-a723-923469499f6b\exec-d019fd34-b464-451e-b7f3-4956b6d348f5.png
+Postprocessing: tools/art/finish_s08_face.ps1. Original neutral canvas1024x1536 and RGBA preserved. Three face-interior polygons cover eyebrows/eyes and lower face; forehead/brow endpoints included so no neutral eyebrow remnants remain. Four-pixel feather inward. Protected scar patch x530..551,y246..276 excluded from mask. ONLY RGB blended from tool edit; entire original alpha channel retained. No head/body/hair silhouette repositioning or mirroring. Same edit output reused for mask-boundary refinements; no extra model calls. Independent saved-PNG audit checks ALL RGBA outside stored face_mask.png and ALL alpha pixels, not merely bounds. Outside-mask changes0, alpha changes0, scar-patch changes0.
+Independent face QA: {"changed":16816,"outside_mask_rgba_changed":0,"alpha_changed":0,"protected_scar_patch_changed":0}
+Mask/difference/detail/checkerboard: art/raw/qa_S08_remaining/C02_portrait_combat_surprised/
+
+Saved PNG QA: {"size":[1024,1536],"opaque":922546,"transparent":634252,"partial":16066,"interior_partial":0,"bbox":[16,9,1010,1535]}
+QA evidence: art/raw/qa_S08_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_5_actions.png; icons_3_64px.png. Existing60 final/ref files including approved two PNGs/prompts remain SHA256-identical.
+Status: generated, awaiting human review of S08; not approved by assistant. No commit, no S09.

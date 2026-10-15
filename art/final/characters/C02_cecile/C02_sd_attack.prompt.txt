@@ -1,0 +1,45 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in generation. No CLI/API fallback.
+Image calls: 2. Model retries: 1.
+References in attachment order:
+1. art/final/characters/C02_cecile/C02_sd_idle.png
+2. art/refs/C02_ref_combat.png
+3. art/refs/style-anchor.png
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+
+Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+
+wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
+
+Use case: stylized-concept. Create ONE new attack sprite based on APPROVED REVERSE-GRIP IDLE input1. Match EXACT Cecile identity, head size and2.5-head chibi proportions, lineweight, on-canvas scale and costume. Right-facing THREE-QUARTER action view, NOT mirrored and not profile. Dynamic twin-dagger slash: low bent-knee forward lunge to SCREEN RIGHT, torso leans slightly forward; both fists hold their SAME daggers in reverse/icepick grip, one in each hand, as idle; nearer RIGHT hand/arm visible on SCREEN LEFT sweeps diagonally across lower chest, farther LEFT hand toward SCREEN RIGHT extends for second slash. Only TWO real daggers, short straight steel double-edged blades, dark leather handles, round brass pommels, short straight brass guards as idle; no duplicates on belt, scabbards empty. Both grips natural and blades fully visible, no crossing through body. Broad readable action silhouette without drawing any slash effect, smoke, speed line, trails or floor shadow. Hood down, dark green cloak flares behind toward left. Silver-grey bob and green eyes exactly as input1. Mandatory small X scar on HER anatomical LEFT cheek: in this right-facing3/4 view the FAR cheek, SCREEN RIGHT under smaller eye near nose/front-of-face; the large nearer screen-left cheek must remain unmarked. Preserve belt and far-leg thigh strap orientation. Center all head, daggers, hands, cloak and boots inside square with safe margins. At final512 canvas head width about235-250px, crown near y24 and lowest boot sole at y487, same physical head/body scale as idle. Render square1024x1024 with proportions corresponding to idle scaled2x, no reference panels.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Transparency override: actual transparent background with opaque interior alpha255 and antialias only at silhouette edges; no magenta, no background, no ground shadow.
+
+Raw generation/edit result: art/raw/C02_sd_attack_v1.png (byte-for-byte original retained).
+Default generated source: C:\Users\이현상\.codex\generated_images\01a13e72-4306-7e11-a723-923469499f6b\exec-e93f2bf7-ae65-4680-9702-3203c571091d.png
+Postprocessing: tools/art/finish_s08_asset.ps1. Trim transparent bounds, uniform resize to fit464px, center horizontally on512square, boot baseline y487. Normalize deep interior alpha255 and preserve soft1px antialias. No mirroring. Reference idle is the USER-CONFIRMED reverse-grip dagger revision; both anatomical sides, far LEFT-cheek X scar and hand grips inspected. Face remains right-facing3/4; near RIGHT cheek unmarked. No rendered smoke or combat effect on SD.
+
+LOCAL WAIST REPAIR (call2, model retry1): remove duplicate belt dagger hilt, leave empty scabbard; preserve both held reverse-grip daggers. Full edit prompt:
+Use case: precise-object-edit. Input1 is a 600x510 ENLARGED CROP of an already finished chibi sprite waist, EDIT TARGET. Input2 style only. Correct ONLY the small unwanted sheathed dagger HILT at crop coordinates x210..325,y145..275: remove the round brass POMMEL and wrapped handle sticking diagonally upward to right from the brown scabbard. Restore the vest/belt/cloth underneath, and leave a DARK EMPTY OPEN scabbard mouth near x225,y265. Keep the scabbard body, belt, buckle, trousers, the separate large steel HAND-HELD dagger crossing top left, and all other pixels EXACTLY unchanged. There must be NO extra brass ball or small protruding wrapped handle remaining at this belt. Do not remove the steel blade at upper-left: that is a correctly held dagger. Do not add hands, daggers or objects. Same exact crop and composition, output600x510, opaque sprite area. Local tiny correction only, no whole sprite or background redesign, no text.
+Repair references in order: art/raw/qa_S08_remaining/C02_sd_attack/waist_edit_target_6x.png; art/refs/style-anchor.png
+Raw repair: art/raw/C02_sd_attack_v2.png. Crop target:512sprite rectangle x190,y255,w100,h85 enlarged6x. Tool output uniformly mapped back to100x85 and RGB blended ONLY through elliptical waist mask centered(237,289),radii(15,18),1px feather. Original full alpha retained.831 RGB pixels changed; outside-mask RGBA0, alpha0. tools/art/repair_s08_attack_waist.ps1. Before image, waist mask and difference preserved in QA directory.
+
+Saved PNG QA: {"size":[512,512],"opaque":85527,"transparent":171082,"partial":5535,"interior_partial":0,"bbox":[24,50,487,487]}
+QA evidence: art/raw/qa_S08_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_5_actions.png; icons_3_64px.png. Existing60 final/ref files including approved two PNGs/prompts remain SHA256-identical.
+Status: generated, awaiting human review of S08; not approved by assistant. No commit, no S09.

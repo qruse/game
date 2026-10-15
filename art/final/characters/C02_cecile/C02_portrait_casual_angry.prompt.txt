@@ -1,0 +1,41 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in local expression edit; guide3.1.4 strict face-interior composite. No CLI/API fallback.
+Image calls: 1. Model retries: 0.
+References in attachment order:
+1. art/final/characters/C02_cecile/C02_portrait_casual_neutral.png
+2. art/final/characters/C02_cecile/C02_portrait_combat_angry.png
+3. art/refs/C02_ref_casual.png
+4. art/refs/style-anchor.png
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
+
+Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+
+wearing a loose off-white linen shirt knotted at the waist showing a little midriff, short brown breeches, knee-high socks, soft shoes, a coin pouch on her hip, tossing an apple, relaxed tomboyish pose
+
+Use case: identity-preserve. LOCAL FACE-ONLY EDIT of input1 casual neutral. Change only eyebrows, eyes, gaze, mouth and cheek blush within skin to: angry scowl, strongly lowered brows, tense eyes and clenched teeth, defiant tomboy irritation. Match emotion strength and EXACT Cecile facial identity in corresponding combat expression input2. Maintain exact head position, face shape, tilt, silver hair and overhanging strands, ears, body, outfit, hands, apple, props, size and1024x1536 framing of input1. Preserve the small X scar on HER LEFT cheek, viewer RIGHT. Nothing outside face changes. Do NOT copy combat clothes. Input3 approved casual identity/clothing, input4 approved style. Expression overrides BODY grin and FORMAT gaze if necessary. Output SAME full casual portrait1024x1536 for strict face interior mask compositing. Real transparent background, no magenta; no ground shadow.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Raw generation/edit result: art/raw/C02_portrait_casual_angry_v1.png (byte-for-byte original retained).
+Default generated source: C:\Users\이현상\.codex\generated_images\01a13e72-4306-7e11-a723-923469499f6b\exec-3764381f-da18-4ace-9584-32ced5ad6137.png
+Postprocessing: tools/art/finish_s08_face.ps1. Original neutral canvas1024x1536 and RGBA preserved. Three face-interior polygons cover eyebrows/eyes and lower face; forehead/brow endpoints included so no neutral eyebrow remnants remain. Four-pixel feather inward. Protected scar patch x530..551,y246..276 excluded from mask. ONLY RGB blended from tool edit; entire original alpha channel retained. No head/body/hair silhouette repositioning or mirroring. Same edit output reused for mask-boundary refinements; no extra model calls. Independent saved-PNG audit checks ALL RGBA outside stored face_mask.png and ALL alpha pixels, not merely bounds. Outside-mask changes0, alpha changes0, scar-patch changes0.
+Independent face QA: {"changed":16655,"outside_mask_rgba_changed":0,"alpha_changed":0,"protected_scar_patch_changed":0}
+Mask/difference/detail/checkerboard: art/raw/qa_S08_remaining/C02_portrait_casual_angry/
+
+Saved PNG QA: {"size":[1024,1536],"opaque":692215,"transparent":859668,"partial":20981,"interior_partial":0,"bbox":[140,9,940,1535]}
+QA evidence: art/raw/qa_S08_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_5_actions.png; icons_3_64px.png. Existing60 final/ref files including approved two PNGs/prompts remain SHA256-identical.
+Status: generated, awaiting human review of S08; not approved by assistant. No commit, no S09.
