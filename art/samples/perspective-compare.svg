@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" width="900" height="470" font-family="'Malgun Gothic', 'Noto Sans KR', sans-serif">
+  <defs>
+    <g id="chibi">
+      <!-- simple 3/4-view chibi knight, feet at (0,0) -->
+      <rect x="-9" y="-18" width="7" height="16" fill="#6b5a4a" stroke="#3b2a20" stroke-width="2"/>
+      <rect x="2" y="-18" width="7" height="16" fill="#6b5a4a" stroke="#3b2a20" stroke-width="2"/>
+      <path d="M-16 -48 L16 -48 L19 -16 L-19 -16 Z" fill="#b3262e" stroke="#3b2a20" stroke-width="2"/>
+      <rect x="-2" y="-44" width="4" height="22" fill="#e0b43a"/>
+      <rect x="-9" y="-37" width="18" height="4" fill="#e0b43a"/>
+      <circle cx="0" cy="-70" r="24" fill="#f6d7c3" stroke="#3b2a20" stroke-width="2"/>
+      <path d="M-25 -70 Q-26 -98 0 -98 Q26 -98 25 -70 Q16 -84 6 -82 L0 -74 L-6 -84 Q-18 -84 -25 -70 Z" fill="#8a4b2a" stroke="#3b2a20" stroke-width="2"/>
+      <circle cx="-8" cy="-66" r="4" fill="#3a2a5a"/><circle cx="9" cy="-66" r="4" fill="#3a2a5a"/>
+      <line x1="22" y1="-46" x2="30" y2="-6" stroke="#9aa3ad" stroke-width="4"/>
+    </g>
+  </defs>
+  <rect width="900" height="470" fill="#f4efe6"/>
+
+  <!-- ===== LEFT: top-down orthographic ===== -->
+  <text x="225" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#7a1f1f">❌ 바로 위에서 본 맵</text>
+  <text x="225" y="58" text-anchor="middle" font-size="14" fill="#3b2a20">바닥은 위에서, 캐릭터는 옆에서 본 그림</text>
+  <g transform="translate(45,80)">
+    <rect width="360" height="300" fill="#7f9a45"/>
+    <g stroke="#6b8238" stroke-width="1.5">
+      <line x1="72" y1="0" x2="72" y2="300"/><line x1="144" y1="0" x2="144" y2="300"/>
+      <line x1="216" y1="0" x2="216" y2="300"/><line x1="288" y1="0" x2="288" y2="300"/>
+      <line x1="0" y1="75" x2="360" y2="75"/><line x1="0" y1="150" x2="360" y2="150"/><line x1="0" y1="225" x2="360" y2="225"/>
+    </g>
+    <!-- trees seen from above: just round canopies -->
+    <circle cx="36" cy="36" r="30" fill="#4f6b2f" stroke="#3a5020" stroke-width="2"/>
+    <circle cx="324" cy="262" r="30" fill="#4f6b2f" stroke="#3a5020" stroke-width="2"/>
+    <!-- crate seen from above: flat square -->
+    <rect x="236" y="20" width="34" height="34" fill="#a0753f" stroke="#5a3b25" stroke-width="2"/>
+    <line x1="236" y1="20" x2="270" y2="54" stroke="#5a3b25" stroke-width="2"/>
+    <!-- character -->
+    <use href="#chibi" x="180" y="200"/>
+  </g>
+  <text x="225" y="410" text-anchor="middle" font-size="15" fill="#3b2a20">나무와 상자는 위에서 본 모양인데</text>
+  <text x="225" y="432" text-anchor="middle" font-size="15" fill="#3b2a20">캐릭터만 옆모습 → <tspan font-weight="bold" fill="#7a1f1f">지도 위에 붙인 스티커</tspan> 같다</text>
+
+  <!-- ===== RIGHT: high-angle 3/4 ===== -->
+  <text x="675" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#2a6a2a">⭕ 비스듬히 내려다본 맵</text>
+  <text x="675" y="58" text-anchor="middle" font-size="14" fill="#3b2a20">바닥도 캐릭터도 같은 각도에서 본 그림</text>
+  <g transform="translate(495,80)">
+    <!-- sky/back wall strip to show angle -->
+    <rect width="360" height="300" fill="#7f9a45"/>
+    <rect width="360" height="40" fill="#8a7a62"/>
+    <rect y="40" width="360" height="6" fill="#6b5d48"/>
+    <!-- foreshortened grid: rows shorter -->
+    <g stroke="#6b8238" stroke-width="1.5">
+      <line x1="72" y1="46" x2="72" y2="300"/><line x1="144" y1="46" x2="144" y2="300"/>
+      <line x1="216" y1="46" x2="216" y2="300"/><line x1="288" y1="46" x2="288" y2="300"/>
+      <line x1="0" y1="110" x2="360" y2="110"/><line x1="0" y1="174" x2="360" y2="174"/><line x1="0" y1="238" x2="360" y2="238"/>
+    </g>
+    <!-- trees with trunks (front view) -->
+    <rect x="30" y="78" width="12" height="28" fill="#6b4a2a" stroke="#3b2a20" stroke-width="2"/>
+    <circle cx="36" cy="66" r="28" fill="#4f6b2f" stroke="#3a5020" stroke-width="2"/>
+    <ellipse cx="36" cy="106" rx="20" ry="5" fill="#000" opacity="0.2"/>
+    <rect x="318" y="262" width="12" height="28" fill="#6b4a2a" stroke="#3b2a20" stroke-width="2"/>
+    <circle cx="324" cy="250" r="28" fill="#4f6b2f" stroke="#3a5020" stroke-width="2"/>
+    <ellipse cx="324" cy="290" rx="20" ry="5" fill="#000" opacity="0.2"/>
+    <!-- crate with top + front face -->
+    <path d="M236 70 L270 70 L270 82 L236 82 Z" fill="#c09050" stroke="#5a3b25" stroke-width="2"/>
+    <rect x="236" y="82" width="34" height="26" fill="#a0753f" stroke="#5a3b25" stroke-width="2"/>
+    <line x1="236" y1="82" x2="270" y2="108" stroke="#5a3b25" stroke-width="2"/>
+    <!-- character with ground shadow -->
+    <ellipse cx="180" cy="232" rx="24" ry="6" fill="#000" opacity="0.25"/>
+    <use href="#chibi" x="180" y="232"/>
+  </g>
+  <text x="675" y="410" text-anchor="middle" font-size="15" fill="#3b2a20">나무 기둥과 상자 앞면이 보이고, 발밑에 그림자</text>
+  <text x="675" y="432" text-anchor="middle" font-size="15" fill="#3b2a20">→ <tspan font-weight="bold" fill="#2a6a2a">캐릭터가 땅 위에 서 있다</tspan> (고전 JRPG 방식)</text>
+</svg>
