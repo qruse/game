@@ -340,12 +340,20 @@ func _sg(n: int) -> String:
 	return ("+%d" % n) if n >= 0 else str(n)
 
 
+var _posed := -1  # 이번 행동에서 이미 동작을 보여 준 유닛 (스킬 안의 공격 굴림이 동작을 또 넣지 않게)
+
+
 func _log(t: String) -> void:
 	events.append({"t": "log", "text": t})
 
 
 func _float(c: Vector2i, text: String, col: Color) -> void:
 	events.append({"t": "float", "cell": c, "text": text, "color": col})
+
+
+## 연출용: SD 동작(attack/skill/hit). 보드가 순서대로 재생한다
+func _pose(u: Unit, pose: String, cell: Vector2i) -> void:
+	events.append({"t": "pose", "uid": u.uid, "pose": pose, "cell": cell})
 
 
 func _move_ev(u: Unit, path: Array) -> void:
@@ -629,6 +637,8 @@ func hit_chance(att: Unit, tgt: Unit, ranged: bool, opts := {}) -> float:
 
 
 func attack(att: Unit, tgt: Unit, dmg: String, ranged: bool, opts := {}) -> bool:
+	if att.uid != _posed:
+		_pose(att, "attack", tgt.pos)
 	var a := adv_state(att, tgt, ranged, opts)
 	var fixed: int = opts.get("fate", 0)
 	if fixed > 0:
@@ -697,12 +707,15 @@ func damage(target: Unit, amount: int, src := "") -> void:
 		amount = ceili(amount / 2.0)
 	t.hp -= amount
 	_float(t.pos, "-%d" % amount, RED)
+	if t.hp > 0:
+		_pose(t, "hit", t.pos)
 	t.st.erase("sleep")
 	t.resolve = mini(100, t.resolve + 15)
 	if (src == "fire" or src == "oil") and t.side == "enemy":
 		_fire_hits[t.uid] = true
 		if t.is_boss and src == "oil":
 			_legend("boss_oil")
+	events.append({"t": "hp", "uid": t.uid, "hp": maxi(0, t.hp), "before": t.hp + amount})
 	if t.hp <= 0:
 		t.hp = 0
 		if t.side == "ally":
@@ -713,6 +726,7 @@ func damage(target: Unit, amount: int, src := "") -> void:
 			_float(t.pos, "쓰러짐", RED)
 		else:
 			t.removed = true
+			events.append({"t": "die", "uid": t.uid})
 			_log("%s 처치" % t.name)
 			_on_enemy_down(t)
 	elif t.is_boss and not t.phase2 and t.hp * 2 <= t.max_hp:
@@ -729,8 +743,10 @@ func heal(t: Unit, amount: int) -> void:
 		t.acted = true
 		t.move_left = 0
 		_log("%s 일어남" % t.name)
+	var before := t.hp
 	t.hp = mini(t.max_hp, t.hp + amount)
 	_float(t.pos, "+%d" % amount, GREEN)
+	events.append({"t": "hp", "uid": t.uid, "hp": t.hp, "before": before})
 
 
 func _fire_hurt(u: Unit) -> void:
@@ -1213,6 +1229,12 @@ func use_skill(u: Unit, sid: String, cell: Vector2i, fate_idx := -1) -> void:
 		fv = fate[fate_idx]
 		fate.remove_at(fate_idx)
 	_log("— %s: %s" % [u.name, s.name])
+	_posed = -1
+	if sid == u.ult:
+		events.append({"t": "cutin", "uid": u.uid})
+	if not sid.ends_with("_basic"):
+		_pose(u, "skill", cell)
+		_posed = u.uid
 	_fire_hits = {}
 	var dc := 8 + u.atk
 	var tgt := unit_at(cell)

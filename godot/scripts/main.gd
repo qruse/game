@@ -28,6 +28,9 @@ var map_idx := 1
 var speed := 1.0
 var _msg := ""
 var _shot := ""
+var _demo := false
+var _shot_at: Array = []
+var icons := {}  # 스킬 id -> 아이콘 Texture2D (art/final/icons/skills)
 
 var menu: Control
 var hud: Control
@@ -69,19 +72,46 @@ func _ready() -> void:
 			_shot = a.get_slice("=", 1)
 		elif a == "--select":
 			auto_select = true
+		elif a == "--demo":
+			_demo = true
+		elif a.begins_with("--at="):
+			_shot_at = Array(a.get_slice("=", 1).split(",", false)).map(func(x): return float(x))
 	if auto_start:
 		_start()
 		if auto_select:
 			sel = battle.side_units("ally")[0]
 			_refresh()
+	if _demo and battle != null:
+		_run_demo()
 	if _shot != "":
 		_take_shot()
 
 
 func _take_shot() -> void:
-	await get_tree().create_timer(1.5).timeout
-	get_viewport().get_texture().get_image().save_png(_shot)
+	if _shot_at.is_empty():
+		await get_tree().create_timer(1.5).timeout
+		get_viewport().get_texture().get_image().save_png(_shot)
+	else:
+		var t0 := 0.0
+		for i in _shot_at.size():
+			await get_tree().create_timer(_shot_at[i] - t0).timeout
+			t0 = _shot_at[i]
+			get_viewport().get_texture().get_image().save_png(_shot.replace(".png", "_%d.png" % i))
 	get_tree().quit()
+
+
+## 확인용: 아군이 자동으로 한 턴 움직인다. 세실은 궁극기를 쓴다 (컷인, 동작 연출 확인)
+func _run_demo() -> void:
+	await get_tree().create_timer(0.5).timeout
+	for a in battle.side_units("ally"):
+		if a.key == "cecile":
+			a.resolve = 100
+			battle.use_skill(a, a.ult, a.pos)
+		else:
+			battle.auto_act(a)
+		_flush()
+		_refresh()
+		await _wait_board()
 
 
 func _setup_theme() -> void:
@@ -293,6 +323,8 @@ func _start() -> void:
 ## 저장소의 art/final 에 SD 그림이 있으면 쓴다 (없으면 동그라미)
 func _load_sprites() -> void:
 	board.sprites.clear()
+	board.cutins.clear()
+	icons.clear()
 	board.bg_tex = null
 	var map_id: String = battle.title.get_slice(" ", 0)
 	var bg_path := ProjectSettings.globalize_path("res://").path_join("../art/final/backgrounds/battle/%s.png" % map_id)
@@ -305,12 +337,32 @@ func _load_sprites() -> void:
 		if u.side != "ally":
 			continue
 		var folder: String = Defs.ALLIES[u.key].get("art", "")
-		var path := art_root.path_join(folder).path_join("%s_sd_idle.png" % folder.get_slice("_", 0))
-		if folder == "" or not FileAccess.file_exists(path):
+		if folder == "":
 			continue
-		var img := Image.load_from_file(path)
-		if img != null:
-			board.sprites[u.uid] = ImageTexture.create_from_image(img)
+		var pre := folder.get_slice("_", 0)
+		var frames := {}
+		for pose in ["idle", "attack", "skill", "hit", "down"]:
+			var t := _tex(art_root.path_join(folder).path_join("%s_sd_%s.png" % [pre, pose]))
+			if t != null:
+				frames[pose] = t
+		if frames.has("idle"):
+			board.sprites[u.uid] = frames
+		var ct := _tex(art_root.path_join(folder).path_join("%s_cutin.png" % pre))
+		if ct != null:
+			board.cutins[u.uid] = ct
+		var acts: Array = Defs.ALLIES[u.key].actions
+		var icon_dir := art_root.path_join("../icons/skills")
+		for pair in [[acts[1], "skill1"], [acts[2], "skill2"], [Defs.ALLIES[u.key].ult, "ult"]]:
+			var it := _tex(icon_dir.path_join("%s_icon_%s.png" % [pre, pair[1]]))
+			if it != null:
+				icons[pair[0]] = it
+
+
+func _tex(path: String) -> Texture2D:
+	if not FileAccess.file_exists(path):
+		return null
+	var img := Image.load_from_file(path)
+	return ImageTexture.create_from_image(img) if img != null else null
 
 
 func _to_menu() -> void:
@@ -329,10 +381,8 @@ func _flush() -> void:
 		match ev.t:
 			"log":
 				log_box.add_text(ev.text + "\n")
-			"float":
-				board.add_float(ev.cell, ev.text, ev.color)
-			"move":
-				board.queue_move(ev.uid, ev.path)
+			_:
+				board.push(ev)
 	battle.events.clear()
 
 
@@ -603,6 +653,9 @@ func _build_actions() -> void:
 				dis = true
 		var b := _btn("  %s  " % label, _pick_action.bind(sid))
 		b.disabled = dis
+		if icons.has(sid):
+			b.icon = icons[sid]
+			b.add_theme_constant_override("icon_max_width", 44)
 		b.tooltip_text = s.desc
 		if sid == cur:
 			b.modulate = Color(1.0, 0.9, 0.4)
