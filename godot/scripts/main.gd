@@ -51,6 +51,9 @@ var event_lbl: Label
 
 
 func _ready() -> void:
+	# 휴대폰·태블릿: 기준 화면을 줄여서 글자와 버튼을 1.5배로 키운다
+	if DisplayServer.is_touchscreen_available() or "--touch" in OS.get_cmdline_user_args():
+		get_window().content_scale_size = Vector2i(1280, 720)
 	_setup_theme()
 	var bg := ColorRect.new()
 	bg.color = Color(0.11, 0.10, 0.09)
@@ -127,9 +130,13 @@ func _run_demo() -> void:
 
 func _setup_theme() -> void:
 	var th := Theme.new()
-	var f := SystemFont.new()
-	f.font_names = PackedStringArray(["Malgun Gothic", "맑은 고딕", "Noto Sans CJK KR", "Noto Sans KR", "Apple SD Gothic Neo", "sans-serif"])
-	th.default_font = f
+	# 웹에는 시스템 글꼴이 없어서 함께 넣은 Noto Sans KR 을 먼저 쓴다 (tools/web/prepare_web.py)
+	if ResourceLoader.exists("res://fonts/NotoSansKR-Game.ttf"):
+		th.default_font = load("res://fonts/NotoSansKR-Game.ttf")
+	else:
+		var f := SystemFont.new()
+		f.font_names = PackedStringArray(["Malgun Gothic", "맑은 고딕", "Noto Sans CJK KR", "Noto Sans KR", "Apple SD Gothic Neo", "sans-serif"])
+		th.default_font = f
 	th.default_font_size = 22
 	theme = th
 
@@ -331,19 +338,16 @@ func _start() -> void:
 	_refresh()
 
 
-## 저장소의 art/final 에 SD 그림이 있으면 쓴다 (없으면 동그라미)
+## 그림을 찾는다: 웹 빌드는 godot/art (tools/web/prepare_web.py 가 복사), PC 실행은 저장소의 art/final 을 직접 읽는다.
+## 없으면 동그라미로 그린다
 func _load_sprites() -> void:
 	board.sprites.clear()
 	board.cutins.clear()
 	icons.clear()
 	board.bg_tex = null
 	var map_id: String = battle.title.get_slice(" ", 0)
-	var bg_path := ProjectSettings.globalize_path("res://").path_join("../art/final/backgrounds/battle/%s.png" % map_id)
-	if battle.bg_grid.z > 0 and FileAccess.file_exists(bg_path):
-		var bimg := Image.load_from_file(bg_path)
-		if bimg != null:
-			board.bg_tex = ImageTexture.create_from_image(bimg)
-	var art_root := ProjectSettings.globalize_path("res://").path_join("../art/final/characters")
+	if battle.bg_grid.z > 0:
+		board.bg_tex = _tex("backgrounds/battle/%s.png" % map_id)
 	for u in battle.units:
 		if u.side != "ally":
 			continue
@@ -353,24 +357,28 @@ func _load_sprites() -> void:
 		var pre := folder.get_slice("_", 0)
 		var frames := {}
 		for pose in ["idle", "attack", "skill", "hit", "down"]:
-			var t := _tex(art_root.path_join(folder).path_join("%s_sd_%s.png" % [pre, pose]))
+			var t := _tex("characters/%s/%s_sd_%s.png" % [folder, pre, pose])
 			if t != null:
 				frames[pose] = t
 		if frames.has("idle"):
 			board.sprites[u.uid] = frames
-		var ct := _tex(art_root.path_join(folder).path_join("%s_cutin.png" % pre))
+		var ct := _tex("characters/%s/%s_cutin.png" % [folder, pre])
 		if ct != null:
 			board.cutins[u.uid] = ct
 		var acts: Array = Defs.ALLIES[u.key].actions
-		var icon_dir := art_root.path_join("../icons/skills")
 		for pair in [[acts[1], "skill1"], [acts[2], "skill2"], [Defs.ALLIES[u.key].ult, "ult"]]:
-			var it := _tex(icon_dir.path_join("%s_icon_%s.png" % [pre, pair[1]]))
+			var it := _tex("icons/skills/%s_icon_%s.png" % [pre, pair[1]])
 			if it != null:
 				icons[pair[0]] = it
 
 
-func _tex(path: String) -> Texture2D:
-	if not FileAccess.file_exists(path):
+## rel: art/final 아래 경로
+func _tex(rel: String) -> Texture2D:
+	var res := "res://art/" + rel
+	if ResourceLoader.exists(res):
+		return load(res)
+	var path := ProjectSettings.globalize_path("res://").path_join("../art/final/" + rel)
+	if OS.has_feature("web") or not FileAccess.file_exists(path):
 		return null
 	var img := Image.load_from_file(path)
 	return ImageTexture.create_from_image(img) if img != null else null

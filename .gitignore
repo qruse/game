@@ -6,6 +6,7 @@ art/raw/
 *.import.tmp
 export/
 build/
+godot/art/
 
 # OS / editor
 Thumbs.db
