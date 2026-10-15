@@ -296,7 +296,9 @@ func _draw_unit(u, font: Font, fs: int) -> void:
 		var face_left: bool = u.side == "enemy"
 		if not ps.is_empty() and absf(ps.dir) > 1.0:
 			face_left = ps.dir < 0
-		if face_left:
+		# 동료 그림은 오른쪽, 적 그림(과 실루엣으로 쓰는 동료 그림)은 원래 방향이 다르다
+		var art_left: bool = u.side == "enemy" and not sil
+		if face_left != art_left:
 			rect = Rect2(rect.position, Vector2(-sz, sz))  # 음수 너비 = 좌우 반전 (같은 자리)
 		if sil:
 			# 실루엣: 붉은 테두리 + 어두운 몸

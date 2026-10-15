@@ -1,0 +1,33 @@
+Model: built-in image_gen; exact underlying model identifier not exposed
+Generation date: 2026-10-16 (Asia/Seoul)
+Tool: image_gen.imagegen; transparent_background=true
+Generated source: art/raw/B01_sd_idle_v1.png
+References in attached order:
+1. art/final/characters/C01_lina/C01_sd_idle.png (approved SD style, outlines and scale only)
+2. art/refs/style-anchor.png (approved general rendering style only)
+Intent: new enemy image with style references; do not copy reference character face or clothes.
+Postprocess: transparent alpha retained; resize on 512x512 canvas with max height480/max width488, foot baseline y487; opaque interior alpha255 and soft edge alpha.
+Size interpretation: about1.2x visual mass via broader shoulders/head/axe, within shared 512 canvas; not1.2x vertical scaling of Lina's464px height, which would exceed canvas.
+
+FULL PROMPT
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing left, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), no ground shadow. Genuinely transparent background instead of the format's magenta fallback.
+Redbeard, a hulking bandit chief with a red beard, greataxe, mismatched armor
+Boss, larger and more imposing. Pose: relaxed ready combat stance.
+Asset B01_sd_idle: a single broad hulking adult male bandit chief. Distinct RED BEARD is a strong immediately visible identity feature. Huge heavy GREATAxe visibly gripped with both hands in a natural idle battle-ready hold, fingers wrapped around its wooden haft; entire axe head and shaft inside the image. Worn MISMATCHED medieval armor pieces: visibly different shoulder armor, uneven patched metal and leather pieces, plain underlying medieval clothing and heavy boots. These are the only design motifs; no crown, shield, banner, magic, jewelry, trophy or extra weapons.
+Face, nose, gaze, torso and boots point toward screen LEFT in a THREE-QUARTER view; threatening presence but relaxed ready stance, neither an attack nor a frontal portrait.
+REFERENCE ROLES: image 1 is the APPROVED LINA SD, reference ONLY for clean thick dark silhouette outline, anime cel-shading, simplified material rendering, approx 2.5-head chibi proportions, eye-level camera and shared game scale. Image 2 is the approved general illustration style anchor ONLY; image 1 controls SD proportions. DO NOT copy their face, gender, hairstyle, clothes, ribbon, heraldry, shield, skirt or sword.
+Boss should look about 1.2 times larger and much more imposing than Lina, through notably broader shoulders, stocky mass, somewhat larger head, huge beard and heavy greataxe; full body must fit a 512x512 sprite, so do not enlarge past the canvas. Aim occupied height 480 pixels in final 512, boot soles at y487, head near y8; broad full silhouette within about 488 pixels width. A slightly taller but substantially wider body than Lina conveys the larger boss within the shared canvas. Keep approx 2.5-head SD stylization, not realistic body proportions.
+Square 1024x1024 transparent source for final 512x512. Center all visible body, hands and axe inside canvas, no cropped props or feet, clear transparent margin, both boot soles visible, no ground shadow. Desaturated iron and worn leather, red beard visually distinct; no heroic gold decoration. Match the reference outline weight at final 512, not thin scratchy realism.
+Fully opaque character interior, clean antialiased alpha edge, transparent empty background, no scenery, floor, platform or checkerboard pixels.
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+

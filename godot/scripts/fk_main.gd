@@ -10,6 +10,8 @@ const Stage = preload("res://scripts/fk_stage.gd")
 
 ## 적 그림이 아직 없어서, 동료 SD 를 어둡게 칠해 자리만 잡는다
 const ENEMY_SIL := {"bandit": "C01_lina", "archer": "C03_adelheid", "wolf": "C02_cecile", "redbeard": "C01_lina"}
+## 적 그림 폴더 (art/final/enemies/<ID>). 그림은 왼쪽을 보고 있다
+const ENEMY_ART := {"bandit": "E01", "archer": "E02", "wolf": "E03", "redbeard": "B01"}
 
 var battle = null
 var stage: Control
@@ -511,6 +513,15 @@ func _load_art() -> void:
 
 func _load_unit_art(u) -> void:
 	if u.side == "enemy":
+		var eid: String = ENEMY_ART.get(u.key, "")
+		var ef := {}
+		for pose in ["idle", "attack", "skill", "hit", "down"]:
+			var et := _tex("enemies/%s/%s_sd_%s.png" % [eid, eid, pose])
+			if et != null:
+				ef[pose] = et
+		if ef.has("idle"):
+			stage.sprites[u.uid] = ef
+			return
 		var folder: String = ENEMY_SIL.get(u.key, "C01_lina")
 		var t := _tex("characters/%s/%s_sd_idle.png" % [folder, folder.get_slice("_", 0)])
 		if t != null:
