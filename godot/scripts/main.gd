@@ -100,18 +100,29 @@ func _take_shot() -> void:
 	get_tree().quit()
 
 
-## 확인용: 아군이 자동으로 한 턴 움직인다. 세실은 궁극기를 쓴다 (컷인, 동작 연출 확인)
+## 확인용: 아군도 자동으로 움직여 전투 한 판을 끝까지 돌린다. 첫 턴에 세실은 궁극기를 쓴다 (컷인, 동작 연출 확인)
 func _run_demo() -> void:
 	await get_tree().create_timer(0.5).timeout
-	for a in battle.side_units("ally"):
-		if a.key == "cecile":
-			a.resolve = 100
-			battle.use_skill(a, a.ult, a.pos)
-		else:
-			battle.auto_act(a)
-		_flush()
-		_refresh()
+	var first := true
+	while battle != null and battle.result == "":
+		for a in battle.side_units("ally"):
+			if battle.result != "":
+				break
+			if first and a.key == "cecile":
+				a.resolve = 100
+				battle.use_skill(a, a.ult, a.pos)
+			else:
+				battle.auto_act(a)
+			_flush()
+			_refresh()
+			await _wait_board()
+		first = false
+		if battle.result != "":
+			break
+		await _end_turn()
 		await _wait_board()
+	_check_over()
+	print("demo result: %s, rounds %d, downs %d" % [battle.result, battle.round_no, battle.downs])
 
 
 func _setup_theme() -> void:
