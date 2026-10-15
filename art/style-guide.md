@@ -38,7 +38,7 @@ forest green, parchment cream, warm browns.
 | `bg_scene` | 대화 배경 | `Background art only, no characters, eye-level view, painterly anime background, atmospheric lighting, 16:9 composition, leave the center area uncluttered because character portraits will stand there.` | 16:9 최대 크기 | 1920×1080 |
 | `bg_battle` | 전투 맵 배경 | `High-angle three-quarter top-down view of a game battlefield, like a classic JRPG tactics map, looking down at about 60 degrees so that chibi characters drawn in three-quarter view look naturally standing on the ground, no characters, minimal perspective distortion, flat walkable ground in the central area covering about 70% of the image, decorative elements only at the edges, even lighting, no grid lines.` | 16:9 최대 크기 | 1920×1080 |
 | `cg` | 이벤트 CG | `Key story event illustration, cinematic composition, 16:9.` | 16:9 최대 크기 | 1920×1080 |
-| `icon` | 스킬 아이콘 | `Square game skill icon, single bold symbolic subject centered, painterly, high contrast, dark parchment vignette background, no text, no border.` | 1024×1024 | 256×256 |
+| `icon` | 스킬 아이콘 (**2026-10-16부터 Codex는 만들지 않는다.** Claude가 `tools/icons/skill_icons.py` SVG로 그린다) | (쓰지 않음) | - | 256×256 |
 | `enemy_sd` | 적 SD | `sd` 블록과 같다. 단 `facing left`로 바꾼다 | 1024×1024 | 512×512, 투명 PNG |
 
 > 생성 크기는 모델이 지원하는 가장 가까운 크기를 쓴다. 지원 크기가 바뀌었으면 비율을 지키는 쪽으로 맞추고 이 표를 고친다.

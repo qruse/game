@@ -535,7 +535,7 @@ func _load_unit_art(u) -> void:
 		var w := pt.get_width()
 		at.region = Rect2(w * 0.2, pt.get_height() * 0.03, w * 0.6, w * 0.75)
 		portraits[u.uid] = at
-	for pair in [[u.skills[1], "skill1"], [u.skills[2], "skill2"], [u.ult, "ult"]]:
+	for pair in [[u.skills[0], "basic"], [u.skills[1], "skill1"], [u.skills[2], "skill2"], [u.ult, "ult"]]:
 		var it := _tex("icons/skills/%s_icon_%s.png" % [pre, pair[1]])
 		if it != null:
 			icons[pair[0]] = it
