@@ -1,0 +1,8 @@
+# bt_ch1_village_outskirts · 9x5 · 넓은 맵
+enemies: archer wolf bandit wolf archer
+stars: 4
+. . . , , . . ^ E
+A . . , , . # . E
+A . . , , . . o E
+A . # , , . . ~ E
+. . . , , . . ~ E

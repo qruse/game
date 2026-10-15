@@ -1,0 +1,10 @@
+# bt_ch1_bandit_cliff · 8x6 · 보스전
+enemies: archer bandit
+boss: redbeard
+stars: 5
+v v v v v v v v
+. . " . ^ ^ . .
+A . " . . o . E
+A . . , . . . B
+A . # . . ~ ~ E
+. . # . . ~ ~ .

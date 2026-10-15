@@ -1,0 +1,8 @@
+# bt_ch1_forest_clearing · 7x5 · 기본
+enemies: wolf bandit bandit archer
+stars: 4
+. . . " " h ^
+A . . . " . E
+A . , . . . E
+A . # . ~ ~ E
+. . # . ~ o E

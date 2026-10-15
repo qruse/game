@@ -1,0 +1,7 @@
+# bt_ch1_forest_ambush · 5x4 · 좁은 맵 (매복: 포위당한 채 시작)
+enemies: bandit wolf bandit bandit
+stars: 3
+" E . . "
+. . A . E
+E . A . "
+X " A . E
