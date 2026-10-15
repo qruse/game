@@ -62,23 +62,39 @@ const SKILLS := {
 	"miriam_ult": {"name": "빛의 기둥", "target": "all_allies", "power": 14, "effect": "heal", "desc": "동료 전원 회복 14 + 상태이상 해제, 쓰러진 동료도 일으킨다"},
 }
 
-## 주변 환경. acts 의 판정은 난이도(diff)가 정해져 있다. 한 번 쓰면 사라진다 (reuse 제외)
+## 주변 환경. 행동 목록에는 안 나오고, 플레이어가 무대에서 직접 눌러 찾아야 한다.
+## who: 이 방법을 쓸 수 있는 동료 (동료마다 환경을 쓰는 범위가 다르다)
+## skill: 그 동료의 스킬로 불을 붙인다 (판정은 그 스킬로, 성공하면 fire 효과)
+## acts 의 판정은 난이도(diff)가 정해져 있다. 한 번 쓰면 사라진다 (reuse 제외)
 ## effect: explode(적 전원 피해 + 화상) / crush(고른 적 피해, splash 면 옆 적도, 완벽: 기절)
 ##         break_cover(엄폐 없앰, 완벽: 기절) / hide(은신) / cover_self(방어 +4)
 ## fire: 불꽃 화살이 닿으면 판정 없이 일어나는 일
 const OBJECTS := {
-	"bush": {"name": "덤불", "reuse": true, "acts": [{"name": "덤불에 숨기", "stat": "dex", "slots": 1, "diff": 8, "effect": "hide"}]},
-	"oil_jar": {"name": "기름 항아리", "fire": "explode", "power": 6,
-		"acts": [{"name": "항아리 던지기", "stat": "dex", "slots": 2, "diff": 10, "effect": "explode", "power": 6}]},
-	"dead_tree": {"name": "썩은 고목",
-		"acts": [{"name": "고목 쓰러뜨리기", "stat": "str", "slots": 3, "diff": 11, "effect": "crush", "power": 12, "splash": true}]},
-	"barricade": {"name": "나무 방책", "fire": "burn_cover",
-		"acts": [{"name": "방책 부수기", "stat": "str", "slots": 2, "diff": 11, "effect": "break_cover"}]},
-	"chandelier": {"name": "샹들리에",
-		"acts": [{"name": "밧줄 끊기", "stat": "dex", "slots": 2, "diff": 12, "effect": "crush", "power": 15}]},
-	"ale_cask": {"name": "독한 술통", "fire": "explode", "power": 7,
-		"acts": [{"name": "술통 굴리기", "stat": "str", "slots": 2, "diff": 10, "effect": "explode", "power": 6}]},
-	"table": {"name": "무너진 탁자", "reuse": true, "acts": [{"name": "탁자 엎고 숨기", "stat": "str", "slots": 1, "diff": 7, "effect": "cover_self"}]},
+	"bush": {"name": "덤불", "reuse": true, "acts": [
+		{"name": "덤불에 숨기", "who": ["cecile", "miriam"], "stat": "dex", "slots": 1, "diff": 8, "effect": "hide"},
+	]},
+	"oil_jar": {"name": "기름 항아리", "fire": "explode", "power": 6, "acts": [
+		{"name": "항아리 던지기", "who": ["cecile"], "stat": "dex", "slots": 2, "diff": 10, "effect": "explode", "power": 6},
+		{"name": "불꽃 화살로 불붙이기", "who": ["adelheid"], "skill": "adel_fire"},
+	]},
+	"dead_tree": {"name": "썩은 고목", "acts": [
+		{"name": "고목 쓰러뜨리기", "who": ["lina"], "stat": "str", "slots": 3, "diff": 11, "effect": "crush", "power": 12, "splash": true},
+	]},
+	"barricade": {"name": "나무 방책", "fire": "burn_cover", "acts": [
+		{"name": "방책 부수기", "who": ["lina"], "stat": "str", "slots": 2, "diff": 11, "effect": "break_cover"},
+		{"name": "불꽃 화살로 태우기", "who": ["adelheid"], "skill": "adel_fire"},
+	]},
+	"chandelier": {"name": "샹들리에", "acts": [
+		{"name": "단검 던져 밧줄 끊기", "who": ["cecile"], "stat": "dex", "slots": 2, "diff": 12, "effect": "crush", "power": 15},
+		{"name": "마력탄으로 밧줄 끊기", "who": ["adelheid"], "stat": "int", "slots": 2, "diff": 13, "effect": "crush", "power": 15},
+	]},
+	"ale_cask": {"name": "독한 술통", "fire": "explode", "power": 7, "acts": [
+		{"name": "술통 굴리기", "who": ["lina"], "stat": "str", "slots": 2, "diff": 10, "effect": "explode", "power": 6},
+		{"name": "불꽃 화살로 불붙이기", "who": ["adelheid"], "skill": "adel_fire"},
+	]},
+	"table": {"name": "무너진 탁자", "reuse": true, "acts": [
+		{"name": "탁자 엎고 숨기", "who": ["lina", "miriam"], "stat": "str", "slots": 1, "diff": 7, "effect": "cover_self"},
+	]},
 }
 
 ## 전투 장면. 오브젝트 x, y 는 무대 안 비율 위치. cover 는 엄폐받는 적의 순서(enemies 배열 index)

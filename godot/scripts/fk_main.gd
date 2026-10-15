@@ -366,6 +366,10 @@ func _loop() -> void:
 				state = "player"
 				stage.inspect_uid = -1
 				_reset_pick()
+				if _pick.begins_with("obj,"):
+					aim_obj = int(_pick.get_slice(",", 1))
+					stage.found[aim_obj] = true
+					_pick = ""
 				if _pick != "":
 					var tg: Array = b.targets(u, _pick.get_slice(",", 0))
 					var ref: Dictionary = tg[mini(int(_pick.get_slice(",", 1)), tg.size() - 1)]
@@ -460,19 +464,21 @@ func _pick_action(aid: String) -> void:
 	state = "wait"
 	battle.act(actor, aid, t, locks)
 	_reset_pick()
+	aim_obj = -1
 	acted.emit()
 
 
 func _on_pick(ref: Dictionary) -> void:
+	# 오브젝트를 누르면 이름이 드러나고, 지금 동료가 그걸로 할 수 있는 일이 아래에 나온다
 	if ref.k == "o":
+		stage.found[ref.id] = true
 		if state == "player" and not battle.obj(ref.id).used:
 			aim_obj = -1 if aim_obj == ref.id else ref.id
-			_refresh()
+		_refresh()
 		return
 	var u = battle.unit(ref.uid)
 	if u.side == "enemy":
 		aim_enemy = u.uid
-		aim_obj = -1
 	else:
 		aim_ally = u.uid
 	stage.inspect_uid = u.uid
@@ -559,11 +565,12 @@ func _refresh() -> void:
 	_fix_aims()
 	var refs: Array = []
 	if state == "player":
-		for r in [{"k": "u", "uid": aim_enemy}, {"k": "u", "uid": aim_ally}, {"k": "o", "id": aim_obj}]:
+		for r in [{"k": "u", "uid": aim_enemy}, {"k": "u", "uid": aim_ally}]:
 			if (r.k == "u" and r.uid != -1) or (r.k == "o" and r.id != -1):
 				refs.append(r)
 	stage.targets = refs
-	stage.pending = {"k": "o", "id": aim_obj} if aim_obj != -1 else {"k": "u", "uid": aim_enemy}
+	stage.pending = {"k": "u", "uid": aim_enemy}
+	stage.focus_obj = aim_obj
 	_update_card()
 	_build_actions()
 	_update_side()
@@ -664,6 +671,31 @@ func _build_actions() -> void:
 		elif a.kind == "ult":
 			b.add_theme_color_override("font_color", Color(1.0, 0.85, 0.4))
 		actions.add_child(b)
+	if aim_obj == -1:
+		return
+	# 살펴본 오브젝트: 이 동료가 쓸 수 있는 방법만 (동료마다 다르다)
+	var o: Dictionary = battle.obj(aim_obj)
+	var oa: Array = battle.obj_actions(actor, aim_obj)
+	var l := Label.new()
+	l.text = "%s:" % o.name if not oa.is_empty() else "%s: 지금 동료로는 쓸 방법이 안 보인다" % o.name
+	l.add_theme_color_override("font_color", Color(0.75, 1.0, 0.6) if not oa.is_empty() else Color(0.7, 0.7, 0.7))
+	l.add_theme_font_size_override("font_size", 14 if touch else 20)
+	actions.add_child(l)
+	for a in oa:
+		var label: String = a.name + " " + "◆".repeat(a.slots)
+		var t := _target_for(a.id) if a.ready else {}
+		if not t.is_empty() and a.slots > 0:
+			label += " %d%%" % roundi(battle.preview(actor, a.id, t).chance * 100)
+		if a.note != "":
+			label += " (%s)" % a.note
+		var b := _btn(" %s " % label, _pick_action.bind(a.id))
+		if touch:
+			b.custom_minimum_size.y = 34
+			b.add_theme_font_size_override("font_size", 14)
+		b.disabled = not a.ready
+		b.tooltip_text = a.desc
+		b.add_theme_color_override("font_color", Color(0.75, 1.0, 0.6))
+		actions.add_child(b)
 
 
 func _ref_name(r: Dictionary) -> String:
@@ -688,8 +720,9 @@ func _update_side() -> void:
 	if e != null:
 		t += "[color=#ff9a8a]공격 대상: %s (방어 %d)[/color]\n" % [e.name, battle.eff_def(e)]
 	if aim_obj != -1:
-		t += "[color=#ffb060]불붙일 곳: %s[/color]\n" % battle.obj(aim_obj).name
+		for a in battle.obj_actions(actor, aim_obj):
+			t += "[color=#b8ff9a]%s[/color]\n" % a.desc
 	if aim_ally != -1:
 		t += "[color=#9aff9a]도울 동료: %s[/color]\n" % battle.unit(aim_ally).name
-	t += "[color=#bbbbbb]대상은 무대에서 눌러 바꾸기 · %는 칸마다 성공 확률[/color]"
+	t += "[color=#bbbbbb]대상은 무대에서 눌러 바꾸기 · 주변에 쓸 만한 게 있는지 눌러 보기[/color]"
 	hint.text = t

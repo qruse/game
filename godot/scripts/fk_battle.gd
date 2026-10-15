@@ -416,15 +416,40 @@ func actions_for(u: Unit) -> Array:
 			note = "대기 %d" % u.cd[sid]
 		out.append({"id": sid, "name": s.name, "kind": "ult" if sid == u.ult else "skill", "slots": s.get("slots", 0), "stat": s.get("stat", ""), "ready": ready and not targets(u, sid).is_empty(), "note": note, "desc": s.desc})
 	out.append({"id": "guard", "name": "방어", "kind": "basic", "slots": 0, "stat": "", "ready": true, "note": "", "desc": "다음 턴까지 방어 +3"})
-	for o in objects:
-		if o.used:
+	return out
+
+
+## 오브젝트 하나로 이 동료가 할 수 있는 일. id: "env:<오브젝트 id>:<방법 번호>"
+## 환경은 기본 행동 목록에 없고, 플레이어가 무대에서 눌러 찾아야 나온다
+func obj_actions(u: Unit, oid: int) -> Array:
+	var o := obj(oid)
+	var out: Array = []
+	if o.used:
+		return out
+	var acts: Array = Defs.OBJECTS[o.key].acts
+	for i in acts.size():
+		var a: Dictionary = acts[i]
+		if not u.key in a.who:
 			continue
-		var a: Dictionary = Defs.OBJECTS[o.key].acts[0]
-		out.append({"id": "env:%d" % o.id, "name": a.name, "kind": "env", "slots": a.slots, "stat": a.stat, "ready": not targets(u, "env:%d" % o.id).is_empty(), "note": "", "desc": _env_desc(o, a)})
+		var aid := "env:%d:%d" % [oid, i]
+		var ready := not targets(u, aid).is_empty()
+		var note := ""
+		var slots: int = a.get("slots", 0)
+		if a.has("skill"):
+			slots = Defs.SKILLS[a.skill].slots
+			if u.cd.get(a.skill, 0) > 0:
+				ready = false
+				note = "대기 %d" % u.cd[a.skill]
+		out.append({"id": aid, "name": a.name, "kind": "env", "slots": slots, "ready": ready, "note": note, "desc": _env_desc(o, a)})
 	return out
 
 
 func _env_desc(o: Dictionary, a: Dictionary) -> String:
+	if a.has("skill"):
+		var d: Dictionary = Defs.OBJECTS[o.key]
+		if d.fire == "explode":
+			return "%s: 불이 붙으면 적 전원 피해 %d + 화상" % [o.name, d.power]
+		return "%s: 불타면 엄폐가 사라지고 뒤의 적이 화상" % o.name
 	match a.effect:
 		"explode":
 			return "%s: 적 전원 피해 %d + 화상" % [o.name, a.power]
@@ -440,24 +465,34 @@ func _env_desc(o: Dictionary, a: Dictionary) -> String:
 
 
 func env_act(aid: String) -> Dictionary:
-	return Defs.OBJECTS[obj(int(aid.get_slice(":", 1))).key].acts[0]
+	return Defs.OBJECTS[obj(int(aid.get_slice(":", 1))).key].acts[int(aid.get_slice(":", 2))]
 
 
 func obj(id: int) -> Dictionary:
 	return objects[id]
 
 
+## 스킬로 불붙이는 환경 행동은 그 스킬을 오브젝트에 쓰는 것으로 바꾼다
+func _redirect(aid: String, t: Dictionary) -> Array:
+	if aid.begins_with("env:"):
+		var a := env_act(aid)
+		if a.has("skill"):
+			return [a.skill, {"k": "o", "id": int(aid.get_slice(":", 1))}]
+	return [aid, t]
+
+
 ## 대상 후보. {"k": "u", "uid"} / {"k": "o", "id"} / {"k": "self"}
 func targets(u: Unit, aid: String) -> Array:
 	var kind := ""
-	var fire := false
 	if aid == "guard":
 		kind = "self"
 	elif aid.begins_with("env:"):
 		var o := obj(int(aid.get_slice(":", 1)))
 		if o.used:
 			return []
-		var a: Dictionary = Defs.OBJECTS[o.key].acts[0]
+		var a := env_act(aid)
+		if a.has("skill"):
+			return [{"k": "o", "id": o.id}] if flammable(o) else []
 		if a.effect == "crush":
 			kind = "enemy"
 		elif a.effect == "break_cover":
@@ -466,7 +501,6 @@ func targets(u: Unit, aid: String) -> Array:
 			kind = "self"
 	else:
 		kind = Defs.SKILLS[aid].target
-		fire = Defs.SKILLS[aid].get("fire", false)
 	var out: Array = []
 	match kind:
 		"self", "all_enemies", "all_allies":
@@ -481,15 +515,14 @@ func targets(u: Unit, aid: String) -> Array:
 			for a in side_units("ally", true):
 				if a.downed or a.hp < a.max_hp:
 					out.append({"k": "u", "uid": a.uid})
-	if fire:
-		for o in objects:
-			if flammable(o):
-				out.append({"k": "o", "id": o.id})
 	return out
 
 
 ## 굴리기 전 미리보기: 칸 수, 칸마다 성공 확률, 확정 칸(은신)
 func preview(u: Unit, aid: String, t: Dictionary) -> Dictionary:
+	var rd := _redirect(aid, t)
+	aid = rd[0]
+	t = rd[1]
 	if aid == "guard" or (Defs.SKILLS.has(aid) and not Defs.SKILLS[aid].has("slots")):
 		return {"n": 0, "chance": 1.0, "need": 0, "auto": 0, "stat": ""}
 	var stat := ""
@@ -526,6 +559,9 @@ func _is_attack(aid: String) -> bool:
 # ── 동료 행동 ───────────────────────────────────────
 
 func act(u: Unit, aid: String, t: Dictionary, locks := 0) -> void:
+	var rd := _redirect(aid, t)
+	aid = rd[0]
+	t = rd[1]
 	u.n_act += 1
 	# 결의: 행동할 때마다 +15 (판정 성공 칸 +8, 맞으면 +12). 대략 3턴에 한 번 궁극기
 	if aid != u.ult:
@@ -765,10 +801,13 @@ func auto_act(u: Unit) -> void:
 				act(u, "adel_fire", {"k": "o", "id": o.id})
 				return
 	# 환경: 엄폐한 적이 있으면 방책을 치우고, 적이 많으면 크게 한 방
-	for a in acts.values():
-		if a.kind != "env":
-			continue
+	var envs: Array = []
+	for o in objects:
+		envs += obj_actions(u, o.id).filter(func(x): return x.ready)
+	for a in envs:
 		var ea := env_act(a.id)
+		if ea.has("skill"):
+			continue
 		if ea.effect == "break_cover" and u.key == "lina":
 			act(u, a.id, {"k": "self"}, locks)
 			return

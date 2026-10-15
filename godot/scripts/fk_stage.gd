@@ -22,6 +22,8 @@ var targets: Array = []
 var pending := {}
 var actor_uid := -1
 var inspect_uid := -1
+var found := {}  # 플레이어가 눌러서 찾은 오브젝트 (이름이 보인다)
+var focus_obj := -1  # 지금 살펴보는 오브젝트
 
 var _seq: Array = []
 var _wait := 0.0
@@ -58,6 +60,8 @@ func reset() -> void:
 	pending = {}
 	actor_uid = -1
 	inspect_uid = -1
+	found.clear()
+	focus_obj = -1
 
 
 func push(ev: Dictionary) -> void:
@@ -343,11 +347,8 @@ func _draw_obj(o: Dictionary, font: Font, fs: int) -> void:
 	var gone: bool = _obj_gone.has(o.id)
 	var ref := {"k": "o", "id": o.id}
 	var a := 0.35 if gone else 1.0
-	if _is_target(ref):
-		var tc := Color(1.0, 0.55, 0.15, 0.55 + 0.25 * sin(_t * 6.0))
-		if pending == ref:
-			tc = Color(1.0, 0.95, 0.4)
-		_ellipse(p + Vector2(0, s * 0.05), s * 0.75, s * 0.2, tc)
+	if focus_obj == o.id and not gone:
+		_ellipse(p + Vector2(0, s * 0.05), s * 0.75, s * 0.2, Color(0.6, 1.0, 0.4, 0.55 + 0.25 * sin(_t * 6.0)))
 	match o.key:
 		"bush":
 			for i in 5:
@@ -391,12 +392,13 @@ func _draw_obj(o: Dictionary, font: Font, fs: int) -> void:
 			draw_rect(Rect2(p + Vector2(-s * 0.7, -s * 0.55), Vector2(s * 1.4, s * 0.16)), Color(0.48, 0.32, 0.18))
 			draw_rect(Rect2(p + Vector2(-s * 0.6, -s * 0.4), Vector2(s * 0.12, s * 0.4)), Color(0.38, 0.25, 0.14))
 			draw_rect(Rect2(p + Vector2(s * 0.48, -s * 0.4), Vector2(s * 0.12, s * 0.4)), Color(0.38, 0.25, 0.14))
-	if gone:
+	_hits.append({"rect": Rect2(p.x - s * 0.8, p.y - s * 1.1, s * 1.6, s * 1.3), "ref": ref})
+	# 이름은 플레이어가 눌러서 찾은 뒤에만 보인다 (환경은 직접 찾는 것)
+	if gone or not found.has(o.id):
 		return
 	var name: String = o.name
 	draw_string_outline(font, p + Vector2(-120, fs * 1.1), name, HORIZONTAL_ALIGNMENT_CENTER, 240, fs, 4, Color(0, 0, 0, 0.85))
 	draw_string(font, p + Vector2(-120, fs * 1.1), name, HORIZONTAL_ALIGNMENT_CENTER, 240, fs, Color(1.0, 0.82, 0.5))
-	_hits.append({"rect": Rect2(p.x - s * 0.8, p.y - s * 1.1, s * 1.6, s * 1.3), "ref": ref})
 
 
 func _draw_fx(f: Dictionary) -> void:
