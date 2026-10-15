@@ -1,0 +1,85 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed by the tool; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in generation, transparent_background=true; no CLI/API fallback.
+Image calls: 3 (generation1 + local head-proportion edit1 + cheek correction1); retries:2. Initial SD prompt incorrectly described anatomical left cheek as near side; final cheek-only correction removes near-side scar and places it on far LEFT cheek. Historical prompts below retained verbatim; corrected anatomy supersedes their mistaken near-side instruction.
+References in attachment order:
+1. art/refs/C02_ref_combat.png - approved identity, clothing, scar and dagger placement
+2. art/refs/style-anchor.png - approved style only
+3. art/final/characters/C01_lina/C01_sd_idle.png - approved style, composition and proportions only, not face identity
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+
+Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+
+wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
+
+Pose: relaxed ready combat stance. Match input 3 approved Lina sd_idle EXACTLY in chibi head-to-body ratio, head diameter and total on-canvas character height: approximately 2.5 heads tall, not a tall 3-head figure. Full body right-facing THREE-QUARTER view, including both boots. Cecile's silver-grey bob, green eyes and face from input 1, not Lina. Hood down. Small crossed scar on anatomical LEFT cheek, the nearer visible cheek in this right-facing 3/4 view. Hands relaxed and EMPTY, both daggers remain SHEATHED, one at each belt hip as the sheet: nearer left-hip dagger visible beside left hand, far right-hip dagger visible at other waist in perspective. Do not hold or draw extra daggers. Right thigh strap on far right leg. Dark green cloak, brown leather vest and linen shirt, dark breeches, fingerless gloves, soft brown boots as approved sheet. Match Lina's outline weight, material rendering and chibi scale; no sword, shield, ribbon, long brown hair or red surcoat. Centered with ample clear margins, feet at same level, no ground shadow, one character only.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Use case: stylized-concept. Input 1: approved Cecile combat reference sheet, sole identity/clothing source. Input 2: approved style-anchor, style only. Input 3: approved Lina matching-format result, style/composition/proportion only, NEVER identity. Transparency override: create REAL transparent background, no magenta or other opaque backdrop; character interiors fully opaque alpha255, antialias only at silhouette edge.
+
+Raw generation: art/raw/C02_sd_idle_v1.png, original file retained byte-for-byte.
+Postprocessing: tools/art/finish_s08.ps1. Preserve character RGB, normalize deep interior alpha to255 and retain native antialias at silhouette boundary (1px neighborhood); no binary output alpha. Transparent background pixels RGB zeroed. No mirroring.
+Transparent subject trimmed and uniformly resized to464px height to match Lina idle's y24..487 total height; placed on512x512, foot baseline last occupied row487. Right-facing3/4; anatomical LEFT-cheek scar belongs on FAR cheek (screen-right face edge), matching Lina's far-side left-temple ribbon logic. One sheathed dagger on each belt hip, both hands empty. Hair/bob shape differs from Lina while chibi head/body scale matches.
+
+LOCAL HEAD EDIT (verbatim):
+Use case: precise-object-edit. Input 1 is the EDIT TARGET, Cecile's 512x512 chibi idle sprite; input 2 is approved Lina sd_idle, PROPORTION REFERENCE ONLY. Edit ONLY Cecile's head and upper-neck region to match Lina's exact chibi head-to-body proportion. Keep the hair crown at y24, soles at y487, total height464. Current Cecile head is slightly too small/tall-body: increase her entire head (bob hair, green eyes, ears, face) about12% in height and8% width, extending downward so chin reaches approximately y211 instead of y190, slightly shortening the neck/upper-shoulder transition. Preserve her distinct Cecile identity and closed-mouth mischievous smile and the small X scar on anatomical LEFT cheek, the near cheek in the right-facing3/4 view. Keep hair crown centered and fixed at y24. Maintain right-facing3/4. Do not change any pixel below y255, or any clothes, hands, twin sheathed belt daggers, legs, boots or cloak sides. Her face should remain Cecile, never Lina. No new accessories. Preserve actual transparent background, opaque interiors, antialias only along silhouette. Output same512x512 composition. This will be composited through a head/upper-neck mask only; pixels outside that mask must stay identical. No text, no UI, no ground shadow.
+
+Edit attachments in order: art/raw/qa_S08/sd/before_head_edit.png (target); art/final/characters/C01_lina/C01_sd_idle.png (proportion reference only).
+Original edit result retained byte-for-byte: art/raw/C02_sd_idle_v2.png. Selected output: head+upper-neck mask composite from edit over pre-edit normalized sprite; outside-mask RGBA difference0. Mask and difference PNG retained in art/raw/qa_S08/sd/. Final torso, cloak sides, hands, daggers, legs and boots outside the mask are pixel-identical. tools/art/repair_s08_head.ps1.
+
+FINAL CHEEK CORRECTION (verbatim):
+Use case: precise-object-edit. Edit target input1 is a 700x500 enlarged crop of Cecile's existing chibi face. Input2 approved Cecile sheet establishes the small scar on HER anatomical LEFT cheek. Change ONLY TWO TINY CHEEK PATCHES, preserve every other pixel and the exact crop/composition/face/eyes/hair/mouth. This face looks to SCREEN RIGHT in 3/4 view, so the anatomical LEFT cheek is the FAR cheek at SCREEN RIGHT, under the SMALLER eye near the right hair edge. 1) REMOVE the existing X scar on SCREEN LEFT (currently centered around x200,y300 of this700x500 crop) and restore smooth skin matching surrounding shading. That is her RIGHT cheek and must have NO scar. 2) ADD a small subtle reddish crossed X scar on the FAR cheek at SCREEN RIGHT, centered approximately x516,y279, just below the smaller green eye, to the RIGHT of the nose and LEFT of the right hair edge. Scar should be about32px wide x42px high in this enlarged crop; it foreshortens on the far cheek. Do NOT add the scar back under the large near eye. Only the screen-RIGHT far cheek should carry one X scar. All other pixels must remain identical. Keep the exact700x500 crop and transparent background as provided. No new objects, no text.
+
+Edit attachments: art/raw/qa_S08/sd/scar_edit_target_5x.png (700x500 target crop from512 sprite at x255,y125,w140,h100, enlarged5x); art/refs/C02_ref_combat.png (anatomical scar side). Raw tool result: art/raw/C02_sd_idle_v3.png. Two feathered cheek RGB masks only; outside-mask RGBA difference0 and entire alpha channel difference0. Removal centered(295,186), correct far LEFT-cheek scar centered(358,181),512px coordinates. tools/art/repair_s08_scar.ps1. Final face enlarged3x and scar verified.
+QA JSON: {
+    "size":  [
+                 512,
+                 512
+             ],
+    "source_edit_size":  [
+                             1254,
+                             1254
+                         ],
+    "changed_pixels":  40282,
+    "outside_mask_rgba_changed_pixels":  0,
+    "alpha_changes_inside_mask":  8944,
+    "alpha255":  79596,
+    "alpha0":  177321,
+    "partial_alpha":  5227,
+    "interior_partial":  0,
+    "visible_y_bounds":  [
+                             24,
+                             487
+                         ],
+    "foot_baseline":  487,
+    "method":  "local head and upper-neck RGBA mask composite; all outside pixels identical",
+    "scar_edit":  {
+                      "changed_rgb_pixels":  525,
+                      "outside_cheek_mask_rgba_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "removed_wrong_near_right_cheek":  [
+                                                             295,
+                                                             186
+                                                         ],
+                      "correct_far_left_cheek":  [
+                                                     358,
+                                                     181
+                                                 ],
+                      "method":  "RGB-only two cheek masks; all other RGBA and entire alpha channel identical"
+                  }
+}
+QA previews: art/raw/qa_S08/sd/. Comparison: art/raw/qa_S08_lina_sd_comparison.png. Status: generated, awaiting user approval; S08 intermediate checkpoint only.

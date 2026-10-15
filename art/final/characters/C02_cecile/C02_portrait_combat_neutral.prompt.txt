@@ -1,0 +1,38 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed by the tool; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in generation, transparent_background=true; no CLI/API fallback.
+Generation calls: 1; retries: 0; no local editing required (left-cheek scar present).
+References in attachment order:
+1. art/refs/C02_ref_combat.png - approved identity, clothing, scar and dagger placement
+2. art/refs/style-anchor.png - approved style only
+3. art/final/characters/C01_lina/C01_portrait_combat_neutral.png - approved style, composition and proportions only, not face identity
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
+
+Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+
+wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
+
+Neutral calm expression that still shows the character's personality. Use a quiet, slightly mischievous CLOSED-MOUTH smile, relaxed brows. Her face, short silver-grey bob and green eyes must be Cecile from input 1, not Lina. The small crossed scar is on her anatomical LEFT cheek: viewer RIGHT in this front-facing portrait. Show it clearly without exaggerating its size. Dialogue standing portrait: face looks directly at viewer, only torso subtly angled, arms resting naturally, both empty gloved hands and both sheathed belt daggers wholly visible. Exactly one dagger sheathed on each hip, same orientation and belt attachments as the sheet; right-thigh strap on viewer left. Head-to-knee crop, small head margin and comparable head scale to approved Lina portrait. No feet. No mirroring. One character, no reference panels. Follow approved Lina portrait's polished rendering and knee-up composition without its background, weapons, face or hairstyle.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Use case: stylized-concept. Input 1: approved Cecile combat reference sheet, sole identity/clothing source. Input 2: approved style-anchor, style only. Input 3: approved Lina matching-format result, style/composition/proportion only, NEVER identity. Transparency override: create REAL transparent background, no magenta or other opaque backdrop; character interiors fully opaque alpha255, antialias only at silhouette edge.
+
+Raw generation: art/raw/C02_portrait_combat_neutral_v1.png, original file retained byte-for-byte.
+Postprocessing: tools/art/finish_s08.ps1. Preserve character RGB, normalize deep interior alpha to255 and retain native antialias at silhouette boundary (1px neighborhood); no binary output alpha. Transparent background pixels RGB zeroed. No mirroring.
+Canvas 1024x1536 retained; no scaling, cropping or repositioning. Face enlarged3x and anatomical LEFT-cheek crossed scar verified on viewer RIGHT. Closed-mouth calm playful smile; both hands and both belt-sheathed daggers visible.
+QA JSON: {"size":[1024,1536],"source_size":[1024,1536],"source_crop":[17,10,1009,1535],"alpha255":922546,"alpha0":634252,"partial_alpha":16066,"interior_partial":0,"visible_rgb_changes":0,"bbox":[16,9,1010,1535],"foot_baseline":null,"alpha_method":"native edge alpha retained within 1px silhouette neighborhood; deep interior forced255; fully covered edge feathered1px; not binary output","mirrored":false,"portrait_position_unchanged":true}
+QA previews: art/raw/qa_S08/portrait/. Comparison: art/raw/qa_S08_lina_sd_comparison.png. Status: generated, awaiting user approval; S08 intermediate checkpoint only.
