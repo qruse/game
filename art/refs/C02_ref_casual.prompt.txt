@@ -1,0 +1,72 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed by this tool; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in generation with image references; no CLI/API fallback.
+References in attachment order:
+- art/refs/C02_ref_combat.png
+- art/refs/style-anchor.png
+- art/refs/C01_ref_combat.png
+- art/refs/C01_ref_casual.png
+
+FULL PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Character reference sheet: full body front view, side view and back view of the same character side by side, neutral standing pose, plain flat light grey background, consistent design across all views.
+
+Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+
+wearing a loose off-white linen shirt knotted at the waist showing a little midriff, short brown breeches, knee-high socks, soft shoes, a coin pouch on her hip, tossing an apple, relaxed tomboyish pose
+
+Create ONE production character turnaround sheet, landscape 1536x1024 or nearest supported 3:2. Exactly three equally scaled full-body figures left to right: straight front, strict LEFT profile facing image-left, straight back. Same grey background, full-body margins, head/sole alignment and scale as the attached approved turnaround sheets. No inset portraits.
+Input image 1, Cecile's newly generated COMBAT sheet, is the authoritative FACE, short bob haircut, green eyes, LEFT cheek scar, lean adult body, head size, height and limb proportions reference. This is the SAME woman changing clothes. Preserve her own distinct facial structure, skin tone, age, hair cut, eye shape and physique exactly. Input image 2 is the approved STYLE anchor. Input images 3 and 4 are approved LINA combat/casual sheets for rendering and layout only, never for facial identity, long hair, braid, ribbon, outfit or dominant red palette.
+MUST KEEP: short silver-grey bob hair; green eyes; one small healed scar on HER anatomical LEFT cheek. Front scar is viewer-RIGHT ONLY; center left profile faces image-left, shows LEFT cheek with SAME scar; back no facial scar. No scar on right cheek. No added hair ornaments.
+Casual outfit is exactly a loose opaque off-white linen shirt knotted at her waist, a LITTLE midriff visible, simple short brown breeches ending at mid-thigh, plain knee-high socks, soft medieval leather shoes, a simple coin pouch at HER LEFT hip. No combat cloak, leather vest, daggers or gloves in casual outfit. Shirt has practical modest neckline; opaque material; no deep cleavage, no underwear, no excessive exposed abdomen. The medium exposure rating permits small midriff and above-knee legs; adult woman, practical relaxed tomboy presentation, no sexualized pose.
+S02 anatomical side consistency: coin pouch at anatomical LEFT hip in all views: viewer-right in FRONT, visible near hip in LEFT profile, viewer-left in BACK. Her RIGHT hand casually tosses one apple a few centimeters above her palm: viewer-left hand in FRONT, far/right arm naturally forward visible near chest in LEFT profile, viewer-right hand in BACK. LEFT hand rests relaxed beside the LEFT hip and pouch, fingers naturally separated. One apple per view, same hand and height, no motion streaks. Avoid extreme wrist bends or fingers merging with the apple. Keep feet quietly planted and torso at rest in each orthographic view so proportions and clothing construction can be compared. Mild mischievous closed-mouth grin; not a pinup or action pose.
+Dominant off-white linen and warm brown shorts with neutral grey socks and silver-grey bob. Short trouser silhouette clearly differs from Lina's long cream apron and crimson skirt; use Cecile's source identity without redesign. Keep all props and fingers within the image. Flat opaque light grey background; no transparency, scenery, decorative frames, annotation or labels.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+
+LOCAL EDIT PROMPT (verbatim):
+Precise LOCAL REPAIR of this existing 1536x1024 Cecile casual turnaround. Preserve ALL pixels and design outside the following three local repairs; no regeneration, no redesign:
+1. FRONT figure only: add missing SMALL healed crossed-scratch scar on her anatomical LEFT cheek (viewer-RIGHT), matching the existing tiny crossed scar on CENTER left-profile cheek. Put it on exposed cheek skin below her LEFT eye, around x343..366 y130..153. Do not alter the face, eyes, hair or expression.
+2. BACK figure only: her coin pouch is currently incorrectly on viewer-RIGHT hip. Move this same pouch to viewer-LEFT hip (her anatomical LEFT), consistent with FRONT and LEFT-profile views. Erase the old viewer-RIGHT pouch around x1270..1350 y371..482, restoring underlying brown breeches/belt only. Add the same pouch on viewer-LEFT rear/side hip around x1095..1162 y374..482, with natural belt suspension, behind the lowered left forearm where naturally occluded. The new pouch's back/side surface should face us, not a reversed new frontal belt buckle. Exactly one coin pouch in this rear view.
+3. BACK figure only: remove the incorrect duplicate shirt knot/tails around x1180..1280 y310..378. The shirt is knotted at the FRONT of the body, as seen correctly in front/profile. Its BACK hem should be a plain slightly gathered off-white linen hem at waist level, no back knot or hanging tails, keeping the same small midriff strip.
+Do not touch the CENTER profile or other FRONT regions. Preserve face/body identity, three silver-grey bobs, green eyes, hand/arm poses, right hand tossing apple in all views, fingers, legs, knee-high socks, shoes, background, scale, alignment and all clothing outside those small repair areas. No text or annotation. Return full same-size sheet.
+
+
+FINAL LOCAL SCAR PASS (third and last image call):
+Image 1 is the EDIT TARGET: Cecile's casual turnaround. Image 2 is the supporting REFERENCE: her combat turnaround, whose front face already has the CORRECT small crossed scratch scar.
+Make exactly ONE TINY edit to image 1: transfer/match the visible small healed crossed scar from image 2 FRONT figure onto image 1 FRONT figure's anatomical LEFT cheek, i.e. viewer-RIGHT cheek, directly beneath the outer corner of her green left eye on exposed cheek skin. In 1536x1024 pixel coordinates this is around x350 y140. It must be clearly visible, like the scar in image 2, not omitted or hidden in hair. Only a small pink-brown healed X scratch, not blood. Her center profile already has the scar; do not edit that.
+Return image 1 full-size 1536x1024. Preserve all other pixels exactly: face identity, eyes, mouth, hair, casual clothes, all side and back figures, corrected left rear coin pouch, plain back shirt hem, fingers, apples and background. Do not replace any outfit or copy combat clothing. No regeneration, no new pose, no other changes.
+
+Edit references in order: art/raw/qa_S07/C02_ref_casual_before_scar_v3.png; art/refs/C02_ref_combat.png (corrected scar).
+Original casual generation used the initial combat sheet, archived as art/raw/C02_ref_combat_v1.png. Third edit raw: art/raw/C02_ref_casual_v3.png.
+
+Edit reference: art/raw/C02_ref_casual_v1.png (the generated refs file at time of edit).
+
+Postprocessing: original generation and edit preserved byte-for-byte in raw v1/v2. Tool has no mask argument: only specified repair mask regions from edit were composited over v1; all outside RGBA preserved. Native 1536x1024 opaque grey sheet retained; no resizing, background removal or mirroring. Verification: outside_mask_RGBA_diff_pixels=0; changed_inside_mask=55853; mask_rectangles=333,124,42,43;1080,300,285,195
+Final scar pass: outside_mask_RGBA_diff_pixels=0; changed_inside_mask=1592; mask_rectangles=333,124,42,43
+QA derivatives saved separately. Status: todo (QA hold). Best candidate preserved for user review; three image calls exhausted, FRONT LEFT-cheek scar remains absent/indistinct. Side/profile scar is present. Do not approve automatically; next session should edit only the missing front scar.
+
+
+LOCAL FRONT-CHEEK SCAR REPAIR — RESOLVED (2026-10-15, Asia/Seoul)
+Tool/model: OpenAI built-in image_gen image edit; exact backend model identifier not exposed. One edit attempt in this task (maximum 3); no full-sheet regeneration.
+Edit target: art/refs/C02_ref_casual.png. Supporting reference: art/refs/C02_ref_combat.png, authoritative front scar; existing casual profile X scar also inspected and preserved.
+Backup before replacement: art/raw/C02_ref_casual_v4.png, byte-identical original.
+Input images in attachment order: temporary casual-face.png and combat-face.png, both crops [255,85,115,90] from their respective sheets, enlarged 6x with nearest-neighbor to 690x540. No design redraw was used.
+FULL EDIT PROMPT (verbatim):
+Use case: precise-object-edit. Image 1 is the EDIT TARGET, an enlarged crop of the existing Cecile CASUAL front face (115x90 source pixels enlarged exactly 6x to 690x540). Image 2 is the REFERENCE ONLY, the aligned enlarged crop of her COMBAT front face, showing the correct tiny healed crossed/X-shaped scar on her anatomical LEFT cheek, which is the viewer-RIGHT cheek. Transfer/match ONLY that tiny pink-brown healed crossed-scratch scar from image 2 onto image 1 at the identical cheek position, directly below the viewer-right eye beside the bob hair edge (scar center around crop x492 y270 in the 690x540 input). Match the reference scar's exact small size, color, thin line weight and crossed shape. Make the scar visible rather than omitting it. Return image 1 with exactly the same crop, scale, pose and alignment. Do not copy combat clothing or alter anything else. Preserve both eyes, mouth, expression, nose, all hair strands, skin shading, face identity, and background. No new image, redesign, labels or added objects. Only a tiny cheek area may change. The final output will be composited through a small cheek mask over the original full sheet, so unchanged alignment is essential.
+
+Generated crop: C:/Users/이현상/.codex/generated_images/01a13e4c-af4f-7dc0-acdd-0c31b65837cb/exec-79360722-b91a-4fb2-92a4-1c05a899e4fc.png (1418x1109). Remove output border with crop [0,0,1414,1088], resample to 115x90 with high-quality bicubic, then composite ONLY through the binary cheek polygon onto the original sheet.
+Mask polygon in full-sheet pixels (origin top-left, 0-based): (332,122),(340,121),(342,125),(341,132),(338,134),(332,129). Rasterized by System.Drawing FillPolygon, smoothing disabled. 101 selected pixels. Changed RGB pixels=100; changed bounding box inclusive=[332,122,341,133]. Outside-mask RGB differing pixels=0; maximum RGB difference=0; alpha differing pixels=0. Final remains 1536x1024. Both eyes, mouth, expression, hair, profile/back figures, clothing and background preserved outside this tiny mask.
+QA: small healed pink-brown crossed/X scar now present on anatomical LEFT cheek (viewer-RIGHT), matching combat front size/color and profile crossed scar. Facial crop [255,85,115,90] reduced to 64x50: cheek scar still visible, comparable to combat reference; fine X detail assessed at source scale. Whole sheet reduced to 64x43: scar is subpixel and not separately identifiable, as in the combat reference; not enlarged beyond reference to compensate.
+Resolution: earlier FRONT scar QA hold is resolved; C02_ref_casual status=generated, pending user review. S07 remains 검토 대기. No S08 work, no commit.
