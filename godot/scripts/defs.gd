@@ -18,28 +18,28 @@ const TRAITS := {
 
 const ALLIES := {
 	"lina": {
-		"name": "리나", "short": "리", "role": "탱커", "color": Color(0.80, 0.28, 0.30),
+		"name": "리나", "short": "리", "role": "탱커", "color": Color(0.80, 0.28, 0.30), "art": "C01_lina",
 		"hp": 22, "ac": 16, "move": 3, "atk": 5, "melee": true,
 		"saves": {"str": 5, "dex": 0, "int": -1, "cha": 1},
 		"traits": ["iron_wall", "guardian"],
 		"actions": ["lina_basic", "lina_bash", "lina_taunt"], "ult": "lina_ult",
 	},
 	"cecile": {
-		"name": "세실", "short": "세", "role": "근접 딜러", "color": Color(0.45, 0.36, 0.70),
+		"name": "세실", "short": "세", "role": "근접 딜러", "color": Color(0.45, 0.36, 0.70), "art": "C02_cecile",
 		"hp": 16, "ac": 14, "move": 5, "atk": 5, "melee": true,
 		"saves": {"str": 0, "dex": 5, "int": 1, "cha": 1},
 		"traits": ["slip", "bush_stealth"],
 		"actions": ["cecile_basic", "cecile_ambush", "cecile_smoke"], "ult": "cecile_ult",
 	},
 	"adelheid": {
-		"name": "아델하이트", "short": "아", "role": "마법 딜러", "color": Color(0.25, 0.48, 0.85),
+		"name": "아델하이트", "short": "아", "role": "마법 딜러", "color": Color(0.25, 0.48, 0.85), "art": "C03_adelheid",
 		"hp": 12, "ac": 12, "move": 2, "atk": 5, "melee": false,
 		"saves": {"str": -1, "dex": 1, "int": 5, "cha": 1},
 		"traits": [],
 		"actions": ["adel_basic", "adel_fire", "adel_frost"], "ult": "adel_ult",
 	},
 	"miriam": {
-		"name": "미리엄", "short": "미", "role": "서포터", "color": Color(0.85, 0.70, 0.30),
+		"name": "미리엄", "short": "미", "role": "서포터", "color": Color(0.85, 0.70, 0.30), "art": "C04_miriam",
 		"hp": 16, "ac": 13, "move": 3, "atk": 3, "melee": true,
 		"saves": {"str": 0, "dex": 0, "int": 1, "cha": 5},
 		"traits": ["guide"],

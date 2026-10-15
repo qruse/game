@@ -25,6 +25,11 @@ var pending := NO_CELL
 var selected_uid := -1
 var dim_acted := true
 var speed := 1.0
+var sprites := {}  # uid -> Texture2D (SD 그림이 있으면 동그라미 대신 그린다)
+
+## SD 캔버스(512) 안에서 발끝 기준선 위치 (style-guide.md 6절: 아래에서 24px)
+const SD_FEET := 488.0 / 512.0
+const SD_SCALE := 1.3
 
 var _disp := {}
 var _queue := {}
@@ -153,15 +158,36 @@ func _draw() -> void:
 		var col: Color = u.color
 		if u.downed:
 			col = Color(0.35, 0.35, 0.35)
-		if u.uid == selected_uid:
-			draw_circle(p, rad + line_w * 2.5, Color(1.0, 1.0, 0.6))
-		draw_circle(p + Vector2(0, rad * 0.18), rad, Color(0, 0, 0, 0.35))
-		draw_circle(p, rad, col)
-		draw_arc(p, rad, 0, TAU, 40, Color(0.95, 0.95, 0.9) if u.side == "ally" else Color(0.15, 0.02, 0.02), line_w * 1.4)
-		var fb := int(rad * 0.95)
-		draw_string(font, p + Vector2(-rad, fb * 0.36), u.short, HORIZONTAL_ALIGNMENT_CENTER, rad * 2.0, fb, Color.WHITE)
-		if dim_acted and u.side == "ally" and u.acted and not u.downed:
-			draw_circle(p, rad, Color(0, 0, 0, 0.4))
+		var tex: Texture2D = sprites.get(u.uid)
+		var top_y := p.y - rad
+		if tex != null:
+			# SD: 발끝을 칸 아래쪽에 맞추고, 발밑에 팀 색 타원
+			var feet := p + Vector2(0, _ts * 0.40)
+			if u.uid == selected_uid:
+				_ellipse(feet, _ts * 0.40, _ts * 0.15, Color(1.0, 1.0, 0.6))
+			_ellipse(feet, _ts * 0.34, _ts * 0.11, Color(col, 0.85))
+			var sz := _ts * SD_SCALE
+			var rect := Rect2(feet.x - sz / 2.0, feet.y - sz * SD_FEET, sz, sz)
+			if u.side == "enemy":
+				rect = Rect2(rect.position + Vector2(sz, 0), Vector2(-sz, sz))
+			var mod := Color.WHITE
+			if u.downed:
+				mod = Color(0.4, 0.4, 0.4, 0.8)
+			elif dim_acted and u.side == "ally" and u.acted:
+				mod = Color(0.6, 0.6, 0.6)
+			draw_texture_rect(tex, rect, false, mod)
+			top_y = feet.y - sz * 0.8
+			rad = _ts * 0.40
+		else:
+			if u.uid == selected_uid:
+				draw_circle(p, rad + line_w * 2.5, Color(1.0, 1.0, 0.6))
+			draw_circle(p + Vector2(0, rad * 0.18), rad, Color(0, 0, 0, 0.35))
+			draw_circle(p, rad, col)
+			draw_arc(p, rad, 0, TAU, 40, Color(0.95, 0.95, 0.9) if u.side == "ally" else Color(0.15, 0.02, 0.02), line_w * 1.4)
+			var fb := int(rad * 0.95)
+			draw_string(font, p + Vector2(-rad, fb * 0.36), u.short, HORIZONTAL_ALIGNMENT_CENTER, rad * 2.0, fb, Color.WHITE)
+			if dim_acted and u.side == "ally" and u.acted and not u.downed:
+				draw_circle(p, rad, Color(0, 0, 0, 0.4))
 		var bw := _ts * 0.8
 		var bp := p + Vector2(-bw / 2.0, rad + _ts * 0.04)
 		var bh := maxf(5.0, _ts * 0.06)
@@ -175,7 +201,7 @@ func _draw() -> void:
 		if u.downed:
 			sts = ["쓰러짐"]
 		if not sts.is_empty():
-			draw_string(font, p + Vector2(-_ts / 2.0, -rad - 4), " ".join(PackedStringArray(sts)), HORIZONTAL_ALIGNMENT_CENTER, _ts, fs, Color(1.0, 0.9, 0.6))
+			draw_string(font, Vector2(p.x - _ts / 2.0, top_y - 4), " ".join(PackedStringArray(sts)), HORIZONTAL_ALIGNMENT_CENTER, _ts, fs, Color(1.0, 0.9, 0.6))
 		if u.brand > 0:
 			var bpos := p + Vector2(rad * 0.85, -rad * 0.85)
 			draw_circle(bpos, _ts * 0.12, Color(0.55, 0.25, 0.75))
@@ -191,6 +217,14 @@ func _draw() -> void:
 		fc.a = a
 		draw_string_outline(font, fp - Vector2(_ts, 0), f.text, HORIZONTAL_ALIGNMENT_CENTER, _ts * 2.0, ff, 6, Color(0, 0, 0, a))
 		draw_string(font, fp - Vector2(_ts, 0), f.text, HORIZONTAL_ALIGNMENT_CENTER, _ts * 2.0, ff, fc)
+
+
+func _ellipse(c: Vector2, rx: float, ry: float, col: Color) -> void:
+	var pts := PackedVector2Array()
+	for i in 32:
+		var a := TAU * i / 32.0
+		pts.append(c + Vector2(cos(a) * rx, sin(a) * ry))
+	draw_colored_polygon(pts, col)
 
 
 func _gui_input(ev: InputEvent) -> void:

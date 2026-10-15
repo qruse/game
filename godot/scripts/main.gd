@@ -271,6 +271,7 @@ func _start() -> void:
 	battle.setup(MAPS[map_idx].path, party)
 	board.battle = battle
 	board.reset()
+	_load_sprites()
 	log_box.clear()
 	menu.visible = false
 	over.visible = false
@@ -282,6 +283,22 @@ func _start() -> void:
 	_flush()
 	sel = battle.side_units("ally")[0] if not battle.side_units("ally").is_empty() else null
 	_refresh()
+
+
+## 저장소의 art/final 에 SD 그림이 있으면 쓴다 (없으면 동그라미)
+func _load_sprites() -> void:
+	board.sprites.clear()
+	var art_root := ProjectSettings.globalize_path("res://").path_join("../art/final/characters")
+	for u in battle.units:
+		if u.side != "ally":
+			continue
+		var folder: String = Defs.ALLIES[u.key].get("art", "")
+		var path := art_root.path_join(folder).path_join("%s_sd_idle.png" % folder.get_slice("_", 0))
+		if folder == "" or not FileAccess.file_exists(path):
+			continue
+		var img := Image.load_from_file(path)
+		if img != null:
+			board.sprites[u.uid] = ImageTexture.create_from_image(img)
 
 
 func _to_menu() -> void:

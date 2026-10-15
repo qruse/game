@@ -1,0 +1,30 @@
+Model: built-in image_gen; exact model identifier not exposed
+Generation date: 2026-10-15 (Asia/Seoul)
+Tool: image_gen.imagegen; transparent_background=true
+References in order:
+1. art/raw/C01_sd_idle_v2.png (edit target)
+2. art/refs/C01_ref_combat.png (approved design)
+3. art/refs/style-anchor.png (approved style)
+
+FULL PROMPT
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face
+wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps, a longsword in her right hand, a white heater shield with a red chevron strapped to her left forearm (held by its inner straps, not by the rim)
+Use case: precise-object-edit. Image 1 is the SD idle EDIT TARGET. Image 2 is the approved C01 reference sheet, image 3 the approved style-anchor. Correct TWO identified QA issues in Image 1 while retaining her design and relaxed ready pose:
+1. PROPORTIONS: make her a much shorter, stubbier SUPER-DEFORMED CHIBI of 2.5 heads total. Keep the current large head; SHORTEN the entire body below the chin by about 30 percent. The head from crown to chin must take 40-42% of the full crown-to-boot-sole height. Torso plus legs together only 1.5 heads. Make boots/shins much shorter and torso compact. Do not deliver a 3-head-tall mini adult. Crown, neck, waist and boot-sole height ratio about 0%,40%,65%,100%.
+2. HAIR ASYMMETRY: she has ONE side braid on her anatomical LEFT side ONLY, tied by the red ribbon already on the FAR screen-RIGHT edge of her head. REMOVE THE ENTIRE EXTRA VISIBLE BRAID ON THE NEAR SCREEN-LEFT TEMPLE of image 1 and replace it with loose unbraided chestnut hair. Exposed near ear/temple on screen LEFT must have absolutely no braid, no plait, no rope shape, no ribbon. Left braid may be mostly hidden behind head on far screen RIGHT. Keep the far screen-RIGHT red ribbon in place.
+Keep long chestnut hair, pale violet eyes, calm closed-mouth expression, crimson surcoat gold cross FLEURY, gold trim, white frilled underskirt, LIGHT SIMPLIFIED chainmail pattern, leather gloves/belt/boots, RIGHT-hand sword and LEFT forearm shield with white face red chevron, secure grip/internal straps. Full figure faces screen RIGHT in three-quarter view. Do not mirror. Keep whole sword and boots inside generous margins. No shadow, floor or effects. GENUINE transparent background overrides contextual magenta wording. Square image at closest supported size to 1024x1024; final will be 512x512.
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+PROCESSING / QA
+QA passed after 3 tool calls (2 retries). v1 rejected for near/right-side braid/ribbon and ~3-head proportions. v2 rejected for an extra near/right braid and tall proportions. v3 edits v2: only far/anatomical-left ribbon remains visible; left braid mostly occluded; near/right temple unbraided; approximately 2.5 heads. tools/art/finish_s03.ps1: native transparent background; alpha silhouette threshold128, cropped bbox [77,95,1088,1204]; 1254x1254 tool output uses nearest supported square; scaled uniformly 0.418018018018018 onto 512x512; final bbox [44,24,466,487]. Bottom24 rows transparent (last occupied row487). Interior alpha255; partial alpha4481 only inner1px silhouette boundary; interior_partial0. No mirror. Native-alpha background cleanup, no magenta key needed. Checkerboard and QA: art/raw/qa_S03/idle/. Awaiting user approval.

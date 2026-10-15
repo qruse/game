@@ -44,6 +44,7 @@
 - 이야기: 몰락한 길드 마지막 기사의 딸. 아버지의 이름을 되찾으려고 길드에 남은 유일한 사람
 - 기준 이미지: `art/samples/codex-lina-v1.png` (수정 전 시안)
 - MUST KEEP: 갈색 긴 머리, 연보라색 눈, **왼쪽(보는 사람 기준 오른쪽) 옆머리의 작은 땋은 머리를 묶은 붉은 리본**
+  - SD(오른쪽을 보는 3/4 시점)에서는 리본이 **얼굴 쪽 관자놀이**에 보여야 한다. 뒤통수 쪽에 있으면 반대다. 기준: `C01_sd_idle.png`
   - 전투복: 붉은 서코트의 금색 **크로스 플러리(끝이 꽃잎처럼 퍼지는 십자)**, 서코트 아래 흰 프릴 치맛단, 사슬 갑옷, 흰 바탕에 붉은 셰브런 방패, 롱소드
 - BODY: `Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face`
 - COMBAT: `wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps, a longsword in her right hand, a white heater shield with a red chevron strapped to her left forearm (held by its inner straps, not by the rim)`

@@ -1,0 +1,33 @@
+Model: built-in image_gen; exact model identifier not exposed
+Generation date: 2026-10-15 (Asia/Seoul)
+Tool: image_gen.imagegen; transparent_background=true
+References in order:
+1. art/raw/C01_sd_attack_v1.png (edit target)
+2. art/refs/C01_ref_combat.png (approved design)
+3. art/refs/style-anchor.png (approved style)
+
+FULL PROMPT
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face
+wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps, a longsword in her right hand, a white heater shield with a red chevron strapped to her left forearm (held by its inner straps, not by the rim)
+Use case: precise-object-edit. Image 1 is the SD attack EDIT TARGET (v1); image 2 approved three-view reference sheet, image 3 approved style-anchor.
+KEEP EXACT ATTACK POSE AND EQUIPMENT ARMS of Image 1: sword arm originates at SCREEN-LEFT shoulder (her RIGHT), crosses forward toward upper right gripping the sword, and shield remains on SCREEN-RIGHT side (her LEFT forearm). DO NOT swap arms or move shield to screen left. Keep natural grip and shield internal forearm straps.
+Correct only these two design issues while retaining pose, equipment, palette and character identity:
+1. Make a 2.5-head SUPER-DEFORMED chibi. Keep large current head but compress everything BELOW THE CHIN vertically about 30%. Crown-to-chin head =40-42% of full crown-to-sole body height. Lower body torso+legs only1.5 head heights TOTAL. Stumpy short legs, compact torso, short boots. Do not use a 3-head figure. Keep face earnest focused and closed mouth.
+2. Hair must have ONLY ONE braid/ribbon on ANATOMICAL LEFT (far side). REMOVE the braid AND red ribbon currently on the exposed near SCREEN-LEFT temple entirely, replacing with plain loose chestnut hair; no braid/plait/rope shape on near side. Place ONE red ribbon peeking from far SCREEN-RIGHT edge of head, behind hair near far temple. Its left-side braid should be mostly occluded behind the head. The approved reference front view has ribbon viewer RIGHT; preserve that anatomical side. No second braid.
+KEEP long chestnut hair, violet eyes, gold CROSS FLEURY on crimson gold-trim surcoat, white frilled hem, LIGHT SIMPLIFIED chainmail pattern, leather belt/gloves/boots, longsword in RIGHT hand and white/red chevron heater shield on LEFT forearm.
+Facing screen RIGHT, compact planted forward attack lunge, both boots visible, sword above feet level. Full sword tip, hair and toes inside generous margins. Genuine transparent background, no floor/shadow/effects; overrides contextual magenta wording. Closest supported square to1024x1024, final512x512. Do not mirror.
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+PROCESSING / QA
+DESIGN QA FAILED after maximum 3 image_gen calls (2 retries); NOT generated/approved. v1: braid/ribbon on near/anatomical-right temple and tall ~3-head body. v2: same braid/ribbon issue plus swapped equipment arms. v3: correct right sword / left strapped shield and approximately2.5-head body, but braid/ribbon remain on exposed near/right side instead of anatomicalLEFT far side. Final-path PNG is a REVIEW-ONLY failed candidate, not a QA-passed production asset. Manifest stays todo with failure notes per art/AGENTS.md workflow6. Do not consume without resolving design QA. Native alpha cleaned and resized using tools/art/finish_s03.ps1: source1254x1254; crop[31,133,1233,1166]; uniform scale0.385702410640066; final512x512 bbox[24,89,487,487], last occupied row487, bottom24 rows transparent. Interioralpha255; partial4555 only inner1px boundary; interior_partial0. No mirroring. QA/checkerboard: art/raw/qa_S03/attack/. Attack head appears smaller than idle due wide sword pose fitting into canvas; Claude combat mockup still pending.
