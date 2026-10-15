@@ -1,0 +1,38 @@
+Asset: P0_lina_casual_v1 (S01 casual revision v2; stable manifest ID)
+Date: 2026-10-15 (Asia/Seoul)
+Tool: built-in image_gen (edit), not fallback CLI
+Model: identifier not exposed by built-in tool
+Generations: 1 expression edit; retries: 0; section-2 full regeneration: not used
+Input/edit target: art/raw/C01_portrait_casual_neutral_v1.png
+Input SHA256: E96D97C1F4ADEAC4463F7F7656DDC23D398E01ECC575D7D1C92C3A37CC543B3A
+Other attached references: none
+Tool options: transparent_background=true
+Output: art/raw/C01_portrait_casual_neutral_v2.png
+Generated edit archive: art/raw/qa_C01_casual_v2/C01_casual_v2_generated_edit.png
+Dimensions: 1024 x 1536; no scaling, cropping, mirroring or repositioning
+Native tool has no mask-file argument. Applied the style-guide section 3.1.4 alternative: composite only the edited face interior onto v1 through a local face mask.
+Postprocessing: tools/art/finish_lina_casual_v2.ps1; three face-interior polygons; 5-pixel inward feather; RGB outside mask preserved exactly.
+Background removal, style-guide section 6: reused v1 native alpha matte; alpha >=128 set to 255, alpha <128 set to 0. RGB retained, including outside the face mask. No remaining partial alpha.
+QA: 12129 changed RGB pixels; 0 outside-face RGB changes; 972312 alpha-255 pixels; 600552 alpha-0 pixels; 0 partially transparent pixels.
+QA files: art/raw/qa_C01_casual_v2/ (face mask, RGB difference, checkerboard preview, face detail, qa.json)
+Visual QA: closed mouth and calm smile; pale violet eyes; hair and viewer-right ribbon preserved; no added objects or text; neckline, clothes, apron, flour, bowl, spoon, hands and composition preserved. Clean cutout, no magenta fringe.
+Human review: pending, not approved. Combat image unchanged. S02 not started. No git commit or push.
+
+FULL PROMPT (exact tool input)
+Use case: precise-object-edit
+Asset type: S01 Lina casual dialogue portrait, expression revision.
+Input image: art/raw/C01_portrait_casual_neutral_v1.png is the EDIT TARGET, not a loose design reference.
+Edit only the face area from eyebrows to chin. Keep everything outside the face pixel-identical. Change the facial expression to a calm, gentle closed-mouth smile: lips fully closed, a small relaxed smile, relaxed eyebrows, pale violet eyes looking at the viewer, a composed neutral base expression. Remove the flustered expression and strong embarrassed blush; preserve the small flour marks on her face.
+Keep the exact same face identity, head angle, eye placement and size, nose, jaw silhouette, chestnut hair, small side braid and red ribbon on her left (viewer right). Do not move or repaint any hair.
+Absolutely preserve the existing clothing, neckline and cleavage, cream linen dress, red laced bodice, rolled puff sleeves, white apron, every flour stain, wooden bowl and its flour, wooden spoon, both hands, pose, proportions, lighting, line work, colors, composition, scale and placement. No mirroring, cropping or repositioning. Preserve the 1024 x 1536 canvas.
+Use a genuinely transparent background. Character and props must be completely opaque, alpha 255, with no translucent body or fabric. No scenery, glow, shadow, text, watermark or additional objects.
+This is only one expression edit of the provided image. The existing neckline is explicitly approved to remain unchanged.
+
+
+APPROVAL COPY - 2026-10-15 (Asia/Seoul)
+User approved S01 v2. Historical generation notes above are retained verbatim.
+Source: C:\Users\이현상\Workplace\game\art\raw\C01_portrait_casual_neutral_v2.png
+Source SHA256: 309B136E8483E8FC703D7F28C89DB7B692DBB6284BEF39602D027EB590B2A5BA
+Approved output: C:\Users\이현상\Workplace\game\art\final\characters\C01_lina\C01_portrait_casual_neutral.png
+Postprocessing: tools/art/approve_s01.ps1; style-guide section 6; alpha>=128 source silhouette retained; interior alpha 255; partial alpha only within inner 1px boundary; RGB unchanged; no scaling, cropping, mirroring or repositioning.
+QA: {"width":1024,"height":1536,"alpha255":960032,"alpha0":600552,"partial_alpha":12280,"alpha_changes":12280,"rgb_changes":0,"interior_partial":0,"geometry":"unchanged; RGB pixel-identical; alpha>=128 source silhouette preserved; partial alpha only in inner 1px boundary"}

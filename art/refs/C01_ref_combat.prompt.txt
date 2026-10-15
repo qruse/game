@@ -1,0 +1,50 @@
+Asset: C01_ref_combat
+Step: S02
+Date: 2026-10-15 (Asia/Seoul)
+Tool: built-in image_gen; default mode, not fallback CLI
+Model: identifier not exposed by built-in tool
+Attempts: 1
+Reference: art/refs/style-anchor.png (sole design and style reference)
+Tool options: transparent_background=false
+Raw output: art/raw/C01_ref_combat_v1.png
+Final output: art/refs/C01_ref_combat.png
+Human review: pending; not approved
+
+FULL PROMPT (exact tool input)
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Character reference sheet: full body front view, side view and back view of the same character side by side, neutral standing pose, plain flat light grey background, consistent design across all views.
+
+Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face
+
+wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps, a longsword in her right hand, a white heater shield with a red chevron strapped to her left forearm (held by its inner straps, not by the rim)
+
+Use case: stylized-concept.
+Asset: C01_ref_combat, S02 production character turnaround.
+Input image: art/refs/style-anchor.png is the sole approved design and art-style reference. Match the reference character identity, face, hair, proportions, armor construction, garment colors, gold trim, cross fleury, belt hardware, sword and shield exactly. Expand the knee-up reference to full body using the specified chainmail leggings and strapped brown boots; do not redesign the visible costume.
+Create ONE landscape 1536 x 1024 reference sheet containing exactly three complete head-to-toe views in a single horizontal row: front, true side profile, true back. Equal character scale, same head height and foot baseline, enough space so figures and all props never overlap or touch canvas edges. Calm neutral standing pose, relaxed slight confident closed-mouth smile.
+Her anatomical LEFT side always carries the braid/red ribbon and shield; her RIGHT hand always holds the longsword. In the front view the ribbon and shield are on the viewer's right. Preserve anatomical handedness when rotating her; never mirror the character. Profile view shows her left side and the braid/ribbon clearly; arrange the shield slightly out from her body so it does not conceal the whole costume. Front and side show the shield's white outer face and red chevron where anatomically appropriate. Back view shows the shield's wooden inner face, brown leather forearm straps and inner hand grip, with her left forearm correctly threaded through the straps and gloved hand holding the inner handle. No hand gripping the shield rim.
+The sword has the same straight steel blade, simple curved metal crossguard and round gold pommel as the anchor; right hand holds the hilt, blade points safely downward and is fully in frame.
+Long loose chestnut hair falls to the same hip-length as the reference in every view. Use a simple plausible rear continuation of the same crimson gold-trimmed surcoat, with the same white frilled underskirt beneath and chainmail leggings; do not invent a cape, rear emblem, extra armor or ornaments. Keep the cross fleury symmetric with floral tips on the FRONT chest only.
+Plain uniform flat light grey background with no cast shadows, no texture or scene. This reference sheet remains on its light grey background; it is not a transparent dialogue sprite. Entire sheet opaque.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+
+GENERATION AND QA RECORD
+Generated source: C:/Users/이현상/.codex/generated_images/01a13d7b-eec7-73d0-93a2-55f12b6ed0cf/exec-33d89f59-90d0-45a0-acf9-3c5dd8847f19.png
+Dimensions: 1536 x 1024; opaque RGB PNG (24bpp); grey background retained per ref_sheet format.
+Postprocessing: none; raw and final SHA256 identical: C900341B520065F6B47E29F65C439178E17F6D350D1AC277BD525991E413C7D4
+Retries: 0. No QA failures requiring three retries.
+Visual QA: three complete views; no cropped props or text; chestnut hair and pale violet eyes match anchor; braid/red ribbon and shield remain on anatomical left; sword remains in right hand; chainmail, crimson gold-trimmed surcoat, cross fleury, white frilled hem and brown equipment retained; back shield shows wood and leather straps with inner grip; no modern objects or excessive exposure.
+Human review focus: rear costume and full-body boots were inferred from the approved knee-up anchor and characters.md; confirm hair length, rear surcoat and shield construction. Side shield obscures part of the torso. Light grey background has subtle tonal variation.
+Status: generated; pending S02 user review; not approved. S03 not started. No git commit or push.

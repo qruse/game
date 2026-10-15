@@ -1,0 +1,66 @@
+Asset: P0_lina_combat_v2
+Step: S01
+Date: 2026-10-15 (Asia/Seoul)
+Tool: built-in image_gen
+Model: identifier not exposed by built-in tool
+Attempts: 1; no retries (user instruction)
+Prompt source: art/prompts/C01_lina_revision.md section 1, used verbatim
+Reference: art/samples/codex-lina-v1.png
+Reference role: edit target; design and style reference
+Tool options: transparent_background=true
+Archive: art/raw/P0_lina_combat_v2_v1.png
+Output: art/raw/C01_portrait_combat_neutral_v2.png
+Dimensions: 1024 x 1536
+PNG native alpha preserved. No mirroring, repositioning, repainting or automatic regeneration.
+Human review: pending; not approved.
+
+FULL PROMPT
+Use the attached image as the design and style reference. Keep the same art style, face,
+hairstyle, outfit design, colors and level of detail, and apply only the fixes listed below.
+
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing,
+character facing the viewer with the body angled slightly, eyes looking at the viewer, centered,
+the top of the head close to the top edge with a small margin, whole figure from head to knees
+inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta
+background, no shadow on the background.
+
+Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied
+with a red ribbon on the left side of her head, pale violet eyes, slender athletic build,
+earnest determined face.
+Wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a
+gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking
+under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps,
+a longsword in her right hand, a white heater shield with a red chevron strapped to her left
+forearm (held by its inner straps, not by the rim).
+
+Fixes:
+1. Her left forearm goes through the shield's inner straps and her hand grips the inner handle;
+   the shield's front faces outward. Her hand must not hold the top rim of the shield.
+2. The gold cross on the surcoat is a perfectly symmetric cross fleury with flared floral tips.
+3. Her eyes are clearly pale violet, not grey.
+4. Expression: earnest and determined with a slight confident smile - a righteous young knight
+   who is trying a bit too hard.
+5. Keep the sword blade and the whole shield inside the canvas.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+
+
+APPROVAL COPY - 2026-10-15 (Asia/Seoul)
+User approved S01 v2. Historical generation notes above are retained verbatim.
+Source: C:\Users\이현상\Workplace\game\art\raw\C01_portrait_combat_neutral_v2.png
+Source SHA256: 6B021E2ED4ACF5BACA8680BEC2DA0CDD72AF967F48E4DB7982FD4A80646AD2DB
+Approved output: C:\Users\이현상\Workplace\game\art\final\characters\C01_lina\C01_portrait_combat_neutral.png
+Postprocessing: tools/art/approve_s01.ps1; style-guide section 6; alpha>=128 source silhouette retained; interior alpha 255; partial alpha only within inner 1px boundary; RGB unchanged; no scaling, cropping, mirroring or repositioning.
+QA: {"width":1024,"height":1536,"alpha255":952416,"alpha0":605811,"partial_alpha":14637,"alpha_changes":1012031,"rgb_changes":0,"interior_partial":0,"geometry":"unchanged; RGB pixel-identical; alpha>=128 source silhouette preserved; partial alpha only in inner 1px boundary"}
