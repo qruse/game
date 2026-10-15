@@ -87,7 +87,9 @@ with a red ribbon on the left side of her head, pale violet eyes, slender athlet
 earnest determined face.
 Wearing a cream linen kirtle dress with a red laced bodice and puffed sleeves rolled up to the
 elbows, a flour-dusted white apron (she keeps failing at cooking), hair down with the same braid
-and red ribbon, holding a wooden spoon, cheerful but slightly flustered.
+and red ribbon, holding a wooden spoon in one hand and a flour-dusted wooden mixing bowl in the
+other arm. Neutral base expression: a calm, gentle closed-mouth smile, relaxed eyebrows,
+eyes looking at the viewer (other expressions are made later by face-only edits).
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);

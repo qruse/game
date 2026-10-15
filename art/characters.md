@@ -47,7 +47,8 @@
   - 전투복: 붉은 서코트의 금색 **크로스 플러리(끝이 꽃잎처럼 퍼지는 십자)**, 서코트 아래 흰 프릴 치맛단, 사슬 갑옷, 흰 바탕에 붉은 셰브런 방패, 롱소드
 - BODY: `Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face`
 - COMBAT: `wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps, a longsword in her right hand, a white heater shield with a red chevron strapped to her left forearm (held by its inner straps, not by the rim)`
-- CASUAL: `wearing a cream linen kirtle dress with a red laced bodice and puffed sleeves rolled up to the elbows, a flour-dusted white apron (she keeps failing at cooking), hair down with the same braid and red ribbon, holding a wooden spoon, cheerful but slightly flustered`
+- CASUAL: `wearing a cream linen kirtle dress with a red laced bodice and puffed sleeves rolled up to the elbows, a flour-dusted white apron (she keeps failing at cooking), hair down with the same braid and red ribbon, holding a wooden spoon and a flour-dusted wooden mixing bowl`
+- 일상복 메모 (2026-10-15 사용자 결정): S01 일상복 시안의 목선(가슴골 살짝 보임)은 그대로 허용. 기본 표정은 차분한 미소, 당황한 얼굴은 표정 변형으로 만든다
 
 ### C02 세실 (Cécile / セシル) · 18세 · 근접 딜러 · 도적
 - 특기: 은신, 손재주 (민첩) · 노출: 일상복 **중간**
