@@ -9,4 +9,5 @@
 - [게임 엔진 선정 v0.1](docs/03-engine-selection.md)
 - [게임 진행 흐름 v0.1](docs/04-game-flow.md)
 - [전투 규칙서 v0.1](docs/05-combat.md)
+- [세력 v0.1](docs/06-factions.md)
 - [아트 작업 개요](art/README.md)
