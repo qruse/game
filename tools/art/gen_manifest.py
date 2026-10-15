@@ -174,19 +174,22 @@ for sid, ph, ko, ex in scenes:
     add(sid, ph, "bg_scene", "-", ko, ex, [ANCHOR], f"art/final/backgrounds/scene/{sid}.png")
 
 battles = [
- ("bt_ch1_forest_clearing", "P1", "1장 숲속 공터", "Forest clearing with grass and dirt; oil-soaked haystacks near the left edge."),
- ("bt_ch1_village_outskirts", "P1", "1장 마을 외곽", "Village outskirts with a muddy road, fences, and oil barrels at the edges."),
- ("bt_ch1_bandit_cliff", "P1", "1장 도적 절벽 (보스)", "Rocky bandit camp; a sheer cliff drop runs along the entire top edge."),
- ("bt_ch2_monastery_court", "P2", "2장 수도원 안뜰", "Monastery courtyard with flagstones and a dry fountain."),
- ("bt_ch2_catacomb_hall", "P2", "2장 지하묘지 홀", "Catacomb hall floor with shallow water puddles near the edges."),
- ("bt_ch2_crypt_bridge", "P2", "2장 묘실 다리 (보스)", "A wide stone bridge over a dark chasm; the chasm runs along the top and bottom edges."),
- ("bt_ch3_city_market", "P2", "3장 도시 시장", "City market square with cobblestones; stalls only at the edges."),
- ("bt_ch3_lord_courtyard", "P2", "3장 영주 성 안뜰", "Castle courtyard with packed earth and stone walls at the edges."),
- ("bt_ch3_rampart", "P2", "3장 성벽 위 (보스)", "Top of a castle rampart; a drop off the wall runs along the bottom edge."),
+ ("bt_ch1_forest_ambush", "P1", "1장 숲속 매복 (좁은 맵)", (5, 4), "A narrow forest path hemmed in by thick trees and bushes on all sides."),
+ ("bt_ch1_forest_clearing", "P1", "1장 숲속 공터", (7, 5), "Forest clearing with grass and dirt patches; bushes and dry haystacks on the right side."),
+ ("bt_ch1_village_outskirts", "P1", "1장 마을 외곽 (넓은 맵)", (9, 5), "Village outskirts with a muddy road crossing the area, wooden fences and clay oil jars near the edges."),
+ ("bt_ch1_bandit_cliff", "P1", "1장 도적 절벽 (보스)", (8, 6), "Rocky bandit camp; a sheer cliff drop runs along the entire top edge; crates and clay oil jars on the right."),
+ ("bt_ch2_monastery_court", "P2", "2장 수도원 안뜰", (7, 5), "Monastery courtyard with flagstones, a shallow holy water basin, low walls at the edges."),
+ ("bt_ch2_catacomb_hall", "P2", "2장 지하묘지 홀 (넓은 맵)", (9, 5), "Catacomb hall floor with shallow water puddles and stone sarcophagi near the edges."),
+ ("bt_ch2_crypt_bridge", "P2", "2장 묘실 다리 (보스, 길쭉한 맵)", (8, 4), "A wide stone bridge over a dark chasm; the chasm runs along the top and bottom edges."),
+ ("bt_ch3_city_market", "P2", "3장 도시 시장 (넓은 맵)", (9, 5), "City market square with cobblestones; stalls and carts only at the edges; a bell tower base on one side."),
+ ("bt_ch3_lord_courtyard", "P2", "3장 영주 성 안뜰", (7, 5), "Castle courtyard with packed earth, an iron portcullis gate with a lever, stone walls at the edges."),
+ ("bt_ch3_rampart", "P2", "3장 성벽 위 (보스, 길쭉한 맵)", (8, 4), "Top of a castle rampart at night; a drop off the wall runs along the bottom edge."),
 ]
-for bid, ph, ko, ex in battles:
-    add(bid, ph, "bg_battle", "-", ko, ex, [ANCHOR], f"art/final/backgrounds/battle/{bid}.png",
-        "전투 칸과 위험 지대 표시는 코드가 그린다. 가장자리 요소 위치를 맵 데이터와 맞출 것")
+for bid, ph, ko, (cols, rows_), ex in battles:
+    add(bid, ph, "bg_battle", "-", f"{ko} · {cols}×{rows_}",
+        ex + f" The playable area is a grid of {cols} columns by {rows_} rows in the center of the image; keep that area flat, clear and readable, and put scenery outside it.",
+        [ANCHOR], f"art/final/backgrounds/battle/{bid}.png",
+        f"격자 {cols}×{rows_}. 칸, 타일 표시, 위험 지대는 코드가 그린다. 가장자리 요소 위치를 맵 데이터(docs/05-combat.md 7.4)와 맞출 것")
 
 cgs = [
  ("cg_ch1_inheritance", "P1", "1장 오프닝: 폐허 길드 상속", "Lina standing alone in the ruined guild hall, holding the rusted guild key out toward the viewer (the player), light through broken windows.", ["C01"]),
