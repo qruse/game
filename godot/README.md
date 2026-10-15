@@ -1,4 +1,12 @@
-# 전투 그레이박스 프로토타입 (Godot 4.7)
+# 전투 프로토타입 (Godot 4.7)
+
+**지금 기본은 판정 칸 전투(포 더 킹식, docs/05-combat.md 0절)**다. 메뉴의 "이전 방식"을 누르면 예전 칸 이동 전투(1~17절)도 할 수 있다.
+
+- 판정 칸 전투 바로 시작: `godot --path godot -- --battle=0` (0 숲속 공터, 1 무너진 길드 회관), 자동 진행 `--demo`, 첫 행동 미리 고르기 `--pick=cecile_ambush,0`
+- 자동 시뮬레이션: `godot --headless --path godot -s res://scripts/fk_sim.gd`
+- 파일: `fk_defs.gd`(수치·환경·전투 장면), `fk_battle.gd`(규칙·AI), `fk_stage.gd`(무대 그리기·연출), `fk_main.gd`(화면·흐름)
+
+## 이전 방식: 칸 이동 전투
 
 네모 박스로 만든 전투 시험판이다. 규칙과 수치는 [docs/05-combat.md](../docs/05-combat.md)를 따른다.
 
