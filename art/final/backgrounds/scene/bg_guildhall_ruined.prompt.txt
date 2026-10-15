@@ -1,10 +1,10 @@
 Tool / model: built-in image_gen.imagegen; underlying model identifier not exposed
 Generation date: 2026-10-15 (Asia/Seoul)
 Use case: stylized-concept
-Asset: bg_guildhall_ruined (S06)
-References (ordered):
-1. art/refs/style-anchor.png - style only
-2. art/final/icons/skills/C01_icon_skill2.png - exact blue banner and silver lantern heraldry
+Asset: bg_guildhall_ruined (S06 rework)
+References (complete list): art/refs/style-anchor.png - illustration style only.
+No old guildhall image was attached or used as a visual reference.
+Assembly: STYLE_BLOCK + bg_scene FORMAT_BLOCK + manifest extra + composition constraints + NEGATIVE_BLOCK. BODY/outfit not applicable to background.
 
 Full actual generation prompt:
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
@@ -17,21 +17,22 @@ forest green, parchment cream, warm browns.
 
 Background art only, no characters, eye-level view, painterly anime background, atmospheric lighting, 16:9 composition, leave the center area uncluttered because character portraits will stand there.
 
-Use case: stylized-concept.
-Asset: bg_guildhall_ruined, opaque 1920x1080 dialogue background.
-Input image 1 is ONLY the game's rendering, palette and medieval-material style reference. Do not depict the woman or her equipment.
-Input image 2 is ONLY the exact banner design reference: royal-blue cloth with narrow gold edging and a silver lantern emblem, consisting of a circular hanging ring, pyramidal cap, vertical lantern cage, a small flame in the center, bowl base and tapered pendant. Preserve this recognizable emblem, aged and embroidered on torn blue cloth; no text.
+GUILDHALL: interior of a modest two-storey medieval timber-framed guild house (like a large town inn or mead hall, NOT a palace or cathedral): dark oak posts and beams, wattle-and-daub plaster walls, plank floor, a big stone hearth, a wooden gallery. Now abandoned and damaged: a collapsed section of the thatched/plank roof letting in light, broken benches and a long trestle table, dust, cobwebs, a torn blue banner with a silver lantern emblem. Humble and homely, not luxurious.
 
-Scene: Interior of the large ruined hall of the fallen Silver Lantern Guild. Grounded 12th-14th century European stone and timber architecture. Roof broken open, collapsed roof beams at the outer edges, soft daylight shafts through roof gaps illuminating dust motes. An overturned wooden chair and long scarred wooden tables lie along the side walls, with rubble kept near walls. A large torn royal-blue banner with the exact silver lantern design from image 2 hangs on a side wall, clearly readable and naturally integrated. Age, cracks and decay, solemn medieval atmosphere; rich muted warm browns, stone greys and royal blue, restrained golden daylight.
-Composition: eye-level, wide 16:9 establishing shot. Central floor and center foreground must stay spacious, uncluttered and empty for dialogue character portraits. Put tables, overturned chairs, fallen beams, debris, and banner toward the left/right sides and back edges, not the center standing area. Natural depth, no people or creatures. Render the entire background edge to edge, fully opaque, no transparent areas, no magenta, no UI or grid. Target exact 1920x1080 landscape.
+Use case: stylized-concept. Asset: bg_guildhall_ruined (S06).
+Generate an entirely new environment. The sole attached image, style-anchor.png, is a reference ONLY for illustration style, linework, shading and muted medieval palette. Do not reproduce its character, equipment or composition. There is no old environment reference.
+Make the building recognizably an ordinary medieval timber guild house at the scale of a large town inn, with a modest ceiling height and warm, rough, practical joinery. Clearly show dark rectangular oak support posts, horizontal oak beams, rough cream plaster infill, wide worn wooden floorboards, a rough fieldstone fireplace against a side wall, and a simple second-storey wooden gallery with plain wooden railing. Small rectangular wooden-framed windows only. The stone hearth is the only substantial stone construction. No stone structural columns, no Gothic or pointed arches, no cathedral windows, no gold candlesticks, no marble, no palace decoration, no grand ceremonial architecture.
+The roof has one damaged opening overhead with gentle daylight and suspended dust, restrained light shafts. Cobwebs gather in beam corners. A broken bench and long trestle table are pushed against the side walls and stay in the upper two thirds of the frame. Hang one or two small torn blue cloth banners on peripheral walls, with a simple silver lantern heraldic emblem, no letters and no gilded trim.
+Composition for a dialogue screen: eye-level wide view, whole image 16:9, exact target 1920x1080. Keep the central standing area spacious and low contrast. The entire lower third should be mostly quiet, uninterrupted worn plank flooring with only subtle dust and wear. No foreground furniture, no chairs, no collapsed beams, no debris piles, no large props, no bright focal objects in the middle or lower third. Place architectural interest, banners, fireplace and damaged furniture along the upper and side areas. Render edge to edge as a fully opaque background, no people, no creatures, no grid, no transparent background.
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
-The specifically requested medieval silver lantern heraldic emblem on the banner is permitted; no commercial logos.
+The explicitly requested small medieval silver lantern heraldic emblem on the torn blue cloth is permitted; no commercial logos.
 
-
-Generation: 1 call; retries 0. Native 1672x941 PNG preserved as art/raw/bg_guildhall_ruined_v1.png. Native output dimension is controlled by the built-in tool.
-Postprocessing: tools/art/finish_s06.ps1; full-frame high-quality bicubic resize to 1920x1080. No crop, no background removal; opaque RGB PNG.
-QA: 1920x1080; all pixels alpha255. Visually checked saved final: empty central standing area; damaged stone/timber hall; light and dust through broken roof; long side tables and overturned chairs; torn blue silver-lantern flags; no people, text, watermark or modern objects. Minor emblem rendering follows cloth folds. Status generated; user review pending.
+Generation: 1 call; retries 0; QA passed.
+Original generated PNG: art/raw/bg_guildhall_ruined_v2.png (1672x941).
+Previous final preserved byte-for-byte: art/raw/bg_guildhall_ruined_old_palace.png.
+Postprocessing: full-frame high-quality bicubic resize to 1920x1080, edge-safe TileFlipXY sampling, opaque 24-bit RGB PNG. No crop, no background removal, no drawn additions.
+Visual QA: ordinary two-storey timber guild house; oak posts and beams, plaster walls, wooden plank floor, side fieldstone hearth, wooden gallery and railings visible. Damaged roof, light, dust, cobwebs, peripheral broken furniture and two torn blue silver-lantern banners visible. No stone columns, Gothic arches, cathedral windows, gold candlesticks or marble. Central standing area and lower third mostly open plank floor. No people, text, watermark, signature, UI, grid or modern objects. User approval pending.

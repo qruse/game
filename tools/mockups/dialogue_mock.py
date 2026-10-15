@@ -1,6 +1,6 @@
 """대화 화면 시안 (니케식 짧은 장면). 스탠딩 일러스트가 대사창에 가리지 않는지 확인용.
 
-사용: python tools/mockups/dialogue_mock.py <스탠딩.png> <출력.png> [이름] [대사] [오른쪽 스탠딩.png]
+사용: python tools/mockups/dialogue_mock.py <스탠딩.png> <출력.png> [이름] [대사] [오른쪽 스탠딩.png|-] [배경.png]
 배경 일러스트가 아직 없으면 어두운 그라데이션으로 대신한다.
 """
 import sys
@@ -64,8 +64,9 @@ def main() -> None:
     src, out = sys.argv[1], sys.argv[2]
     name = sys.argv[3] if len(sys.argv) > 3 else "리나"
     line = sys.argv[4] if len(sys.argv) > 4 else "오늘부터 당신이 단장입니다.\n…열쇠가 좀 녹슬긴 했지만요!"
-    right = sys.argv[5] if len(sys.argv) > 5 else ""
-    bg_path = sys.argv[6] if len(sys.argv) > 6 else ""
+    # 빈 문자열은 PowerShell 5.1이 인자에서 빼 버리므로 "없음"은 "-"로 받는다
+    right = sys.argv[5] if len(sys.argv) > 5 and sys.argv[5] != "-" else ""
+    bg_path = sys.argv[6] if len(sys.argv) > 6 and sys.argv[6] != "-" else ""
     img = Image.open(bg_path).convert("RGB").resize((W, H)) if bg_path else background()
     if right:
         place_portrait(img, right, int(W * 0.70), dim=True)

@@ -149,10 +149,10 @@ for bid, ch in [("B01", "1"), ("B02", "2"), ("B03", "3")]:
             f"art/final/enemies/{bid}/{bid}_sd_{p}.png")
 
 scenes = [
- ("bg_guildhall_ruined", "P1", "길드 하우스 (폐허)", "Interior of a once-grand guild hall now in ruins: broken banners with a silver lantern emblem, dust, collapsed beams, shafts of light."),
- ("bg_guildhall_camp_night", "P1", "길드 하우스 캠프 (밤)", "The same ruined guild hall at night, partly cleaned, a warm campfire and bedrolls, companions' gear leaning on the walls."),
- ("bg_guildhall_restored1", "P2", "길드 하우스 (복구 1단계)", "The same guild hall partly restored: new timber, a repaired long table, a fresh lantern banner."),
- ("bg_guildhall_restored2", "P2", "길드 하우스 (복구 2단계)", "The same guild hall fully restored and lively: hanging banners, warm hearth, trophy shelves."),
+ ("bg_guildhall_ruined", "P1", "길드 하우스 (폐허)", "GUILDHALL: interior of a modest two-storey medieval timber-framed guild house (like a large town inn or mead hall, NOT a palace or cathedral): dark oak posts and beams, wattle-and-daub plaster walls, plank floor, a big stone hearth, a wooden gallery. Now abandoned and damaged: a collapsed section of the thatched/plank roof letting in light, broken benches and a long trestle table, dust, cobwebs, a torn blue banner with a silver lantern emblem. Humble and homely, not luxurious."),
+ ("bg_guildhall_camp_night", "P1", "길드 하우스 캠프 (밤)", "The same ruined timber guild house (see GUILDHALL) at night, partly cleaned, a warm fire in the stone hearth and bedrolls, companions' gear leaning on the walls."),
+ ("bg_guildhall_restored1", "P2", "길드 하우스 (복구 1단계)", "The same timber guild house (see GUILDHALL) partly restored: fresh oak beams patching the roof, a repaired long table, a new blue lantern banner."),
+ ("bg_guildhall_restored2", "P2", "길드 하우스 (복구 2단계)", "The same timber guild house (see GUILDHALL) fully restored and lively: banners, warm hearth, trophy shelves, notice board with requests."),
  ("bg_noticeboard", "P1", "의뢰 게시판", "Close-up of a wooden quest notice board covered in pinned parchment notices and wax seals (no readable text)."),
  ("bg_village_square", "P1", "마을 광장", "A medieval village square with a stone well, timber-framed houses and a market stall, morning light."),
  ("bg_tavern", "P1", "선술집", "Interior of a cozy medieval tavern with a hearth, barrels, long benches, candlelight."),
@@ -164,11 +164,11 @@ scenes = [
  ("bg_lord_hall", "P2", "영주의 대전", "The great hall of a lord's castle with a throne, tapestries and torches."),
  ("bg_city_gate_night", "P2", "밤의 성문", "A fortified city gate at night with torches and rain."),
  ("bg_world_map", "P1", "지역 지도 (이번 주 의뢰 화면 바탕)", "An illustrated parchment map of a medieval region with forests, villages, a monastery, a walled city and mountains, no labels or text. Top-down map view, with empty spots where quest pins can be placed."),
- ("bg_guildhall_past", "P1", "전성기의 길드 하우스 (회상)", "The same guild hall in its glorious past: polished floors, blue banners with a silver lantern emblem, a busy lively hall, warm golden light."),
- ("bg_room_archive", "P1", "봉인된 방: 기록실", "A dusty sealed archive room inside the guild hall, shelves of old ledgers and scrolls, a single beam of light on a locked chest."),
- ("bg_room_armory", "P2", "봉인된 방: 무기고", "A sealed guild armory, rusted weapon racks, a broken blue banner, one empty armor stand."),
- ("bg_room_office", "P2", "봉인된 방: 길드장 집무실", "The guildmaster's sealed office, an overturned desk, scattered letters, a portrait with the face slashed out."),
- ("bg_room_vault", "P2", "봉인된 방: 지하 금고", "A hidden underground vault beneath the guild hall, candle stubs, a stone pedestal holding a silver lantern."),
+ ("bg_guildhall_past", "P1", "전성기의 길드 하우스 (회상)", "The same timber guild house (see GUILDHALL) in its glorious past: well-kept oak and plaster, blue banners with a silver lantern emblem, a busy lively hall full of adventurers, warm golden hearth light. Prosperous but still a timber guild house, not a palace."),
+ ("bg_room_archive", "P1", "봉인된 방: 기록실", "A dusty sealed archive room inside the timber guild house (see GUILDHALL: oak beams, plaster walls, plank floor), shelves of old ledgers and scrolls, a single beam of light on a locked chest."),
+ ("bg_room_armory", "P2", "봉인된 방: 무기고", "A sealed armory in the timber guild house (oak beams, plaster walls), rusted weapon racks, a broken blue banner, one empty armor stand."),
+ ("bg_room_office", "P2", "봉인된 방: 길드장 집무실", "The guildmaster's sealed office in the timber guild house (oak panelling, low beamed ceiling), an overturned desk, scattered letters, a portrait with the face slashed out."),
+ ("bg_room_vault", "P2", "봉인된 방: 지하 금고", "A hidden stone cellar vault beneath the timber guild house, candle stubs, a stone pedestal holding a silver lantern."),
 ]
 for sid, ph, ko, ex in scenes:
     add(sid, ph, "bg_scene", "-", ko, ex, [ANCHOR], f"art/final/backgrounds/scene/{sid}.png")
@@ -262,6 +262,18 @@ for r in rows:
     r["step"] = step_of(r)
 
 fields = ["id", "step", "phase", "format", "subject", "outfit", "name_ko", "extra", "refs", "output", "status", "notes"]
+
+# 이미 작업이 시작된 행(status가 todo가 아님)은 Codex가 남긴 상태·기록을 그대로 둔다
+import os
+if os.path.exists(out_path):
+    with open(out_path, encoding="utf-8") as f:
+        old = {r["id"]: r for r in csv.DictReader(f)}
+    for r in rows:
+        o = old.get(r["id"])
+        if o and o["status"] != "todo":
+            for k in ("extra", "refs", "status", "notes"):
+                r[k] = o[k]
+
 with open(out_path, "w", newline="", encoding="utf-8") as f:
     w = csv.DictWriter(f, fieldnames=fields)
     w.writeheader()

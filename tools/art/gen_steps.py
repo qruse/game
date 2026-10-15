@@ -1,3 +1,4 @@
+# WARNING: 작업이 시작된 뒤에는 다시 돌리지 않는다. README 표의 상태와 Codex가 단계 파일에 남긴 기록을 덮어쓴다.
 """Generate art/steps/*.md from art/manifest.csv.
 
 Usage: python tools/art/gen_steps.py
