@@ -12,3 +12,7 @@ godot/art/
 Thumbs.db
 .DS_Store
 .vscode/
+
+tools/web/cloudflare/public/
+tools/web/cloudflare/node_modules/
+tools/web/cloudflare/.wrangler/

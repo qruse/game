@@ -30,6 +30,7 @@ var _msg := ""
 var _shot := ""
 var _demo := false
 var _shot_at: Array = []
+var touch := false  # 터치 기기용 배치
 var icons := {}  # 스킬 id -> 아이콘 Texture2D (art/final/icons/skills)
 
 var menu: Control
@@ -51,9 +52,11 @@ var event_lbl: Label
 
 
 func _ready() -> void:
-	# 휴대폰·태블릿: 기준 화면을 줄여서 글자와 버튼을 1.5배로 키운다
-	if DisplayServer.is_touchscreen_available() or "--touch" in OS.get_cmdline_user_args():
-		get_window().content_scale_size = Vector2i(1280, 720)
+	# 휴대폰·태블릿: 기준 화면 높이를 540 으로 줄여 글자와 버튼을 2배로 키우고, 기록창과 아래 칸을 좁힌다
+	touch = DisplayServer.is_touchscreen_available() or OS.has_feature("web_android") or OS.has_feature("web_ios") \
+		or "--touch" in OS.get_cmdline_user_args() or get_window().size.y < 700
+	if touch:
+		get_window().content_scale_size = Vector2i(960, 540)
 	_setup_theme()
 	var bg := ColorRect.new()
 	bg.color = Color(0.11, 0.10, 0.09)
@@ -137,7 +140,7 @@ func _setup_theme() -> void:
 		var f := SystemFont.new()
 		f.font_names = PackedStringArray(["Malgun Gothic", "맑은 고딕", "Noto Sans CJK KR", "Noto Sans KR", "Apple SD Gothic Neo", "sans-serif"])
 		th.default_font = f
-	th.default_font_size = 22
+	th.default_font_size = 18 if touch else 22
 	theme = th
 
 
@@ -155,7 +158,7 @@ func _place(c: Control, al: float, at: float, ar: float, ab: float, l: float, t:
 func _btn(text: String, cb: Callable) -> Button:
 	var b := Button.new()
 	b.text = text
-	b.custom_minimum_size = Vector2(0, 52)
+	b.custom_minimum_size = Vector2(0, 44 if touch else 52)
 	b.focus_mode = FOCUS_NONE
 	b.pressed.connect(cb)
 	return b
@@ -203,26 +206,28 @@ func _build_hud() -> void:
 
 	board = Board.new()
 	board.clip_contents = true
-	_place(board, 0, 0, 1, 1, 16, 72, -456, -236)
+	var log_w := 230 if touch else 440
+	var bot_h := 150 if touch else 228
+	_place(board, 0, 0, 1, 1, 8 if touch else 16, 64 if touch else 72, -(log_w + 16), -(bot_h + 8))
 	board.cell_clicked.connect(_on_cell)
 	hud.add_child(board)
 
 	log_box = RichTextLabel.new()
-	_place(log_box, 1, 0, 1, 1, -440, 72, -16, -236)
+	_place(log_box, 1, 0, 1, 1, -log_w, 64 if touch else 72, -8 if touch else -16, -(bot_h + 8))
 	log_box.scroll_following = true
-	log_box.add_theme_font_size_override("normal_font_size", 17)
+	log_box.add_theme_font_size_override("normal_font_size", 13 if touch else 17)
 	log_box.add_theme_stylebox_override("normal", _panel_style())
 	hud.add_child(log_box)
 
 	var bottom := VBoxContainer.new()
-	_place(bottom, 0, 1, 1, 1, 16, -228, -16, -8)
+	_place(bottom, 0, 1, 1, 1, 8 if touch else 16, -bot_h, -8 if touch else -16, -4)
 	hud.add_child(bottom)
 	info = RichTextLabel.new()
 	info.bbcode_enabled = true
 	info.fit_content = true
-	info.custom_minimum_size.y = 62
-	info.add_theme_font_size_override("normal_font_size", 20)
-	info.add_theme_font_size_override("bold_font_size", 22)
+	info.custom_minimum_size.y = 0 if touch else 62
+	info.add_theme_font_size_override("normal_font_size", 15 if touch else 20)
+	info.add_theme_font_size_override("bold_font_size", 17 if touch else 22)
 	bottom.add_child(info)
 	actions = HFlowContainer.new()
 	actions.add_theme_constant_override("h_separation", 8)
