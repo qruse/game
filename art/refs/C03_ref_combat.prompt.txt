@@ -1,0 +1,38 @@
+Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed by this tool; not inferred.
+Generation date: 2026-10-15 (Asia/Seoul)
+Mode: built-in generation using local image references; no CLI/API fallback.
+References in exact attachment order:
+- art/refs/style-anchor.png
+- art/refs/C01_ref_combat.png
+- art/refs/C01_ref_casual.png
+- art/refs/C02_ref_combat.png
+- art/refs/C02_ref_casual.png
+
+FULL GENERATION PROMPT (verbatim):
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Character reference sheet: full body front view, side view and back view of the same character side by side, neutral standing pose, plain flat light grey background, consistent design across all views.
+
+Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face
+
+wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff
+
+Use case: stylized-concept. Production character model sheet, landscape 1536x1024.
+Match the attached approved Lina and Cecile reference sheets in clean line quality, restrained cel shading with soft highlights, fabric rendering, adult anime anatomy, three equal columns, head and foot alignment and figure scale. Images 1-5 are style/layout references only: do not copy either woman's facial identity, hair, armor, colors or clothes. Adelheid must be a distinct adult woman with a softly oval face, quieter narrow golden eyes, black bangs, small closed mouth and round iron wire spectacles; a bookish dry aloof look, cute rather than seductive. No text, labels, panels or annotations. Plain opaque light grey background. Leave small outer margins; show every staff tip, shoe, hand and book inside the canvas. FRONT at left, LEFT SIDE PROFILE facing canvas left at center, BACK at right. No horizontal mirroring. Back view glasses are visible as correctly wrapping thin iron temples above both ears, not eyes or lenses painted on the back of the head. Glasses lenses/rims unmistakable on front and left profile. No modern plastic glasses. The negative modern-eyewear rule does not prohibit the character's REQUIRED simple round iron wire spectacles.
+Fixed anatomical layout: exactly ONE thick black braid originates at nape, passes OVER HER LEFT SHOULDER and hangs down her LEFT chest. Front: braid on viewer RIGHT. Left profile: braid visible on NEAR left shoulder/chest. Back: braid route on viewer LEFT of nape/left shoulder, tail continues in FRONT and is naturally partly occluded. Never place a second braid down the center back, never switch shoulders. Keep the same body, hair length, garment construction and held-object anatomy in all three views. Navy/charcoal and black silhouette should be distinct from Lina's crimson/brown and Cecile's green/silver.
+Ankle-length modest DARK NAVY modified former novice nun robe, short matching shoulder cape, restrained pale linen high collar/cuffs, practical brown leather shoes. Head uncovered so black hair and glasses are visible. No armor, thief hood or modern witch costume. The torso is fully covered with natural loose fabric, no cleavage or slits. She holds ONE gnarled wooden staff vertically in her anatomical RIGHT hand and cradles ONE thick CLOSED dark leather grimoire bound visibly around its covers with an IRON CHAIN in her anatomical LEFT hand/forearm. Natural five-finger hands, thumb opposing grip; book supported from below. FRONT: staff and right hand on viewer LEFT, book and left hand on viewer RIGHT. LEFT profile: left book arm is near, staff right arm is far, wooden staff can be offset forward enough to remain visible. BACK: staff and right hand on viewer RIGHT, chain-bound book and left hand on viewer LEFT. Same staff knots, iron chain and book thickness in every view. Calm closed-mouth dry expression. No spell effects.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Raw generation: art/raw/C03_ref_combat_v1.png. Original 1536x1024 opaque grey reference-sheet format retained. No resize, background removal or horizontal flip.
+
+QA: golden eyes and round iron glasses; one black braid over anatomical LEFT shoulder. FRONT staff/candle RIGHT hand on viewer LEFT, grimoire LEFT hand on viewer RIGHT; LEFT-profile near arm carries book; BACK staff/candle on viewer RIGHT, book/braid route viewer LEFT. Back glasses visible at temples/ear, no lenses painted on back of head. Combat navy robe and closed iron-chain book. Casual modest oversized charcoal wool nightshirt, thick opaque stockings, knitted shawl, candle and open iron-chain book. Staff preserved on anatomical RIGHT beside candle. Casual image uses combat as identity reference. No writing/watermark; all props inside canvas. Compare full sheets, faces and front silhouettes in art/raw/qa_S09. Status: generated, awaiting user approval.
