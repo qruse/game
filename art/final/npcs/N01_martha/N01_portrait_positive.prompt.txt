@@ -1,5 +1,5 @@
 Asset: N01_portrait_positive
-Step: S17 rework
+Step: S17 rework2
 Date: 2026-10-16 (Asia/Seoul)
 Tool: built-in image_gen
 Model: identifier not exposed by built-in tool
@@ -7,18 +7,20 @@ Attempts: 1; no retries
 Tool options: transparent_background=true
 References (attachment order):
 art/final/npcs/N01_martha/N01_portrait_neutral.png
-art/final/characters/C01_lina/C01_portrait_combat_neutral.png
 art/refs/style-anchor.png
-Raw archive: art/raw/N01_portrait_positive_v2.png
+Raw archive: art/raw/N01_portrait_positive_v3.png
 Final: art/final/npcs/N01_martha/N01_portrait_positive.png
 Technical target: 1024x1536 transparent PNG
-Expression method: style-guide 3.1.4 face-interior composite over NEW neutral; 3px inward feather; original alpha retained
-Face polygon: 397,211,411,197,435,193,458,200,475,214,500,202,526,180,553,175,574,187,585,211,582,251,573,293,548,323,507,340,472,331,441,313,422,281,404,250
+Technical postprocess: alpha >=250 raised to 255; lower edge alpha preserved; raw generation unchanged
+Expression method: style-guide 3.1.4 face-interior mask composite over NEW neutral; 3px inward feather; original alpha retained
+Face polygon: 397,211,410,196,435,185,457,196,478,210,500,191,540,156,566,165,580,187,584,217,577,256,564,292,540,319,512,334,489,328,460,309,437,287,419,261,404,240
 Content review: user/Claude; no Codex content QA
 
 Full prompt:
 Use case: identity-preserve
-EDIT image 1, the NEW corrected neutral portrait, once. Edit ONLY the face skin interior (eyebrows through chin), excluding hair, ears, neck, hands, costume and props. Keep everything outside the mask pixel-identical. Preserve the corrected age, plain face identity, wrinkles, proportions and head position.  Other references are rendering style only.
+Asset: N01_portrait_positive; S17 rework2. Produce exactly ONE image, 1024x1536 RGBA transparent PNG.
+Input image 1: edit target: this character's NEW neutral portrait. Use a face-interior mask from eyebrows through chin ONLY. Change only facial expression; keep all pixels outside the face mask identical.
+Input image 2: rendering STYLE ONLY; do not copy its face, age, clothing, weapons, armor or hairstyle.
 
 [STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
@@ -29,23 +31,21 @@ wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
 
-[FORMAT_BLOCK: portrait]
+[FORMAT_BLOCK portrait]
 Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
-Technical override: true transparent background instead of magenta. ONE 1024x1536 transparent PNG. Do not crop, flip or reposition.
+Transparency override: use an ACTUAL transparent background rather than the magenta fallback. Preserve 1024x1536 canvas, head position, knee-up framing, complete hands and props.
 
-[NPC PROMPT]
-Martha, a plump cheerful tavern keeper in her mid 40s, clearly middle-aged (round face, smile lines, crow's feet, a few grey strands), rolled-up sleeves, apron, auburn hair in a bun
+[CHARACTERS PROMPT]
+Martha, a plump cheerful tavern keeper in her mid 40s, clearly middle-aged but still pretty (soft round face, gentle smile lines and crow's feet, a few grey strands), rolled-up sleeves, apron, auburn hair in a bun
 
-[EXTRA]
+[MANIFEST EXTRA - latest instructions override conflicting earlier age wording]
 EDIT (face mask only, see style-guide 3.1): change only the facial expression to: friendly smile.
-Preserve the revised appearance: Clearly a middle-aged woman in her mid 40s: fuller rounder face, soft double chin, visible smile lines and crow's feet, a few grey strands in the auburn bun, plump motherly build; warm but tired eyes. NOT a young girl.
-Final assembly uses only the face interior over the unchanged neutral, per style-guide 3.1.4.
+Martha is a pretty EARLY-40s adult woman. Soft round mature face, gentle smile lines, faint crow's feet and a few grey strands in her auburn bun, kind bright eyes. Warm, appealing and recognizably middle aged. NO GLASSES, NO SPECTACLES. NOT a young girl. Keep her cream rolled-sleeve linen blouse, brown dress, cream apron, clasped hands, bun and composition from her reference.
+Edit ONLY the masked face interior (eyebrows through chin), excluding hair, ears, neck, clothes, hands and props. Preserve face shape, age, attractiveness, identity, head position and all costume exactly. Keep spectacles unchanged if present. Do not redraw the figure. Keep everything outside the mask pixel-identical.
 
 [NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
-Basil's existing simple medieval round spectacles are required.
-
-Technical postprocessing: native alpha silhouette retained; opaque interior alpha=255, 1px boundary keeps native antialiasing; position/RGB/canvas unchanged.
+No additional person, no frame, no new accessories.

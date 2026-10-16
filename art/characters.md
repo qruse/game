@@ -144,13 +144,13 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 
 | ID | 이름 | 역할 | PROMPT |
 |---|---|---|---|
-| N01 | 마르타 (Martha) | 선술집 주인, 길드의 오랜 이웃 | `Martha, a plump cheerful tavern keeper in her mid 40s, clearly middle-aged but still pretty (soft round face, gentle smile lines and crow's feet, a few grey strands), rolled-up sleeves, apron, auburn hair in a bun` |
-| N02 | 공증인 바실 (Basil) | 길드 재건 서류를 관리하는 공증인 | `Basil, a thin fussy notary in his late 30s, lean refined face with sharp cheekbones, neat slicked-back hair with a slightly high forehead, a fussy frown line, narrow shoulders, still good-looking in a mature way, black scholar's robe, quill behind ear, spectacles, ledger under arm` |
+| N01 | 마르타 (Martha) | 선술집 주인, 길드의 오랜 이웃 | `Martha, a boisterous big-hearted tavern keeper in her early 40s, broad sturdy plump build, strong forearms with rolled sleeves, hands on hips with a wooden ladle, faded green kerchief over an auburn bun with grey streaks, freckles across a wide nose, ruddy cheeks, beauty mark by the mouth, brass hoop earrings, stained apron` |
+| N02 | 공증인 바실 (Basil) | 길드 재건 서류를 관리하는 공증인 | `Basil, a tall lanky fastidious notary in his late 30s, long narrow face, aquiline nose, thin mustache and small pointed goatee, small round spectacles low on the nose, slicked-back hair with a widow's peak, ink-stained fingers, quill behind ear, black scholar's robe, brass key ring and wax seal stamp on the belt, ledger clutched to his chest` |
 | N03 | 영주 오스왈드 (Oswald) | 지역 영주, 속을 알 수 없다 | `Lord Oswald, a stately nobleman in his 50s, fur-lined mantle, gold chain of office, neatly trimmed beard` |
 | N04 | 주교 엘리노어 (Eleanor) | 수도원과 교회의 권력자 | `Bishop Eleanor, an elderly stern woman, white and gold vestments, mitre, crozier` |
 | N06 | 가면의 남자 | 흑막 | `a mysterious masked figure, plain white porcelain mask, black hooded cloak, faceless and unsettling` |
-| N07 | 마을 사람 (남) | 범용 의뢰인 | `a medieval peasant man, linen tunic, straw hat` |
-| N08 | 마을 사람 (여) | 범용 의뢰인 | `a medieval peasant woman, wool dress, headscarf` |
+| N07 | 마을 사람 (남) | 범용 의뢰인 | `a sturdy weathered farmer in his 40s, short scruffy beard, crooked nose, frayed straw hat, patched linen tunic, pitchfork` |
+| N08 | 마을 사람 (여) | 범용 의뢰인 | `a village woman in her early 30s, round freckled face, thick dark braid, faded blue headscarf, wool dress and worn apron, basket of eggs` |
 
 ---
 

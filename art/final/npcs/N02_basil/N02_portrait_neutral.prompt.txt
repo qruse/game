@@ -1,5 +1,5 @@
 Asset: N02_portrait_neutral
-Step: S17 rework
+Step: S17 rework2
 Date: 2026-10-16 (Asia/Seoul)
 Tool: built-in image_gen
 Model: identifier not exposed by built-in tool
@@ -7,16 +7,20 @@ Attempts: 1; no retries
 Tool options: transparent_background=true
 References (attachment order):
 art/raw/N02_portrait_neutral_rejected_v1.png
-art/final/characters/C01_lina/C01_portrait_combat_neutral.png
 art/refs/style-anchor.png
-Raw archive: art/raw/N02_portrait_neutral_v2.png
+Raw archive: art/raw/N02_portrait_neutral_v3.png
 Final: art/final/npcs/N02_basil/N02_portrait_neutral.png
 Technical target: 1024x1536 transparent PNG
+Technical postprocess: alpha >=250 raised to 255; lower edge alpha preserved; raw generation unchanged
+Method: Copied original generation; no content review
+Face polygon: 
 Content review: user/Claude; no Codex content QA
 
 Full prompt:
-Use case: stylized-concept
-Create ONE new neutral portrait. Image 1 is ONLY a reference for clothing, props, hand pose and knee-up composition: follow those. Replace its young face, age, hair details and body build with the corrected NPC description below. Other images are ONLY rendering style references, never copy Lina's youth, face, attractiveness or costume.
+Use case: precise-object-edit
+Asset: N02_portrait_neutral; S17 rework2. Produce exactly ONE image, 1024x1536 RGBA transparent PNG.
+Input image 1: first rejected neutral, reference for clothing, props, pose and composition ONLY. Replace its youthful face with the new mature attractive face specified below.
+Input image 2: rendering STYLE ONLY; do not copy its face, age, clothing, weapons, armor or hairstyle.
 
 [STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
@@ -27,22 +31,21 @@ wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
 
-[FORMAT_BLOCK: portrait]
+[FORMAT_BLOCK portrait]
 Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
-Technical override: true transparent background instead of magenta. ONE 1024x1536 transparent PNG. Do not crop, flip or reposition.
+Transparency override: use an ACTUAL transparent background rather than the magenta fallback. Preserve 1024x1536 canvas, head position, knee-up framing, complete hands and props.
 
-[NPC PROMPT]
-Basil, a thin fussy notary in his late 30s, gaunt face, sunken cheeks, long pointed nose, receding thin slicked-back hair, frown line, hunched narrow shoulders, plain and unattractive, black scholar's robe, quill behind ear, spectacles, ledger under arm
+[CHARACTERS PROMPT]
+Basil, a thin fussy notary in his late 30s, lean refined face with sharp cheekbones, neat slicked-back hair with a slightly high forehead, a fussy frown line, narrow shoulders, still good-looking in a mature way, black scholar's robe, quill behind ear, spectacles, ledger under arm
 
-[EXTRA]
-Neutral expression. Clearly a man in his late 30s: gaunt thin face with sunken cheeks and a long pointed nose, receding hairline with thin slicked-back hair, deep frown line between the brows, pinched fussy mouth, slightly hunched narrow shoulders; plain and unattractive, NOT a handsome young man.
-The corrected age, face and body take precedence over the young reference. Calm closed-mouth neutral expression. Plain civilian NPC: do not beautify.
+[MANIFEST EXTRA - latest instructions override conflicting earlier age wording]
+Neutral expression. A good-looking, neat man in his late 30s: lean refined face with sharp cheekbones, light stubble-free skin with a faint frown line between the brows, neatly combed dark-brown hair with a slightly high forehead, intelligent tired eyes behind small round spectacles, slim narrow shoulders. Mature handsome, fussy and strict-looking, NOT gaunt, NOT old, NOT ugly.
+Basil is a neat mature handsome LATE-30s man. Small ROUND period spectacles, refined lean face, sharp but healthy cheekbones, clean-shaven fair skin, faint frown line, neatly combed dark-brown hair, slightly high forehead and intelligent tired eyes. Fussy and strict. NOT gaunt, NOT old, NOT ugly, NOT a youthful pretty boy. Preserve his black scholar robe, quill behind ear, ledger under arm, hands and reference composition.
+Neutral expression: calm closed mouth, quiet restrained smile or composed resting face. Rebuild ONLY the face to the latest identity/age specification, with the specified subtle grey hair where applicable; everything else follows input image 1.
 
 [NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
-Basil's existing simple medieval round spectacles are required.
-
-Technical postprocessing: native alpha silhouette retained; opaque interior alpha=255, 1px boundary keeps native antialiasing; position/RGB/canvas unchanged.
+No additional person, no frame, no new accessories.
