@@ -1,0 +1,50 @@
+Asset: C04_ref_casual
+Model/tool: built-in image_gen.imagegen (underlying model name not exposed)
+Generation date: 2026-10-16 (Asia/Seoul)
+Mode: reference-guided new generation; exactly one call, no retries or content review
+Requested/final dimensions: 1536x1024
+Background: opaque flat light grey
+Raw: art/raw/C04_ref_casual_v1.png
+Output: art/refs/C04_ref_casual.png
+
+Attached reference images (ordered):
+C:/Users/이현상/Workplace/game/art/refs/C04_ref_combat.png
+C:/Users/이현상/Workplace/game/art/refs/style-anchor.png
+C:/Users/이현상/Workplace/game/art/refs/C01_ref_combat.png
+C:/Users/이현상/Workplace/game/art/refs/C02_ref_combat.png
+C:/Users/이현상/Workplace/game/art/refs/C03_ref_combat.png
+
+Full prompt:
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Character reference sheet: full body front view, side view and back view of the same character side by side, neutral standing pose, plain flat light grey background, consistent design across all views.
+
+Miriam, a 24-year-old adult woman, long voluminous wavy golden blonde hair, sky-blue eyes, wooden holy symbol necklace. FACE: a soft rounded mature face clearly older than the other girls, gentle droopy eyes with long lashes, a beauty mark under her left eye, full soft lips in a calm knowing half-smile, warm peach skin; tall graceful curvy figure
+
+adult woman, hair down without the veil, wearing an elegant ivory linen dress with an off-shoulder neckline, an open back and a side slit, a thin gold chain around her waist, barefoot, relaxed graceful pose with a faint teasing smile, no veil, no cloak, no staff
+
+Use case: stylized-concept. Asset: C04_ref_casual. Generate exactly one finished landscape 1536x1024 reference sheet, opaque flat light-grey background. Three evenly spaced head-to-toe views at the same scale and baseline, from left to right front, left profile, back. All hair, hands and bare feet must fit within the canvas with small margins. Relaxed neutral standing with the faint teasing smile specified in CASUAL.
+
+Input images are supporting references, not edit targets:
+1. C04_ref_combat.png: MIRIAM IDENTITY ONLY -- copy the same face, facial anatomy, eyes, golden wavy hair and tall curvy body proportions. Do not copy clothing, accessories, props or the combat silhouette from this image. In particular do not carry over its veil, cloak, scallop badge, grey-blue travel dress or staff.
+2. style-anchor.png (Lina): art style, clean confident line work, cel shading and soft highlights only.
+3. C01_ref_combat.png: art style, line quality, coloring and reference-sheet scale only.
+4. C02_ref_combat.png: art style, line quality, coloring and reference-sheet scale only.
+5. C03_ref_combat.png: art style, line quality, coloring and reference-sheet scale only.
+Do not copy any other companion's face, hair, body design, outfit or props. Miriam must remain the SAME adult woman as in her own new combat sheet, with the distinct soft rounded mature face, warm peach skin, long-lashed gentle droopy eyes, fuller lips, left-eye beauty mark and tall curvy body from BODY.
+
+MUST KEEP in all three views: long voluminous wavy golden blonde hair now down and completely unveiled, sky-blue eyes wherever visible, wooden holy-symbol necklace from BODY, soft rounded mature face, long-lashed gentle drooping eyes, beauty mark under HER LEFT eye, full soft lips, tall graceful curvy figure. In front view the mark is on viewer-right; in left profile it is visible. Do not mirror the mark.
+
+Clothing and props are exclusively those in CASUAL: opaque elegant ivory linen dress, off-shoulder neckline, open back, side slit, thin gold waist chain, bare feet. Keep the wooden holy-symbol necklace specified in BODY. The front and side show the off-shoulder neckline and side slit; the back shows the open-back design. Use graceful, unforced standing poses, without emphasizing body parts. NO veil, NO cloak or cape, NO staff, NO scallop-shell badge, NO combat travel dress, NO boots or shoes, NO weapons, NO extra props or ornaments. The silhouette must come from the off-shoulder open-back dress and freely hanging wavy hair. Follow the CASUAL block, never the clothing or props of any reference.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+

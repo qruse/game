@@ -1,0 +1,46 @@
+Asset: C04_ref_combat
+Model/tool: built-in image_gen.imagegen (underlying model name not exposed)
+Generation date: 2026-10-16 (Asia/Seoul)
+Mode: reference-guided new generation; exactly one call, no retries or content review
+Requested/final dimensions: 1536x1024
+Background: opaque flat light grey
+Raw: art/raw/C04_ref_combat_v1.png
+Output: art/refs/C04_ref_combat.png
+
+Attached reference images (ordered):
+C:/Users/이현상/Workplace/game/art/refs/style-anchor.png
+C:/Users/이현상/Workplace/game/art/refs/C01_ref_combat.png
+C:/Users/이현상/Workplace/game/art/refs/C02_ref_combat.png
+C:/Users/이현상/Workplace/game/art/refs/C03_ref_combat.png
+
+Full prompt:
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Character reference sheet: full body front view, side view and back view of the same character side by side, neutral standing pose, plain flat light grey background, consistent design across all views.
+
+Miriam, a 24-year-old adult woman, long voluminous wavy golden blonde hair, sky-blue eyes, wooden holy symbol necklace. FACE: a soft rounded mature face clearly older than the other girls, gentle droopy eyes with long lashes, a beauty mark under her left eye, full soft lips in a calm knowing half-smile, warm peach skin; tall graceful curvy figure
+
+wearing a white veil over her hair, a cream pilgrim's cloak with a scallop-shell badge over a modest grey-blue travel dress, a tall pilgrim's staff
+
+Use case: stylized-concept. Asset: C04_ref_combat. Generate exactly one finished landscape 1536x1024 reference sheet, opaque flat light-grey background. Three evenly spaced head-to-toe views at the same scale and baseline, from left to right front, left profile, back. All hair, clothing, feet and the entire staff must fit within the canvas with small margins.
+
+Input images are supporting STYLE references only, not edit targets:
+1. style-anchor.png (Lina): art style, clean confident line work, cel shading and soft highlights only.
+2. C01_ref_combat.png: art style, line quality, coloring and reference-sheet scale only.
+3. C02_ref_combat.png: art style, line quality, coloring and reference-sheet scale only.
+4. C03_ref_combat.png: art style, line quality, coloring and reference-sheet scale only.
+DO NOT copy any of their faces, facial anatomy, expressions, hair, body shapes, costumes or props. Draw Miriam as a distinctly different person according to BODY and FACE above. Preserve an appealing anime design while giving her the rounded mature face of a 24-year-old adult, warm peach skin, long-lashed gently downturned eyes, fuller lips, and tall curvy adult proportions. Do not use a standard youthful Lina face with blonde hair.
+
+MUST KEEP in all three views: voluminous wavy golden-blonde hair, sky-blue eyes wherever visible, wooden holy-symbol necklace, Miriam's soft rounded mature face, gentle drooping eye shape with long lashes, beauty mark beneath HER LEFT eye, full soft lips and tall graceful curvy build. The mark is on viewer-right in the front view and visible in the left-profile view; never mirror it to her right. Keep the white veil, cream pilgrim cloak with scallop-shell badge, modest grey-blue travel dress and tall pilgrim staff consistent across the three views. The staff is an ordinary pilgrim's staff, not Adelheid's ornate magical staff. Draw only the specified outfit and props. Neutral relaxed standing with the calm knowing half-smile.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
