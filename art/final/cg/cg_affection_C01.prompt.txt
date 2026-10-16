@@ -1,0 +1,42 @@
+Tool / model: built-in image_gen.imagegen; underlying model identifier not exposed
+Generation date: 2026-10-16 (Asia/Seoul)
+Asset: cg_affection_C01 (S18); outfit: casual
+Generation policy: one generation only; no self-review, comparison sheet, QA or repair script; technical sizing and file saving only.
+Target: 1920x1080 opaque PNG
+References (attached in this exact order):
+art/refs/style-anchor.png
+art/refs/C01_ref_casual.png
+art/final/characters/C01_lina/C01_portrait_casual_neutral.png
+
+Full actual generation prompt:
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Key story event illustration, cinematic composition, 16:9.
+
+Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face
+
+wearing a cream linen kirtle dress with a red laced bodice and puffed sleeves rolled up to the elbows, a flour-dusted white apron (she keeps failing at cooking), hair down with the same braid and red ribbon, holding a wooden spoon and a flour-dusted wooden mixing bowl
+
+Lina in her casual dress at dusk on the guild hall balcony, shyly offering a slightly burnt homemade pie to the viewer, warm sunset light. Romance is only hinted, tasteful and heartwarming.
+
+Reference roles in attachment order: image 1 is the approved style anchor, for line art and rendering only; do not copy its combat costume or weapons. Image 2 is Lina's approved CASUAL reference sheet, defining the exact casual clothes, body and hair. Image 3 is her approved CASUAL standing portrait, defining the same face and person. Match these approved casual references, no redesign.
+Keep her pale violet eyes and small side braid with red ribbon on her own left side (viewer-right in a frontal view). Her cream linen kirtle, red laced bodice, elbow-rolled puffed sleeves and flour-dusted white apron are unchanged. The CG action supersedes the reference's stationary cooking pose: she offers the slightly burnt homemade pie on a plain wooden dish toward the unseen viewer; the flour-dusted mixing bowl and wooden spoon rest together beside her on the balcony ledge, rather than occupying the hands offering the pie. Warm dusk, a shy tentative smile and modest eye contact suggest affection only. This is a humble timber guildhouse balcony, oak railing and plaster walls, not a palace. Medium-wide composition showing face, hands, pie and balcony. No chainmail, surcoat, shield, sword or combat gear. The protagonist is the unseen viewer; do not draw a second person or their hands.
+
+Use case: illustration-story. Asset: one finished full-bleed RPG event CG. Generate one single landscape 16:9 image, target 1920x1080, opaque background. No reference sheet panels, collage, labels, border or UI. The scene-specific action and expression take precedence over static reference poses. Keep the same approved character identity and outfit.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Generation completed: one built-in call; no regeneration.
+Source file: C:\Users\이현상\.codex\generated_images\01a1436a-cc04-78c1-b7f7-27d91a80da9a\exec-e6c310a1-780c-407a-a180-642651faae28.png
+Raw archive: art/raw/cg_affection_C01_v1.png
+Technical processing: original 1672x941 resized to 1920x1080, opaque RGB PNG; no content edits or content review.
+Final output: art/final/cg/cg_affection_C01.png
