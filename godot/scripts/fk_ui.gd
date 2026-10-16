@@ -26,6 +26,44 @@ static func sbt(name: String, margin: float, content: float) -> StyleBox:
 	return sb
 
 
+## 게임 전체 테마 (전투·이야기 화면 공용). {theme, bold}
+static func make_theme(touch: bool) -> Dictionary:
+	var th := Theme.new()
+	var base: Font
+	if ResourceLoader.exists("res://fonts/NotoSansKR-Game.ttf"):
+		base = load("res://fonts/NotoSansKR-Game.ttf")
+	else:
+		var f := SystemFont.new()
+		f.font_names = PackedStringArray(["Malgun Gothic", "맑은 고딕", "Noto Sans CJK KR", "Noto Sans KR", "Apple SD Gothic Neo", "sans-serif"])
+		base = f
+	# 기본 글꼴은 조금 굵게 (가변 글꼴 기본 굵기는 작은 글자에서 흐리다)
+	var mid := FontVariation.new()
+	mid.base_font = base
+	mid.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): 520}
+	th.default_font = mid
+	th.default_font_size = 16 if touch else 22
+	# 굵은 글꼴: 가변 글꼴의 굵기 축을 700으로
+	var bold := FontVariation.new()
+	bold.base_font = base
+	bold.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): 700}
+	# 버튼과 판넬은 tools/ui 로 그린 틀
+	var m := 9.0 if touch else 12.0
+	for st in [["normal", "btn_normal"], ["hover", "btn_hover"], ["pressed", "btn_pressed"], ["disabled", "btn_disabled"]]:
+		th.set_stylebox(st[0], "Button", sbt(st[1], 18, m))
+	th.set_stylebox("focus", "Button", StyleBoxEmpty.new())
+	th.set_color("font_color", "Button", CREAM)
+	th.set_color("font_hover_color", "Button", Color.WHITE)
+	th.set_color("font_pressed_color", "Button", GOLD)
+	th.set_color("font_disabled_color", "Button", Color(0.5, 0.46, 0.42))
+	th.set_font("font", "Button", bold)
+	th.set_stylebox("panel", "PanelContainer", sbt("panel", 30, 12.0 if touch else 18.0))
+	th.set_stylebox("panel", "Panel", sbt("panel", 30, 12))
+	th.set_color("font_color", "Label", CREAM)
+	th.set_color("default_color", "RichTextLabel", CREAM)
+	th.set_font("bold_font", "RichTextLabel", bold)
+	return {"theme": th, "bold": bold}
+
+
 ## 막대와 초상 동그라미를 그리는 공통 바탕
 class UIBase extends Control:
 	const CREAM := Color(0.95, 0.90, 0.78)

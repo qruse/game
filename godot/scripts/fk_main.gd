@@ -32,6 +32,7 @@ var _demo := false
 var _shot := ""
 var _shot_at: Array = []
 var _pick := ""  # 확인용: 첫 동료 차례에 미리 고를 대상 (행동,대상번호 예: adel_fire,4)
+var story := {}  # 이야기 모드: 연대기 칸에서 넘어온 전투 요청 (Game.battle_req)
 
 var menu: Control
 var hud: Control
@@ -83,6 +84,12 @@ func _ready() -> void:
 			_pick = a.get_slice("=", 1)
 		elif a.begins_with("--at="):
 			_shot_at = Array(a.get_slice("=", 1).split(",", false)).map(func(x): return float(x))
+	# 이야기 모드: 연대기 칸에서 넘어왔으면 그 전투를 바로 시작한다
+	if not Game.battle_req.is_empty():
+		story = Game.battle_req
+		party = story.party.duplicate()
+		battle_idx = story.idx
+		auto_start = true
 	if auto_start:
 		_start()
 	if _shot != "":
@@ -102,40 +109,9 @@ func _take_shot() -> void:
 
 
 func _setup_theme() -> void:
-	var th := Theme.new()
-	var base: Font
-	if ResourceLoader.exists("res://fonts/NotoSansKR-Game.ttf"):
-		base = load("res://fonts/NotoSansKR-Game.ttf")
-	else:
-		var f := SystemFont.new()
-		f.font_names = PackedStringArray(["Malgun Gothic", "맑은 고딕", "Noto Sans CJK KR", "Noto Sans KR", "Apple SD Gothic Neo", "sans-serif"])
-		base = f
-	# 기본 글꼴은 조금 굵게 (가변 글꼴 기본 굵기는 작은 글자에서 흐리다)
-	var mid := FontVariation.new()
-	mid.base_font = base
-	mid.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): 520}
-	th.default_font = mid
-	th.default_font_size = 16 if touch else 22
-	# 굵은 글꼴: 가변 글꼴의 굵기 축을 700으로
-	bold_font = FontVariation.new()
-	bold_font.base_font = base
-	bold_font.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): 700}
-	# 버튼과 판넬은 tools/ui 로 그린 틀
-	var m := 9.0 if touch else 12.0
-	for st in [["normal", "btn_normal"], ["hover", "btn_hover"], ["pressed", "btn_pressed"], ["disabled", "btn_disabled"]]:
-		th.set_stylebox(st[0], "Button", UI.sbt(st[1], 18, m))
-	th.set_stylebox("focus", "Button", StyleBoxEmpty.new())
-	th.set_color("font_color", "Button", UI.CREAM)
-	th.set_color("font_hover_color", "Button", Color.WHITE)
-	th.set_color("font_pressed_color", "Button", UI.GOLD)
-	th.set_color("font_disabled_color", "Button", Color(0.5, 0.46, 0.42))
-	th.set_font("font", "Button", bold_font)
-	th.set_stylebox("panel", "PanelContainer", UI.sbt("panel", 30, 12.0 if touch else 18.0))
-	th.set_stylebox("panel", "Panel", UI.sbt("panel", 30, 12))
-	th.set_color("font_color", "Label", UI.CREAM)
-	th.set_color("default_color", "RichTextLabel", UI.CREAM)
-	th.set_font("bold_font", "RichTextLabel", bold_font)
-	theme = th
+	var t: Dictionary = UI.make_theme(touch)
+	theme = t.theme
+	bold_font = t.bold
 
 
 func _place(c: Control, al: float, at: float, ar: float, ab: float, l: float, t: float, r: float, b: float) -> void:
@@ -226,7 +202,7 @@ func _build_hud() -> void:
 	tr.add_child(speed_btn)
 	log_btn = _small_btn(" 기록 ", func(): log_box.visible = not log_box.visible)
 	tr.add_child(log_btn)
-	tr.add_child(_small_btn(" 처음으로 ", _to_menu))
+	tr.add_child(_small_btn(" 물러나기 " if not Game.battle_req.is_empty() else " 처음으로 ", _to_menu))
 
 	log_box = RichTextLabel.new()
 	_place(log_box, 1, 0, 1, 1, -(300 if touch else 520), 60 if touch else 80, -8, -bot_h - 8)
@@ -322,6 +298,8 @@ func _build_menu() -> void:
 		var b := _btn("%s · %s" % [Defs.BATTLES[i].name, Defs.BATTLES[i].desc], _pick_battle.bind(i))
 		b.custom_minimum_size = Vector2(0, 52 if touch else 64)
 		v.add_child(b)
+	var st := _btn("이야기 모드 (1장 체험판)", func(): get_tree().change_scene_to_file("res://story.tscn"))
+	v.add_child(st)
 	var old := _btn("이전 방식 (칸 이동 전투)", func(): get_tree().change_scene_to_file("res://main.tscn"))
 	old.modulate = Color(0.75, 0.75, 0.75)
 	v.add_child(old)
@@ -350,6 +328,7 @@ func _build_over() -> void:
 	v.add_child(h)
 	h.add_child(_btn("  다시 하기  ", _start))
 	h.add_child(_btn("  처음으로  ", _to_menu))
+	h.add_child(_btn("  계속  ", _back_to_story))
 	over.visible = false
 
 
@@ -377,6 +356,12 @@ func _pick_battle(i: int) -> void:
 
 
 func _to_menu() -> void:
+	if not story.is_empty():
+		# 이야기 모드에서 물러나면 패배로 돌아간다
+		if battle != null and battle.result == "":
+			battle.result = "lose"
+		_back_to_story()
+		return
 	state = "menu"
 	battle = null
 	stage.battle = null
@@ -390,6 +375,8 @@ func _to_menu() -> void:
 func _start() -> void:
 	battle = Battle.new()
 	battle.setup(battle_idx, party)
+	if not story.is_empty():
+		_apply_story(battle)
 	stage.battle = battle
 	stage.reset()
 	_load_art()
@@ -474,6 +461,27 @@ func _flush() -> void:
 	battle.events.clear()
 
 
+## 연대기에서 넘어온 조건: 들고 온 행운 주사위, 기습(적 첫 차례 기절), 보스 체력 증감
+func _apply_story(b) -> void:
+	b.fate = clampi(int(story.get("luck", b.fate)), 0, Battle.FATE_MAX)
+	for u in b.units:
+		if u.side != "enemy":
+			continue
+		if story.get("ambush", false):
+			u.st["stun"] = 1
+		if u.boss and int(story.get("boss_hp", 0)) != 0:
+			u.max_hp = maxi(10, u.max_hp + int(story.boss_hp))
+			u.hp = u.max_hp
+	if story.get("ambush", false):
+		b.events.append({"t": "log", "text": "기습! 적은 첫 차례에 움직이지 못한다"})
+
+
+func _back_to_story() -> void:
+	Game.battle_res = {"result": battle.result if battle != null else "lose", "luck": battle.fate if battle != null else 0}
+	Game.battle_req = {}
+	get_tree().change_scene_to_file("res://story.tscn")
+
+
 func _check_over() -> void:
 	state = "over"
 	var win: bool = battle.result == "win"
@@ -481,9 +489,18 @@ func _check_over() -> void:
 	t += "%d라운드 · 쓰러진 횟수 %d · 남은 행운 주사위 %d" % [battle.round_no, battle.downs, battle.fate]
 	over_lbl.text = t
 	over.visible = true
+	# 이야기 모드: 이기면 계속, 지면 다시 하거나 물러나기(패배로 돌아감)
+	var hb: HBoxContainer = over.get_child(0).get_child(1)
+	hb.get_child(0).visible = story.is_empty() or not win
+	hb.get_child(1).visible = story.is_empty()
+	hb.get_child(2).visible = not story.is_empty()
+	hb.get_child(2).text = "  계속  " if win else "  물러나기  "
 	_refresh()
 	if _demo:
 		print("demo result: %s, rounds %d, downs %d" % [battle.result, battle.round_no, battle.downs])
+		if not story.is_empty():
+			await get_tree().create_timer(1.0).timeout
+			_back_to_story()
 
 
 # ── 동료 차례: 대상은 무대에서 미리 고르고, 행동 버튼을 누르면 바로 굴린다 ─

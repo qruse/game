@@ -6,8 +6,12 @@ config_version=5
 [application]
 
 config/name="Project D20 Proto"
-run/main_scene="res://fk.tscn"
+run/main_scene="res://story.tscn"
 config/features=PackedStringArray("4.7")
+
+[autoload]
+
+Game="*res://scripts/game.gd"
 
 [display]
 

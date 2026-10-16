@@ -1,7 +1,7 @@
 """웹(모바일 브라우저) 빌드 준비.
 
 1. 전투에 쓰는 그림을 art/final 에서 godot/art 로 복사한다 (웹에서는 godot 폴더 밖 파일을 못 읽는다)
-   배경은 스크립트가 실제로 부르는 것만, 큰 그림(배경·스탠딩·컷인)은 손실 압축(WebP)으로 들여온다
+   배경·CG 는 스크립트가 실제로 부르는 것만, 큰 그림(배경·스탠딩·컷인)은 손실 압축(WebP)으로 들여온다
    (Cloudflare 파일 하나 25MiB 제한: PNG 그대로면 index.pck 가 넘친다)
 2. 한글 글꼴을 godot/fonts 에 넣는다 (웹에는 시스템 글꼴이 없다)
    Noto Sans KR(OFL)에서 게임에 나오는 글자 + 자주 쓰는 한글 2,350자 + 기호만 남겨 크기를 줄인다
@@ -33,12 +33,12 @@ mipmaps/generate=false
 """
 
 
-def used_backgrounds() -> list:
-    """godot 스크립트에 적힌 배경 경로만 (backgrounds/xxx/yyy.png)"""
+def used_art() -> list:
+    """godot 스크립트에 적힌 배경·CG 경로만 (backgrounds/xxx/yyy.png, cg/zzz.png)"""
     out = set()
     for p in glob.glob(os.path.join(ROOT, "godot", "scripts", "*.gd")):
         with open(p, encoding="utf-8") as f:
-            out.update(re.findall(r"backgrounds/[a-z_]+/[A-Za-z0-9_]+\.png", f.read()))
+            out.update(re.findall(r"(?:backgrounds/[a-z_]+|cg)/[A-Za-z0-9_]+\.png", f.read()))
     return ["art/final/" + b for b in sorted(out)]
 
 
@@ -50,10 +50,11 @@ def copy_art() -> int:
         "art/final/characters/*/*_sd_*.png",
         "art/final/characters/*/*_cutin.png",
         "art/final/icons/skills/*.png",
-        "art/final/characters/*/*_portrait_combat_neutral.png",
         "art/final/enemies/*/*_sd_*.png",
         "art/final/props/*.png",
-    ] + used_backgrounds()
+        "art/final/characters/*/*_portrait_combat_*.png",  # 이야기 장면은 전투복 스탠딩
+        "art/final/npcs/*/*_portrait_*.png",
+    ] + used_art()
     n = 0
     for pat in pats:
         for src in glob.glob(os.path.join(ROOT, pat)):
@@ -61,7 +62,7 @@ def copy_art() -> int:
             out = os.path.join(dst, rel)
             os.makedirs(os.path.dirname(out), exist_ok=True)
             shutil.copy2(src, out)
-            if "backgrounds" in rel or "_portrait_" in rel or "_cutin" in rel:
+            if "backgrounds" in rel or "_portrait_" in rel or "_cutin" in rel or rel.startswith(("npcs", "cg")):
                 with open(out + ".import", "w", encoding="utf-8") as f:
                     f.write(LOSSY_IMPORT)
             n += 1
