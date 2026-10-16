@@ -415,59 +415,126 @@ func _draw_fx(f: Dictionary) -> void:
 			draw_rect(Rect2(Vector2.ZERO, size), Color(1, 1, 1, 0.25 * (1.0 - k)))
 
 
-## 판정 칸: 무대 위쪽 가운데에 d20 을 칸 수만큼 늘어놓고, 왼쪽부터 하나씩 멈춘다
+## 판정 칸: 주사위를 왼쪽 아래에서 던져 튕기며 굴러와 하나씩 멈춘다.
+## 멈추는 순간 튀어 오르고, 성공은 초록 고리가 퍼지고, 실패는 흔들리고, 20은 금빛으로 터진다
 func _draw_roll(font: Font, fs: int) -> void:
 	var r := _roll
 	var u = battle.unit(r.uid)
 	var n: int = r.n
 	var ds := clampf(size.y * 0.12, 44, 96)
-	var gap := ds * 0.25
+	var gap := ds * 0.3
 	var w := n * ds + (n - 1) * gap
-	var pw := maxf(w + ds, ds * 5.0)
+	var pw := maxf(w + ds * 1.2, ds * 5.0)
 	var c := Vector2(size.x / 2.0, size.y * 0.2)
-	var panel := Rect2(c.x - pw / 2.0, c.y - ds * 0.95, pw, ds * 2.35)
-	draw_rect(panel, Color(0.08, 0.06, 0.05, 0.86))
-	draw_rect(panel, Color(0.84, 0.70, 0.38), false, 2.0)
-	var title := "%s · %s" % [u.name if u != null else "", r.label]
-	draw_string(font, Vector2(panel.position.x, panel.position.y + fs * 1.2), title, HORIZONTAL_ALIGNMENT_CENTER, pw, fs, Color(1.0, 0.92, 0.75))
 	var t: float = r.time
+	# 패널은 살짝 커지며 나타난다
+	var pk := clampf(t / 0.15, 0.0, 1.0)
+	var panel := Rect2(c.x - pw / 2.0, c.y - ds * 0.95, pw, ds * 2.35)
+	panel = panel.grow(-(1.0 - ease(pk, 0.4)) * ds * 0.4)
+	var all_in := t >= 0.3 + DIE_REVEAL * n
+	var perfect: bool = r.ok == n and n > 1
+	if all_in and perfect:
+		# 완벽 성공: 패널 뒤로 금빛 빛줄기
+		var k := clampf((t - (0.3 + DIE_REVEAL * n)) / 0.6, 0.0, 1.0)
+		for j in 16:
+			var ang := TAU * j / 16.0 + t * 0.8
+			var d1 := Vector2(cos(ang), sin(ang))
+			var d2 := Vector2(cos(ang + 0.08), sin(ang + 0.08))
+			var rr := pw * (0.45 + 0.35 * ease(k, 0.3))
+			draw_colored_polygon(PackedVector2Array([c, c + d1 * rr, c + d2 * rr]), Color(1.0, 0.85, 0.35, 0.45 * (1.0 - k * 0.6)))
+	draw_rect(panel, Color(0.08, 0.06, 0.05, 0.86 * pk))
+	draw_rect(panel, Color(0.84, 0.70, 0.38, pk), false, 2.0)
+	var title := "%s · %s" % [u.name if u != null else "", r.label]
+	draw_string(font, Vector2(panel.position.x, panel.position.y + fs * 1.2), title, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, fs, Color(1.0, 0.92, 0.75, pk))
 	var shown := 0
 	for i in n:
 		var sl: Dictionary = r.slots[i]
-		var dc := Vector2(c.x - w / 2.0 + i * (ds + gap) + ds / 2.0, c.y + ds * 0.32)
-		var revealed := t >= 0.3 + DIE_REVEAL * (i + 1)
+		var target := Vector2(c.x - w / 2.0 + i * (ds + gap) + ds / 2.0, c.y + ds * 0.32)
+		var t0 := 0.05 + i * 0.06  # 던지는 시각
+		var t1 := 0.3 + DIE_REVEAL * (i + 1)  # 멈추는 시각
+		if t < t0:
+			continue
+		var locked: bool = sl.tag in ["운명", "은신"]
+		var k := clampf((t - t0) / (t1 - t0), 0.0, 1.0)
+		var landed := t >= t1
+		var pos := target
+		var rot := 0.0
+		var sc := 1.0
 		var face := ""
-		var col := Color(0.32, 0.27, 0.22)
-		if revealed:
+		var col := Color(0.36, 0.30, 0.24)
+		if not landed:
+			# 굴러오는 중: 왼쪽 아래에서 날아와 점점 낮게 튕긴다
+			var start := target + Vector2(-pw * 0.55 - i * ds * 0.3, ds * 1.6)
+			pos = start.lerp(target, ease(k, 0.35))
+			pos.y -= absf(sin(k * PI * 3.0)) * ds * 1.3 * pow(1.0 - k, 1.4)
+			rot = pow(1.0 - k, 2.0) * TAU * 3.0 * (1.0 if i % 2 == 0 else -1.0)
+			face = str(1 + int(t * 23.0 + i * 7) % 20)
+			if locked:
+				face = sl.tag
+				col = Color(0.62, 0.42, 0.85) if sl.tag == "운명" else Color(0.3, 0.3, 0.45)
+			# 바닥 그림자
+			_ellipse(Vector2(pos.x, target.y + ds * 0.5), ds * 0.4 * (0.6 + 0.4 * k), ds * 0.08, Color(0, 0, 0, 0.35))
+		else:
 			shown += 1
-			if sl.tag in ["운명", "은신"]:
+			var lt := t - t1
+			sc = 1.0 + 0.35 * maxf(0.0, 1.0 - lt / 0.18)
+			if locked:
 				face = sl.tag
 				col = Color(0.62, 0.42, 0.85) if sl.tag == "운명" else Color(0.3, 0.3, 0.45)
 			else:
 				face = str(sl.v)
 				col = Color(0.25, 0.62, 0.32) if sl.ok else Color(0.62, 0.2, 0.18)
 				if sl.tag == "대성공":
-					col = Color(0.9, 0.7, 0.2)
-		else:
-			face = str(1 + int(t * 37.0 + i * 7) % 20)
+					col = Color(0.92, 0.72, 0.2)
+				elif sl.tag == "대실패":
+					col = Color(0.28, 0.26, 0.26)
+				if not sl.ok:
+					pos.x += sin(lt * 70.0) * ds * 0.08 * maxf(0.0, 1.0 - lt / 0.3)
+			# 멈춘 순간 퍼지는 고리
+			if lt < 0.45:
+				var ring := Color(0.5, 1.0, 0.5) if sl.ok else Color(1.0, 0.35, 0.3)
+				if sl.tag == "대성공" or locked:
+					ring = Color(1.0, 0.85, 0.35)
+				ring.a = 0.8 * (1.0 - lt / 0.45)
+				draw_arc(pos, ds * (0.5 + lt * 1.6), 0.0, TAU, 40, ring, 4.0)
+			if sl.tag == "대성공" and lt < 0.6:
+				for j in 8:
+					var ang := TAU * j / 8.0
+					var d := Vector2(cos(ang), sin(ang))
+					draw_line(pos + d * ds * (0.55 + lt), pos + d * ds * (0.75 + lt * 1.6), Color(1.0, 0.9, 0.4, 1.0 - lt / 0.6), 3.0)
+		draw_set_transform(pos, rot, Vector2(sc, sc))
 		var pts := PackedVector2Array()
 		for j in 6:
 			var ang := -PI / 2.0 + j * PI / 3.0
-			pts.append(dc + Vector2(cos(ang), sin(ang)) * ds * 0.5)
+			pts.append(Vector2(cos(ang), sin(ang)) * ds * 0.5)
 		draw_colored_polygon(pts, col)
+		# 안쪽 면 (d20 느낌)
+		var inner := PackedVector2Array()
+		for j in 3:
+			var ang := -PI / 2.0 + j * TAU / 3.0
+			inner.append(Vector2(cos(ang), sin(ang)) * ds * 0.33)
+		draw_colored_polygon(inner, Color(1, 1, 1, 0.1))
 		pts.append(pts[0])
 		draw_polyline(pts, Color(0.95, 0.88, 0.7), 2.0)
 		var dfs := int(ds * (0.42 if face.length() <= 2 else 0.26))
-		draw_string(font, dc + Vector2(-ds / 2.0, dfs * 0.36), face, HORIZONTAL_ALIGNMENT_CENTER, ds, dfs, Color.WHITE)
+		draw_string(font, Vector2(-ds / 2.0, dfs * 0.36), face, HORIZONTAL_ALIGNMENT_CENTER, ds, dfs, Color.WHITE)
+		draw_set_transform(Vector2.ZERO)
 	var foot := "필요 %d 이상" % r.need
+	var fcol := Color(0.8, 0.8, 0.8)
+	var ffs := fs
 	if shown == n:
 		foot = "%d/%d 성공" % [r.ok, n]
-		if r.ok == n and n > 1:
+		fcol = Color(1.0, 0.85, 0.4)
+		if perfect:
 			foot += " · 완벽!"
 		elif r.ok == 0:
 			foot += " · 실패"
-	draw_string(font, Vector2(panel.position.x, panel.end.y - fs * 0.45), foot, HORIZONTAL_ALIGNMENT_CENTER, pw, fs, Color(1.0, 0.85, 0.4) if shown == n else Color(0.8, 0.8, 0.8))
-
+			fcol = Color(1.0, 0.5, 0.45)
+		# 결과 글자가 튀어나온다
+		var ft := t - (0.3 + DIE_REVEAL * n)
+		ffs = int(fs * (1.0 + 0.5 * maxf(0.0, 1.0 - ft / 0.2)))
+	draw_string_outline(font, Vector2(panel.position.x, panel.end.y - fs * 0.45), foot, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, ffs, 4, Color(0, 0, 0, 0.8))
+	draw_string(font, Vector2(panel.position.x, panel.end.y - fs * 0.45), foot, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, ffs, fcol)
 
 func _draw_cutin() -> void:
 	var tex: Texture2D = _cutin.tex
