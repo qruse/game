@@ -1,29 +1,25 @@
 Asset: N02_portrait_negative
-Step: S17
+Step: S17 rework
 Date: 2026-10-16 (Asia/Seoul)
 Tool: built-in image_gen
 Model: identifier not exposed by built-in tool
-Attempts: 1; no retries (user instruction)
+Attempts: 1; no retries
 Tool options: transparent_background=true
 References (attachment order):
 art/final/npcs/N02_basil/N02_portrait_neutral.png
 art/final/characters/C01_lina/C01_portrait_combat_neutral.png
 art/refs/style-anchor.png
-Raw archive: art/raw/N02_portrait_negative_v1.png
+Raw archive: art/raw/N02_portrait_negative_v2.png
 Final: art/final/npcs/N02_basil/N02_portrait_negative.png
-Final technical target: 1024 x 1536 transparent PNG
-Expression method: one face-only edit of neutral; guide 3.1.4 face-interior composite keeps original outside-mask pixels
-Content review: user/Claude; no Codex quality review, comparison sheets or QA scripts.
+Technical target: 1024x1536 transparent PNG
+Expression method: style-guide 3.1.4 face-interior composite over NEW neutral; 3px inward feather; original alpha retained
+Face polygon: 377,193,395,181,413,187,426,176,451,160,479,151,502,157,518,174,531,200,536,230,531,260,515,289,492,319,469,332,454,324,439,301,421,282,403,262,388,240,378,219
+Technical postprocessing: neutral interior alpha=255, 1px boundary retains native antialiasing; position/RGB/canvas unchanged
+Content review: user/Claude; no Codex content QA
 
 Full prompt:
 Use case: identity-preserve
-Asset type: medieval RPG dialogue portrait expression variant
-
-EDIT the supplied neutral portrait, NOT a new drawing. Image 1 is the edit target (N02_portrait_neutral). Image 2 is the approved Lina portrait, used only as a rendering and composition reference. Image 3 is the approved style anchor, style only.
-Edit only the masked face area (eyebrows to chin, skin interior, excluding hair, headwear, ears, neck and clothing). Keep everything outside the mask pixel-identical. Change the facial expression to: displeased frown.
-Preserve the exact head position, face identity, age, features, head scale, gaze toward the viewer, hairstyle, all hair strands, pose, body, hands, props, costume, colors, shading, transparent silhouette and canvas alignment. For Basil, keep the existing spectacles, their placement, and the quill untouched; expression changes happen behind the spectacles.
-Subtle readable NPC expression, restrained emotion matching a modest medieval commoner or occupational character. No enlarged head or exaggeration. No tears, blush symbols, new objects, text or decoration.
-Return one 1024 x 1536 transparent PNG. Do not crop, flip, resize or reposition any part. Transparent background and alpha unchanged. Only the face expression may change. The final deliverable will use a face-interior mask composite over the original neutral portrait to lock all pixels outside the facial mask.
+EDIT image 1, the NEW corrected neutral portrait, once. Edit ONLY the face skin interior (eyebrows through chin), excluding hair, ears, neck, hands, costume and props. Keep everything outside the mask pixel-identical. Preserve the corrected age, plain face identity, wrinkles, proportions and head position. Keep round spectacles and quill fixed; expression changes behind spectacles. Other references are rendering style only.
 
 [STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
@@ -34,18 +30,21 @@ wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
 
-[FORMAT_BLOCK: portrait, invariants already established in image 1]
+[FORMAT_BLOCK: portrait]
 Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
-Technical override: preserve image 1's true transparent background, do not introduce magenta.
+Technical override: true transparent background instead of magenta. ONE 1024x1536 transparent PNG. Do not crop, flip or reposition.
 
-[NPC PROMPT, identity and clothes unchanged]
-Basil, a thin fussy notary in his 30s, black scholar's robe, quill behind ear, spectacles, ledger under arm
+[NPC PROMPT]
+Basil, a thin fussy notary in his late 30s, gaunt face, sunken cheeks, long pointed nose, receding thin slicked-back hair, frown line, hunched narrow shoulders, plain and unattractive, black scholar's robe, quill behind ear, spectacles, ledger under arm
+
+[EXTRA]
+EDIT (face mask only, see style-guide 3.1): change only the facial expression to: displeased frown.
+Preserve the revised appearance: Clearly a man in his late 30s: gaunt thin face with sunken cheeks and a long pointed nose, receding hairline with thin slicked-back hair, deep frown line between the brows, pinched fussy mouth, slightly hunched narrow shoulders; plain and unattractive, NOT a handsome young man.
+Final assembly uses only the face interior over the unchanged neutral, per style-guide 3.1.4.
 
 [NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
-
-
-Applied face-interior polygon (1024x1536 coordinates; 3px inward feather): 413,205,434,204,452,212,473,211,497,188,528,180,543,192,551,216,548,247,535,265,539,282,548,297,539,313,518,328,502,327,480,313,461,297,443,282,429,270,422,253,410,238
+Basil's existing simple medieval round spectacles are required.

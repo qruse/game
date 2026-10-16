@@ -144,8 +144,8 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 
 | ID | 이름 | 역할 | PROMPT |
 |---|---|---|---|
-| N01 | 마르타 (Martha) | 선술집 주인, 길드의 오랜 이웃 | `Martha, a plump cheerful tavern keeper in her mid 40s, clearly middle-aged (round face, smile lines, crow's feet, a few grey strands), rolled-up sleeves, apron, auburn hair in a bun` |
-| N02 | 공증인 바실 (Basil) | 길드 재건 서류를 관리하는 공증인 | `Basil, a thin fussy notary in his late 30s, gaunt face, sunken cheeks, long pointed nose, receding thin slicked-back hair, frown line, hunched narrow shoulders, plain and unattractive, black scholar's robe, quill behind ear, spectacles, ledger under arm` |
+| N01 | 마르타 (Martha) | 선술집 주인, 길드의 오랜 이웃 | `Martha, a plump cheerful tavern keeper in her mid 40s, clearly middle-aged but still pretty (soft round face, gentle smile lines and crow's feet, a few grey strands), rolled-up sleeves, apron, auburn hair in a bun` |
+| N02 | 공증인 바실 (Basil) | 길드 재건 서류를 관리하는 공증인 | `Basil, a thin fussy notary in his late 30s, lean refined face with sharp cheekbones, neat slicked-back hair with a slightly high forehead, a fussy frown line, narrow shoulders, still good-looking in a mature way, black scholar's robe, quill behind ear, spectacles, ledger under arm` |
 | N03 | 영주 오스왈드 (Oswald) | 지역 영주, 속을 알 수 없다 | `Lord Oswald, a stately nobleman in his 50s, fur-lined mantle, gold chain of office, neatly trimmed beard` |
 | N04 | 주교 엘리노어 (Eleanor) | 수도원과 교회의 권력자 | `Bishop Eleanor, an elderly stern woman, white and gold vestments, mitre, crozier` |
 | N06 | 가면의 남자 | 흑막 | `a mysterious masked figure, plain white porcelain mask, black hooded cloak, faceless and unsettling` |
