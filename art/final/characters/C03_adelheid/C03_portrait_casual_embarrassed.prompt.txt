@@ -1,21 +1,43 @@
-Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
-Generation date: 2026-10-16 (Asia/Seoul).
-No CLI/API fallback. Image calls: 1; retries/local model repairs: 0.
-References in actual attachment order:
-1. art/raw/qa_S10_remaining/casual_face_target.png
-2. art/final/characters/C03_adelheid/C03_portrait_casual_neutral.png
+Tool/model: built-in image_gen (underlying model ID not exposed)
+Generation date: 2026-10-16 Asia/Seoul
+Step: S10R, adelheid; one generation, no retries or art-content self-review
+References in attachment order:
+1. art/final/characters/C03_adelheid/C03_portrait_casual_neutral.png
+2. art/refs/C03_ref_casual.png
 3. art/refs/style-anchor.png
+Raw source: art/raw/C03_portrait_casual_embarrassed_v2.png
+Final: art/final/characters/C03_adelheid/C03_portrait_casual_embarrassed.png
+Postprocessing: Technical canvas sizing; face interior mask composited over neutral, original pixels retained outside face; edited source magenta removal and despill.py before compositing. 
+Face mask polygon: 402,214;443,203;480,219;488,181;529,166;551,179;570,215;572,274;550,302;527,321;493,314;455,298;429,273;410,248
 
-FULL PROMPT (verbatim):
-Use case: precise local expression edit for existing RPG dialogue portrait. Edit the FIRST input face crop, 1024x1024. This is an enlarged exact crop of the approved neutral; preserve its registration, face shape and head tilt, hair strands, glasses location and round shape, golden irises, skin color, light direction and rendering. Edit ONLY exposed skin of the face from eyebrows to chin. Keep everything outside the face pixel-identical. Keep all hair, ear, neck, collar, braid, ornaments, alpha and outer silhouette unchanged. Do not redraw or shift the head. Keep original framing with exactly the same feature positions except changes inherently required by the expression. Keep both round wire-rimmed glasses and all crossing hair strands. Second reference is the approved full neutral for context, not a second output. Third is style anchor for line quality only, do not copy her face or objects. Output only the first square crop at exactly 1024x1024, preserve existing transparency. Keep the casual neutral identity and loosely messy hair. Change facial expression to: embarrassed and blushing, visible rosy cheeks, shy sidelong gaze, small awkward closed mouth. No text, symbols, sweat drops, background effects or new props.
+FULL PROMPT
+Use case: identity-preserve
+Asset type: C03_portrait_casual_embarrassed
+Primary request: Edit only the face interior (eyebrows through chin) of IMAGE 1, the neutral EDIT TARGET. Keep facial landmark placement, head angle and scale identical. Return the COMPLETE portrait in the same 1024x1536 canvas. Keep hair, fringe, ears, neck, clothes, body, hands, props, background and lighting pixel-identical. Only the masked facial interior will be composited back onto the neutral.
+Input images: 1 is the neutral edit target; 2 is the redesigned Adelheid identity reference; 3 is STYLE ONLY, never copy Lina face or outfit.
+[STYLE_BLOCK]
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+[FORMAT_BLOCK]
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
+[TRANSPARENCY]
+Actual transparent PNG; if any matte is necessary use only flat solid #FF00FF magenta, no ground shadow.
+[BODY]
+Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid with a straight blunt-cut fringe across the forehead, golden eyes, round wire-rimmed glasses. FACE: pale porcelain skin with faint shadows under the eyes from reading all night, heavy-lidded half-closed droopy eyes with a bored deadpan look, thin arched eyebrows, a small beauty mark under her right eye, a small unimpressed flat mouth, a longer oval face and long neck; tall slender willowy build, clearly taller than Lina
+[CASUAL]
+wearing an oversized dark charcoal wool tunic as a nightshirt that ends just above the knees, sleeves so long they cover her hands to the fingertips, thick knitted wool stockings, soft wool house slippers, a knitted shawl around her shoulders, her braid loosened and messy with stray hairs, holding a small candle in a holder and an ordinary open book (not her chained grimoire), sleepy cozy expression, no staff, no weapons
+[extra]
+Embarrassed, pink blush, gaze slightly averted, small shy tense mouth. Retain sleepy droopy eyes and under-eye circles.
+Keep the NEW FACE: straight blunt fringe, pale porcelain skin, dark under-eye shadows, heavy-lidded half-closed DROOPY sleepy golden eyes, thin eyebrows, small beauty mark under HER RIGHT eye (viewer LEFT in frontal view), longer oval face, long neck, tall slender willowy adult woman. Never generic wide-eyed cheerful heroine.
+[NEGATIVE_BLOCK]
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+Round medieval wire-rim glasses as defined for Adelheid are required; the modern-eyewear exclusion does not exclude her established glasses.
 
-Original raw output: art/raw/C03_portrait_casual_embarrassed_v1.png (preserved unmodified).
-Default tool source: C:/Users/이현상/.codex/generated_images/01a141b1-f858-7c93-a7f6-50a51b386cd5/exec-72ea30f1-1537-4597-9949-49734e947e4b.png
-
-Postprocessing: guide3.1.4 explicit face-mask composite. Neutral face crop: 350,102,288,288 enlarged1024square for local expression editing; model result uniformly mapped back to that exact crop. Blend RGB through the stored exposed-face polygons with3px inward feather. Entire original neutral alpha channel and all RGBA outside the mask retained. Canvas1024x1536, body, props, clothing, head silhouette and hair outside mask never moved or mirrored. Crop and mask are QA/edit working files, not game assets. Outfit sheet and design inherited from the neutral target; actual attached reference list above is exact. Saved-PNG independent comparison is below.
-Face audit: {"changed":15923,"outside_mask_rgba_changed":0,"alpha_changed":0}
-Mask, difference and detail evidence: art/raw/qa_S10_remaining/C03_portrait_casual_embarrassed/
-
-Independent saved PNG audit: {"size":[1024,1536],"opaque":848326,"transparent":701943,"partial":22595,"interior_partial":0,"bbox":[77,3,971,1535]}
-QA evidence: art/raw/qa_S10_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_15_comparison.png; cutins_3_comparison.png. 94 prior non-icon final/ref files SHA256 unchanged, including approved C03 checkpoint PNGs and prompts. Verification separately records12 C01/C02 icon PNG/prompt changes/removals made outside this task; this task did not write those files and did not revert external state.
-Status: generated, awaiting user review of S10. Two checkpoint images remain approved and untouched. No commit; no S11; no skill icons.

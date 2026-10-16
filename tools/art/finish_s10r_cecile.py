@@ -14,6 +14,18 @@ from despill import despill
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def normalize_alpha(im):
+    a = np.array(im.convert('RGBA'))
+    alpha = a[..., 3]
+    solid = Image.fromarray((alpha >= 128).astype('uint8') * 255)
+    inside = np.array(solid.filter(ImageFilter.MinFilter(3))) == 255
+    outside = np.array(solid.filter(ImageFilter.MaxFilter(3))) == 0
+    a[inside, 3] = 255
+    a[outside, 3] = 0
+    a[a[..., 3] == 0, :3] = 0
+    return Image.fromarray(a)
+
+
 def key(im):
     a = np.array(im.convert('RGBA'))
     r, g, b = [a[..., i].astype(float) for i in range(3)]
@@ -33,14 +45,18 @@ def main():
     p.add_argument('id')
     p.add_argument('source')
     p.add_argument('--face', help='semicolon-separated x,y polygon vertices')
+    p.add_argument('--sd-foot-y', type=int, help='Source foot baseline for a kneeling sprite with a lower prop tip')
     args = p.parse_args()
     manifest = ROOT / 'art/manifest.csv'
     text = manifest.read_text(encoding='utf-8-sig')
     rows = list(csv.DictReader(io.StringIO(text)))
     row = next(r for r in rows if r['id'] == args.id)
-    if row['status'] != 'todo' or row['subject'] != 'C02':
-        raise RuntimeError('Only the authorized todo C02 row may be replaced')
-    refsfile = ROOT / 'art/raw/S10R_cecile_session' / (args.id + '.refs.txt')
+    subject = row['subject']
+    if row['status'] != 'todo' or subject not in ('C02', 'C03') or not (row['step'] in ('S08', 'S10') or args.id == f'cg_affection_{subject}'):
+        raise RuntimeError('Only an authorized S10R todo character row may be replaced')
+    character = 'cecile' if subject == 'C02' else 'adelheid'
+    character_ko = '세실' if subject == 'C02' else '아델하이트'
+    refsfile = ROOT / f'art/raw/S10R_{character}_session' / (args.id + '.refs.txt')
     refs = refsfile.read_text(encoding='utf-8').splitlines()
     for ref in refs:
         if not (ROOT / ref).is_file():
@@ -53,12 +69,24 @@ def main():
     kind = row['format']
     if kind == 'portrait':
         im = key(im.resize((1024, 1536), Image.Resampling.LANCZOS))
+        if subject == 'C03':
+            im = normalize_alpha(im)
     elif kind == 'sd':
         im = key(im)
-        im = im.crop(im.getbbox())
-        im.thumbnail((464, 464), Image.Resampling.LANCZOS)
+        if subject == 'C03':
+            im = normalize_alpha(im)
+        bounds = im.getbbox()
+        im = im.crop(bounds)
+        if args.sd_foot_y is None:
+            im.thumbnail((464, 464), Image.Resampling.LANCZOS)
+            top = 488 - im.height
+        else:
+            below = bounds[3] - 1 - args.sd_foot_y
+            scale = min(464 / im.width, 464 / im.height, 23 / max(1, below))
+            im = im.resize((round(im.width * scale), round(im.height * scale)), Image.Resampling.LANCZOS)
+            top = round(487 - (args.sd_foot_y - bounds[1]) * scale)
         canvas = Image.new('RGBA', (512, 512))
-        canvas.paste(im, ((512 - im.width) // 2, 488 - im.height))
+        canvas.paste(im, ((512 - im.width) // 2, top))
         im = canvas
     elif kind == 'cutin':
         im = ImageOps.fit(im.convert('RGB'), (1920, 640), Image.Resampling.LANCZOS)
@@ -84,11 +112,13 @@ def main():
     elif kind in ('portrait', 'sd'):
         processing += 'magenta removal, opaque interior/antialiased alpha, tools/art/despill.py. '
     if kind == 'sd':
-        processing += '512x512, visible lower baseline y=487, centered without mirroring. '
+        processing += '512x512, foot/lower baseline y=487, centered without mirroring. '
+        if args.sd_foot_y is not None:
+            processing += f'Source foot baseline y={args.sd_foot_y}; lower prop tip retained inside canvas by uniform scale. '
     prompt = (refsfile.parent / (args.id + '.txt')).read_text(encoding='utf-8')
     record = ('Tool/model: built-in image_gen (underlying model ID not exposed)\n'
               'Generation date: 2026-10-16 Asia/Seoul\n'
-              'Step: S10R, Cecile only; one generation, no retries or art-content self-review\n'
+              f'Step: S10R, {character}; one generation, no retries or art-content self-review\n'
               'References in attachment order:\n' + '\n'.join(f'{i+1}. {v}' for i, v in enumerate(refs)) +
               f'\nRaw source: {raw.relative_to(ROOT).as_posix()}\nFinal: {row["output"]}\n'
               f'Postprocessing: {processing}\nFace mask polygon: {args.face or "none"}\n\nFULL PROMPT\n{prompt}\n')
@@ -96,7 +126,7 @@ def main():
     oldline = next(line for line in text.splitlines() if line.startswith(args.id + ',') or line.startswith('"' + args.id + '",'))
     row['status'] = 'generated'
     row['refs'] = ';'.join(refs)
-    row['notes'] += f'; 2026-10-16 S10R 세실 전용: 내장 image_gen 1회·재생성0; raw={raw.relative_to(ROOT).as_posix()}; 전체 prompt·참조 기록; 기술 후처리 완료; 그림 자체 검수·비교 시트·QA 스크립트 없음; 사용자·Claude 검토 대기'
+    row['notes'] += f'; 2026-10-16 S10R {character_ko} 전용: 내장 image_gen 1회·재생성0; raw={raw.relative_to(ROOT).as_posix()}; 전체 prompt·참조 기록; 기술 후처리 완료; 그림 자체 검수·비교 시트·QA 스크립트 없음; 사용자·Claude 검토 대기'
     buf = io.StringIO(newline='')
     csv.DictWriter(buf, fieldnames=list(row), lineterminator='').writerow(row)
     # Preserve all unrelated rows byte-for-byte at the text level.

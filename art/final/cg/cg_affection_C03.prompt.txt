@@ -1,14 +1,22 @@
-Tool / model: built-in image_gen.imagegen; underlying model identifier not exposed
-Generation date: 2026-10-16 (Asia/Seoul)
-Asset: cg_affection_C03 (S18); outfit: casual
-Generation policy: one generation only; no self-review, comparison sheet, QA or repair script; technical sizing and file saving only.
-Target: 1920x1080 opaque PNG
-References (attached in this exact order):
-art/refs/style-anchor.png
-art/refs/C03_ref_casual.png
-art/final/characters/C03_adelheid/C03_portrait_casual_neutral.png
+Tool/model: built-in image_gen (underlying model ID not exposed)
+Generation date: 2026-10-16 Asia/Seoul
+Step: S10R, adelheid; one generation, no retries or art-content self-review
+References in attachment order:
+1. art/refs/C03_ref_casual.png
+2. art/final/characters/C03_adelheid/C03_portrait_combat_neutral.png
+3. art/refs/style-anchor.png
+4. art/raw/cg_affection_C03_before_redesign.png
+5. art/final/characters/C03_adelheid/C03_portrait_casual_neutral.png
+Raw source: art/raw/cg_affection_C03_v2.png
+Final: art/final/cg/cg_affection_C03.png
+Postprocessing: Technical canvas sizing; 
+Face mask polygon: none
 
-Full actual generation prompt:
+FULL PROMPT
+Use case: stylized-concept
+Asset type: cg_affection_C03
+Primary request: Redraw this asset with the NEW redesigned Adelheid face. Image 1 is current outfit and identity. Image 2 is the approved NEW FACE identity only. Image 3 is STYLE ONLY, never copy Lina face or clothes. Image 4 is OLD pose/composition reference ONLY: do not copy its old face or facial features. Image 5 is her new casual portrait, face and casual outfit. 
+[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -16,27 +24,21 @@ Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, 
 wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
-
+[FORMAT_BLOCK]
 Key story event illustration, cinematic composition, 16:9.
-
-Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face
-
+[TRANSPARENCY]
+Opaque scenic illustration.
+[BODY]
+Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid with a straight blunt-cut fringe across the forehead, golden eyes, round wire-rimmed glasses. FACE: pale porcelain skin with faint shadows under the eyes from reading all night, heavy-lidded half-closed droopy eyes with a bored deadpan look, thin arched eyebrows, a small beauty mark under her right eye, a small unimpressed flat mouth, a longer oval face and long neck; tall slender willowy build, clearly taller than Lina
+[CASUAL]
 wearing an oversized dark charcoal wool tunic as a nightshirt that ends just above the knees, sleeves so long they cover her hands to the fingertips, thick knitted wool stockings, soft wool house slippers, a knitted shawl around her shoulders, her braid loosened and messy with stray hairs, holding a small candle in a holder and an ordinary open book (not her chained grimoire), sleepy cozy expression, no staff, no weapons
-
-Adelheid asleep at a candle-lit desk piled with books, the viewer's cloak draped over her shoulders, a bookmark with the guild lantern in her hand. Romance is only hinted, tasteful and heartwarming.
-
-Reference roles in attachment order: image 1 is the approved style anchor, for line art and rendering only; do not copy Lina's identity, combat costume or weapons. Image 2 is Adelheid's approved CASUAL reference sheet, defining her exact cozy casual clothes and identity. Image 3 is Adelheid's approved CASUAL standing portrait, defining the same face, hair, glasses and proportions. Draw this same person without redesign.
-Keep her long black hair in a single loosened messy thick braid with stray hairs, golden eyes (closed while sleeping), round wire-rimmed glasses, oversized dark charcoal wool nightshirt ending just above the knees, sleeves covering her hands to the fingertips, thick knitted wool stockings, soft wool house slippers and knitted shawl. The event action supersedes the standing holding pose: she is asleep naturally at a wooden desk; the small candle in its holder and ordinary open book are on the desk among the books. One sleeve-covered hand loosely holds a bookmark bearing a small silver-lantern pictorial motif with no lettering. The unseen viewer's plain medieval wool cloak is loosely draped over the existing shawl at her shoulders, as specifically required by the event; this is an act of care, not combat equipment. Compose a cinematic medium-wide quiet domestic scene with her sleeping face and hand visible, warm candlelight, humble timber-and-plaster surroundings. Cozy and modest, affection suggested only by the cloak. No staff, weapons, chained grimoire, long habit robe, combat cape or tall boots. Do not show the protagonist or add another person, hand, silhouette or reflection.
-
-Use case: illustration-story. Asset: one finished full-bleed RPG event CG. Generate one single landscape 16:9 image, target 1920x1080, opaque background. No reference sheet panels, collage, labels, border or UI. The scene-specific action and expression take precedence over static reference poses. Keep the same approved character identity and outfit.
-
+[extra]
+Adelheid asleep at a candle-lit desk piled with books, the viewer's cloak draped over her shoulders, a bookmark with the guild lantern in her hand. Romance is only hinted, tasteful and heartwarming. NEW long oval pale face, straight blunt fringe, beauty mark under HER RIGHT eye, round wire-rim glasses, closed drooping sleepy eyes and under-eye shadows remain recognizable in sleep. Casual nightshirt, wool shawl and loose braid; no staff or chained grimoire. Candle and ordinary open book can rest on the desk to allow sleeping pose. The cloak over her is the explicit scene exception. Rustic modest timber guildhouse, plaster walls, oak furniture, simple candlelight; no palace or cathedral. The player is offscreen, no second visible character. Guild lantern bookmark has an icon only, no letters. Old image 4 gives composition only.
+Keep the NEW FACE: straight blunt fringe, pale porcelain skin, dark under-eye shadows, heavy-lidded half-closed DROOPY sleepy golden eyes, thin eyebrows, small beauty mark under HER RIGHT eye (viewer LEFT in frontal view), longer oval face, long neck, tall slender willowy adult woman. Never generic wide-eyed cheerful heroine.
+[NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
+Round medieval wire-rim glasses as defined for Adelheid are required; the modern-eyewear exclusion does not exclude her established glasses.
 
-Generation completed: one built-in call; no regeneration.
-Source file: C:\Users\이현상\.codex\generated_images\01a1436a-cc04-78c1-b7f7-27d91a80da9a\exec-d9d443a1-8678-4450-99b7-fba00c8f8ba4.png
-Raw archive: art/raw/cg_affection_C03_v1.png
-Technical processing: original 1672x941 resized to 1920x1080, opaque RGB PNG; no content edits or content review.
-Final output: art/final/cg/cg_affection_C03.png

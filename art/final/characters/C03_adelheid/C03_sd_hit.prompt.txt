@@ -1,27 +1,44 @@
-Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
-Generation date: 2026-10-16 (Asia/Seoul).
-No CLI/API fallback. Image calls: 1; retries/local model repairs: 0.
-References in actual attachment order:
-1. art/final/characters/C03_adelheid/C03_sd_idle.png
-2. art/refs/C03_ref_combat.png
+Tool/model: built-in image_gen (underlying model ID not exposed)
+Generation date: 2026-10-16 Asia/Seoul
+Step: S10R, adelheid; one generation, no retries or art-content self-review
+References in attachment order:
+1. art/refs/C03_ref_combat.png
+2. art/final/characters/C03_adelheid/C03_portrait_combat_neutral.png
 3. art/refs/style-anchor.png
-4. art/final/characters/C01_lina/C01_sd_hit.png
-5. art/final/characters/C02_cecile/C02_sd_hit.png
+4. art/raw/C03_sd_hit_before_redesign.png
+5. art/final/characters/C03_adelheid/C03_sd_idle.png
+Raw source: art/raw/C03_sd_hit_v2.png
+Final: art/final/characters/C03_adelheid/C03_sd_hit.png
+Postprocessing: Technical canvas sizing; alpha interior 255, only boundary antialiasing retained; magenta removal, opaque interior/antialiased alpha, tools/art/despill.py. 512x512, visible lower baseline y=487, centered without mirroring. 
+Face mask polygon: none
 
-FULL PROMPT (verbatim):
-Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art, cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather, expressive anime eyes, appealing character design. Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats, wool, linen, leather, heraldry, candlelight, stone and timber. Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold, forest green, parchment cream, warm browns.
-Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), transparent background, no ground shadow. One isolated sprite, square canvas1024x1024 for final512x512.
-Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face.
-wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff.
-Input1 approved C03_sd_idle is PRIMARY identity, exact costume, head and body proportions and physical character scale reference. Input2 approved C03 combat sheet is costume/prop design and anatomical side reference. Input3 style-anchor is only rendering. Input4 Lina and input5 Cecile SAME ACTION are references for right-facing3/4 camera, motion, screen placement, head/body scale only; do not copy their identity, costume or weapons. Exactly two hands: anatomical RIGHT carries ONE wooden staff, anatomical LEFT carries ONE thick chained grimoire. Single black braid on HER LEFT shoulder, face-side FAR shoulder when facing right, never duplicated or mirrored. Keep two round iron-rim lenses and golden eyes, cream collar and sleeve linings, navy gold-trim short cape and long navy robe and brown boots exactly consistent with idle. Boots on the same ground plane, final foot baseliney487. Body and face turn toward screen RIGHT in three-quarter; no frontal or left-facing view. Entire staff with both ends and the entire grimoire inside canvas with padding, no ground shadow, no magic particles, spell effects, trails or detached objects, no UI. Opaque character interior, native transparent background, soft edges only.
-Pose: recoiling from being hit, wincing, one eye closed, torso leans back toward left while still facing RIGHT3/4, both boots planted. RIGHT hand still clutches staff tilted backward, LEFT arm firmly holds CLOSED chained grimoire against torso. Same costume and head size as idle; no visible impact effects.
-Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders; modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones); Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props; nudity, see-through clothing, underwear, or poses that focus on body parts.
+FULL PROMPT
+Use case: stylized-concept
+Asset type: C03_sd_hit
+Primary request: Redraw this asset with the NEW redesigned Adelheid face. Image 1 is current outfit and identity. Image 2 is the approved NEW FACE identity only. Image 3 is STYLE ONLY, never copy Lina face or clothes. Image 4 is OLD pose/composition reference ONLY: do not copy its old face or facial features. Image 5 is the newly generated Adelheid idle for consistent SD design. 
+[STYLE_BLOCK]
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+[FORMAT_BLOCK]
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+[TRANSPARENCY]
+Actual transparent PNG; if any matte is necessary use only flat solid #FF00FF magenta, no ground shadow.
+[BODY]
+Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid with a straight blunt-cut fringe across the forehead, golden eyes, round wire-rimmed glasses. FACE: pale porcelain skin with faint shadows under the eyes from reading all night, heavy-lidded half-closed droopy eyes with a bored deadpan look, thin arched eyebrows, a small beauty mark under her right eye, a small unimpressed flat mouth, a longer oval face and long neck; tall slender willowy build, clearly taller than Lina
+[COMBAT]
+wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff
+[extra]
+Pose: recoiling from being hit, wincing. Keep full character and equipment inside canvas, about 2.5 heads tall, 3/4 facing RIGHT. HER RIGHT hand holds staff, HER LEFT supports chained grimoire, single braid over HER LEFT shoulder. Simplify the NEW sleepy droopy eyes, dark under-eye shadows, pale complexion, beauty mark below HER RIGHT eye, blunt fringe and glasses so her new face stays recognizable at SD size. No effects disconnected from the character. Preserve the old asset pose/composition only.
+Keep the NEW FACE: straight blunt fringe, pale porcelain skin, dark under-eye shadows, heavy-lidded half-closed DROOPY sleepy golden eyes, thin eyebrows, small beauty mark under HER RIGHT eye (viewer LEFT in frontal view), longer oval face, long neck, tall slender willowy adult woman. Never generic wide-eyed cheerful heroine.
+[NEGATIVE_BLOCK]
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+Round medieval wire-rim glasses as defined for Adelheid are required; the modern-eyewear exclusion does not exclude her established glasses.
 
-Original raw output: art/raw/C03_sd_hit_v1.png (preserved unmodified).
-Default tool source: C:/Users/이현상/.codex/generated_images/01a141b1-f858-7c93-a7f6-50a51b386cd5/exec-e3590751-3913-4f84-a059-a4ae7aa33c49.png
-
-Postprocessing: transparent trim, uniform resize to512square, horizontal centering and actual boot baseline487; no mirroring. Opaque interior alpha255; soft silhouette antialias retained1px, not binary. Head width compared at1:1 with approved C03 idle and Lina/Cecile same action. Anatomical right hand staff; left hand chained grimoire. Far left shoulder braid, round iron-rim glasses and golden eyes visually checked. No combat particle/effect asset rendered.
-
-Independent saved PNG audit: {"size":[512,512],"opaque":100182,"transparent":154722,"partial":7240,"interior_partial":0,"bbox":[50,24,460,487]}
-QA evidence: art/raw/qa_S10_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_15_comparison.png; cutins_3_comparison.png. 94 prior non-icon final/ref files SHA256 unchanged, including approved C03 checkpoint PNGs and prompts. Verification separately records12 C01/C02 icon PNG/prompt changes/removals made outside this task; this task did not write those files and did not revert external state.
-Status: generated, awaiting user review of S10. Two checkpoint images remain approved and untouched. No commit; no S11; no skill icons.

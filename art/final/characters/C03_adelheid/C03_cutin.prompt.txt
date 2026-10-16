@@ -1,36 +1,43 @@
-Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
-Generation date: 2026-10-16 (Asia/Seoul).
-No CLI/API fallback. Image calls: 2; retries/local model repairs: 1.
-References in actual attachment order:
+Tool/model: built-in image_gen (underlying model ID not exposed)
+Generation date: 2026-10-16 Asia/Seoul
+Step: S10R, adelheid; one generation, no retries or art-content self-review
+References in attachment order:
 1. art/refs/C03_ref_combat.png
-2. art/refs/style-anchor.png
-3. art/final/characters/C03_adelheid/C03_portrait_combat_neutral.png
-4. art/final/characters/C01_lina/C01_cutin.png
-5. art/final/characters/C02_cecile/C02_cutin.png
+2. art/final/characters/C03_adelheid/C03_portrait_combat_neutral.png
+3. art/refs/style-anchor.png
+4. art/raw/C03_cutin_before_redesign.png
+Raw source: art/raw/C03_cutin_v3.png
+Final: art/final/characters/C03_adelheid/C03_cutin.png
+Postprocessing: Technical canvas sizing; 
+Face mask polygon: none
 
-FULL PROMPT (verbatim):
-Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art, cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather, expressive anime eyes, appealing character design. Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats, wool, linen, leather, heraldry, candlelight, stone and timber. Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold, forest green, parchment cream, warm browns.
+FULL PROMPT
+Use case: stylized-concept
+Asset type: C03_cutin
+Primary request: Redraw this asset with the NEW redesigned Adelheid face. Image 1 is current outfit and identity. Image 2 is the approved NEW FACE identity only. Image 3 is STYLE ONLY, never copy Lina face or clothes. Image 4 is OLD pose/composition reference ONLY: do not copy its old face or facial features. 
+[STYLE_BLOCK]
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+[FORMAT_BLOCK]
 Dynamic ultimate-skill cut-in, extreme close-up action pose, dramatic lighting and speed lines, wide cinematic composition.
-Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face.
-wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff.
-Ultimate: the chained grimoire flying open and unleashing a storm of glowing runes.
-Input1 approved C03 combat sheet is exact identity, outfit and props design. Input2 style-anchor rendering only. Input3 approved C03 combat neutral is facial identity, glasses, golden eyes, single black braid on HER LEFT shoulder and all costume details. Inputs4 and5 approved Lina/Cecile cutins are PRIMARY banner composition and rendering references. Create the SAME ultra-wide3:1 cinematic banner, final1920x640, native output2048x683 or nearest3:1. Face occupies middle-right at approximately x1150,y270 on final1920x640, head height about500px, tightly framed head and upper torso, dramatic diagonal body thrust and foreground book, gaze toward screen right. Keep both round wire-rimmed glasses visible and golden eyes readable. RIGHT hand firmly grips recognizable gnarled wooden staff, LEFT hand supports her thick grimoire bursting OPEN in the left foreground; its loosened iron chain remains attached to the cover, no magically extra hands. Single thick black braid trails from HER LEFT shoulder across her torso, not twin braids. Navy short cape, cream collar and gold trimmed modified nun habit from sheet. The dark medieval background and luminous arcane abstract glyph storm fill the entire banner behind her; cool azure light and warm gold reflected highlights on face. Abstract unreadable magical marks only, no real letters, words, numbers or legible text. The storm is integrated artwork for this cutin, not a separate spell-effect asset. No border, no UI, no title. Like existing cutins, use an opaque complete cinematic scene; preserve key glasses, eyes, hands and book inside frame, same apparent subject size as references.
-Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders; modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones); Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props; nudity, see-through clothing, underwear, or poses that focus on body parts.
+[TRANSPARENCY]
+Opaque scenic illustration.
+[BODY]
+Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid with a straight blunt-cut fringe across the forehead, golden eyes, round wire-rimmed glasses. FACE: pale porcelain skin with faint shadows under the eyes from reading all night, heavy-lidded half-closed droopy eyes with a bored deadpan look, thin arched eyebrows, a small beauty mark under her right eye, a small unimpressed flat mouth, a longer oval face and long neck; tall slender willowy build, clearly taller than Lina
+[COMBAT]
+wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff
+[extra]
+Ultimate: the chained grimoire flying open and unleashing a storm of glowing runes. Compose in a 3:1 wide cinematic banner with face, hands and open chained book in the central horizontal band. Pose and framing follow OLD image 4, facial identity follows NEW images 1 and 2. Droopy sleepy eyes and under-eye shadows stay even while casting. Nonverbal magical rune shapes only, no readable text.
+Keep the NEW FACE: straight blunt fringe, pale porcelain skin, dark under-eye shadows, heavy-lidded half-closed DROOPY sleepy golden eyes, thin eyebrows, small beauty mark under HER RIGHT eye (viewer LEFT in frontal view), longer oval face, long neck, tall slender willowy adult woman. Never generic wide-eyed cheerful heroine.
+[NEGATIVE_BLOCK]
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+Round medieval wire-rim glasses as defined for Adelheid are required; the modern-eyewear exclusion does not exclude her established glasses.
 
-Original raw output: art/raw/C03_cutin_v1.png (preserved unmodified).
-Default tool source: C:/Users/이현상/.codex/generated_images/01a141b1-f858-7c93-a7f6-50a51b386cd5/exec-453a77f2-5e98-424e-bac1-939772f9ef5b.png
-
-Postprocessing: native2172x7243:1 banner uniformly resized1920x640, then full canvas alpha255. Matches approved Lina/Cecile cutin framing and subject scale. Abstract magical marks in integrated cutin art have no legible words. No standalone spell effect or skill icon generated.
-
-LOCAL EDIT: C03_cutin_hands_repair
-Full actual edit prompt:
-Precise local edit of the FIRST image, an existing ultra-wide3:1 Adelheid ultimate cutin banner. The staff and grimoire are in the WRONG hands. Keep face, round wire-rim glasses, golden eyes, head position/size, hair, single black braid on HER LEFT shoulder at SCREEN RIGHT, navy costume and dramatic cinematic background unchanged. Edit ONLY the two ARMS, HANDS, STAFF, GRIMOIRE and small adjoining background where old props are removed. Match anatomical hands in input2 approved frontal portrait and input3 approved sheet: HER RIGHT HAND on SCREEN LEFT grips the gnarled wooden STAFF, thrusting it forward on the LEFT side of banner. HER LEFT HAND on SCREEN RIGHT supports her thick GRIMOIRE flying OPEN at the RIGHT foreground, with its loosened iron chain attached to cover. Do not leave any second book or second staff. Exactly two hands. Keep the same closeup action, face middle-right, same subject apparent scale, full3:1 banner1920x640. Retain the glowing blue/gold storm of abstract unreadable magical marks in background; no legible text. Do not mirror the image or move braid to another shoulder. No border, logo, new jewelry or new props. Preserve exact face and head from original.
-Actual attached references in order:
-art/final/characters/C03_adelheid/C03_cutin.png
-art/final/characters/C03_adelheid/C03_portrait_combat_neutral.png
-art/refs/C03_ref_combat.png
-Repair evidence: art/raw/qa_S10_remaining/C03_cutin/; rawv1 and hand/prop edit rawv2 retained. Correct right-hand staff and left-hand open chained book. Moving the large foreground book requires a broad arms/props/costume/background integration mask; this is not a tiny hand-only patch. Register edited scene to original facial landmarks (scale1.08,translation[-15,-1]), then preserve original face/glasses core with elliptical mask feather. Braid follows same far-left shoulder orientation; its pixels are not claimed identical. Protected face landmark rectangle1060..1220,180..290 unchanged; outside stored integration mask RGBA0 independently verified. See repair QA JSON.
-
-Independent saved PNG audit: {"size":[1920,640],"opaque":1228800,"transparent":0,"partial":0,"interior_partial":0,"bbox":[0,0,1919,639]}
-QA evidence: art/raw/qa_S10_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_15_comparison.png; cutins_3_comparison.png. 94 prior non-icon final/ref files SHA256 unchanged, including approved C03 checkpoint PNGs and prompts. Verification separately records12 C01/C02 icon PNG/prompt changes/removals made outside this task; this task did not write those files and did not revert external state.
-Status: generated, awaiting user review of S10. Two checkpoint images remain approved and untouched. No commit; no S11; no skill icons.
