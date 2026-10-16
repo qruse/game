@@ -1,0 +1,28 @@
+Tool / model: built-in image_gen.imagegen; underlying model identifier not exposed
+Generation date: 2026-10-16 (Asia/Seoul)
+Asset: bg_guildhall_camp_night (S16)
+Generation calls: 1; no regeneration or visual self-review
+References (in order):
+1. art/refs/style-anchor.png
+2. art/final/backgrounds/scene/bg_guildhall_ruined.png
+Postprocessing: preserve numbered raw original; resize full frame to 1920x1080 PNG; no crop
+
+Full actual prompt:
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Background art only, no characters, eye-level view, painterly anime background, atmospheric lighting, 16:9 composition, leave the center area uncluttered because character portraits will stand there.
+
+The same ruined timber guild house (see GUILDHALL) at night, partly cleaned, a warm fire in the stone hearth and bedrolls, companions' gear leaning on the walls.
+
+Reference image 1 is the style anchor only; do not depict the reference character. Reference image 2 is the approved ruined guild house: the scene belongs to this same modest two-storey medieval timber-framed house. Preserve its dark oak posts and beams, plaster walls, plank floor, stone hearth, wooden gallery and architectural identity as appropriate for this room and time. No palace, cathedral, stone columns, Gothic arches or gold candelabra. Background art only, no characters; express the described atmosphere through the environment. Generate one opaque landscape image, 16:9, intended final size 1920x1080.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

@@ -1,0 +1,27 @@
+Tool / model: built-in image_gen.imagegen; underlying model identifier not exposed
+Generation date: 2026-10-16 (Asia/Seoul)
+Asset: bg_tavern (S16)
+Generation calls: 1; no regeneration or visual self-review
+References (in order):
+1. art/refs/style-anchor.png
+Postprocessing: preserve numbered raw original; resize full frame to 1920x1080 PNG; no crop
+
+Full actual prompt:
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Background art only, no characters, eye-level view, painterly anime background, atmospheric lighting, 16:9 composition, leave the center area uncluttered because character portraits will stand there.
+
+Interior of a cozy medieval tavern with a hearth, barrels, long benches, candlelight.
+
+Reference image 1 is the style anchor only: match its anime line quality, slightly muted medieval palette and rendering; do not depict the reference character. Background art only, no characters. Generate one opaque landscape image, 16:9, intended final size 1920x1080.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

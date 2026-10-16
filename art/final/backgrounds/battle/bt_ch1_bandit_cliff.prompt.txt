@@ -3,10 +3,9 @@ Generation date: 2026-10-16 (Asia/Seoul)
 Asset: bt_ch1_bandit_cliff (S16)
 Generation calls: 1; no regeneration or visual self-review
 References (in order):
-1. art/refs/style-anchor.png - style only
-2. art/final/backgrounds/battle/bt_ch1_forest_clearing.png - color, light and environment rendering only
-3. art/final/backgrounds/battle/bt_ch1_forest_clearing_side.png - common style, camera and ground-band placement
-Postprocessing: preserve raw v1; resize full frame to 1920x1080; no crop
+1. art/refs/style-anchor.png
+2. art/final/backgrounds/battle/bt_ch1_forest_clearing_side.png
+Postprocessing: preserve numbered raw original; resize full frame to 1920x1080 PNG; no crop
 
 Full actual prompt:
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
@@ -19,17 +18,11 @@ forest green, parchment cream, warm browns.
 
 Side-view battle stage background for a 2D turn-based RPG, eye-level camera like a theater stage, horizon at about 40% of the image height, a wide flat walkable ground band across the lower 45% where chibi characters stand in a line (allies on the left facing right, enemies on the right facing left), keep the lower center clear of large objects, scenery only in the background and at the far left and right edges, no characters, no interactive props, even lighting, no grid lines.
 
-Rocky bandit camp on a cliff seen from the side; tents and crates in the background, open sky and a distant valley beyond the cliff edge on the far right.
+Crude bandit camp on a rocky cliff top seen from the side; ragged, patched, sagging tents of dirty brown and grey canvas (no banners, no crests, no crosses, no heraldry, nothing knightly or churchly), piles of stolen crates and sacks, a crude wooden lookout platform, a smoky campfire pit in the background, open sky and a distant valley beyond the cliff edge on the far right. Messy and poor, clearly a bandit hideout.
 
-Use case: stylized-concept. Deliver one landscape 16:9 full-bleed background, 1920x1080.
-Shared art direction for this set of four chapter-one battle backgrounds: the same hand-painted anime environment style, confident fine outlines, readable cel-shaped values with softly blended highlights, muted forest greens, warm earth browns and ochre light.
-Lock the same eye-level horizontal camera, lens and scale in all four images: a level theater-stage view, no downward tilt, no aerial/isometric/tactical perspective. Horizon at y=432 (40%). Main flat foreground ground band starts at y=594 (55%) and continues to the bottom, with a common character foot line at y=810 (75%); this foot line is an invisible composition guide, never draw a line. Keep the broad standing area across approximately 30%-90% of the image height flat and visually open; scenery recedes behind it. Keep both left and right character staging zones clear and level. The bottom 15% will be covered by the game UI, so keep it simple and put no important detail there.
-Do not draw interactive props: no jars, barrels, crates or barricades. If the scene description mentions crates, omit those crates under this higher-priority user feedback. Background tents, fixed fences and cottages may remain behind the standing area when specified.
-Reference 1 is the approved style anchor: use rendering style only, never include its character, clothing or weapons. Reference 2 is the approved old forest-clearing background: use its warm dappled sunlight, yellow-green foliage, moss green, ochre soil and painterly environment rendering; never copy its overhead camera or tactical layout.
-Reference 3 is the first background of this same set, bt_ch1_forest_clearing_side: match its rendering style, camera height, horizon, perspective scale and ground-band placement exactly while replacing the setting with the rocky cliffside camp described above. Keep the full standing area continuous, safe and flat; show the cliff edge only at the far right outside the standing area with the distant valley beyond. Tents are background scenery. OMIT the crates mentioned in the scene description because the user's no-interactive-props feedback takes priority. Keep the same warm natural daylight, ochre earth and muted greens, with rocky ground suited to this location.
+Reference image 1 is the style anchor only: use its line quality and rendering, do not depict the character, weapons, heraldry or cross. Reference image 2 is the approved side-view battle stage: match its painterly brushwork, eye-level camera height and ground-band placement exactly, while replacing the environment as described above. Keep a broad flat empty ground band at the same vertical position; keep the bottom 15% free of important details because UI covers it. No interactive props in the playable ground band. Generate one opaque landscape image, 16:9, intended final size 1920x1080.
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
-
