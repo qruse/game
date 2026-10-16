@@ -1,12 +1,14 @@
-Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed by this tool; not inferred.
-Generation date: 2026-10-15 (Asia/Seoul)
-Mode: built-in generation with image references; no CLI/API fallback.
-References in attachment order:
-- art/refs/style-anchor.png
-- art/refs/C01_ref_combat.png
-- art/refs/C01_ref_casual.png
+Model: OpenAI built-in image_gen; exact underlying model identifier is not exposed by the tool.
+Generation date: 2026-10-16 (Asia/Seoul)
+Mode: built-in; one generation call for this asset.
+References (in order):
+art/raw/C02_ref_combat_before_redesign.png
+art/refs/C01_ref_combat.png
+art/refs/style-anchor.png
+Raw: art/raw/C02_ref_combat_v3.png
+Output: art/refs/C02_ref_combat.png
 
-FULL PROMPT (verbatim):
+Full prompt:
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -17,26 +19,23 @@ forest green, parchment cream, warm browns.
 
 Character reference sheet: full body front view, side view and back view of the same character side by side, neutral standing pose, plain flat light grey background, consistent design across all views.
 
-Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+Cecile, an 18-year-old adult woman street thief, shaggy choppy short silver-grey wolf-cut bob with a longer messy strand by the face, green eyes, small scar on her left cheek. FACE: sun-kissed lightly tanned skin with a dusting of freckles across the nose, sharp upturned cat-like eyes, thick straight expressive eyebrows, a cocky lopsided grin showing one small snaggletooth fang, a small silver hoop and a stud in her right ear, a slightly narrower foxy face; petite wiry build, clearly shorter than Lina
 
 wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
 
-Create ONE production character turnaround sheet, landscape 1536x1024 or nearest supported 3:2. Exactly three equally scaled full-body figures from left to right: straight front, strict LEFT-side profile facing image-left, straight back, aligned heads and soles, ample margin. No inset portraits.
-Input image 1 is the approved rendering/style anchor. Input images 2 and 3 are approved Lina combat/casual turnaround sheets: use only their line weight, cel shading with soft highlights, material rendering, composition, adult proportions and quiet flat grey backdrop. Cecile is a DIFFERENT person: preserve her short silver-grey bob, green eyes, lean agile tomboy physique and a distinct sly narrow-eyed face. Do not copy Lina's face, long hair, braid, ribbon, crimson/gold palette, chainmail, skirt, sword or shield.
-MUST KEEP: short silver-grey bob; green eyes; a SMALL healed scar on HER anatomical LEFT cheek. In front view this scar is on viewer-RIGHT cheek ONLY. The center left profile faces image-left, shows her LEFT cheek and the SAME small scar; no scar on her right cheek. Back view shows no facial scar. Keep the hood DOWN behind the nape in all views so bob silhouette is visible. Dark forest-green hooded cloak of practical mid-thigh length; fitted brown vest and opaque off-white linen shirt, dark breeches, fingerless gloves, soft leather boots. Combat clothing fully covers torso and legs. No new facial marks or ornaments.
-Two matching short daggers SHEATHED at her belt, one per anatomical hip, same belt attachment in all three views. BOTH hands empty, arms relaxed slightly away from body. Profile shows near LEFT dagger and may naturally occlude the far RIGHT dagger. Rear shows rear/side surfaces of the same scabbards, not new weapons. No weapon hand changes because neither weapon is drawn. Cloak hangs behind shoulders leaving belt attachments legible, with natural side openings; do not spread like wings. No asymmetrical decorative pins or extra pouch.
-Keep one same simple practical outfit, face, bob shape and lean adult physique in all views. Mild mischievous closed-mouth grin, standing at rest, not action. Compact cloak, cropped bob and trouser silhouette clearly distinct from Lina's long-haired skirt-and-shield silhouette. Dominant forest-green/brown/charcoal with silver-grey hair. Flat opaque light grey background exactly as sheets; no transparency, no shadows or scenic background.
+Use case: stylized-concept. Asset: C02_ref_combat. Landscape canvas exactly 1536x1024 pixels, opaque PNG. Only these three full-body views of this one character, head, feet and props entirely inside the canvas. No comparison character, no extra portraits or insets.
+
+Input image 1 is the previous approved C02 combat reference sheet, the redesign target and authoritative reference for ALL clothing, props, materials, accessory design and colors. Preserve those exactly, adapted to the new physique. Change ONLY facial identity, skin, height and body build to the BODY/FACE description and MUST KEEP above; the specified fringe/hair and facial markers are required identity details. Do not retain the old generic face. Keep her beautiful, with an individually recognizable face rather than a standard repeated anime heroine template.
+
+Input image 2 is Lina's sheet; input image 3 is the style anchor. Use these for ART STYLE, line work, coloring and rendering only. DO NOT copy Lina's face, eyes, eyebrows, mouth, skin color or body proportions, and DO NOT put Lina in this sheet. Cecile is petite and wiry, shorter than Lina. Convey the described physique directly; no height-comparison panel.
+
+MUST KEEP: short silver-grey shaggy wolf-cut bob, green eyes, small scar on the character's LEFT cheek (viewer-right in front view), lightly sun-tanned skin, nose freckles, upturned cat eyes, thick eyebrows, lopsided snaggletooth grin, silver hoop and stud in the character's RIGHT ear (viewer-left in front view), petite wiry short adult build.
+
+Combat-only must keep: dark green hooded cloak, brown leather vest, twin belt daggers.
+
+Keep all asymmetric features attached to the character's anatomical side across front, side and back views. Faces of different companions must differ in eye shape, eyebrows, skin, face shape, mouth habit, markers and physique, not merely hair/eye colors.
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
-
-
-LOCAL EDIT PROMPT (verbatim):
-Edit ONLY the small missing scar on the FRONT figure's anatomical LEFT cheek (viewer-RIGHT cheek), directly beneath her left eye and between nose and the bob's side lock, approximately x343..366 y130..153 on the 1536x1024 sheet. Add the same small healed subtle crossed scratch scar as the CENTER left-profile figure already has, scaled to the front cheek perspective. The front scar must be visible on exposed skin, not hidden in hair. Keep it small, no wound or blood. Keep the entire face identity, eyes, expression, hairstyle, skin shading, clothing, hands, props, body and background otherwise pixel-identical. Do not touch the side or back figures. This is a precise local scar inpaint, not a new sheet or redesign. No other edits, no labels. Return full sheet in same original 1536x1024 dimensions.
-
-Edit reference: art/raw/C02_ref_combat_v1.png (the generated refs file at time of edit).
-
-Postprocessing: original generation and edit preserved byte-for-byte in raw v1/v2. Tool has no mask argument: only specified repair mask regions from edit were composited over v1; all outside RGBA preserved. Native 1536x1024 opaque grey sheet retained; no resizing, background removal or mirroring. Verification: outside_mask_RGBA_diff_pixels=0; changed_inside_mask=1628; mask_rectangles=333,124,42,43
-QA derivatives saved separately. Status: generated, awaiting user approval.
