@@ -1,0 +1,48 @@
+Asset: N01_portrait_neutral
+Step: S17
+Date: 2026-10-16 (Asia/Seoul)
+Tool: built-in image_gen
+Model: identifier not exposed by built-in tool
+Attempts: 1; no retries (user instruction)
+Tool options: transparent_background=true
+References (attachment order):
+art/final/characters/C01_lina/C01_portrait_combat_neutral.png
+art/refs/style-anchor.png
+Raw archive: art/raw/N01_portrait_neutral_v1.png
+Final: art/final/npcs/N01_martha/N01_portrait_neutral.png
+Final technical target: 1024 x 1536 transparent PNG
+Expression method: new NPC using approved style/composition references
+Content review: user/Claude; no Codex quality review, comparison sheets or QA scripts.
+
+Full prompt:
+Use case: stylized-concept
+Asset type: medieval RPG dialogue NPC standing portrait
+
+[STYLE_BLOCK]
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+[FORMAT_BLOCK: portrait]
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
+
+[NPC PROMPT from art/characters.md]
+Martha, a plump cheerful tavern keeper in her 40s, rolled-up sleeves, apron, auburn hair in a bun
+
+[extra]
+Neutral expression.
+Plain linen blouse with rolled-up sleeves, a practical undyed linen apron over a modest muted brown wool dress. Calm neutral closed-mouth expression; her cheerful nature is subtle.
+NPC art direction: clearly more modest, less eye-catching and less ornate than the approved companion reference. Ordinary everyday faces and practical medieval commoner or occupational clothing. Muted earth tones, restrained highlights and simple readable folds. No heroic glamour, ornate embroidery, gold trim, jewelry, armor, weapons, heraldry or magical effects.
+Image 1 is the approved Lina C01 portrait_combat_neutral: use ONLY its drawing style, line treatment, shading, centered knee-up dialogue composition, head scale, and figure scale. Do not copy Lina's identity, hair, ribbon, armor, weapons, shield, insignia or clothes. Image 2 is the approved style anchor, for rendering style only.
+Technical override to the FORMAT block's fallback magenta backdrop: use a genuinely transparent background with alpha, no painted background, no checkerboard, no ground shadow. Exact canvas 1024 x 1536. Solid character interiors, antialiased edges. One character, one finished image.
+
+[NEGATIVE_BLOCK]
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+

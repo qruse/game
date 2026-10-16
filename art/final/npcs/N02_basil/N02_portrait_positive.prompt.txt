@@ -1,0 +1,51 @@
+Asset: N02_portrait_positive
+Step: S17
+Date: 2026-10-16 (Asia/Seoul)
+Tool: built-in image_gen
+Model: identifier not exposed by built-in tool
+Attempts: 1; no retries (user instruction)
+Tool options: transparent_background=true
+References (attachment order):
+art/final/npcs/N02_basil/N02_portrait_neutral.png
+art/final/characters/C01_lina/C01_portrait_combat_neutral.png
+art/refs/style-anchor.png
+Raw archive: art/raw/N02_portrait_positive_v1.png
+Final: art/final/npcs/N02_basil/N02_portrait_positive.png
+Final technical target: 1024 x 1536 transparent PNG
+Expression method: one face-only edit of neutral; guide 3.1.4 face-interior composite keeps original outside-mask pixels
+Content review: user/Claude; no Codex quality review, comparison sheets or QA scripts.
+
+Full prompt:
+Use case: identity-preserve
+Asset type: medieval RPG dialogue portrait expression variant
+
+EDIT the supplied neutral portrait, NOT a new drawing. Image 1 is the edit target (N02_portrait_neutral). Image 2 is the approved Lina portrait, used only as a rendering and composition reference. Image 3 is the approved style anchor, style only.
+Edit only the masked face area (eyebrows to chin, skin interior, excluding hair, headwear, ears, neck and clothing). Keep everything outside the mask pixel-identical. Change the facial expression to: friendly smile.
+Preserve the exact head position, face identity, age, features, head scale, gaze toward the viewer, hairstyle, all hair strands, pose, body, hands, props, costume, colors, shading, transparent silhouette and canvas alignment. For Basil, keep the existing spectacles, their placement, and the quill untouched; expression changes happen behind the spectacles.
+Subtle readable NPC expression, restrained emotion matching a modest medieval commoner or occupational character. No enlarged head or exaggeration. No tears, blush symbols, new objects, text or decoration.
+Return one 1024 x 1536 transparent PNG. Do not crop, flip, resize or reposition any part. Transparent background and alpha unchanged. Only the face expression may change. The final deliverable will use a face-interior mask composite over the original neutral portrait to lock all pixels outside the facial mask.
+
+[STYLE_BLOCK]
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+[FORMAT_BLOCK: portrait, invariants already established in image 1]
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
+Technical override: preserve image 1's true transparent background, do not introduce magenta.
+
+[NPC PROMPT, identity and clothes unchanged]
+Basil, a thin fussy notary in his 30s, black scholar's robe, quill behind ear, spectacles, ledger under arm
+
+[NEGATIVE_BLOCK]
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+
+Applied face-interior polygon (1024x1536 coordinates; 3px inward feather): 413,205,434,204,452,212,473,211,497,188,528,180,543,192,551,216,548,247,535,265,539,282,548,297,539,313,518,328,502,327,480,313,461,297,443,282,429,270,422,253,410,238
