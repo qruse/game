@@ -1,13 +1,21 @@
-Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed by the tool; not inferred.
-Generation date: 2026-10-15 (Asia/Seoul)
-Mode: built-in generation, transparent_background=true; no CLI/API fallback.
-Generation calls: 1; retries: 0; no local editing required (left-cheek scar present).
+Tool/model: built-in image_gen (underlying model ID not exposed)
+Generation date: 2026-10-16 Asia/Seoul
+Step: S10R phase 2, intermediate checkpoint, one generation only, no retries or art-content self-review
 References in attachment order:
-1. art/refs/C02_ref_combat.png - approved identity, clothing, scar and dagger placement
-2. art/refs/style-anchor.png - approved style only
-3. art/final/characters/C01_lina/C01_portrait_combat_neutral.png - approved style, composition and proportions only, not face identity
+1. art/refs/C02_ref_combat.png
+2. art/raw/C02_portrait_combat_neutral_before_redesign.png
+3. art/refs/style-anchor.png
+Raw source: art/raw/C02_portrait_combat_neutral_v2.png
+Final: art/final/characters/C02_cecile/C02_portrait_combat_neutral.png
+Postprocessing: remove magenta background, retain 1024x1536 canvas and placement; opaque interior with antialiased edges.
 
-FULL PROMPT (verbatim):
+FULL PROMPT
+Use case: stylized-concept
+Asset type: C02_portrait_combat_neutral, a single dialogue standing portrait for a medieval RPG.
+Primary request: Generate ONE new illustration of Cecile only, using the redesigned face. Output a 1024x1536 portrait on flat solid #FF00FF magenta for chroma-key extraction.
+Input images: Image 1 (art/refs/C02_ref_combat.png) is the approved NEW character reference sheet: authoritative identity, face, hair, skin, build and combat outfit. Image 2 (art/raw/C02_portrait_combat_neutral_before_redesign.png) is the OLD standing portrait: use ONLY its pose, composition, knee-up crop and on-canvas head size. Do NOT copy its old face, eye shape, eyebrows, complexion or expression. Image 3 (art/refs/style-anchor.png) is style/linework/shading reference ONLY; do NOT copy Lina's face, hair, clothing, weapons or props. Do not draw a reference sheet or multiple people.
+
+[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -16,23 +24,21 @@ wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
 
+[FORMAT_BLOCK]
 Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
 
-Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
+[BODY]
+Cecile, an 18-year-old adult woman street thief, shaggy choppy short silver-grey wolf-cut bob with a longer messy strand by the face, green eyes, small scar on her left cheek. FACE: sun-kissed lightly tanned skin with a dusting of freckles across the nose, sharp upturned cat-like eyes, thick straight expressive eyebrows, a cocky lopsided grin showing one small snaggletooth fang, a small silver hoop and a stud in her right ear, a slightly narrower foxy face; petite wiry build, clearly shorter than Lina
 
+[COMBAT]
 wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
 
-Neutral calm expression that still shows the character's personality. Use a quiet, slightly mischievous CLOSED-MOUTH smile, relaxed brows. Her face, short silver-grey bob and green eyes must be Cecile from input 1, not Lina. The small crossed scar is on her anatomical LEFT cheek: viewer RIGHT in this front-facing portrait. Show it clearly without exaggerating its size. Dialogue standing portrait: face looks directly at viewer, only torso subtly angled, arms resting naturally, both empty gloved hands and both sheathed belt daggers wholly visible. Exactly one dagger sheathed on each hip, same orientation and belt attachments as the sheet; right-thigh strap on viewer left. Head-to-knee crop, small head margin and comparable head scale to approved Lina portrait. No feet. No mirroring. One character, no reference panels. Follow approved Lina portrait's polished rendering and knee-up composition without its background, weapons, face or hairstyle.
+[extra]
+Neutral calm expression that still shows the character's personality. The FACE anatomy and distinctive facial marks above are mandatory; for neutral expression, interpret the described habitual expression in a subdued calm way. A relaxed, very slight lopsided closed-mouth half-smile, not a broad toothy grin; small fang need not be exposed in neutral. Preserve the tan, nose freckles, sharply upturned cat eyes, thick eyebrows, narrow foxy face, and right-ear silver hoop plus stud. Small scar on HER LEFT cheek, VIEWER'S RIGHT. Both hands relaxed and empty, twin daggers sheathed on her belt, one at each hip. Hood down. Maintain the familiar centered dialogue standing layout and similar head size of the old portrait, but face identity must follow Image 1 and the BODY FACE description. No mirroring. Whole head, hands and props fully inside the 1024x1536 canvas. Plain uniform opaque #FF00FF background, no gradients, cast shadows or scenery. No magenta anywhere on the character.
 
+[NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
-
-Use case: stylized-concept. Input 1: approved Cecile combat reference sheet, sole identity/clothing source. Input 2: approved style-anchor, style only. Input 3: approved Lina matching-format result, style/composition/proportion only, NEVER identity. Transparency override: create REAL transparent background, no magenta or other opaque backdrop; character interiors fully opaque alpha255, antialias only at silhouette edge.
-
-Raw generation: art/raw/C02_portrait_combat_neutral_v1.png, original file retained byte-for-byte.
-Postprocessing: tools/art/finish_s08.ps1. Preserve character RGB, normalize deep interior alpha to255 and retain native antialias at silhouette boundary (1px neighborhood); no binary output alpha. Transparent background pixels RGB zeroed. No mirroring.
-Canvas 1024x1536 retained; no scaling, cropping or repositioning. Face enlarged3x and anatomical LEFT-cheek crossed scar verified on viewer RIGHT. Closed-mouth calm playful smile; both hands and both belt-sheathed daggers visible.
-QA JSON: {"size":[1024,1536],"source_size":[1024,1536],"source_crop":[17,10,1009,1535],"alpha255":922546,"alpha0":634252,"partial_alpha":16066,"interior_partial":0,"visible_rgb_changes":0,"bbox":[16,9,1010,1535],"foot_baseline":null,"alpha_method":"native edge alpha retained within 1px silhouette neighborhood; deep interior forced255; fully covered edge feathered1px; not binary output","mirrored":false,"portrait_position_unchanged":true}
-QA previews: art/raw/qa_S08/portrait/. Comparison: art/raw/qa_S08_lina_sd_comparison.png. Status: generated, awaiting user approval; S08 intermediate checkpoint only.
+Do not copy the face from Image 2 or Image 3. No generic identical heroine face. No extra character, panel, text or comparison inset.
