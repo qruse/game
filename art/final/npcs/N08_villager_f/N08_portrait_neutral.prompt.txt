@@ -1,24 +1,18 @@
 Asset: N08_portrait_neutral
-Step: S17
+Step: S17 rework3
 Date: 2026-10-16 (Asia/Seoul)
 Tool: built-in image_gen
 Model: identifier not exposed by built-in tool
-Attempts: 1; no retries (user instruction)
+Attempts: 1; no retries
 Tool options: transparent_background=true
 References (attachment order):
-art/final/characters/C01_lina/C01_portrait_combat_neutral.png
 art/refs/style-anchor.png
-Raw archive: art/raw/N08_portrait_neutral_v1.png
-Final: art/final/npcs/N08_villager_f/N08_portrait_neutral.png
-Final technical target: 1024 x 1536 transparent PNG
-Expression method: new NPC using approved style/composition references
-Content review: user/Claude; no Codex quality review, comparison sheets or QA scripts.
+Postprocessing: preserve alpha; normalize only canvas to 1024x1536 if required.
 
-Full prompt:
+FULL PROMPT:
 Use case: stylized-concept
-Asset type: medieval RPG dialogue NPC standing portrait
+Asset: N08_portrait_neutral; S17 rework3, new design.
 
-[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -27,22 +21,13 @@ wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
 
-[FORMAT_BLOCK: portrait]
-Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas. Output 1024x1536 PNG, genuinely transparent background, no backdrop, no ground shadow. Match only the attached approved Lina standing reference's line art, coloring, canvas size, figure scale and comparable head scale; do not borrow her face, pose, hair, outfit or equipment. Invent a new NPC design and pose from this description. One person only.
 
-[NPC PROMPT from art/characters.md]
-a medieval peasant woman, wool dress, headscarf
+NPC PROMPT from characters.md:
+a village woman in her early 30s, round freckled face, thick dark braid, faded blue headscarf, wool dress and worn apron, basket of eggs
 
-[extra]
-Neutral expression.
-An ordinary adult female villager in a modest plain muted brown wool dress and a simple undyed linen headscarf; no additional props. Calm neutral closed-mouth expression.
-NPC art direction: clearly more modest, less eye-catching and less ornate than the approved companion reference. Ordinary everyday faces and practical medieval commoner or occupational clothing. Muted earth tones, restrained highlights and simple readable folds. No heroic glamour, ornate embroidery, gold trim, jewelry, armor, weapons, heraldry or magical effects.
-Image 1 is the approved Lina C01 portrait_combat_neutral: use ONLY its drawing style, line treatment, shading, centered knee-up dialogue composition, head scale, and figure scale. Do not copy Lina's identity, hair, ribbon, armor, weapons, shield, insignia or clothes. Image 2 is the approved style anchor, for rendering style only.
-Technical override to the FORMAT block's fallback magenta backdrop: use a genuinely transparent background with alpha, no painted background, no checkerboard, no ground shadow. Exact canvas 1024 x 1536. Solid character interiors, antialiased edges. One character, one finished image.
+Image-specific direction:
+Fresh design for rework3: pleasant attractive adult village woman visibly in her early 30s, round full-cheeked freckled face, softly snub nose and shy warm closed-mouth neutral smile, mature everyday features distinct from the heroine companions. Thick dark braid over one shoulder under a faded blue headscarf, wool dress and worn apron. Slightly angled comfortable stance with a woven basket of eggs supported on one forearm near her waist and the other hand resting naturally at the basket rim. Basket and eggs fully visible inside the frame. NO glasses, no beauty mark, no ladle, no ledger, no keys, no pitchfork. NOT a teenage heroine. Disregard all earlier NPC poses and faces.
 
-[NEGATIVE_BLOCK]
-Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
-modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
-Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
-nudity, see-through clothing, underwear, or poses that focus on body parts.
-
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders; modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones); Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props; nudity, see-through clothing, underwear, or poses that focus on body parts. No generic youthful heroine/pretty-boy face, no Lina facial likeness. No other NPC's features or props.
+Input image 1: approved Lina standing, STYLE AND CANVAS/FIGURE SIZE ONLY, never facial identity or pose.

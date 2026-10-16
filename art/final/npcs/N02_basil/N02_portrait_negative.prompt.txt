@@ -1,5 +1,5 @@
 Asset: N02_portrait_negative
-Step: S17 rework2
+Step: S17 rework3
 Date: 2026-10-16 (Asia/Seoul)
 Tool: built-in image_gen
 Model: identifier not exposed by built-in tool
@@ -7,22 +7,13 @@ Attempts: 1; no retries
 Tool options: transparent_background=true
 References (attachment order):
 art/final/npcs/N02_basil/N02_portrait_neutral.png
-art/refs/style-anchor.png
-Raw archive: art/raw/N02_portrait_negative_v3.png
-Final: art/final/npcs/N02_basil/N02_portrait_negative.png
-Technical target: 1024x1536 transparent PNG
-Technical postprocess: alpha >=250 raised to 255; lower edge alpha preserved; raw generation unchanged
-Method: style-guide 3.1.4 face-interior mask composite over NEW neutral; 3px inward feather; original alpha retained
-Face polygon: 405,195,421,189,445,191,463,185,488,171,521,166,535,185,541,211,552,228,566,236,569,254,558,277,537,301,514,322,496,332,480,328,462,310,446,292,430,278,418,262,412,242,406,220
-Content review: user/Claude; no Codex content QA
+Postprocessing: face-only mask composite onto new neutral (style-guide 3.1.4); preserve all outside pixels and neutral alpha.
 
-Full prompt:
+FULL PROMPT:
 Use case: identity-preserve
-Asset: N02_portrait_negative; S17 rework2. Produce exactly ONE image, 1024x1536 RGBA transparent PNG.
-Input image 1: edit target: this character's NEW neutral portrait. Use a face-interior mask from eyebrows through chin ONLY. Change only facial expression; keep all pixels outside the face mask identical.
-Input image 2: rendering STYLE ONLY; do not copy its face, age, clothing, weapons, armor or hairstyle.
+Asset: N02_portrait_negative; S17 rework3 expression edit, one edit only.
+Input image 1: edit target, the NEW rework3 N02_portrait_neutral. This is the only identity reference. Do not redraw a person from scratch.
 
-[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -31,21 +22,13 @@ wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
 
-[FORMAT_BLOCK portrait]
-Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
-Transparency override: use an ACTUAL transparent background rather than the magenta fallback. Preserve 1024x1536 canvas, head position, knee-up framing, complete hands and props.
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas. Output 1024x1536 PNG, genuinely transparent background, no backdrop, no ground shadow. Keep the new neutral image's line art, coloring, figure scale, exact pose, face identity and all props. This call has only the new neutral as its input. One person only.
 
-[CHARACTERS PROMPT]
-Basil, a thin fussy notary in his late 30s, lean refined face with sharp cheekbones, neat slicked-back hair with a slightly high forehead, a fussy frown line, narrow shoulders, still good-looking in a mature way, black scholar's robe, quill behind ear, spectacles, ledger under arm
+NPC PROMPT (identity constraints; do not alter clothing or pose):
+Basil, a tall lanky fastidious notary in his late 30s, long narrow face, aquiline nose, thin mustache and small pointed goatee, small round spectacles low on the nose, slicked-back hair with a widow's peak, ink-stained fingers, quill behind ear, black scholar's robe, brass key ring and wax seal stamp on the belt, ledger clutched to his chest
 
-[MANIFEST EXTRA - latest instructions override conflicting earlier age wording]
-EDIT (face mask only, see style-guide 3.1): change only the facial expression to: displeased frown.
-Basil is a neat mature handsome LATE-30s man. Small ROUND period spectacles, refined lean face, sharp but healthy cheekbones, clean-shaven fair skin, faint frown line, neatly combed dark-brown hair, slightly high forehead and intelligent tired eyes. Fussy and strict. NOT gaunt, NOT old, NOT ugly, NOT a youthful pretty boy. Preserve his black scholar robe, quill behind ear, ledger under arm, hands and reference composition.
-Edit ONLY the masked face interior (eyebrows through chin), excluding hair, ears, neck, clothes, hands and props. Preserve face shape, age, attractiveness, identity, head position and all costume exactly. Keep spectacles unchanged if present. Do not redraw the figure. Keep everything outside the mask pixel-identical.
+EDIT (face mask only, style-guide 3.1): edit the NEW rework3 N02_portrait_neutral, never an earlier draft. Change only brows, eyes, cheeks and mouth to a fastidious displeased frown, pinched brows and pursed lips, skeptical disapproval. Preserve the same mature facial identity, distinctive nose, freckles/beauty mark or facial hair and spectacles as applicable. Everything outside the face mask, including hair, headwear, ears, neck, body, clothing, pose, hands and props, must be pixel-identical to the new neutral.
+Edit only the masked face area, from eyebrows to chin, excluding hair, ears, headwear and neck. Keep everything outside the mask pixel-identical. Maintain exact face alignment, head angle, face shape, nose and distinguishing marks; no movement or scaling. Output the same 1024x1536 transparent PNG. No new props. This is an expression edit of this person only, no Lina likeness.
 
-[NEGATIVE_BLOCK]
-Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
-modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
-Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
-nudity, see-through clothing, underwear, or poses that focus on body parts.
-No additional person, no frame, no new accessories.
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders; modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones); Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props; nudity, see-through clothing, underwear, or poses that focus on body parts. No generic youthful heroine/pretty-boy face, no Lina facial likeness. No other NPC's features or props.
+Face mask polygon on 1024x1536: [[388,159],[417,146],[457,143],[488,136],[509,156],[518,199],[537,209],[542,238],[519,266],[489,288],[457,314],[443,292],[421,271],[407,244],[396,215]]

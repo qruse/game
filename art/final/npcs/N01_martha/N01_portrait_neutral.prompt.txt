@@ -1,26 +1,18 @@
 Asset: N01_portrait_neutral
-Step: S17 rework2
+Step: S17 rework3
 Date: 2026-10-16 (Asia/Seoul)
 Tool: built-in image_gen
 Model: identifier not exposed by built-in tool
 Attempts: 1; no retries
 Tool options: transparent_background=true
 References (attachment order):
-art/raw/N01_portrait_neutral_rejected_v1.png
 art/refs/style-anchor.png
-Raw archive: art/raw/N01_portrait_neutral_v3.png
-Final: art/final/npcs/N01_martha/N01_portrait_neutral.png
-Technical target: 1024x1536 transparent PNG
-Technical postprocess: alpha >=250 raised to 255; lower edge alpha preserved; raw generation unchanged
-Content review: user/Claude; no Codex content QA
+Postprocessing: preserve alpha; normalize only canvas to 1024x1536 if required.
 
-Full prompt:
-Use case: precise-object-edit
-Asset: N01_portrait_neutral; S17 rework2. Produce exactly ONE image, 1024x1536 RGBA transparent PNG.
-Input image 1: first rejected neutral, reference for clothing, props, pose and composition ONLY. Replace its youthful face with the new mature attractive face specified below.
-Input image 2: rendering STYLE ONLY; do not copy its face, age, clothing, weapons, armor or hairstyle.
+FULL PROMPT:
+Use case: stylized-concept
+Asset: N01_portrait_neutral; S17 rework3, new design.
 
-[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -29,21 +21,13 @@ wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
 
-[FORMAT_BLOCK portrait]
-Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
-Transparency override: use an ACTUAL transparent background rather than the magenta fallback. Preserve 1024x1536 canvas, head position, knee-up framing, complete hands and props.
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas. Output 1024x1536 PNG, genuinely transparent background, no backdrop, no ground shadow. Match only the attached approved Lina standing reference's line art, coloring, canvas size, figure scale and comparable head scale; do not borrow her face, pose, hair, outfit or equipment. Invent a new NPC design and pose from this description. One person only.
 
-[CHARACTERS PROMPT]
-Martha, a plump cheerful tavern keeper in her mid 40s, clearly middle-aged but still pretty (soft round face, gentle smile lines and crow's feet, a few grey strands), rolled-up sleeves, apron, auburn hair in a bun
+NPC PROMPT from characters.md:
+Martha, a boisterous big-hearted tavern keeper in her early 40s, broad sturdy plump build, strong forearms with rolled sleeves, hands on hips with a wooden ladle, faded green kerchief over an auburn bun with grey streaks, freckles across a wide nose, ruddy cheeks, beauty mark by the mouth, brass hoop earrings, stained apron
 
-[MANIFEST EXTRA - latest instructions override conflicting earlier age wording]
-Neutral expression. A pretty, warm middle-aged woman in her early 40s: soft round face, gentle smile lines and faint crow's feet, a few grey strands in the auburn bun, plump motherly build, kind bright eyes. Still attractive. NO glasses, no spectacles.
-Martha is a pretty EARLY-40s adult woman. Soft round mature face, gentle smile lines, faint crow's feet and a few grey strands in her auburn bun, kind bright eyes. Warm, appealing and recognizably middle aged. NO GLASSES, NO SPECTACLES. NOT a young girl. Keep her cream rolled-sleeve linen blouse, brown dress, cream apron, clasped hands, bun and composition from her reference.
-Neutral expression: calm closed mouth, quiet restrained smile or composed resting face. Rebuild ONLY the face to the latest identity/age specification, with the specified subtle grey hair where applicable; everything else follows input image 1.
+Image-specific direction:
+Fresh design for rework3: attractive adult woman visibly in her early 40s, broad rounded face, warm tired eyes, subtle crow's feet and laugh lines, freckles over a wide nose and a small beauty mark beside the mouth. Calm closed-mouth, slightly lopsided neutral smile. One hand planted firmly on her hip, the other holding a wooden ladle at waist level, confident tavern-owner stance. Faded green kerchief, auburn bun with a few grey streaks, rolled sleeves, sturdy plump figure and strong forearms, simple linen tavern dress and stained apron with tucked dish towel. NO spectacles or glasses. NOT a young girl. Beautiful mature neighbor with recognizable personality, distinct from the companions. Disregard all earlier NPC poses and faces.
 
-[NEGATIVE_BLOCK]
-Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
-modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
-Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
-nudity, see-through clothing, underwear, or poses that focus on body parts.
-No additional person, no frame, no new accessories.
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders; modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones); Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props; nudity, see-through clothing, underwear, or poses that focus on body parts. No generic youthful heroine/pretty-boy face, no Lina facial likeness. No other NPC's features or props.
+Input image 1: approved Lina standing, STYLE AND CANVAS/FIGURE SIZE ONLY, never facial identity or pose.
