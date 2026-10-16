@@ -1,13 +1,22 @@
-Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
-Generation date: 2026-10-15 (Asia/Seoul)
-Mode: built-in generation. No CLI/API fallback.
-Image calls: 1. Model retries: 0.
+Tool/model: built-in image_gen (underlying model ID not exposed)
+Generation date: 2026-10-16 Asia/Seoul
+Step: S10R, Cecile only; one generation, no retries or art-content self-review
 References in attachment order:
 1. art/refs/C02_ref_casual.png
 2. art/final/characters/C02_cecile/C02_portrait_combat_neutral.png
-3. art/refs/style-anchor.png
+3. art/raw/C02_portrait_casual_neutral_before_redesign.png
+4. art/refs/style-anchor.png
+Raw source: art/raw/C02_portrait_casual_neutral_v2.png
+Final: art/final/characters/C02_cecile/C02_portrait_casual_neutral.png
+Postprocessing: Technical canvas sizing; magenta removal, opaque interior/antialiased alpha, tools/art/despill.py. 
+Face mask polygon: none
 
-FULL PROMPT (verbatim):
+FULL PROMPT
+Use case: stylized-concept
+Primary request: Generate ONE NEW Cecile casual neutral dialogue portrait at 1024x1536.
+Input images: Image 1 is the authoritative NEW CASUAL sheet for redesigned face, hair, complexion, build, clothes and props. Image 2 is the approved NEW combat portrait: use ONLY face, hair, complexion and on-canvas head size; do NOT copy its cloak, vest, gloves, daggers, long trousers or combat silhouette. Image 3 is the OLD casual portrait: use ONLY pose, composition, knee-up crop and head size, NEVER its old facial anatomy or complexion. Image 4 is art style ONLY: NEVER copy Lina's face, clothing or props.
+Asset type: C02_portrait_casual_neutral
+[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -15,26 +24,20 @@ Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, 
 wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
-
+[FORMAT_BLOCK]
 Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, plain flat solid #FF00FF magenta background, no shadow on the background.
-
-Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
-
-wearing a loose off-white linen shirt knotted at the waist showing a little midriff, short brown breeches, knee-high socks, soft shoes, a coin pouch on her hip, tossing an apple, relaxed tomboyish pose
-
-Use case: stylized-concept. Generate a NEW casual dialogue portrait using approved casual sheet input1, with EXACT same Cecile face, lean body build, head size, front-facing head tilt and knee-up framing as approved combat neutral input2. Input3 is style reference only. Match head crown around y12, chin around y345 on1024x1536; head/hair screen x280..690, centered portrait, top margin small. She is an18-year-old adult woman tomboy; calm CLOSED-MOUTH slight smile, relaxed eyebrows, eyes facing viewer; do not use excited grin from BODY. Same short silver-grey bob with parted jagged bangs, green eyes and SMALL reddish X SCAR on HER LEFT CHEEK, viewer RIGHT, at same position relative to eye as input2. That scar is mandatory. Exact casual outfit from input1: loose opaque off-white collared linen shirt with rolled sleeves, front knot at waist, only small midriff exposed, brown cuffed short breeches, brown belt, coin pouch on HER LEFT hip (viewer RIGHT), knee-high grey socks mostly below crop. No cloak, no leather vest, no gloves, no daggers. Pose relaxed and facing viewer, body only subtly angled. HER RIGHT hand (viewer LEFT) comfortably holds a red apple at chest/waist height, fingers natural, no floating apple needed; HER LEFT arm rests by her side, full hand visible. Both hands and apple completely within frame. Crop just above knees at bottom, same on-screen body scale as combat input2, no feet or reference panels. No mirroring. Preserve character identity, face and body proportions; no exaggerated bust/hips or sexualized pose.
-
+[BODY]
+Cecile, an 18-year-old adult woman street thief, shaggy choppy short silver-grey wolf-cut bob with a longer messy strand by the face, green eyes, small scar on her left cheek. FACE: sun-kissed lightly tanned skin with a dusting of freckles across the nose, sharp upturned cat-like eyes, thick straight expressive eyebrows, a cocky lopsided grin showing one small snaggletooth fang, a small silver hoop and a stud in her right ear, a slightly narrower foxy face; petite wiry build, clearly shorter than Lina
+[CASUAL]
+wearing a loose off-white linen shirt knotted at the waist showing a little midriff, short brown breeches, knee-high socks, soft shoes, a coin pouch on her hip, tossing an apple, relaxed tomboyish pose, no daggers, no cloak
+[extra]
+Calm neutral baseline expression: relaxed closed mouth and a very slight lopsided half-smile. Do NOT draw the habitual broad fang grin for this neutral version. Retain mandatory new FACE anatomy: tan skin, nose freckles, thick brows, upturned cat-eyes and narrow foxy face. HER LEFT cheek scar is viewer right. Casual sheet clothing and apple pose: loose knotted off-white shirt, short breeches, coin pouch, apple tossed just above hand, hands and apple fully inside frame. No cloak, armor, gloves or weapons. No mirroring. One character only. Actual transparent background; if transparency is unavailable, perfectly uniform #FF00FF magenta with no shadows or gradients.
+[NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
+No extra person, sheet, comparison panel or caption. Cecile's facial identity must never come from the old pose reference or the style anchor.
+BACKGROUND EXTRACTION REQUIREMENT: Outside the character and apple use flat solid pure #FF00FF MAGENTA, uniformly. No black, white, grey, gradients, vignette, bokeh, floor or drop shadows. This is a production chroma-key sprite, the magenta will be removed in technical processing. Character pixels are opaque.
 
-Transparency override: actual transparent background, no magenta or opaque backdrop; subject interior alpha255, soft antialias only at edges. Canvas1024x1536.
-
-Raw generation/edit result: art/raw/C02_portrait_casual_neutral_v1.png (byte-for-byte original retained).
-Default generated source: C:\Users\이현상\.codex\generated_images\01a13e72-4306-7e11-a723-923469499f6b\exec-4c3da5c0-ae9c-4d80-a384-f0bb2a772cd2.png
-Postprocessing: tools/art/finish_s08_asset.ps1. Keep native1024x1536 RGB and subject position, normalize deep interior alpha255, retain/feather only silhouette antialias1px, zero transparent RGB. No crop, move, stretch or mirror. Casual neutral QA passed BEFORE making casual expressions: matching face/build/head size to approved combat neutral; clear small X scar on HER LEFT cheek (viewer RIGHT), both hands and apple enlarged and inspected. Front-facing knee-up composition, calm closed mouth, small midriff, left hip pouch (viewer RIGHT).
-
-Saved PNG QA: {"size":[1024,1536],"opaque":692215,"transparent":859668,"partial":20981,"interior_partial":0,"bbox":[140,9,940,1535]}
-QA evidence: art/raw/qa_S08_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_5_actions.png; icons_3_64px.png. Existing60 final/ref files including approved two PNGs/prompts remain SHA256-identical.
-Status: generated, awaiting human review of S08; not approved by assistant. No commit, no S09.
+Final technical command: python tools/art/despill.py art/final/characters/C02_cecile/C02_portrait_casual_neutral.png; neutral pixels outside expression face masks retained.

@@ -1,14 +1,22 @@
-Model/tool: OpenAI built-in image_gen. Exact backend model identifier is not exposed; not inferred.
-Generation date: 2026-10-15 (Asia/Seoul)
-Mode: built-in generation. No CLI/API fallback.
-Image calls: 1. Model retries: 0.
+Tool/model: built-in image_gen (underlying model ID not exposed)
+Generation date: 2026-10-16 Asia/Seoul
+Step: S10R, Cecile only; one generation, no retries or art-content self-review
 References in attachment order:
-1. art/final/characters/C02_cecile/C02_portrait_combat_neutral.png
-2. art/refs/C02_ref_combat.png
-3. art/final/characters/C01_lina/C01_cutin.png
+1. art/refs/C02_ref_combat.png
+2. art/final/characters/C02_cecile/C02_portrait_combat_neutral.png
+3. art/raw/C02_cutin_before_redesign.png
 4. art/refs/style-anchor.png
+Raw source: art/raw/C02_cutin_v2.png
+Final: art/final/characters/C02_cecile/C02_cutin.png
+Postprocessing: Technical canvas sizing; 
+Face mask polygon: none
 
-FULL PROMPT (verbatim):
+FULL PROMPT
+Use case: stylized-concept
+Primary request: Generate ONE new illustration of Cecile, asset C02_cutin, with her redesigned new face.
+Input images: Image 1 is the authoritative NEW Cecile combat reference sheet for identity, face, hair, complexion, build and outfit. Image 2 is the NEW portrait for redesigned face identity. Image 3 is the OLD cutin asset: use ONLY its pose, composition, action and framing. NEVER copy its old face, eye shape, eyebrows, skin or expression. Image 4 is art STYLE ONLY, do not copy Lina's face, hair, clothes, weapons or objects.
+Asset type: C02_cutin
+[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -16,25 +24,17 @@ Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, 
 wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
-
-Dynamic ultimate-skill cut-in, extreme close-up action pose, dramatic lighting and speed lines, wide cinematic composition.
-
-Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
-
+[FORMAT_BLOCK]
+Dynamic ultimate-skill cut-in, extreme close-up action pose, dramatic lighting and speed lines, wide cinematic composition. Final canvas is 1920x640, ratio 3:1. Keep the entire important action inside the central horizontal third if generating at 1536x1024.
+[BODY]
+Cecile, an 18-year-old adult woman street thief, shaggy choppy short silver-grey wolf-cut bob with a longer messy strand by the face, green eyes, small scar on her left cheek. FACE: sun-kissed lightly tanned skin with a dusting of freckles across the nose, sharp upturned cat-like eyes, thick straight expressive eyebrows, a cocky lopsided grin showing one small snaggletooth fang, a small silver hoop and a stud in her right ear, a slightly narrower foxy face; petite wiry build, clearly shorter than Lina
+[COMBAT]
 wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
-
-Use case: stylized-concept. Cecile ultimate SHADOW FLURRY. Same complete cinematic battle-illustration format, polished anime rendering and final3:1 banner readability as Lina cutin input3, but Cecile's own silver bob, green eyes, lean agile body, forest green cloak and leather rogue gear from inputs1-2. Dramatic foreshortened twin-dagger DASH toward screen RIGHT, lively confident toothy battle grin, focused eyes, cloak and silver bob swept backward to left. BOTH hands visibly gripping her TWO short straight double-edged steel daggers, one each in REVERSE grip, brown leather handles, small brass straight guards and round brass pommels; natural fists and blade origins, not fused hands or detached daggers, no third real dagger. Both scabbards empty. Face3/4 toward viewer/right so her SMALL reddish X SCAR on anatomical LEFT cheek is clearly visible on viewer RIGHT/far cheek; never mirror. A few dark desaturated semi-transparent afterimages of HER prior dash positions recede toward SCREEN LEFT, plus layered curved silver-grey dagger slash afterimages and deep green/charcoal shadow streaks convey rapid multi-hit flurry. Afterimages read as ghost silhouettes, not extra real limbs. Dramatic silver rim light on hair and blades, muted emerald/steel accent against charcoal shadowed medieval alley/battle atmosphere. No modern elements, text, UI or frame. IMPORTANT CROPPING: render landscape1536x1024, but compose ALL essential content (full face, both hands, both dagger blades) inside wide CENTRAL-UPPER3:1 SAFE BAND spanning x0..1536,y128..640. Face centered near x850,y350, hands and daggers within y170..600. This band will be cropped exactly and resized1920x640; background may continue above/below but no essential hand/face/prop outside safe band. Same scale and expressive close-up impact as Lina's supplied banner. Input4 approved style anchor. Opaque complete illustration, not transparent sprite or reference sheet.
-
+[extra]
+Ultimate: a blur of twin daggers striking out of the shadows. One Cecile, twin reverse-grip daggers total, attacking from shadows with dark-green cloak in motion, redesigned tan foxy face with nose freckles, cat eyes and thick brows, a fang showing in a crooked confident grin. Opaque dynamic full background, no UI or text. Compose face and blades for a 3:1 banner crop.
+[NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
-
-Raw generation/edit result: art/raw/C02_cutin_v1.png (byte-for-byte original retained).
-Default generated source: C:\Users\이현상\.codex\generated_images\01a13e72-4306-7e11-a723-923469499f6b\exec-e7811670-5be1-41e3-afd4-a3724f873d87.png
-Postprocessing: tools/art/finish_s04.ps1 cutin resize using high-quality bicubic; opaque output matching approved Lina format. No mirroring.
-Native result2048x683 is already3:1; crop x0,y0,w2048,h682 then resize1920x640. Both hands, both real dagger blades, left-cheek X scar, dynamic dash and ghost afterimages remain visible. Same banner format as approved Lina cutin.
-
-Saved PNG QA: {"size":[1920,640],"opaque":1228800,"transparent":0,"partial":0,"interior_partial":0,"bbox":[0,0,1919,639]}
-QA evidence: art/raw/qa_S08_remaining/verification.json; expressions_12_grid.png; portraits_12_full.png; sd_5_actions.png; icons_3_64px.png. Existing60 final/ref files including approved two PNGs/prompts remain SHA256-identical.
-Status: generated, awaiting human review of S08; not approved by assistant. No commit, no S09.
+No extra person, sheet, comparison panel or caption. Cecile's facial identity must never come from the old pose reference or the style anchor.

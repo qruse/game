@@ -1,14 +1,22 @@
-Tool / model: built-in image_gen.imagegen; underlying model identifier not exposed
-Generation date: 2026-10-16 (Asia/Seoul)
-Asset: cg_affection_C02 (S18); outfit: casual
-Generation policy: one generation only; no self-review, comparison sheet, QA or repair script; technical sizing and file saving only.
-Target: 1920x1080 opaque PNG
-References (attached in this exact order):
-art/refs/style-anchor.png
-art/refs/C02_ref_casual.png
-art/final/characters/C02_cecile/C02_portrait_casual_neutral.png
+Tool/model: built-in image_gen (underlying model ID not exposed)
+Generation date: 2026-10-16 Asia/Seoul
+Step: S10R, Cecile only; one generation, no retries or art-content self-review
+References in attachment order:
+1. art/refs/C02_ref_casual.png
+2. art/final/characters/C02_cecile/C02_portrait_casual_neutral.png
+3. art/raw/cg_affection_C02_before_redesign.png
+4. art/refs/style-anchor.png
+Raw source: art/raw/cg_affection_C02_v2.png
+Final: art/final/cg/cg_affection_C02.png
+Postprocessing: Technical canvas sizing; 
+Face mask polygon: none
 
-Full actual generation prompt:
+FULL PROMPT
+Use case: stylized-concept
+Primary request: Generate ONE new illustration of Cecile, asset cg_affection_C02, with her redesigned new face.
+Input images: Image 1 is the authoritative NEW Cecile casual reference sheet for identity, face, hair, complexion, build and outfit. Image 2 is the NEW portrait for redesigned face identity. Image 3 is the OLD cg asset: use ONLY its pose, composition, action and framing. NEVER copy its old face, eye shape, eyebrows, skin or expression. Image 4 is art STYLE ONLY, do not copy Lina's face, hair, clothes, weapons or objects.
+Asset type: cg_affection_C02
+[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -16,27 +24,17 @@ Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, 
 wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
-
-Key story event illustration, cinematic composition, 16:9.
-
-Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin
-
+[FORMAT_BLOCK]
+Key story event illustration, cinematic composition, 16:9. Final canvas 1920x1080.
+[BODY]
+Cecile, an 18-year-old adult woman street thief, shaggy choppy short silver-grey wolf-cut bob with a longer messy strand by the face, green eyes, small scar on her left cheek. FACE: sun-kissed lightly tanned skin with a dusting of freckles across the nose, sharp upturned cat-like eyes, thick straight expressive eyebrows, a cocky lopsided grin showing one small snaggletooth fang, a small silver hoop and a stud in her right ear, a slightly narrower foxy face; petite wiry build, clearly shorter than Lina
+[CASUAL]
 wearing a loose off-white linen shirt knotted at the waist showing a little midriff, short brown breeches, knee-high socks, soft shoes, a coin pouch on her hip, tossing an apple, relaxed tomboyish pose, no daggers, no cloak
-
-Cecile sitting on a rooftop at night next to the viewer, sharing a stolen apple under the stars, unusually honest gentle smile. Romance is only hinted, tasteful and heartwarming.
-
-Reference roles in attachment order: image 1 is the approved style anchor, for line art and rendering only; do not copy Lina's identity, combat costume or weapons. Image 2 is Cecile's approved CASUAL reference sheet, defining her exact casual design. Image 3 is Cecile's approved CASUAL standing portrait, defining her face and proportions. Draw this same adult woman without redesign.
-Keep her short silver-grey bob, green eyes and small X-shaped scar on her own LEFT cheek, viewer-right when facing her; do not mirror the mark. Preserve the loose off-white shirt knotted at the waist, modest small area of midriff, short brown breeches, knee-high socks, soft shoes and hip coin pouch of the approved casual design. The scene action replaces tossing the apple: she is seated naturally on a medieval rooftop next to the unseen viewer, sharing the apple by offering it gently toward the camera. Her normally mischievous expression softens into an unusually honest gentle smile. A quiet medieval roofscape beneath stars, soft cool moonlight, intimate eye-level medium-wide framing with face and hands visible. Affection is suggested by trust, expression and shared food only; relaxed nonsexual posture. No daggers, cloak, armor or extra weapons. The protagonist remains invisible; no second person, no player body, hands, silhouette or reflection.
-
-Use case: illustration-story. Asset: one finished full-bleed RPG event CG. Generate one single landscape 16:9 image, target 1920x1080, opaque background. No reference sheet panels, collage, labels, border or UI. The scene-specific action and expression take precedence over static reference poses. Keep the same approved character identity and outfit.
-
+[extra]
+Cecile sitting on a rooftop at night next to the viewer, sharing a stolen apple under the stars, unusually honest gentle smile. Romance is only hinted, tasteful and heartwarming. Player/guildmaster is the viewpoint only and must NOT be drawn, no visible second person or player body. Cecile is an adult woman, relaxed casual clothes only, no combat props. Preserve old rooftop composition, starry medieval night, intimate but tasteful warmth. Her honest gentle smile is restrained rather than the default cocky grin; all NEW facial features remain. Opaque full scenic background.
+[NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
-
-Generation completed: one built-in call; no regeneration.
-Source file: C:\Users\이현상\.codex\generated_images\01a1436a-cc04-78c1-b7f7-27d91a80da9a\exec-a3c320a4-8137-4534-95bb-2757c45eb37a.png
-Raw archive: art/raw/cg_affection_C02_v1.png
-Technical processing: original 1672x941 resized to 1920x1080, opaque RGB PNG; no content edits or content review.
-Final output: art/final/cg/cg_affection_C02.png
+No extra person, sheet, comparison panel or caption. Cecile's facial identity must never come from the old pose reference or the style anchor.
