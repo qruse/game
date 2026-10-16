@@ -1,0 +1,39 @@
+Model: built-in image_gen; exact underlying model identifier not exposed
+Date: 2026-10-16 (Asia/Seoul)
+Tool: image_gen.imagegen; transparent_background=true
+Source: art/raw/B01_sd_skill_v2.png
+References in original attached order:
+art/final/enemies/B01/B01_sd_idle.png
+art/final/characters/C01_lina/C01_sd_idle.png
+art/refs/style-anchor.png
+Postprocess: native transparency retained, uniform aspect-preserving resampling onto 512x512; max height 480 / width 488; grounded silhouette y487; alpha255 interior with antialiased 1px edges; no mirror, no deformation.
+
+Pose correction reference: C:\Users\이현상\Workplace\game\art\raw\B01_sd_skill_v1.png; art/final/enemies/B01/B01_sd_idle.png
+FULL ORIGINAL PROMPT
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing left, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), no ground shadow. Genuinely transparent background, fully opaque subject interior and clean antialiased silhouette.
+
+Redbeard, a hulking bandit chief with a red beard, greataxe, mismatched armor
+
+SIGNATURE SKILL wind-up pose: Redbeard plants feet wide and lifts his greataxe HIGH ABOVE HIS HEAD with BOTH HANDS, ready for a heavy overhead cleave toward screen LEFT, face roaring left. Axe head overhead upper LEFT, full axe and hands fit inside square. Clear raised-axe silhouette different from idle and attack. No particles, glow, magical aura, speed lines or background effects.
+
+Image 1 is APPROVED REDBEARD IDLE, exact identity, head size, beard shape/color, rust-red hair, red tattered neck scarf, mismatched iron pauldrons, mail sleeves, ragged red-brown leather/cloth armor, brown gloves and heavy boots, and same broad two-bladed battered greataxe. Keep his anatomical arm armor and costume asymmetry on the same body side while posing. Same character and same physical scale in every pose: do not redesign, beautify, or change armor. Images 2 and 3 only supporting lineart/rendering references.
+
+Keep the approved idle's physical scale, head and broad torso size; do NOT scale every pose's overall height to the same extent when axe is raised or body kneels. Fit all body and greataxe in final 512 square, allow dynamic arrangement with clear margins. Feet ground baseline final y487.
+
+One isolated sprite only. Final delivery 512x512 transparent PNG (source can be 1024x1024). Eye-level side battle view, subject, muzzle/face, gaze and torso toward screen LEFT in THREE-QUARTER view, not frontal and not pure profile. Whole subject, all limbs and all props fully inside canvas with transparent margins. No floor, no ground shadow, no pedestal, no scenery, no checkerboard painted into image. No text or effects.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+FULL CORRECTION PROMPT
+Use case: identity-preserve. Image 1 is the current skill pose needing SCALE CORRECTION. Image 2 is APPROVED idle controlling character identity and physical scale. Redraw the skill pose to show SAME HUGE HEAD SIZE, same short 2.5-head body proportions and same broad bulk as idle. At final 512, red hair-through-beard head region about 205px tall, NOT the current smaller 160px. Use a COMPACT deep wide-legged squat with very bent knees, torso large and low, BOTH hands raised just above the hair holding greataxe overhead at an oblique angle upper LEFT. The broad face/huge beard must remain as big as idle; shorten visible legs by bending knees, do NOT miniaturize whole person. Full overhead axe, head, body, boots inside 512x512, foot baseline y487, transparent margins. Same greataxe design and same mismatched armor, red scarf, gloves and boots, left-facing 3/4. Exactly one greataxe, both hands on haft. No effects, no trails, no text, no ground shadow. Preserve identity and costume; change the overall squat/overhead-pose proportions to solve scale only.

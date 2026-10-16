@@ -1,0 +1,24 @@
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing left, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), no ground shadow. Genuinely transparent background, fully opaque subject interior and clean antialiased silhouette.
+
+Redbeard, a hulking bandit chief with a red beard, greataxe, mismatched armor
+
+ATTACK pose: Redbeard delivers a strong TWO-HANDED sideways diagonal greataxe swing toward screen LEFT. Torso twisting left, knees bent, one boot braced forward; both hands wrap the same wooden haft at spaced grips. Keep axe head to left and entire weapon in frame. Distinct dynamic attack silhouette, not the idle hold. No blur, no trails, no effect, no duplicated axe.
+
+Image 1 is APPROVED REDBEARD IDLE, exact identity, head size, beard shape/color, rust-red hair, red tattered neck scarf, mismatched iron pauldrons, mail sleeves, ragged red-brown leather/cloth armor, brown gloves and heavy boots, and same broad two-bladed battered greataxe. Keep his anatomical arm armor and costume asymmetry on the same body side while posing. Same character and same physical scale in every pose: do not redesign, beautify, or change armor. Images 2 and 3 only supporting lineart/rendering references.
+
+Keep the approved idle's physical scale, head and broad torso size; do NOT scale every pose's overall height to the same extent when axe is raised or body kneels. Fit all body and greataxe in final 512 square, allow dynamic arrangement with clear margins. Feet ground baseline final y487.
+
+One isolated sprite only. Final delivery 512x512 transparent PNG (source can be 1024x1024). Eye-level side battle view, subject, muzzle/face, gaze and torso toward screen LEFT in THREE-QUARTER view, not frontal and not pure profile. Whole subject, all limbs and all props fully inside canvas with transparent margins. No floor, no ground shadow, no pedestal, no scenery, no checkerboard painted into image. No text or effects.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

@@ -39,7 +39,7 @@ forest green, parchment cream, warm browns.
 | `bg_battle` | 전투 배경 (사이드뷰, 2026-10-16) | `Side-view battle stage background for a 2D turn-based RPG, eye-level camera like a theater stage, horizon at about 40% of the image height, a wide flat walkable ground band across the lower 45% where chibi characters stand in a line (allies on the left facing right, enemies on the right facing left), keep the lower center clear of large objects, scenery only in the background and at the far left and right edges, no characters, no interactive props, even lighting, no grid lines.` | 16:9 최대 크기 | 1920×1080 |
 | `cg` | 이벤트 CG | `Key story event illustration, cinematic composition, 16:9.` | 16:9 최대 크기 | 1920×1080 |
 | `icon` | 스킬 아이콘 (**2026-10-16부터 Codex는 만들지 않는다.** Claude가 `tools/icons/skill_icons.py` SVG로 그린다) | (쓰지 않음) | - | 256×256 |
-| `enemy_sd` | 적 SD | `sd` 블록과 같다. 단 `facing left`로 바꾼다 | 1024×1024 | 512×512, 투명 PNG |
+| `enemy_sd` | 적 SD | `sd` 블록과 같다. 단 `facing left`로 바꾼다. 잡몹(E)은 끝에 `crude and homely-looking grunt, ugly scowling face, muted desaturated colors, plain simple clothing with few details, simple flat shading, clearly less ornate than the heroes` 를 붙인다 (characters.md 잡몹 규칙) | 1024×1024 | 512×512, 투명 PNG |
 
 > 생성 크기는 모델이 지원하는 가장 가까운 크기를 쓴다. 지원 크기가 바뀌었으면 비율을 지키는 쪽으로 맞추고 이 표를 고친다.
 
@@ -115,6 +115,8 @@ nudity, see-through clothing, underwear, or poses that focus on body parts.
 5. **SD:** 투명 여백을 잘라낸 뒤 512×512 캔버스에 **발끝이 하단 기준선(아래에서 24px)에 오도록** 정렬한다
 
 ## 7. 품질 검사 (QA 체크리스트)
+
+> 2026-10-16부터 이 체크리스트는 **사용자와 Claude가 검수할 때** 쓴다. Codex는 기술 조건(크기, 투명 배경, 발 위치, 저장 경로)만 맞추고 그림을 스스로 다시 뽑지 않는다 (AGENTS.md 작업 순서 6)
 
 생성한 모든 이미지는 아래를 확인한다. 하나라도 걸리면 다시 생성한다.
 

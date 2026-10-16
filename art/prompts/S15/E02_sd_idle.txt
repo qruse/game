@@ -1,0 +1,26 @@
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing left, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), no ground shadow. Genuinely transparent background, fully opaque subject interior and clean antialiased silhouette.
+
+crude and homely-looking grunt, ugly scowling face, muted desaturated colors, plain simple clothing with few details, simple flat shading, clearly less ornate than the heroes
+
+a bandit archer with a shortbow, cloth mask
+
+MASKED SHORTBOW ARCHER. A scrawny ugly bandit man, scowling tiny eyes under a heavy lopsided brow, long bent nose bridge over a plain grey cloth mask covering lower face. Uncovered short scruffy dark hair: NO HOOD and no cloak. Plain faded grey-brown tunic and trousers, simple boots, one waist cord. One modest compact wooden SHORTBOW held upright at ready toward screen left, other hand near string, not drawing an attack. Small simple arrow quiver on back. Different thin narrow body silhouette from the hooded sword bandit. No armor ornaments, multiple belts, embroidery, patches or handsome hero styling. Idle ready stance.
+
+Image 1 APPROVED LINA SD controls ONLY thick clean outline, eye-level camera, approx 2.5-head chibi proportions and game scale. Image 2 general illustration style only. Do not copy female face, beauty, hair, ribbon, heraldry, clothes, shield, sword or ornamentation. Grunt override takes priority over 'appealing character design' and detailed/rich rendering in general style: deliberately homely, dull and simple so heroes shine.
+
+Humanoid grunts occupy about 450-464px height in final 512, matching Lina's game scale, with less detail and lower saturation. For quadrupeds use their low horizontal natural body and stated animal dimensions instead. No stretching. Feet/paws/hooves at final y487.
+
+One isolated sprite only. Final delivery 512x512 transparent PNG (source can be 1024x1024). Eye-level side battle view, subject, muzzle/face, gaze and torso toward screen LEFT in THREE-QUARTER view, not frontal and not pure profile. Whole subject, all limbs and all props fully inside canvas with transparent margins. No floor, no ground shadow, no pedestal, no scenery, no checkerboard painted into image. No text or effects.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

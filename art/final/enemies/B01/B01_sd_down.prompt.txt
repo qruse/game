@@ -1,0 +1,39 @@
+Model: built-in image_gen; exact underlying model identifier not exposed
+Date: 2026-10-16 (Asia/Seoul)
+Tool: image_gen.imagegen; transparent_background=true
+Source: art/raw/B01_sd_down_v2.png
+References in original attached order:
+art/final/enemies/B01/B01_sd_idle.png
+art/final/characters/C01_lina/C01_sd_idle.png
+art/refs/style-anchor.png
+Postprocess: native transparency retained, uniform aspect-preserving resampling onto 512x512; max height 380 / width 488; grounded silhouette y487; alpha255 interior with antialiased 1px edges; no mirror, no deformation.
+
+Pose correction reference: C:\Users\이현상\Workplace\game\art\raw\B01_sd_down_v1.png; art/final/enemies/B01/B01_sd_idle.png
+FULL ORIGINAL PROMPT
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing left, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), no ground shadow. Genuinely transparent background, fully opaque subject interior and clean antialiased silhouette.
+
+Redbeard, a hulking bandit chief with a red beard, greataxe, mismatched armor
+
+DEFEATED DOWN pose: Redbeard is EXHAUSTED KNEELING LOW, both knees folded on the ground, boots tucked behind and their lowest soles at the same ground baseline. Torso slumps forward, head bowed toward LEFT in three-quarter view, defeated pained expression, shoulders dropped. One hand rests on greataxe haft laid diagonally LOW next to him, entire axe visible within width. Other hand braces on bent knee. Maintain exactly the idle head size and body scale but height lowers naturally to about 350px because he kneels; DO NOT enlarge kneeling body to fill upright height. This must read as downed, not standing or crouched ready to attack. No blood, no effects.
+
+Image 1 is APPROVED REDBEARD IDLE, exact identity, head size, beard shape/color, rust-red hair, red tattered neck scarf, mismatched iron pauldrons, mail sleeves, ragged red-brown leather/cloth armor, brown gloves and heavy boots, and same broad two-bladed battered greataxe. Keep his anatomical arm armor and costume asymmetry on the same body side while posing. Same character and same physical scale in every pose: do not redesign, beautify, or change armor. Images 2 and 3 only supporting lineart/rendering references.
+
+Keep the approved idle's physical scale, head and broad torso size; do NOT scale every pose's overall height to the same extent when axe is raised or body kneels. Fit all body and greataxe in final 512 square, allow dynamic arrangement with clear margins. Feet ground baseline final y487.
+
+One isolated sprite only. Final delivery 512x512 transparent PNG (source can be 1024x1024). Eye-level side battle view, subject, muzzle/face, gaze and torso toward screen LEFT in THREE-QUARTER view, not frontal and not pure profile. Whole subject, all limbs and all props fully inside canvas with transparent margins. No floor, no ground shadow, no pedestal, no scenery, no checkerboard painted into image. No text or effects.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+FULL CORRECTION PROMPT
+Use case: precise-object-edit. Image 1 is the kneeling defeated Redbeard. Image 2 approved idle is identity reference. Keep the kneeling body, face, head, hair, beard, costume and physical scale EXACTLY unchanged. Correct ONLY the axe and the left hand resting on its haft: shift and rotate the low axe UP into a nearly horizontal position across the lower knees so NO part of the axe hangs below the bottom of the folded boots/kneecaps. The two-bladed axe head can extend to the left, at mid-shin/knee height, with its lowest point ABOVE the boot/knee ground baseline. Haft crosses knees and hand rests naturally on it; full axe inside frame. Right hand remains on knee. Preserve same identity, kneeling defeated posture, original line art and shading, left-facing 3/4 and transparent background. Do not enlarge figure, do not stand him up, no ground shadow, no effects or text. Lowest character point must be the grounded boot/knee, never the weapon.
