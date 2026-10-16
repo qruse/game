@@ -3,7 +3,7 @@ Generation date: 2026-10-16 (Asia/Seoul)
 Asset: bg_world_map (S16)
 Generation calls: 1; no regeneration or visual self-review
 References (in order):
-1. art/refs/style-anchor.png
+art/refs/style-anchor.png
 Postprocessing: preserve numbered raw original; resize full frame to 1920x1080 PNG; no crop
 
 Full actual prompt:
@@ -17,9 +17,11 @@ forest green, parchment cream, warm browns.
 
 Background art only, no characters, eye-level view, painterly anime background, atmospheric lighting, 16:9 composition, leave the center area uncluttered because character portraits will stand there.
 
-An illustrated parchment map of a medieval region with forests, villages, a monastery, a walled city and mountains, no labels or text. Top-down map view, with empty spots where quest pins can be placed.
+A hand-drawn illustrated fantasy region map painted on aged parchment paper, top-down, flat 2D ink-and-watercolor style (NOT a 3D render, NOT a satellite view): little painted forests, a few tiny villages, a monastery on a hill, a walled city, mountains along one side and a river; torn darker parchment edges; no labels or text; large open land areas left empty where quest pins can be placed.
 
-Reference image 1 is the style anchor only: match its anime line quality, slightly muted medieval palette and rendering; do not depict the reference character. Background art only, no characters. Generate one opaque landscape image, 16:9, intended final size 1920x1080. For this map asset, the specified top-down illustrated parchment map view takes priority over the general eye-level scene wording. Keep empty spaces for quest pins; no labels, lettering, pins, UI frames or borders.
+Reference image 1 is an illustration-technique reference only: do not depict its character, clothing, weapons or symbols. The map requirement in the extra takes priority over eye-level scene wording: depict the map itself straight-on as flat 2D parchment, NOT a 3D render. Hand-drawn ink lines and watercolor washes on aged paper, no relief terrain, no satellite photography, no realistic landscape perspective. Broad quiet open land remains available for quest pins, but do not draw the pins. No text, labels or lettering.
+
+Output: one 16:9 landscape background, 1920x1080 pixels, full canvas, opaque PNG.
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);

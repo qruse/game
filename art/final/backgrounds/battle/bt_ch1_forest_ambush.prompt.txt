@@ -3,8 +3,8 @@ Generation date: 2026-10-16 (Asia/Seoul)
 Asset: bt_ch1_forest_ambush (S16)
 Generation calls: 1; no regeneration or visual self-review
 References (in order):
-1. art/refs/style-anchor.png
-2. art/final/backgrounds/battle/bt_ch1_forest_clearing_side.png
+art/refs/style-anchor.png
+art/final/backgrounds/battle/bt_ch1_forest_clearing_side.png
 Postprocessing: preserve numbered raw original; resize full frame to 1920x1080 PNG; no crop
 
 Full actual prompt:
@@ -18,9 +18,11 @@ forest green, parchment cream, warm browns.
 
 Side-view battle stage background for a 2D turn-based RPG, eye-level camera like a theater stage, horizon at about 40% of the image height, a wide flat walkable ground band across the lower 45% where chibi characters stand in a line (allies on the left facing right, enemies on the right facing left), keep the lower center clear of large objects, scenery only in the background and at the far left and right edges, no characters, no interactive props, even lighting, no grid lines.
 
-Narrow, claustrophobic forest path seen from the side; thick dark tree trunks crowd close right behind the ground band and overlap at both edges, tangled roots and thorny undergrowth, heavy dark canopy blocks most of the sky, dim greenish light with a few thin shafts, a fallen mossy log at the far left edge. Clearly darker and more closed-in than the sunny forest clearing.
+Ambush on a narrow forest path at dusk, seen from the side; DARK and gloomy, cold blue-green dusk light with drifting low mist, almost no sky visible, huge dark tree trunks packed tightly right behind the walkable ground band and overlapping at both left and right edges, tangled roots and thorny brambles, a fallen mossy log at the far left edge. The overall image must be much darker and more closed-in than a sunny clearing; no bright sunlit grass.
 
-Reference image 1 is the style anchor only: use its line quality and rendering, do not depict the character, weapons, heraldry or cross. Reference image 2 is the approved side-view battle stage: match its painterly brushwork, eye-level camera height and ground-band placement exactly, while replacing the environment as described above. Keep a broad flat empty ground band at the same vertical position; keep the bottom 15% free of important details because UI covers it. No interactive props in the playable ground band. Generate one opaque landscape image, 16:9, intended final size 1920x1080.
+Reference image 1 (style-anchor): use only the anime illustration technique, never the person, weapons, symbols or portrait framing. Reference image 2 (approved forest clearing side view): use ONLY the height of the eye-level camera and the placement and flatness of the walkable ground band. DO NOT copy its brightness, sunny daylight, lighting, grass color, open clearing, sky opening or composition of trees. Follow the extra above for a much darker, cramped dusk forest. Even lighting in the format means even low dusk illumination over the playable ground, not bright daylight. Leave the bottom 15% free of important details. No characters, heraldry, banners or crosses.
+
+Output: one 16:9 landscape background, 1920x1080 pixels, full canvas, opaque PNG.
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);

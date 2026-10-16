@@ -3,8 +3,7 @@ Generation date: 2026-10-16 (Asia/Seoul)
 Asset: bg_room_archive (S16)
 Generation calls: 1; no regeneration or visual self-review
 References (in order):
-1. art/refs/style-anchor.png
-2. art/final/backgrounds/scene/bg_guildhall_ruined.png
+art/refs/style-anchor.png
 Postprocessing: preserve numbered raw original; resize full frame to 1920x1080 PNG; no crop
 
 Full actual prompt:
@@ -18,9 +17,11 @@ forest green, parchment cream, warm browns.
 
 Background art only, no characters, eye-level view, painterly anime background, atmospheric lighting, 16:9 composition, leave the center area uncluttered because character portraits will stand there.
 
-A dusty sealed archive room inside the timber guild house (see GUILDHALL: oak beams, plaster walls, plank floor), shelves of old ledgers and scrolls, a single beam of light on a locked chest.
+A small, cramped sealed archive room inside the timber guild house (oak beams, plaster walls, plank floor, see GUILDHALL materials) — NOT the main hall, no balcony, no big fireplace, no staircase: tall dusty shelves packed with old ledgers and scrolls on both walls, cobwebs, a small high window letting a single beam of light fall on a locked iron-bound chest in the center, a reading desk with a dead candle. Intimate close room scale.
 
-Reference image 1 is the style anchor only; do not depict the reference character. Reference image 2 is the approved ruined guild house: the scene belongs to this same modest two-storey medieval timber-framed house. Preserve its dark oak posts and beams, plaster walls, plank floor, stone hearth, wooden gallery and architectural identity as appropriate for this room and time. No palace, cathedral, stone columns, Gothic arches or gold candelabra. Background art only, no characters; express the described atmosphere through the environment. Generate one opaque landscape image, 16:9, intended final size 1920x1080.
+Reference image 1 is an illustration-technique reference only: do not depict its character, clothing, weapons or symbols. No guild main-hall reference image is attached. Match only the written guild-house materials: modest oak timber beams, plaster walls and plank flooring, with simple worn wood and iron. The composition must be a small intimate enclosed archive, not a grand hall: shelves closely enclosing both walls, a small high window, a locked chest at center and the reading desk with its dead candle. Keep enough quiet center space for dialogue portraits while retaining the central chest.
+
+Output: one 16:9 landscape background, 1920x1080 pixels, full canvas, opaque PNG.
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
