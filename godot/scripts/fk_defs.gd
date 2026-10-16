@@ -107,7 +107,7 @@ const BATTLES := [
 			{"key": "bush", "x": 0.05, "y": 0.86},
 			{"key": "oil_jar", "x": 0.555, "y": 0.80},
 			{"key": "dead_tree", "x": 0.74, "y": 0.40},
-			{"key": "barricade", "x": 0.905, "y": 0.86, "cover": 3},
+			{"key": "barricade", "x": 0.875, "y": 0.87, "cover": 3},
 		],
 		"event": {"round": 3, "alive": "archer", "spawn": ["bandit"], "warn": "3라운드 끝: 궁수가 살아 있으면 나팔 → 도적 증원", "text": "궁수가 나팔을 불었다! 도적이 1명 더 나타났다"},
 	},

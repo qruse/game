@@ -25,6 +25,7 @@ var inspect_uid := -1
 var found := {}  # 플레이어가 눌러서 찾은 오브젝트 (이름이 보인다)
 var focus_obj := -1  # 지금 살펴보는 오브젝트
 var st_icons := {}  # 상태 키 -> 아이콘
+var props := {}  # 소품 키 -> Codex 그림 (없으면 코드 도형)
 var bold_font: Font = null
 var panel_sb: StyleBox = null  # 판정 패널 틀
 var _ghost := {}  # uid -> 잃은 HP 가 천천히 줄어드는 잔상 비율
@@ -373,6 +374,51 @@ func _draw_unit(u, font: Font, fs: int) -> void:
 	_hits.append({"rect": Rect2(feet.x - h * 0.28, feet.y - h * 0.85, h * 0.56, h * 0.95), "ref": ref})
 
 
+## 소품 그림 크기 (유닛 키 대비, 512 정사각 캔버스 한 변)
+const PROP_SIZE := {"bush": 0.8, "oil_jar": 0.6, "dead_tree": 2.0, "barricade": 0.72, "table": 0.85, "chandelier": 0.8, "ale_cask": 0.75}
+
+
+## Codex 가 그린 소품 그림. 부서진 모습은 그림을 기울이거나 그을음으로 연출한다
+func _draw_prop(o: Dictionary, tex: Texture2D, p: Vector2, gone: bool) -> Rect2:
+	var sz: float = _unit_h() * PROP_SIZE.get(o.key, 0.7)
+	var base := p
+	if o.key == "dead_tree":
+		base = p + Vector2(0, _unit_h() * 0.45)
+	var rect := Rect2(-sz / 2.0, -sz * 0.95, sz, sz)  # 바닥 = 캔버스 95% 높이
+	if o.key == "chandelier":
+		rect = Rect2(-sz / 2.0, -sz / 2.0, sz, sz)
+		if gone:
+			base = Vector2(p.x, size.y * 0.8)
+	if gone:
+		match o.key:
+			"oil_jar", "ale_cask":
+				_ellipse(p - Vector2(0, sz * 0.03), sz * 0.45, sz * 0.12, Color(0.08, 0.06, 0.05, 0.7))
+				return Rect2(base + rect.position, rect.size)
+			"dead_tree":
+				draw_set_transform(base, 1.3)
+				draw_texture_rect(tex, rect, false)
+				draw_set_transform(Vector2.ZERO)
+				return Rect2()
+			"chandelier":
+				draw_set_transform(base, 0.25, Vector2(1.0, 0.7))
+				draw_texture_rect(tex, rect, false, Color(0.7, 0.7, 0.7))
+				draw_set_transform(Vector2.ZERO)
+				return Rect2()
+			_:
+				draw_set_transform(base, 0.35)
+				draw_texture_rect(tex, rect, false, Color(0.6, 0.6, 0.6, 0.6))
+				draw_set_transform(Vector2.ZERO)
+				return Rect2()
+	if o.key != "chandelier":
+		_ellipse(base, sz * 0.32, sz * 0.07, Color(0, 0, 0, 0.35))
+	var r := Rect2(base + rect.position, rect.size)
+	draw_texture_rect(tex, r, false)
+	if focus_obj == o.id:
+		# 살펴보는 중: 초록 빛이 깜빡인다
+		draw_texture_rect(tex, r, false, Color(0.5, 1.0, 0.4, 0.25 + 0.2 * sin(_t * 6.0)))
+	return r
+
+
 func _draw_obj(o: Dictionary, font: Font, fs: int) -> void:
 	var p := _obj_pos(o)
 	var s := _unit_h() * 0.45
@@ -381,6 +427,13 @@ func _draw_obj(o: Dictionary, font: Font, fs: int) -> void:
 	var a := 0.35 if gone else 1.0
 	if focus_obj == o.id and not gone:
 		_ellipse(p + Vector2(0, s * 0.05), s * 0.75, s * 0.2, Color(0.6, 1.0, 0.4, 0.55 + 0.25 * sin(_t * 6.0)))
+	var ptex: Texture2D = props.get(o.key)
+	if ptex != null:
+		var hr := _draw_prop(o, ptex, p, gone)
+		if hr.size.x > 0.0:
+			_hits.append({"rect": hr, "ref": ref})
+		_obj_label(o, p, gone, font, fs)
+		return
 	match o.key:
 		"bush":
 			for i in 5:
@@ -425,7 +478,11 @@ func _draw_obj(o: Dictionary, font: Font, fs: int) -> void:
 			draw_rect(Rect2(p + Vector2(-s * 0.6, -s * 0.4), Vector2(s * 0.12, s * 0.4)), Color(0.38, 0.25, 0.14))
 			draw_rect(Rect2(p + Vector2(s * 0.48, -s * 0.4), Vector2(s * 0.12, s * 0.4)), Color(0.38, 0.25, 0.14))
 	_hits.append({"rect": Rect2(p.x - s * 0.8, p.y - s * 1.1, s * 1.6, s * 1.3), "ref": ref})
-	# 이름은 플레이어가 눌러서 찾은 뒤에만 보인다 (환경은 직접 찾는 것)
+	_obj_label(o, p, gone, font, fs)
+
+
+## 이름은 플레이어가 눌러서 찾은 뒤에만 보인다 (환경은 직접 찾는 것)
+func _obj_label(o: Dictionary, p: Vector2, gone: bool, font: Font, fs: int) -> void:
 	if gone or not found.has(o.id):
 		return
 	var name: String = o.name

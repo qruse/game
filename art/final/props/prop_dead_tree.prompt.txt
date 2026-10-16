@@ -1,0 +1,30 @@
+Model: image_gen built-in (underlying model identifier not exposed)
+Date: 2026-10-16
+References: art/refs/style-anchor.png;art/final/backgrounds/battle/bt_ch1_forest_clearing_side.png;art/final/backgrounds/scene/bg_guildhall_ruined.png
+Generation: exactly one call; magenta intermediate background; technical postprocessing only, chroma key, trim and fit 512x512, base y487 (hanging centered).
+
+Use case: stylized-concept
+Asset type: one isolated painted 2D RPG battle-stage prop, prop_dead_tree. Generate ONE image only, square 1024x1024.
+[STYLE_BLOCK]
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+[FORMAT_BLOCK: prop]
+Single painted game prop for a side-view 2D RPG battle stage, seen from the side at eye level like the battle backgrounds, painterly anime game-asset style with the same colors, lighting and brush feel as the battle backgrounds, soft clean outline, readable at small size, the whole object inside the canvas with a small margin, the object stands on the bottom area with its base at about 95% of the canvas height (hanging objects are centered instead), plain flat solid #FF00FF magenta background, no ground shadow, no characters, no text.
+[MANIFEST EXTRA]
+A tall dead leafless tree with a cracked grey trunk leaning slightly to the right, a few bare crooked branches, exposed roots; tall narrow object filling most of the canvas height.
+[REFERENCE ROLES]
+Image 1: style-anchor.png, overall game illustration style only; do not copy the character or equipment.
+Image 2: bt_ch1_forest_clearing_side.png, primary outdoor paint texture, colors and soft warm daylight reference.
+Image 3: bg_guildhall_ruined.png, primary wood, iron, clay and interior brushwork reference. Match the background art's painterly finish, muted material colors and soft directional light. Keep one coherent asset style across these references.
+[CONSTRAINTS]
+Only the specified prop and its explicitly listed details, intact and usable; no destroyed variant. No scenery, floor patch, ground shadow, extra objects or characters. Flat solid #FF00FF magenta backdrop including holes between branches, legs and chain links, for chroma-key extraction. No magenta reflected light or magenta tint on the prop. Entire object within frame. Ground-standing object centered horizontally, base at 95% height.
+[NEGATIVE_BLOCK]
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

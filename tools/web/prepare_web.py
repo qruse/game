@@ -52,6 +52,7 @@ def copy_art() -> int:
         "art/final/icons/skills/*.png",
         "art/final/characters/*/*_portrait_combat_neutral.png",
         "art/final/enemies/*/*_sd_*.png",
+        "art/final/props/*.png",
     ] + used_backgrounds()
     n = 0
     for pat in pats:

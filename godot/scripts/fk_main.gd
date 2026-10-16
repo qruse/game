@@ -570,6 +570,12 @@ func _load_art() -> void:
 		if t != null:
 			st_icons[k] = t
 	stage.st_icons = st_icons
+	stage.props.clear()
+	for o in battle.objects:
+		if not stage.props.has(o.key):
+			var pt := _tex("props/prop_%s.png" % o.key)
+			if pt != null:
+				stage.props[o.key] = pt
 	stage.bold_font = bold_font
 	stage.panel_sb = UI.sbt("panel", 30, 0)
 	_sync_faces()
