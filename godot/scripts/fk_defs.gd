@@ -101,7 +101,7 @@ const OBJECTS := {
 const BATTLES := [
 	{
 		"name": "숲속 공터", "desc": "도적 무리 매복. 궁수는 나무 방책 뒤에 숨어 있다",
-		"bg": "backgrounds/battle/bt_ch1_forest_clearing.png",
+		"bg": "backgrounds/battle/bt_ch1_forest_clearing_side.png",
 		"enemies": ["wolf", "bandit", "bandit", "archer"],
 		"objects": [
 			{"key": "bush", "x": 0.05, "y": 0.86},
