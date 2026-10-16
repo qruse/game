@@ -1,13 +1,11 @@
-Model: built-in image_gen; exact underlying model identifier not exposed
-Date: 2026-10-16 (Asia/Seoul)
-Tool: image_gen.imagegen; transparent_background=true
-Source: art/raw/E03_sd_idle_v1.png
-References in original attached order:
-art/final/characters/C01_lina/C01_sd_idle.png
-art/refs/style-anchor.png
-Postprocess: native transparency retained, uniform aspect-preserving resampling onto 512x512; max height 330 / width 488; grounded silhouette y487; alpha255 interior with antialiased 1px edges; no mirror, no deformation.
+Model: image_gen built-in (underlying model identifier not exposed)
+Date: 2026-10-16
+References: art/refs/style-anchor.png;art/raw/E03_sd_idle_rejected_v2.png
+Generation: exactly one call; technical postprocessing only.
 
-FULL ORIGINAL PROMPT
+Use case: stylized-concept
+Asset type: one isolated 2D RPG enemy battle sprite, E03_sd_idle. Generate ONE new image.
+[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -15,21 +13,21 @@ Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, 
 wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
-
-Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing left, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), no ground shadow. Genuinely transparent background, fully opaque subject interior and clean antialiased silhouette.
-
-crude and homely-looking grunt, ugly scowling face, muted desaturated colors, plain simple clothing with few details, simple flat shading, clearly less ornate than the heroes
-
+[FORMAT_BLOCK: enemy_sd]
+Chibi SD animal proportions, full horizontal quadruped body, three-quarter view FACING LEFT, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), genuinely transparent background, no ground shadow.
+mangy, scarred, crude and rough-looking beast, muted colors, simple flat shading
+[PROMPT: E03]
 a lean grey wolf, snarling
-
-A natural FOUR-LEGGED lean grey WOLF with a long low horizontal canine torso, four distinct paws supporting it on the ground plane, long muzzle pointed LEFT and torso in three-quarter left view, angular ears, lean legs, low tail wholly inside frame, snarling coarse ugly muzzle with a few fangs, dull grey fur and simple dark-grey flat shadow masses. Not anthropomorphic, not standing upright, not cute, not a pet, no clothing, no collar, no accessories. Full horizontal animal body fits inside 488px occupied width at final 512, paws at y487. Match line weight and game scale, but do NOT stretch animal vertically to humanoid height. Aim animal height around 315px with horizontal length around 460px.
-
-Image 1 APPROVED LINA SD controls ONLY thick clean outline, eye-level camera, approx 2.5-head chibi proportions and game scale. Image 2 general illustration style only. Do not copy female face, beauty, hair, ribbon, heraldry, clothes, shield, sword or ornamentation. Grunt override takes priority over 'appealing character design' and detailed/rich rendering in general style: deliberately homely, dull and simple so heroes shine.
-
-Humanoid grunts occupy about 450-464px height in final 512, matching Lina's game scale, with less detail and lower saturation. For quadrupeds use their low horizontal natural body and stated animal dimensions instead. No stretching. Feet/paws/hooves at final y487.
-
-One isolated sprite only. Final delivery 512x512 transparent PNG (source can be 1024x1024). Eye-level side battle view, subject, muzzle/face, gaze and torso toward screen LEFT in THREE-QUARTER view, not frontal and not pure profile. Whole subject, all limbs and all props fully inside canvas with transparent margins. No floor, no ground shadow, no pedestal, no scenery, no checkerboard painted into image. No text or effects.
-
+[ENEMY RULES]
+ENEMY RULES (characters.md, 2026-10-16): Every enemy INCLUDING THE BOSS must be crude, ugly and plain: bulbous crooked nose, tiny eyes, crooked or missing teeth, squat clumsy build, dirt-stained clothing. Low saturation, minimal ornament, simple shading, a nasty or ridiculous face. No handsome enemies. Only silhouette and weapon should read clearly so the heroes stand out. Boss is larger in bulk only and equally crude in appearance. Rough broad color shapes, sparse hand-painted marks, no glossy polished anime beauty finish. For beasts apply this ugliness through mangy scarred rough animal features rather than human clothes or human anatomy. These specific enemy rules override the general STYLE_BLOCK's appealing design, expressive eyes, rich palette and detailed rendering.
+[EXTRA]
+Pose: menacing ready stance on all FOUR feet, LEFT-facing three-quarter view. Horizontal lean grey torso, ragged mangy fur clumps, scars, unpleasant narrow eyes and snarling muzzle. All four paws and the full tail fit inside canvas. Crude rough animal shapes and sparse flat fur marks, no fluffy attractive pet appearance. Keep animal scale: horizontal body around 480px wide and about 300px tall in final 512px canvas.
+The beast must be plainer and cruder than the heroes.
+Square final 512x512 composition: entire head, weapon, body, feet/paws and tail inside frame, no cropping. Lowest planted feet/paws at y487 (95.1% of height).  Fully opaque character interiors and antialiased alpha edges. No ground, cast shadow, text or decorative effects.
+[REFERENCE ROLES]
+Reference image 1 (art/refs/style-anchor.png): medieval world context only; do not copy face, costume, polished painting or attractiveness.
+Reference image 2 (art/raw/E03_sd_idle_rejected_v2.png): POSE, SILHOUETTE AND WEAPON CONFIGURATION ONLY. Do NOT copy its face, attractive proportions, detailed rendering or paint finish.
+[NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;

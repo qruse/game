@@ -1,14 +1,11 @@
-Model: built-in image_gen; exact underlying model identifier not exposed
-Date: 2026-10-16 (Asia/Seoul)
-Tool: image_gen.imagegen; transparent_background=true
-Source: art/raw/B01_sd_hit_v1.png
-References in original attached order:
-art/final/enemies/B01/B01_sd_idle.png
-art/final/characters/C01_lina/C01_sd_idle.png
-art/refs/style-anchor.png
-Postprocess: native transparency retained, uniform aspect-preserving resampling onto 512x512; max height 480 / width 488; grounded silhouette y487; alpha255 interior with antialiased 1px edges; no mirror, no deformation.
+Model: image_gen built-in (underlying model identifier not exposed)
+Date: 2026-10-16
+References: art/refs/style-anchor.png;art/final/enemies/B01/B01_sd_idle.png;art/raw/B01_sd_hit_rejected_v2.png
+Generation: exactly one call; technical postprocessing only.
 
-FULL ORIGINAL PROMPT
+Use case: stylized-concept
+Asset type: one isolated 2D RPG enemy battle sprite, B01_sd_hit. Generate ONE new image.
+[STYLE_BLOCK]
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
 expressive anime eyes, appealing character design.
@@ -16,19 +13,22 @@ Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, 
 wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
-
-Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing left, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), no ground shadow. Genuinely transparent background, fully opaque subject interior and clean antialiased silhouette.
-
-Redbeard, a hulking bandit chief with a red beard, greataxe, mismatched armor
-
-HIT REACTION pose: Redbeard recoils backward toward screen RIGHT from a hit coming from LEFT, torso leans right, shoulders hunched, eyes squeezed and mouth grimacing in pain, head still faces LEFT three-quarter. Knees flexed but boots remain grounded. BOTH HANDS keep hold of the same greataxe lowered diagonally near left side. Clearly unbalanced reactive body language, not attack, no wounds or blood or flash effects.
-
-Image 1 is APPROVED REDBEARD IDLE, exact identity, head size, beard shape/color, rust-red hair, red tattered neck scarf, mismatched iron pauldrons, mail sleeves, ragged red-brown leather/cloth armor, brown gloves and heavy boots, and same broad two-bladed battered greataxe. Keep his anatomical arm armor and costume asymmetry on the same body side while posing. Same character and same physical scale in every pose: do not redesign, beautify, or change armor. Images 2 and 3 only supporting lineart/rendering references.
-
-Keep the approved idle's physical scale, head and broad torso size; do NOT scale every pose's overall height to the same extent when axe is raised or body kneels. Fit all body and greataxe in final 512 square, allow dynamic arrangement with clear margins. Feet ground baseline final y487.
-
-One isolated sprite only. Final delivery 512x512 transparent PNG (source can be 1024x1024). Eye-level side battle view, subject, muzzle/face, gaze and torso toward screen LEFT in THREE-QUARTER view, not frontal and not pure profile. Whole subject, all limbs and all props fully inside canvas with transparent margins. No floor, no ground shadow, no pedestal, no scenery, no checkerboard painted into image. No text or effects.
-
+[FORMAT_BLOCK: enemy_sd]
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view FACING LEFT, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), genuinely transparent background, no ground shadow.
+crude, rough and unrefined boss, ugly brutish face with a big crooked nose, small mean eyes, crooked teeth, stubble, stocky clumsy build with short thick limbs, dirty worn patched clothes, muted desaturated earthy colors, very few details, simple flat shading, clearly less ornate and less attractive than the heroes
+[PROMPT: B01]
+Redbeard, a hulking ugly brutish bandit chief with a scraggly red beard, broken nose, missing teeth, pot belly, crude rusty greataxe, crude mismatched patched armor
+[ENEMY RULES]
+ENEMY RULES (characters.md, 2026-10-16): Every enemy INCLUDING THE BOSS must be crude, ugly and plain: bulbous crooked nose, tiny eyes, crooked or missing teeth, squat clumsy build, dirt-stained clothing. Low saturation, minimal ornament, simple shading, a nasty or ridiculous face. No handsome enemies. Only silhouette and weapon should read clearly so the heroes stand out. Boss is larger in bulk only and equally crude in appearance. Rough broad color shapes, sparse hand-painted marks, no glossy polished anime beauty finish. For beasts apply this ugliness through mangy scarred rough animal features rather than human clothes or human anatomy. These specific enemy rules override the general STYLE_BLOCK's appealing design, expressive eyes, rich palette and detailed rendering.
+[EXTRA]
+Boss, larger and more imposing. Pose: recoiling from being hit, wincing. Lean backwards toward viewer right while still facing left, knees bent and both boots planted, both hands hold the axe lowered diagonally across body. Preserve the new idle's ugly bulbous nose, pot belly, squat bulk, scraggly beard, scant patched armor and rough flat colors.
+Boss must remain equally ugly and crude as the grunts, only physically bulkier.
+Square final 512x512 composition: entire head, weapon, body, feet/paws and tail inside frame, no cropping. Lowest planted feet/paws at y487 (95.1% of height).  Fully opaque character interiors and antialiased alpha edges. No ground, cast shadow, text or decorative effects.
+[REFERENCE ROLES]
+Reference image 1 (art/refs/style-anchor.png): medieval world context only; do not copy face, costume, polished painting or attractiveness.
+Reference image 2 (art/final/enemies/B01/B01_sd_idle.png): PRIMARY IDENTITY AND PAINT REFERENCE: the NEW ugly crude idle. Preserve this exact boss, equipment, face, body bulk, limb length and rough paint across this action.
+Reference image 3 (art/raw/B01_sd_hit_rejected_v2.png): POSE, SILHOUETTE AND WEAPON CONFIGURATION ONLY. Do NOT copy its face, attractive proportions, detailed rendering or paint finish.
+[NEGATIVE_BLOCK]
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;

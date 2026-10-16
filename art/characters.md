@@ -183,7 +183,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 
 ## 적 (SD 전투용)
 
-> **잡몹 규칙 (2026-10-16 사용자):** E로 시작하는 일반 적은 투박하고 못생기게, 수수하게 그린다. 채도 낮게, 장식 최소, 명암 단순, 험상궂거나 우스꽝스러운 얼굴. 잘생긴 적은 없다(사용자가 따로 말할 때만). 실루엣과 무기만 또렷하게 해서 동료가 돋보이게 한다. 잡몹은 대기 그림 1장만 만든다. 보스(B)는 화려하게 그려도 된다
+> **적 규칙 (2026-10-16 사용자):** 적은 **보스까지 모두** 투박하고 못생기게, 수수하게 그린다 (주먹코, 작은 눈, 삐뚤어진 이, 땅딸막하고 둔한 체형, 때 묻은 옷). 채도 낮게, 장식 최소, 명암 단순, 험상궂거나 우스꽝스러운 얼굴. 잘생긴 적은 없다(사용자가 따로 말할 때만). 실루엣과 무기만 또렷하게 해서 동료가 돋보이게 한다. 잡몹은 대기 그림 1장만 만든다. 보스(B)는 동작 5장이고 덩치만 크게, 생김새는 똑같이 투박하게
 
 | ID | 챕터 | 이름 | PROMPT |
 |---|---|---|---|
@@ -192,7 +192,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 | E03 | 1 | 늑대 | `a lean grey wolf, snarling` |
 | E04 | 1 | 멧돼지 | `a huge wild boar with tusks` |
 | E05 | 1 | 덫사냥꾼 | `a poacher trapper carrying bear traps and a hatchet` |
-| B01 | 1 | **보스: 붉은 수염** | `Redbeard, a hulking bandit chief with a red beard, greataxe, mismatched armor` |
+| B01 | 1 | **보스: 붉은 수염** | `Redbeard, a hulking ugly brutish bandit chief with a scraggly red beard, broken nose, missing teeth, pot belly, crude rusty greataxe, crude mismatched patched armor` |
 | E06 | 2 | 해골 병사 | `a skeleton soldier with a rusted sword and broken shield` |
 | E07 | 2 | 구울 | `a gaunt ghoul with long claws` |
 | E08 | 2 | 이단 사교도 | `a heretic cultist in a dark red robe holding a ritual dagger` |

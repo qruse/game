@@ -24,6 +24,10 @@ var actor_uid := -1
 var inspect_uid := -1
 var found := {}  # 플레이어가 눌러서 찾은 오브젝트 (이름이 보인다)
 var focus_obj := -1  # 지금 살펴보는 오브젝트
+var st_icons := {}  # 상태 키 -> 아이콘
+var bold_font: Font = null
+var panel_sb: StyleBox = null  # 판정 패널 틀
+var _ghost := {}  # uid -> 잃은 HP 가 천천히 줄어드는 잔상 비율
 
 var _seq: Array = []
 var _wait := 0.0
@@ -162,6 +166,10 @@ func _process(delta: float) -> void:
 	for f in _fx:
 		f.t += dt
 	_fx = _fx.filter(func(f): return f.t < 0.8)
+	for u in battle.units:
+		var r: float = float(_hp.get(u.uid, u.hp)) / u.max_hp
+		var g: float = _ghost.get(u.uid, r)
+		_ghost[u.uid] = r if g < r else maxf(r, g - dt * 0.5)
 	queue_redraw()
 
 
@@ -318,25 +326,47 @@ func _draw_unit(u, font: Font, fs: int) -> void:
 		draw_string(font, c + Vector2(-r, fs * 0.4), u.name.substr(0, 1), HORIZONTAL_ALIGNMENT_CENTER, r * 2.0, fs + 4, Color.WHITE)
 		top = c.y - r
 
-	# HP 막대, 이름, 상태
-	var bw := h * 0.55
-	var bp := feet + Vector2(-bw / 2.0, h * 0.07)
-	var bh := maxf(6.0, h * 0.035)
-	draw_rect(Rect2(bp, Vector2(bw, bh)), Color(0, 0, 0, 0.75))
+	# HP 막대 (어두운 틀 + 잃은 만큼 하얀 잔상), 숫자, 이름, 결의, 상태 아이콘
+	var bw := h * 0.6
+	var bh := maxf(7.0, h * 0.045)
+	var bp := feet + Vector2(-bw / 2.0, h * 0.08)
 	var shp: int = _hp.get(u.uid, u.hp)
-	draw_rect(Rect2(bp, Vector2(bw * float(shp) / u.max_hp, bh)), Color(0.35, 0.85, 0.35) if u.side == "ally" else Color(0.9, 0.3, 0.25))
-	var label := "%s %d/%d" % [u.name, shp, u.max_hp]
-	draw_string_outline(font, bp + Vector2(-40, bh + fs), label, HORIZONTAL_ALIGNMENT_CENTER, bw + 80, fs, 4, Color(0, 0, 0, 0.8))
-	draw_string(font, bp + Vector2(-40, bh + fs), label, HORIZONTAL_ALIGNMENT_CENTER, bw + 80, fs, Color.WHITE)
+	var ratio: float = float(shp) / u.max_hp
+	var hp_col := Color(0.36, 0.80, 0.38) if u.side == "ally" else Color(0.86, 0.27, 0.22)
+	_bar(Rect2(bp, Vector2(bw, bh)), ratio, _ghost.get(u.uid, ratio), hp_col)
+	var nf: Font = bold_font if bold_font != null else font
+	var nfs := int(fs * 0.9)
+	var label: String = u.name
+	var num := "%d" % shp
+	var ny := bp.y + bh + nfs + 2.0
+	draw_string_outline(nf, Vector2(bp.x - 60, ny), label, HORIZONTAL_ALIGNMENT_CENTER, bw + 120, nfs, 5, Color(0, 0, 0, 0.9))
+	draw_string(nf, Vector2(bp.x - 60, ny), label, HORIZONTAL_ALIGNMENT_CENTER, bw + 120, nfs, Color(1.0, 0.93, 0.8) if u.side == "ally" else Color(1.0, 0.82, 0.78))
+	draw_string_outline(nf, Vector2(bp.x + bw + 4, bp.y + bh), num, HORIZONTAL_ALIGNMENT_LEFT, -1, nfs, 4, Color(0, 0, 0, 0.9))
+	draw_string(nf, Vector2(bp.x + bw + 4, bp.y + bh), num, HORIZONTAL_ALIGNMENT_LEFT, -1, nfs, Color.WHITE)
 	if u.side == "ally" and not down:
-		draw_rect(Rect2(bp + Vector2(0, -bh * 0.7), Vector2(bw * u.resolve / 100.0, bh * 0.5)), Color(1.0, 0.85, 0.3))
-	var sts: Array = battle.status_names(u)
+		var rc := Color(1.0, 0.78, 0.25) if u.resolve < 100 else Color(1.0, 0.95, 0.55, 0.7 + 0.3 * sin(_t * 8.0))
+		_bar(Rect2(bp + Vector2(0, -bh * 0.75 - 3.0), Vector2(bw, bh * 0.5)), u.resolve / 100.0, 0.0, rc)
 	if down:
-		sts = ["쓰러짐"]
-	if not sts.is_empty():
-		var st := " ".join(PackedStringArray(sts))
-		draw_string_outline(font, Vector2(feet.x - 150, top - 6), st, HORIZONTAL_ALIGNMENT_CENTER, 300, fs, 4, Color(0, 0, 0, 0.8))
-		draw_string(font, Vector2(feet.x - 150, top - 6), st, HORIZONTAL_ALIGNMENT_CENTER, 300, fs, Color(1.0, 0.9, 0.6))
+		draw_string_outline(font, Vector2(feet.x - 150, top - 6), "쓰러짐", HORIZONTAL_ALIGNMENT_CENTER, 300, fs, 4, Color(0, 0, 0, 0.8))
+		draw_string(font, Vector2(feet.x - 150, top - 6), "쓰러짐", HORIZONTAL_ALIGNMENT_CENTER, 300, fs, Color(0.8, 0.8, 0.8))
+	else:
+		# 상태: 아이콘 한 줄 (남은 턴 숫자), 아이콘이 없으면 글자
+		var keys: Array = []
+		for k in u.st.keys():
+			if u.st[k] > 0:
+				keys.append(k)
+		var isz := clampf(h * 0.13, 18.0, 34.0)
+		var sx := feet.x - (keys.size() * (isz + 3.0) - 3.0) / 2.0
+		for k in keys:
+			var r := Rect2(sx, top - isz - 4.0, isz, isz)
+			if st_icons.has(k):
+				draw_texture_rect(st_icons[k], r, false)
+				if u.st[k] > 1 and u.st[k] < 90:
+					draw_string_outline(font, r.end - Vector2(isz * 0.3, 0), str(u.st[k]), HORIZONTAL_ALIGNMENT_LEFT, -1, int(isz * 0.5), 3, Color.BLACK)
+					draw_string(font, r.end - Vector2(isz * 0.3, 0), str(u.st[k]), HORIZONTAL_ALIGNMENT_LEFT, -1, int(isz * 0.5), Color.WHITE)
+			else:
+				draw_string(font, r.position + Vector2(0, isz * 0.8), str(k).substr(0, 1), HORIZONTAL_ALIGNMENT_LEFT, -1, int(isz * 0.7), Color(1.0, 0.9, 0.6))
+			sx += isz + 3.0
 	if u.uid == actor_uid:
 		var ay := top - fs * 1.6 + sin(_t * 5.0) * 4.0
 		draw_colored_polygon(PackedVector2Array([Vector2(feet.x - 12, ay), Vector2(feet.x + 12, ay), Vector2(feet.x, ay + 16)]), Color(1.0, 0.85, 0.3))
@@ -425,11 +455,11 @@ func _draw_roll(font: Font, fs: int) -> void:
 	var gap := ds * 0.3
 	var w := n * ds + (n - 1) * gap
 	var pw := maxf(w + ds * 1.2, ds * 5.0)
-	var c := Vector2(size.x / 2.0, size.y * 0.2)
+	var c := Vector2(size.x / 2.0, size.y * 0.27)
 	var t: float = r.time
 	# 패널은 살짝 커지며 나타난다
 	var pk := clampf(t / 0.15, 0.0, 1.0)
-	var panel := Rect2(c.x - pw / 2.0, c.y - ds * 0.95, pw, ds * 2.35)
+	var panel := Rect2(c.x - pw / 2.0, c.y - ds * 1.05, pw, ds * 2.6)
 	panel = panel.grow(-(1.0 - ease(pk, 0.4)) * ds * 0.4)
 	var all_in := t >= 0.3 + DIE_REVEAL * n
 	var perfect: bool = r.ok == n and n > 1
@@ -442,10 +472,15 @@ func _draw_roll(font: Font, fs: int) -> void:
 			var d2 := Vector2(cos(ang + 0.08), sin(ang + 0.08))
 			var rr := pw * (0.45 + 0.35 * ease(k, 0.3))
 			draw_colored_polygon(PackedVector2Array([c, c + d1 * rr, c + d2 * rr]), Color(1.0, 0.85, 0.35, 0.45 * (1.0 - k * 0.6)))
-	draw_rect(panel, Color(0.08, 0.06, 0.05, 0.86 * pk))
-	draw_rect(panel, Color(0.84, 0.70, 0.38, pk), false, 2.0)
+	if panel_sb != null:
+		draw_style_box(panel_sb, panel)
+	else:
+		draw_rect(panel, Color(0.08, 0.06, 0.05, 0.86 * pk))
+		draw_rect(panel, Color(0.84, 0.70, 0.38, pk), false, 2.0)
 	var title := "%s · %s" % [u.name if u != null else "", r.label]
-	draw_string(font, Vector2(panel.position.x, panel.position.y + fs * 1.2), title, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, fs, Color(1.0, 0.92, 0.75, pk))
+	var tf: Font = bold_font if bold_font != null else font
+	draw_string_outline(tf, Vector2(panel.position.x, panel.position.y + fs * 1.55), title, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, fs, 4, Color(0, 0, 0, 0.8 * pk))
+	draw_string(tf, Vector2(panel.position.x, panel.position.y + fs * 1.55), title, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, fs, Color(0.96, 0.84, 0.55, pk))
 	var shown := 0
 	for i in n:
 		var sl: Dictionary = r.slots[i]
@@ -507,17 +542,34 @@ func _draw_roll(font: Font, fs: int) -> void:
 		for j in 6:
 			var ang := -PI / 2.0 + j * PI / 3.0
 			pts.append(Vector2(cos(ang), sin(ang)) * ds * 0.5)
-		draw_colored_polygon(pts, col)
-		# 안쪽 면 (d20 느낌)
+		# d20 정면: 육각 외곽 + 가운데 삼각 면 + 둘레 면 6개를 번갈아 밝고 어둡게
+		var shadow := PackedVector2Array()
+		for p in pts:
+			shadow.append(p + Vector2(0, ds * 0.06))
+		draw_colored_polygon(shadow, Color(0, 0, 0, 0.45))
+		draw_colored_polygon(pts, col.darkened(0.25))
 		var inner := PackedVector2Array()
 		for j in 3:
 			var ang := -PI / 2.0 + j * TAU / 3.0
-			inner.append(Vector2(cos(ang), sin(ang)) * ds * 0.33)
-		draw_colored_polygon(inner, Color(1, 1, 1, 0.1))
+			inner.append(Vector2(cos(ang), sin(ang)) * ds * 0.3)
+		for j in 6:
+			var tv := inner[((j + 1) / 2) % 3]
+			var shade := col.lightened(0.12) if j % 2 == 0 else col.darkened(0.08)
+			draw_colored_polygon(PackedVector2Array([pts[j], pts[(j + 1) % 6], tv]), shade)
+		draw_colored_polygon(inner, col.lightened(0.28))
+		var edge := col.darkened(0.55)
+		for j in 6:
+			draw_line(pts[j], inner[((j + 1) / 2) % 3], edge, 1.5, true)
+		var tri := inner.duplicate()
+		tri.append(tri[0])
+		draw_polyline(tri, edge, 1.5, true)
 		pts.append(pts[0])
-		draw_polyline(pts, Color(0.95, 0.88, 0.7), 2.0)
+		draw_polyline(pts, Color(0.1, 0.07, 0.05), 3.0, true)
+		draw_polyline(pts, Color(0.95, 0.88, 0.7, 0.8), 1.2, true)
 		var dfs := int(ds * (0.42 if face.length() <= 2 else 0.26))
-		draw_string(font, Vector2(-ds / 2.0, dfs * 0.36), face, HORIZONTAL_ALIGNMENT_CENTER, ds, dfs, Color.WHITE)
+		var dfont: Font = bold_font if bold_font != null else font
+		draw_string_outline(dfont, Vector2(-ds / 2.0, dfs * 0.36), face, HORIZONTAL_ALIGNMENT_CENTER, ds, dfs, 4, Color(0, 0, 0, 0.7))
+		draw_string(dfont, Vector2(-ds / 2.0, dfs * 0.36), face, HORIZONTAL_ALIGNMENT_CENTER, ds, dfs, Color.WHITE)
 		draw_set_transform(Vector2.ZERO)
 	var foot := "필요 %d 이상" % r.need
 	var fcol := Color(0.8, 0.8, 0.8)
@@ -533,8 +585,8 @@ func _draw_roll(font: Font, fs: int) -> void:
 		# 결과 글자가 튀어나온다
 		var ft := t - (0.3 + DIE_REVEAL * n)
 		ffs = int(fs * (1.0 + 0.5 * maxf(0.0, 1.0 - ft / 0.2)))
-	draw_string_outline(font, Vector2(panel.position.x, panel.end.y - fs * 0.45), foot, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, ffs, 4, Color(0, 0, 0, 0.8))
-	draw_string(font, Vector2(panel.position.x, panel.end.y - fs * 0.45), foot, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, ffs, fcol)
+	draw_string_outline(font, Vector2(panel.position.x, panel.end.y - fs * 0.85), foot, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, ffs, 4, Color(0, 0, 0, 0.8))
+	draw_string(font, Vector2(panel.position.x, panel.end.y - fs * 0.85), foot, HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, ffs, fcol)
 
 func _draw_cutin() -> void:
 	var tex: Texture2D = _cutin.tex
@@ -548,6 +600,17 @@ func _draw_cutin() -> void:
 	draw_texture_rect(tex, Rect2((size.x - tw) / 2.0 + slide, band.position.y, tw, bh), false, Color(1, 1, 1, a))
 	draw_rect(Rect2(0, band.position.y - 4, size.x, 4), Color(1.0, 0.85, 0.4, a))
 	draw_rect(Rect2(0, band.end.y, size.x, 4), Color(1.0, 0.85, 0.4, a))
+
+
+func _bar(r: Rect2, ratio: float, ghost: float, col: Color) -> void:
+	draw_rect(r.grow(2), Color(0.05, 0.04, 0.03, 0.9))
+	draw_rect(r, Color(0.16, 0.12, 0.1))
+	if ghost > ratio:
+		draw_rect(Rect2(r.position, Vector2(r.size.x * ghost, r.size.y)), Color(1.0, 0.95, 0.85, 0.8))
+	var fr := Rect2(r.position, Vector2(r.size.x * clampf(ratio, 0.0, 1.0), r.size.y))
+	draw_rect(fr, col)
+	draw_rect(Rect2(fr.position, Vector2(fr.size.x, maxf(1.0, r.size.y * 0.3))), Color(1, 1, 1, 0.25))
+	draw_rect(r.grow(1), Color(0.55, 0.43, 0.24, 0.9), false, 1.0)
 
 
 func _ellipse(c: Vector2, rx: float, ry: float, col: Color) -> void:
