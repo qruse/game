@@ -28,6 +28,12 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 5. **QA에 설정 대조표를 붙인다.** 블록의 구절을 하나씩 나눠 `설정 구절 / 결과(맞음·다름)`로 보고한다. 하나라도 "다름"이면 통과가 아니다
 6. 일상복은 전투복과 **실루엣이 달라야 한다**(길이, 폭, 소매, 머리 모양 중 둘 이상)
 
+### 얼굴 개성 규칙 (2026-10-16 사용자 지시: "너무 다 똑같이 생긴 느낌")
+- 동료마다 **얼굴 자체**를 다르게 한다. 머리색·눈색만 바꾼 같은 얼굴 금지. 예쁜 건 유지한다
+- 동료마다 BODY 블록의 **FACE** 구절을 반드시 프롬프트에 넣는다: 눈매(올라간 눈·처진 눈·반쯤 감긴 눈), 눈썹 굵기, 피부색, 얼굴형, 입 모양·버릇(덧니, 비뚜름한 웃음), 점·주근깨 같은 표시, 키와 체형
+- 기준은 리나(표준 미소녀 얼굴). 다른 동료는 리나와 나란히 세웠을 때 실루엣만 봐도, 얼굴만 잘라 봐도 누군지 알 수 있어야 한다
+- 다른 동료의 그림을 참조로 붙일 때는 **화풍·크기만** 따르고 얼굴은 따르지 않는다고 프롬프트에 적는다
+
 ## 노출 수준 규칙
 
 | 등급 | 허용 범위 |
@@ -67,9 +73,9 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - 특기: 은신, 손재주 (민첩) · 노출: 일상복 **중간**
 - 성격: 장난기 많고 입이 험하지만 의리가 있다. 톰보이
 - 이야기: 길드 금고를 털러 들어왔다가 텅 빈 금고를 보고 어이가 없어 눌러앉은 소매치기
-- MUST KEEP: 짧은 은회색 단발, 초록 눈, 왼쪽 볼의 작은 흉터
+- MUST KEEP: 짧은 은회색 단발(삐죽삐죽한 울프컷), 초록 눈, 왼쪽 볼의 작은 흉터, **2026-10-16 개성: 볕에 그을린 피부와 코의 주근깨, 고양이처럼 올라간 눈매, 굵은 눈썹, 덧니가 보이는 비뚜름한 웃음, 한쪽 귀의 은귀걸이, 작고 마른 체격(리나보다 작다)**
   - 전투복 전용(일상복에는 넣지 않음): 짙은 녹색 후드 망토, 가죽 조끼, 쌍단검
-- BODY: `Cecile, an 18-year-old adult woman street thief, short silver-grey bob hair, green eyes, small scar on her left cheek, lean agile build, mischievous grin`
+- BODY: `Cecile, an 18-year-old adult woman street thief, shaggy choppy short silver-grey wolf-cut bob with a longer messy strand by the face, green eyes, small scar on her left cheek. FACE: sun-kissed lightly tanned skin with a dusting of freckles across the nose, sharp upturned cat-like eyes, thick straight expressive eyebrows, a cocky lopsided grin showing one small snaggletooth fang, a small silver hoop and a stud in her right ear, a slightly narrower foxy face; petite wiry build, clearly shorter than Lina`
 - COMBAT: `wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt`
 - CASUAL: `wearing a loose off-white linen shirt knotted at the waist showing a little midriff, short brown breeches, knee-high socks, soft shoes, a coin pouch on her hip, tossing an apple, relaxed tomboyish pose, no daggers, no cloak`
 
@@ -77,9 +83,9 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - 특기: 마법학, 지식 (지능) · 노출: 일상복 **낮음** (귀여움 담당)
 - 성격: 냉소적인 독서광. 사람보다 책을 좋아한다. 밤샘 독서가 일상
 - 이야기: 수도원에서 금서를 몰래 읽다 쫓겨난 견습 수녀 마법사
-- MUST KEEP: 땋아 내린 검은 긴 머리, 금색 눈, 둥근 철테 안경
+- MUST KEEP: 땋아 내린 검은 긴 머리, 금색 눈, 둥근 철테 안경, **2026-10-16 개성: 반듯한 일자 앞머리, 창백한 피부와 밤샘으로 생긴 눈 밑 그늘, 반쯤 감긴 나른한 처진 눈매, 가는 눈썹, 오른쪽 눈 밑 눈물점, 시큰둥한 입매, 키가 크고 가늘다(리나보다 크다)**
   - 전투복 전용(일상복에는 넣지 않음): 짙은 남색 수도복을 개조한 로브, 쇠사슬로 묶은 마법서, 나무 지팡이
-- BODY: `Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid, golden eyes, round wire-rimmed glasses, aloof sarcastic face`
+- BODY: `Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid with a straight blunt-cut fringe across the forehead, golden eyes, round wire-rimmed glasses. FACE: pale porcelain skin with faint shadows under the eyes from reading all night, heavy-lidded half-closed droopy eyes with a bored deadpan look, thin arched eyebrows, a small beauty mark under her right eye, a small unimpressed flat mouth, a longer oval face and long neck; tall slender willowy build, clearly taller than Lina`
 - COMBAT: `wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff`
 - CASUAL: `wearing an oversized dark charcoal wool tunic as a nightshirt that ends just above the knees, sleeves so long they cover her hands to the fingertips, thick knitted wool stockings, soft wool house slippers, a knitted shawl around her shoulders, her braid loosened and messy with stray hairs, holding a small candle in a holder and an ordinary open book (not her chained grimoire), sleepy cozy expression, no staff, no weapons`
 - 일상복 메모 (2026-10-15 사용자 결정): 두 번째 시안(무릎 길이 니트 잠옷 + 숄 + 꽈배기 털양말 + 털 실내화 + 촛불과 책)을 그대로 승인. 바깥 장면에서도 이 옷을 쓴다. 첫 시안은 지팡이·부츠·발목 길이 로브로 나와 재작업. 전투복(발목까지 오는 남색 로브 + 지팡이)과 실루엣이 확실히 달라야 한다. 무릎 위 잠옷 + 손을 덮는 소매 + 털양말 + 실내화 + 풀어진 땋은 머리가 핵심
@@ -88,9 +94,9 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - 특기: 설득 (매력), 치유 · 노출: 일상복 **높음** (청순한 순례자의 의외의 성숙함, 반전 매력)
 - 성격: 다정하고 상냥하지만 속을 알 수 없다
 - 이야기: 떠돌이 순례자. 길드를 찾아온 이유를 말하지 않는다
-- MUST KEEP: 물결치는 금발, 하늘색 눈, 나무 성표 목걸이
+- MUST KEEP: 물결치는 금발, 하늘색 눈, 나무 성표 목걸이, **2026-10-16 개성: 부드럽고 둥근 성숙한 얼굴, 긴 속눈썹의 온화한 처진 눈, 왼쪽 눈 밑 점, 도톰한 입술, 키 크고 굴곡 있는 체형**
   - 전투복 전용(일상복에는 넣지 않음): 흰 베일, 크림색 순례자 망토와 조개 배지, 순례 지팡이
-- BODY: `Miriam, a 24-year-old adult woman, wavy golden blonde hair, sky-blue eyes, gentle but mysterious smile, graceful mature figure, wooden holy symbol necklace`
+- BODY: `Miriam, a 24-year-old adult woman, long voluminous wavy golden blonde hair, sky-blue eyes, wooden holy symbol necklace. FACE: a soft rounded mature face clearly older than the other girls, gentle droopy eyes with long lashes, a beauty mark under her left eye, full soft lips in a calm knowing half-smile, warm peach skin; tall graceful curvy figure`
 - COMBAT: `wearing a white veil over her hair, a cream pilgrim's cloak with a scallop-shell badge over a modest grey-blue travel dress, a tall pilgrim's staff`
 - CASUAL: `adult woman, hair down without the veil, wearing an elegant ivory linen dress with an off-shoulder neckline, an open back and a side slit, a thin gold chain around her waist, barefoot, relaxed graceful pose with a faint teasing smile, no veil, no cloak, no staff`
 
