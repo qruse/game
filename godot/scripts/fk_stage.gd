@@ -489,7 +489,7 @@ func _draw_roll(font: Font, fs: int) -> void:
 		var t1 := 0.3 + DIE_REVEAL * (i + 1)  # 멈추는 시각
 		if t < t0:
 			continue
-		var locked: bool = sl.tag in ["운명", "은신"]
+		var locked: bool = sl.tag in ["확정", "은신"]
 		var k := clampf((t - t0) / (t1 - t0), 0.0, 1.0)
 		var landed := t >= t1
 		var pos := target
@@ -506,7 +506,7 @@ func _draw_roll(font: Font, fs: int) -> void:
 			face = str(1 + int(t * 23.0 + i * 7) % 20)
 			if locked:
 				face = sl.tag
-				col = Color(0.62, 0.42, 0.85) if sl.tag == "운명" else Color(0.3, 0.3, 0.45)
+				col = Color(0.62, 0.42, 0.85) if sl.tag == "확정" else Color(0.3, 0.3, 0.45)
 			# 바닥 그림자
 			_ellipse(Vector2(pos.x, target.y + ds * 0.5), ds * 0.4 * (0.6 + 0.4 * k), ds * 0.08, Color(0, 0, 0, 0.35))
 		else:
@@ -515,7 +515,7 @@ func _draw_roll(font: Font, fs: int) -> void:
 			sc = 1.0 + 0.35 * maxf(0.0, 1.0 - lt / 0.18)
 			if locked:
 				face = sl.tag
-				col = Color(0.62, 0.42, 0.85) if sl.tag == "운명" else Color(0.3, 0.3, 0.45)
+				col = Color(0.62, 0.42, 0.85) if sl.tag == "확정" else Color(0.3, 0.3, 0.45)
 			else:
 				face = str(sl.v)
 				col = Color(0.25, 0.62, 0.32) if sl.ok else Color(0.62, 0.2, 0.18)

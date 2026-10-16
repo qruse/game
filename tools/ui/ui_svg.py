@@ -1,4 +1,4 @@
-"""전투 UI 그림 (Claude 담당): 9-slice 틀, 버튼, 상태 아이콘, 운명 주사위. SVG → godot/ui/*.png
+"""전투 UI 그림 (Claude 담당): 9-slice 틀, 버튼, 상태 아이콘, 행운 주사위. SVG → godot/ui/*.png
 사용: powershell -ExecutionPolicy Bypass -File tools/ui/render_ui.ps1
 """
 import math
@@ -67,7 +67,7 @@ def chip(col):
 
 
 def d20(fill, edge, face_hi):
-    """운명 주사위 아이콘 64×64: 정이십면체를 정면에서 본 모양"""
+    """행운 주사위 아이콘 64×64: 정이십면체를 정면에서 본 모양"""
     cx, cy, r = 32, 33, 28
     hexp = [(cx + r * math.cos(math.radians(-90 + 60 * i)), cy + r * math.sin(math.radians(-90 + 60 * i))) for i in range(6)]
     tri = [(cx + r * 0.62 * math.cos(math.radians(-90 + 120 * i)), cy + r * 0.62 * math.sin(math.radians(-90 + 120 * i))) for i in range(3)]

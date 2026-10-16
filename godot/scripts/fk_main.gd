@@ -21,7 +21,7 @@ var actor = null
 var aim_enemy := -1  # 무대에서 고른 적 (공격 대상)
 var aim_ally := -1  # 고른 동료 (치유·축복 대상)
 var aim_obj := -1  # 고른 오브젝트 (불꽃 화살로 불붙이기)
-var locks := 0  # 다음 행동에 쓸 운명 주사위 개수
+var locks := 0  # 다음 행동에 쓸 행운 주사위 개수
 var party: Array = ["lina", "cecile", "adelheid"]
 var battle_idx := 0
 var speed := 1.0
@@ -273,7 +273,7 @@ func _build_hud() -> void:
 	actions.add_theme_constant_override("v_separation", 4 if touch else 8)
 	scroll.add_child(actions)
 
-	# 오른쪽: 대상 안내 + 운명 주사위
+	# 오른쪽: 대상 안내 + 행운 주사위
 	var side := VBoxContainer.new()
 	side.custom_minimum_size.x = 220 if touch else 420
 	row.add_child(side)
@@ -287,7 +287,7 @@ func _build_hud() -> void:
 	fr.add_theme_constant_override("separation", 4)
 	side.add_child(fr)
 	var fl := Label.new()
-	fl.text = "운명"
+	fl.text = "행운"
 	_outlined(fl, 13 if touch else 18, Color(0.85, 0.7, 1.0))
 	fr.add_child(fl)
 	fate_row = HBoxContainer.new()
@@ -478,7 +478,7 @@ func _check_over() -> void:
 	state = "over"
 	var win: bool = battle.result == "win"
 	var t := "[font_size=40][b]%s[/b][/font_size]\n" % ("승리!" if win else "패배")
-	t += "%d라운드 · 쓰러진 횟수 %d · 남은 운명 주사위 %d" % [battle.round_no, battle.downs, battle.fate]
+	t += "%d라운드 · 쓰러진 횟수 %d · 남은 행운 주사위 %d" % [battle.round_no, battle.downs, battle.fate]
 	over_lbl.text = t
 	over.visible = true
 	_refresh()
@@ -785,12 +785,12 @@ func _update_side() -> void:
 		for a in battle.obj_actions(actor, aim_obj):
 			t += "[color=#b8ff9a]%s[/color]\n" % a.desc
 	if locks > 0:
-		t += "[color=#e0b0ff]운명 %d칸 확정[/color]\n" % locks
+		t += "[color=#e0b0ff]행운 %d개 · %d칸 확정[/color]\n" % [locks, locks]
 	t += "[color=#8a8070]무대를 눌러 대상 바꾸기 · 주변 살펴보기[/color]"
 	hint.text = t
 
 
-## 운명 주사위 i 번째를 누르면 그 개수까지 쓰고, 이미 쓴 것을 누르면 거기서부터 뺀다
+## 행운 주사위 i 번째를 누르면 그 개수까지 쓰고, 이미 쓴 것을 누르면 거기서부터 뺀다
 func _on_fate(i: int) -> void:
 	if state != "player":
 		return

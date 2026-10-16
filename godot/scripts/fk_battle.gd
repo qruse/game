@@ -215,7 +215,7 @@ func bonus_of(u: Unit, stat: String) -> int:
 	return b
 
 
-## 칸 n개를 굴린다. auto 칸은 확정 성공(은신), locks 칸은 운명 주사위로 확정 성공
+## 칸 n개를 굴린다. auto 칸은 확정 성공(은신), locks 칸은 행운 주사위로 확정 성공
 func roll_slots(u: Unit, label: String, n: int, bonus: int, diff: int, locks := 0, auto := 0) -> int:
 	var need := need_face(bonus, diff)
 	var slots: Array = []
@@ -225,7 +225,7 @@ func roll_slots(u: Unit, label: String, n: int, bonus: int, diff: int, locks := 
 		if i < auto:
 			sl.tag = "은신"
 		elif i < auto + locks:
-			sl.tag = "운명"
+			sl.tag = "확정"
 		else:
 			var v := rng.randi_range(1, 20)
 			sl.v = v
@@ -238,14 +238,14 @@ func roll_slots(u: Unit, label: String, n: int, bonus: int, diff: int, locks := 
 			ok_n += 1
 		slots.append(sl)
 	events.append({"t": "roll", "uid": u.uid, "label": label, "slots": slots, "need": need, "ok": ok_n, "n": n})
-	var faces: Array = slots.map(func(s): return s.tag if s.tag in ["은신", "운명"] else str(s.v))
+	var faces: Array = slots.map(func(s): return s.tag if s.tag in ["은신", "확정"] else str(s.v))
 	_log("%s %s: %s (필요 %d 이상) → %d/%d 성공%s" % [u.name, label, " ".join(PackedStringArray(faces)), need, ok_n, n, " · 완벽!" if ok_n == n and n > 1 else ""])
 	if u.side == "ally":
 		u.resolve = mini(100, u.resolve + 8 * ok_n)
 		for s in slots:
 			if s.tag == "대성공" and fate < FATE_MAX:
 				fate += 1
-				_log("대성공! 운명 주사위 +1 (%d)" % fate)
+				_log("대성공! 행운 주사위 +1 (%d)" % fate)
 	return ok_n
 
 
