@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>길드 하우스 시안 2</title>
+<!-- 시안 2: 요즘 서브컬처 RPG 식 (어두운 유리 판넬, 1px 선, 흰 선 아이콘, 알약 버튼, 넓은 여백). 1600×900 -->
+<style>
+@font-face { font-family: "SongMyung"; src: url("../../art/src/fonts/SongMyung-Regular.ttf"); }
+@font-face { font-family: "Hahmlet"; src: url("../../art/src/fonts/Hahmlet-VF.ttf"); font-weight: 100 900; }
+@font-face { font-family: "NotoKR"; src: url("file:///C:/Windows/Fonts/NotoSansKR-VF.ttf"); font-weight: 100 900; }
+:root {
+  --glass: rgba(18, 16, 20, .72);
+  --glass-hi: rgba(36, 32, 38, .78);
+  --line: rgba(255, 255, 255, .12);
+  --line-hi: rgba(255, 255, 255, .28);
+  --txt: #ece7df;
+  --dim: #a59d92;
+  --gold: #e3c27e;
+  --gold-hi: #f6dfa8;
+  --red: #e5483a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; background: #000; }
+body { font-family: "NotoKR", sans-serif; color: var(--txt); position: relative; -webkit-font-smoothing: antialiased; }
+
+.bg { position: absolute; inset: 0; background: url("../../art/final/backgrounds/scene/bg_guildhall_ruined.png") center / cover; filter: brightness(.82) saturate(.92); }
+.shade { position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, transparent 40%, rgba(6,5,6,.55) 66%, rgba(6,5,6,.82) 100%),
+    linear-gradient(180deg, rgba(6,5,6,.55) 0%, transparent 14%, transparent 72%, rgba(6,5,6,.75) 100%); }
+/* 떠다니는 먼지 */
+.dust i { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #ffe7b0; box-shadow: 0 0 8px 2px rgba(255,220,150,.6); opacity: .7; }
+.hero { position: absolute; left: 70px; bottom: -420px; height: 1280px; filter: drop-shadow(0 0 40px rgba(0,0,0,.45)); }
+
+/* 왼쪽 위: 위치 표시 */
+.crumb { position: absolute; left: 34px; top: 26px; display: flex; align-items: center; gap: 12px; }
+.crumb img { width: 34px; }
+.crumb .a { font-size: 13px; color: var(--gold); letter-spacing: .04em; }
+.crumb .b { font-size: 19px; font-weight: 600; letter-spacing: .02em; }
+.crumb .b span { color: var(--dim); font-weight: 400; margin: 0 6px; }
+
+/* 오른쪽 위: 자원 */
+.res { position: absolute; right: 96px; top: 24px; display: flex; gap: 8px; }
+.chip { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px 0 6px; border-radius: 19px;
+  background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(10px); }
+.chip img { width: 28px; height: 28px; }
+.chip b { font-family: "Hahmlet"; font-weight: 600; font-size: 17px; letter-spacing: .02em; }
+.chip.rank { padding: 0 16px 0 10px; color: var(--gold-hi); }
+.chip.rank b { font-family: "NotoKR"; font-size: 15px; font-weight: 600; }
+.close { position: absolute; right: 30px; top: 26px; width: 36px; height: 36px; }
+
+/* 오른쪽 세로 줄 (보조 메뉴) */
+.rail { position: absolute; right: 26px; top: 120px; bottom: 120px; width: 50px; border-radius: 25px; display: flex; flex-direction: column; align-items: center; gap: 22px; padding-top: 26px;
+  background: rgba(14,12,16,.55); border: 1px solid var(--line); }
+.rail svg { width: 24px; height: 24px; opacity: .85; }
+.rail .dot { position: relative; }
+.rail .dot::after { content: ""; position: absolute; right: -4px; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+
+/* 메인 판넬: 이번 주 의뢰 */
+.panel { position: absolute; right: 100px; top: 84px; width: 560px; border-radius: 6px; padding: 26px 28px 24px;
+  background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(16px);
+  box-shadow: 0 30px 60px rgba(0,0,0,.35); }
+.panel::before { content: ""; position: absolute; left: 28px; right: 28px; top: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .7; }
+.ph { display: flex; align-items: baseline; justify-content: space-between; }
+.ph .k { font-size: 12px; letter-spacing: .28em; color: var(--gold); font-family: "Hahmlet"; font-weight: 500; }
+.ph h1 { font-family: "SongMyung"; font-weight: 400; font-size: 34px; letter-spacing: .04em; margin-top: 4px; }
+.ph .cnt { font-size: 14px; color: var(--dim); }
+.ph .cnt b { color: var(--txt); font-family: "Hahmlet"; font-size: 20px; }
+.rows { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.row { position: relative; display: flex; align-items: center; gap: 16px; padding: 11px 16px; border-radius: 4px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); }
+.row.sel { background: linear-gradient(90deg, rgba(227,194,126,.16), rgba(227,194,126,.04)); border-color: rgba(227,194,126,.45); }
+.row.sel::before { content: ""; position: absolute; left: -1px; top: 10px; bottom: 10px; width: 3px; border-radius: 2px; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+.mark { width: 44px; height: 44px; flex: none; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line-hi); background: rgba(0,0,0,.35); }
+.mark svg { width: 22px; height: 22px; }
+.row .t { flex: 1; min-width: 0; }
+.row .nm { font-size: 18px; font-weight: 600; }
+.row .ds { font-size: 13px; color: var(--dim); margin-top: 2px; }
+.tags { display: flex; gap: 6px; margin-top: 7px; }
+.tag { font-size: 11.5px; padding: 2px 9px; border-radius: 10px; border: 1px solid var(--line-hi); color: #d6cfc4; }
+.tag.g { border-color: rgba(227,194,126,.6); color: var(--gold-hi); }
+.rw { text-align: right; flex: none; }
+.rw .g { font-family: "Hahmlet"; font-weight: 600; font-size: 18px; color: var(--gold-hi); display: flex; align-items: center; gap: 5px; justify-content: flex-end; }
+.rw .g img { width: 20px; }
+.rw .s { font-size: 12px; color: var(--dim); margin-top: 2px; }
+.check { position: absolute; right: -9px; top: -9px; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; box-shadow: 0 0 0 3px rgba(18,16,20,.9); }
+.acts { display: flex; gap: 10px; margin-top: 16px; }
+.pill { height: 50px; border-radius: 25px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 17px; font-weight: 600; letter-spacing: .02em; }
+.pill.main { flex: 1; background: linear-gradient(180deg, #fbf6ec, #e7ddca); color: #1d1814; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+.pill.main small { font-weight: 400; color: #6b6156; font-size: 13px; }
+.pill.sub { width: 150px; background: rgba(255,255,255,.06); border: 1px solid var(--line-hi); color: var(--txt); }
+
+/* 재건 공사 줄 */
+.build { position: absolute; right: 100px; top: 668px; width: 560px; padding: 16px 22px; border-radius: 6px; background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(16px); }
+.build .top { display: flex; justify-content: space-between; align-items: center; }
+.build .h { font-size: 15px; font-weight: 600; }
+.build .h span { color: var(--gold); font-family: "Hahmlet"; margin-left: 8px; }
+.build .nx { font-size: 13px; color: var(--dim); }
+.track { position: relative; display: flex; justify-content: space-between; margin: 16px 6px 6px; }
+.track::before { content: ""; position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: var(--line-hi); }
+.track::after { content: ""; position: absolute; left: 0; width: 14%; top: 6px; height: 1px; background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+.track i { position: relative; z-index: 1; width: 13px; height: 13px; transform: rotate(45deg); border: 1px solid var(--line-hi); background: #17141a; }
+.track i.on { background: var(--gold); border-color: var(--gold-hi); box-shadow: 0 0 10px rgba(227,194,126,.8); }
+.labels { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--dim); margin: 0 -8px; }
+.labels span.on { color: var(--gold-hi); }
+.need { display: flex; gap: 18px; margin-top: 12px; font-family: "Hahmlet"; font-size: 14px; color: #d8d0c4; }
+.need img { width: 18px; vertical-align: -4px; margin-right: 5px; }
+.need .lack { color: #ff9384; }
+
+/* 아래 왼쪽: 리나 한마디 (자막처럼) */
+.line { position: absolute; left: 0; bottom: 136px; width: 760px; padding: 16px 40px 18px 60px;
+  background: linear-gradient(90deg, rgba(8,6,6,.78) 0%, rgba(8,6,6,.6) 60%, transparent 100%); }
+.line .who { font-size: 14px; color: var(--gold); font-weight: 600; letter-spacing: .1em; }
+.line .say { font-size: 20px; margin-top: 4px; letter-spacing: .01em; }
+
+/* 아래: 메뉴 */
+.dock { position: absolute; left: 50px; bottom: 24px; display: flex; gap: 10px; align-items: flex-end; }
+.tile { position: relative; width: 108px; height: 92px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px;
+  background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(10px); }
+.tile svg { width: 30px; height: 30px; }
+.tile span { font-size: 13.5px; color: #ddd6cb; }
+.tile.hov { background: var(--glass-hi); border-color: rgba(227,194,126,.6); box-shadow: 0 0 0 1px rgba(227,194,126,.25), 0 10px 26px rgba(0,0,0,.4); transform: translateY(-4px); }
+.tile.hov span { color: var(--gold-hi); }
+.tile .n { position: absolute; top: -7px; right: -7px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--red); color: #fff; font-size: 12.5px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 0 0 3px rgba(10,8,8,.8); }
+.week { height: 92px; width: 230px; border-radius: 6px; display: flex; align-items: center; gap: 14px; padding: 0 22px;
+  background: linear-gradient(180deg, rgba(227,194,126,.20), rgba(227,194,126,.06)), rgba(18,16,20,.86); border: 1px solid rgba(227,194,126,.5); backdrop-filter: blur(10px); }
+.week svg { width: 30px; height: 30px; }
+.week .a { font-size: 17px; font-weight: 600; color: var(--gold-hi); }
+.week .b { font-size: 12.5px; color: var(--dim); margin-top: 2px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- 흰 선 아이콘 (1.6px) -->
+    <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 4a2 2 0 0 0-2 2v1h4V6a2 2 0 0 0-2-2zM7 20a2 2 0 0 1-2-2V7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9h6M10 12.5h6M10 16h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-scope" viewBox="0 0 24 24"><path d="M3.5 14.5l11-7 2.5 4-11 7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 6.5l3-2 2.5 4-3 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 16l-2 5M12 15l3 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 20c0-3.6 2.7-6 6-6s6 2.4 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M15.5 5.2a3 3 0 0 1 0 5.6M17.5 14.3c2 .8 3.5 2.8 3.5 5.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-hammer" viewBox="0 0 24 24"><path d="M13 6l5 5M9.5 9.5L4 15a2 2 0 0 0 0 2.8l2.2 2.2a2 2 0 0 0 2.8 0l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M11 4.5l3-1.5 7 7-1.5 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 7l2 3-2 3-2-3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-town" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 9.5V20h13V9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 4v14M15 6v14" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-sword" viewBox="0 0 24 24"><path d="M14.5 3.5H20.5V9.5L10 20l-6-6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 13l6 6M3 21l3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19C5 10 11 4 20 4c0 9-6 15-15 15z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 19l9-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#1d1814" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<div class="bg"></div>
+<div class="shade"></div>
+<div class="dust">
+  <i style="left:820px;top:210px"></i><i style="left:900px;top:330px;opacity:.4"></i><i style="left:760px;top:420px;opacity:.5"></i>
+  <i style="left:980px;top:160px;opacity:.35"></i><i style="left:700px;top:260px;opacity:.6;width:2px;height:2px"></i><i style="left:860px;top:520px;opacity:.3"></i>
+</div>
+<img class="hero" src="../../art/final/characters/C01_lina/C01_portrait_casual_smile.png" alt="">
+
+<div class="crumb">
+  <img src="../../art/src/ui/emblem_harwell.svg" alt="">
+  <div>
+    <div class="a">제1주 · 길드 하우스</div>
+    <div class="b">하웰 모험가 길드<span>/</span><span style="margin:0;color:var(--dim);font-size:16px">폐허</span></div>
+  </div>
+</div>
+
+<div class="res">
+  <div class="chip"><img src="../../art/src/ui/res_gold.svg"><b>300</b></div>
+  <div class="chip"><img src="../../art/src/ui/res_wood.svg"><b>2</b></div>
+  <div class="chip"><img src="../../art/src/ui/res_iron.svg"><b>0</b></div>
+  <div class="chip"><img src="../../art/src/ui/res_herb.svg"><b>0</b></div>
+  <div class="chip"><img src="../../art/src/ui/res_fame.svg"><b>0</b></div>
+  <div class="chip rank"><img src="../../art/src/ui/rank_0.svg" style="width:22px;height:22px"><b>동패</b></div>
+</div>
+<svg class="close" style="color:#eee"><use href="#i-x"/></svg>
+
+<div class="rail">
+  <svg style="color:#eee"><use href="#i-map"/></svg>
+  <span class="dot"><svg style="color:#eee"><use href="#i-mail"/></svg></span>
+  <svg style="color:#eee"><use href="#i-book"/></svg>
+  <svg style="color:#eee;margin-top:auto;margin-bottom:22px"><use href="#i-gear"/></svg>
+</div>
+
+<div class="panel">
+  <div class="ph">
+    <div><div class="k">THIS WEEK</div><h1>이번 주 의뢰</h1></div>
+    <div class="cnt">고른 의뢰 <b>1</b> / 2</div>
+  </div>
+  <div class="rows">
+    <div class="row sel">
+      <div class="mark" style="color:var(--gold-hi)"><svg><use href="#i-sword"/></svg></div>
+      <div class="t"><div class="nm">북쪽 마을의 도적</div><div class="ds">밤마다 내려와 곡식을 털어 가는 도적 떼</div>
+        <div class="tags"><span class="tag g">왕관</span><span class="tag">토벌</span><span class="tag">전투 2회</span></div></div>
+      <div class="rw"><div class="g"><img src="../../art/src/ui/res_gold.svg">220</div><div class="s">명성 +18</div></div>
+      <div class="check"><svg width="14" height="14"><use href="#i-ok"/></svg></div>
+    </div>
+    <div class="row">
+      <div class="mark" style="color:#cfe3c0"><svg><use href="#i-leaf"/></svg></div>
+      <div class="t"><div class="nm">숲의 덫사냥꾼 조사</div><div class="ds">도적과 내통한다는 소문의 사냥꾼</div>
+        <div class="tags"><span class="tag g">금저울 상회</span><span class="tag">정찰</span><span class="tag">조사</span></div></div>
+      <div class="rw"><div class="g"><img src="../../art/src/ui/res_gold.svg">220</div><div class="s">명성 +18</div></div>
+    </div>
+    <div class="row">
+      <div class="mark" style="color:#c9d6f0"><svg><use href="#i-book"/></svg></div>
+      <div class="t"><div class="nm">수도원 서고 정리</div><div class="ds">금서 목록이 맞지 않는 서고</div>
+        <div class="tags"><span class="tag g">새벽빛 교회</span><span class="tag">조사</span></div></div>
+      <div class="rw"><div class="g"><img src="../../art/src/ui/res_gold.svg">220</div><div class="s">명성 +18</div></div>
+    </div>
+  </div>
+  <div class="acts">
+    <div class="pill sub">의뢰 지도</div>
+    <div class="pill main">의뢰 확정 <small>· 하나 더 고르기</small></div>
+  </div>
+</div>
+
+<div class="build">
+  <div class="top"><div class="h">재건 공사<span>0 / 5</span></div><div class="nx">다음 · 지붕 수리</div></div>
+  <div class="track"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="labels"><span class="on">폐허</span><span>지붕</span><span>큰 홀</span><span>2층</span><span>별채</span><span>완공</span></div>
+  <div class="need"><span><img src="../../art/src/ui/res_gold.svg">300 / 400</span><span class="lack"><img src="../../art/src/ui/res_wood.svg">2 / 5</span></div>
+</div>
+
+<div class="line">
+  <div class="who">리나</div>
+  <div class="say">단장님! 게시판에 이번 주 의뢰가 붙었어요. 둘만 고를 수 있대요.</div>
+</div>
+
+<div class="dock">
+  <div class="tile"><svg style="color:#eee"><use href="#i-scroll"/></svg><span>위탁 의뢰</span><div class="n">3</div></div>
+  <div class="tile hov"><svg style="color:var(--gold-hi)"><use href="#i-scope"/></svg><span>스카우트</span><div class="n">2</div></div>
+  <div class="tile"><svg style="color:#eee"><use href="#i-people"/></svg><span>모험가 명부</span></div>
+  <div class="tile"><svg style="color:#eee"><use href="#i-hammer"/></svg><span>재건 공사</span></div>
+  <div class="tile"><svg style="color:#eee"><use href="#i-town"/></svg><span>마을로</span></div>
+  <div class="week"><svg style="color:var(--gold-hi)"><use href="#i-moon"/></svg><div><div class="a">주말을 맞는다</div><div class="b">의뢰를 마치면 열린다</div></div></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>길드 하우스 시안</title>
+<!-- 시안 1: 길드 하우스 (단장의 책상). 1600×900 기준. Chrome 으로 PNG 로 굽는다 (design/mockups/render.ps1) -->
+<style>
+@font-face { font-family: "SongMyung"; src: url("../../art/src/fonts/SongMyung-Regular.ttf"); }
+@font-face { font-family: "Hahmlet"; src: url("../../art/src/fonts/Hahmlet-VF.ttf"); font-weight: 100 900; }
+@font-face { font-family: "NotoKR"; src: url("file:///C:/Windows/Fonts/NotoSansKR-VF.ttf"); font-weight: 100 900; }
+
+:root {
+  --ink: #120c08;
+  --gold-hi: #fbeab8;
+  --gold: #d9b26a;
+  --gold-dk: #7c5520;
+  --cream: #f2e6cc;
+  --parch: #ead8b0;
+  --wax: #9e2a1e;
+  --blue: #27509e;
+  --metal: linear-gradient(180deg, #fff1c4 0%, #e6c27a 22%, #a8772e 50%, #6e4a18 52%, #c99a4a 80%, #f0d48e 100%);
+  --dark: linear-gradient(180deg, #2a1e15 0%, #170f0a 100%);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; background: #000; }
+body { font-family: "NotoKR", sans-serif; color: var(--cream); position: relative; }
+
+/* ── 배경 ── */
+.bg { position: absolute; inset: 0; background: url("../../art/final/backgrounds/scene/bg_guildhall_ruined.png") center / cover; filter: brightness(.78) saturate(.9); }
+.vig { position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 75% 70% at 55% 45%, transparent 40%, rgba(0,0,0,.65) 100%),
+    linear-gradient(180deg, rgba(8,5,3,.85) 0%, transparent 16%, transparent 66%, rgba(8,5,3,.92) 100%); }
+/* 먼지 빛줄기 */
+.ray { position: absolute; left: 820px; top: -40px; width: 380px; height: 760px; transform: rotate(18deg);
+  background: linear-gradient(180deg, rgba(255,226,160,.20), rgba(255,226,160,0) 85%); filter: blur(18px); mix-blend-mode: screen; }
+
+/* ── 리나 ── */
+.hero { position: absolute; left: -40px; bottom: -400px; height: 1240px; filter: drop-shadow(0 0 30px rgba(0,0,0,.6)); }
+
+/* ── 왼쪽 위: 길드 이름 ── */
+.crest { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 16px; padding: 20px 90px 18px 34px;
+  background: linear-gradient(90deg, rgba(10,6,4,.92) 0%, rgba(10,6,4,.78) 60%, transparent 100%); border-bottom: 1px solid rgba(217,178,106,.35); }
+.crest img { width: 76px; filter: drop-shadow(0 4px 6px rgba(0,0,0,.7)); }
+.crest .en { font-family: "Hahmlet"; font-weight: 500; font-size: 12px; letter-spacing: .32em; color: #c8a868; opacity: .9; }
+.crest .ko { font-family: "SongMyung"; font-size: 42px; line-height: 1.05;
+  background: linear-gradient(180deg, #fff6d6 0%, #f0cf86 45%, #b98a3c 100%); -webkit-background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 0 #2a1708) drop-shadow(0 4px 10px rgba(0,0,0,.8)); }
+.ribbon { display: inline-flex; align-items: center; gap: 10px; margin-top: 6px; padding: 4px 26px 5px 18px;
+  background: linear-gradient(180deg, #3a64b8, #1d3c7c); color: #f5ead0; font-family: "Hahmlet"; font-weight: 600; font-size: 15px; letter-spacing: .08em;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 50%, 100% 100%, 0 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), inset 0 -2px 0 rgba(0,0,0,.35); }
+.ribbon b { color: var(--gold-hi); }
+
+/* ── 오른쪽 위: 자원 ── */
+.res { position: absolute; right: 26px; top: 24px; padding: 2px; border-radius: 30px; background: var(--metal);
+  box-shadow: 0 6px 18px rgba(0,0,0,.6); }
+.res .in { display: flex; align-items: center; border-radius: 28px; padding: 6px 10px 6px 8px;
+  background: linear-gradient(180deg, #2b1f16, #120b07); box-shadow: inset 0 2px 6px rgba(0,0,0,.8), inset 0 -1px 0 rgba(255,220,150,.15); }
+.res .it { display: flex; align-items: center; gap: 7px; padding: 0 14px; position: relative; }
+.res .it + .it::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: linear-gradient(180deg, transparent, #6e5230, transparent); }
+.res img { width: 30px; height: 30px; filter: drop-shadow(0 2px 2px rgba(0,0,0,.6)); }
+.res .n { font-family: "Hahmlet"; font-weight: 700; font-size: 22px; color: #fff3d4; text-shadow: 0 2px 0 #000; }
+.res .rank { display: flex; align-items: center; gap: 6px; margin-left: 6px; padding: 4px 14px 4px 8px; border-radius: 20px;
+  background: linear-gradient(180deg, #8a5a2c, #4a2c12); box-shadow: inset 0 1px 0 rgba(255,220,170,.4); font-family: "Hahmlet"; font-weight: 700; color: #ffe3b8; font-size: 16px; }
+.res .rank img { width: 26px; height: 26px; }
+
+/* ── 리나 말풍선 ── */
+.say { position: absolute; left: 400px; top: 210px; width: 330px; padding: 2px; border-radius: 14px; background: var(--metal); box-shadow: 0 10px 24px rgba(0,0,0,.55); }
+.say .in { border-radius: 12px; padding: 14px 18px 16px; background: linear-gradient(180deg, rgba(36,26,18,.96), rgba(20,13,9,.96)); }
+.say .who { font-family: "Hahmlet"; font-weight: 700; color: var(--gold); font-size: 16px; letter-spacing: .05em; margin-bottom: 4px; }
+.say .line { font-size: 18px; line-height: 1.5; color: #f5ead2; }
+.say::after { content: ""; position: absolute; left: -12px; top: 40px; border: 12px solid transparent; border-right-color: #d9b26a; border-left: 0; }
+
+/* ── 오른쪽: 이번 주 의뢰 (양피지) ── */
+.notice { position: absolute; right: 60px; top: 100px; width: 470px; transform: rotate(-1.4deg); }
+.paper { position: relative; padding: 26px 34px 22px; color: #2a1a0e;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='470' height='440'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.035' numOctaves='5' seed='7'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .3  0 0 0 0 .12  0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+    radial-gradient(ellipse at 50% 40%, #f3e4c0 0%, #e2c994 70%, #c7a466 100%);
+  background-blend-mode: multiply;
+  box-shadow: inset 0 0 40px rgba(110,70,20,.55), inset 0 0 4px rgba(60,30,5,.6), 0 18px 34px rgba(0,0,0,.6);
+  clip-path: polygon(0% 1%, 6% 0%, 20% 1.2%, 38% 0.2%, 55% 1%, 74% 0%, 90% 1%, 100% 0.4%, 99.4% 20%, 100% 46%, 99.2% 70%, 100% 96%, 96% 100%, 80% 99%, 62% 100%, 40% 99.2%, 22% 100%, 4% 99.3%, 0% 100%, 0.8% 76%, 0% 50%, 0.6% 24%); }
+.paper h2 { font-family: "SongMyung"; font-weight: 400; font-size: 34px; text-align: center; color: #3a200c; letter-spacing: .06em; }
+.paper .sub { text-align: center; font-family: "Hahmlet"; font-size: 14px; color: #6b4a26; margin: 2px 0 14px; letter-spacing: .1em; }
+.q { display: flex; align-items: center; gap: 14px; padding: 11px 6px; border-top: 1px dashed rgba(90,55,20,.45); }
+.q:last-of-type { border-bottom: 1px dashed rgba(90,55,20,.45); }
+.seal { width: 42px; height: 42px; border-radius: 50%; flex: none; display: grid; place-items: center; font-family: "SongMyung"; font-size: 17px; color: #fbe6c6;
+  background: radial-gradient(circle at 35% 30%, #d0503a, #8e2014 70%); box-shadow: inset 0 -3px 4px rgba(0,0,0,.35), 0 2px 3px rgba(0,0,0,.4); }
+.seal.blue { background: radial-gradient(circle at 35% 30%, #5b86d6, #213f86 70%); }
+.seal.green { background: radial-gradient(circle at 35% 30%, #6fa058, #2c5a22 70%); }
+.q .t { flex: 1; }
+.q .nm { font-family: "Hahmlet"; font-weight: 700; font-size: 20px; color: #2c180a; }
+.q .ds { font-size: 13.5px; color: #5e4226; margin-top: 1px; }
+.q .rw { font-family: "Hahmlet"; font-weight: 700; font-size: 15px; color: #6a3e10; text-align: right; white-space: nowrap; }
+.q .rw small { display: block; font-weight: 500; font-size: 12px; color: #8a6a44; }
+.pin { position: absolute; top: -14px; left: 50%; width: 30px; height: 30px; margin-left: -15px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff8a6e, #a1281a 60%, #5a120a); box-shadow: 0 6px 8px rgba(0,0,0,.5); z-index: 2; }
+
+/* 금색 큰 버튼 */
+.cta { display: block; margin: 18px auto 0; width: 330px; padding: 2px; border-radius: 10px; background: var(--metal); box-shadow: 0 8px 18px rgba(60,30,0,.5), 0 0 26px rgba(255,200,90,.35); }
+.cta .in { border-radius: 8px; padding: 13px 0 14px; text-align: center;
+  background: linear-gradient(180deg, #7a1f17 0%, #5a140e 55%, #3d0c08 100%); box-shadow: inset 0 1px 0 rgba(255,190,160,.45), inset 0 -3px 6px rgba(0,0,0,.4); }
+.cta .a { font-family: "Hahmlet"; font-weight: 700; font-size: 22px; color: #ffe9bf; text-shadow: 0 2px 0 #2a0703; letter-spacing: .04em; }
+.cta .b { font-size: 13px; color: #f0c9a6; opacity: .9; }
+
+/* ── 재건 공사 진행 ── */
+.build { position: absolute; right: 60px; top: 584px; width: 470px; padding: 2px; border-radius: 12px; background: linear-gradient(180deg, #8a6430, #3a2610); box-shadow: 0 10px 20px rgba(0,0,0,.55); }
+.build .in { border-radius: 10px; padding: 12px 18px 14px; background: linear-gradient(180deg, rgba(34,24,17,.95), rgba(18,12,8,.95)); }
+.build .top { display: flex; justify-content: space-between; align-items: baseline; }
+.build .h { font-family: "Hahmlet"; font-weight: 700; color: var(--gold); font-size: 17px; letter-spacing: .06em; }
+.build .nx { font-size: 13.5px; color: #cdbb98; }
+.steps { display: flex; align-items: center; margin: 12px 4px 10px; }
+.steps i { flex: none; width: 22px; height: 22px; transform: rotate(45deg); border: 2px solid #5a4630; background: #1a120c; }
+.steps i.done { background: linear-gradient(135deg, #fff0bf, #c9953e); border-color: #fff0bf; box-shadow: 0 0 10px rgba(255,210,120,.7); }
+.steps b { flex: 1; height: 3px; background: #3e3020; }
+.steps b.done { background: linear-gradient(90deg, #f0d08a, #a87a34); }
+.bar { height: 10px; border-radius: 6px; background: #0c0805; box-shadow: inset 0 1px 3px #000; overflow: hidden; }
+.bar span { display: block; height: 100%; width: 75%; background: linear-gradient(180deg, #ffe39a, #c18a2c); box-shadow: 0 0 8px rgba(255,200,90,.6); }
+.need { display: flex; gap: 16px; margin-top: 8px; font-family: "Hahmlet"; font-weight: 600; font-size: 14px; color: #e9dcc0; }
+.need img { width: 18px; vertical-align: -3px; margin-right: 4px; }
+.need .lack { color: #ff8f78; }
+
+/* ── 아래: 메뉴 독 ── */
+.dock { position: absolute; left: 470px; right: 40px; bottom: 22px; display: flex; gap: 14px; justify-content: flex-end; }
+.btn { position: relative; width: 146px; height: 134px; padding: 2px; border-radius: 16px; background: var(--metal); box-shadow: 0 10px 20px rgba(0,0,0,.6); }
+.btn .in { height: 100%; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><filter id='w'><feTurbulence type='fractalNoise' baseFrequency='.012 .25' numOctaves='3' seed='3'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .32  0 0 0 0 .16  0 0 0 .35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23w)'/></svg>"),
+    linear-gradient(180deg, #3b2a1d 0%, #1d140d 100%);
+  box-shadow: inset 0 0 0 1px rgba(255,220,150,.18), inset 0 10px 18px rgba(255,210,140,.08), inset 0 -10px 20px rgba(0,0,0,.6); }
+.btn img { width: 66px; height: 66px; filter: drop-shadow(0 4px 4px rgba(0,0,0,.6)); }
+.btn .l { font-family: "Hahmlet"; font-weight: 700; font-size: 18px; color: #f3dfb2; text-shadow: 0 2px 0 #000; }
+.btn .s { position: absolute; bottom: 9px; left: 0; right: 0; text-align: center; font-size: 12px; color: #b9a57f; }
+.btn.hot { box-shadow: 0 0 0 2px rgba(255,230,160,.5), 0 0 28px rgba(255,200,100,.55), 0 10px 20px rgba(0,0,0,.6); transform: translateY(-6px); }
+.btn.hot .in { background: linear-gradient(180deg, #5a3f24 0%, #2a1b10 100%); }
+.badge { position: absolute; top: -9px; right: -9px; min-width: 32px; height: 32px; padding: 0 9px; border-radius: 16px; display: grid; place-items: center;
+  font-family: "Hahmlet"; font-weight: 800; font-size: 17px; color: #fff;
+  background: radial-gradient(circle at 35% 30%, #ff6a50, #b31d12 70%); border: 2px solid #fbe3b0; box-shadow: 0 3px 6px rgba(0,0,0,.6); }
+.btn .in.slim { gap: 4px; }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="ray"></div>
+<div class="vig"></div>
+<img class="hero" src="../../art/final/characters/C01_lina/C01_portrait_casual_smile.png" alt="">
+
+<div class="crest">
+  <img src="../../art/src/ui/emblem_harwell.svg" alt="">
+  <div>
+    <div class="en">HARWELL ADVENTURERS' GUILD</div>
+    <div class="ko">하웰 모험가 길드</div>
+    <div class="ribbon"><b>제 1 주</b> 길드 하우스 · 폐허</div>
+  </div>
+</div>
+
+<div class="res"><div class="in">
+  <div class="it"><img src="../../art/src/ui/res_gold.svg"><span class="n">300</span></div>
+  <div class="it"><img src="../../art/src/ui/res_wood.svg"><span class="n">2</span></div>
+  <div class="it"><img src="../../art/src/ui/res_iron.svg"><span class="n">0</span></div>
+  <div class="it"><img src="../../art/src/ui/res_herb.svg"><span class="n">0</span></div>
+  <div class="it"><img src="../../art/src/ui/res_fame.svg"><span class="n">0</span></div>
+  <div class="rank"><img src="../../art/src/ui/rank_0.svg">동패</div>
+</div></div>
+
+<div class="say"><div class="in">
+  <div class="who">리나</div>
+  <div class="line">단장님! 게시판에 이번 주 의뢰가 붙었어요. 둘만 고를 수 있대요.</div>
+</div></div>
+
+<div class="notice">
+  <div class="pin"></div>
+  <div class="paper">
+    <h2>이번 주 의뢰</h2>
+    <div class="sub">셋 중 둘을 고른다</div>
+    <div class="q"><div class="seal">왕</div><div class="t"><div class="nm">북쪽 마을의 도적</div><div class="ds">밤마다 곡식을 털어 가는 도적 떼</div></div><div class="rw">금화 220<small>토벌 · 전투</small></div></div>
+    <div class="q"><div class="seal green">상</div><div class="t"><div class="nm">숲의 덫사냥꾼 조사</div><div class="ds">도적과 내통한다는 소문의 사냥꾼</div></div><div class="rw">금화 220<small>정찰 · 조사</small></div></div>
+    <div class="q"><div class="seal blue">교</div><div class="t"><div class="nm">수도원 서고 정리</div><div class="ds">금서 목록이 맞지 않는 서고</div></div><div class="rw">금화 220<small>조사</small></div></div>
+    <div class="cta"><div class="in"><div class="a">의뢰 게시판 열기</div><div class="b">지도에서 의뢰를 고른다</div></div></div>
+  </div>
+</div>
+
+<div class="build"><div class="in">
+  <div class="top"><span class="h">재건 공사 · 0 / 5</span><span class="nx">다음: 지붕 수리</span></div>
+  <div class="steps"><i class="done"></i><b></b><i></i><b></b><i></i><b></b><i></i><b></b><i></i><b></b><i></i></div>
+  <div class="bar"><span></span></div>
+  <div class="need"><span><img src="../../art/src/ui/res_gold.svg">300 / 400</span><span class="lack"><img src="../../art/src/ui/res_wood.svg">2 / 5</span></div>
+</div></div>
+
+<div class="dock">
+  <div class="btn"><div class="in"><img src="../../art/src/ui/m_jobs.svg"><span class="l">위탁 의뢰</span></div><div class="badge">3</div></div>
+  <div class="btn hot"><div class="in"><img src="../../art/src/ui/m_scout.svg"><span class="l">스카우트실</span></div><div class="badge">2</div></div>
+  <div class="btn"><div class="in"><img src="../../art/src/ui/m_roster.svg"><span class="l">모험가 명부</span></div></div>
+  <div class="btn"><div class="in"><img src="../../art/src/ui/m_build.svg"><span class="l">재건 공사</span></div></div>
+  <div class="btn"><div class="in"><img src="../../art/src/ui/m_book.svg"><span class="l">연대기</span></div></div>
+  <div class="btn"><div class="in"><img src="../../art/src/ui/m_town.svg"><span class="l">마을로</span></div></div>
+</div>
+</body>
+</html>
