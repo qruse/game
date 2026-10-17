@@ -34,6 +34,33 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - 기준은 리나(표준 미소녀 얼굴). 다른 동료는 리나와 나란히 세웠을 때 실루엣만 봐도, 얼굴만 잘라 봐도 누군지 알 수 있어야 한다
 - 다른 동료의 그림을 참조로 붙일 때는 **화풍·크기만** 따르고 얼굴은 따르지 않는다고 프롬프트에 적는다
 
+### 새 캐릭터 개성 체크리스트 (2026-10-17 사용자 지시: "앞으로 만들 캐릭터들 개성도 잘 살려야 됨")
+지금 승인된 캐릭터(리나·세실·아델하이트·미리엄)는 그대로 두고, **아직 그리지 않은 모든 캐릭터**(동료, NPC, 과거 길드원, 확장팩)는 처음 그리기 전에 아래 8개를 채운다. 하나라도 기존 캐릭터와 겹치면 바꾼다.
+
+| # | 항목 | 기준 |
+|---|---|---|
+| 1 | 한 줄 콘셉트 | 기존 캐릭터와 겹치지 않는 역할·성격 (예: 표준 기사, 톰보이 도둑, 시큰둥한 책벌레, 속을 모를 누나) |
+| 2 | 실루엣 | 머리 모양과 옷 윤곽만 검게 칠해도 누군지 알 수 있다 |
+| 3 | 대표 색 | 아래 색 표에서 아직 안 쓴 색 |
+| 4 | 얼굴 (FACE) | 눈매, 눈썹, 피부색, 얼굴형, 입 버릇, 표식(점·주근깨·흉터·문신) 중 최소 4개가 기존과 다르다 |
+| 5 | 키·체형 | 리나 기준으로 크다·작다·다부지다·가늘다를 적는다 |
+| 6 | 상징 소품·버릇 | 그 캐릭터만의 물건이나 몸짓 하나 |
+| 7 | 말투 | 대사 한 줄만 봐도 누군지 알 수 있는 말버릇 |
+| 8 | 반전 매력 | 겉모습과 다른 의외의 면 하나 (일상복·호감도 장면에서 쓴다) |
+
+**대표 색 표 (겹치지 않게)**
+
+| 캐릭터 | 대표 색 |
+|---|---|
+| 리나 | 진홍 + 크림 |
+| 세실 | 짙은 녹색 + 갈색 가죽 |
+| 아델하이트 | 남색 + 검정 |
+| 미리엄 | 아이보리 + 금 |
+| 로웬 | 겨자 + 자주 |
+| 고드릭 | 회색 + 바랜 파랑 |
+| 이졸데 | 검정 + 와인 (리나의 진홍과 구별되게 어두운 와인색) |
+| 카샤 | 흰색 + 회청색 + 털 갈색 |
+
 ## 노출 수준 규칙
 
 | 등급 | 허용 범위 |
@@ -104,9 +131,11 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - 특기: 공연, 기만 (매력) · 노출: 일상복 **높음** (무대 의상)
 - 성격: 능청스러운 거짓말쟁이이자 정보통. 노래 실력은 진짜다
 - 이야기: 옛 길드의 영웅담을 노래하며 떠돌던 음유시인. 길드가 재건된다는 소문을 듣고 찾아온다
-- MUST KEEP: 붉은 기 도는 주황색 반묶음 머리, 호박색 눈, 류트
+- MUST KEEP: 붉은 기 도는 주황색 반묶음 머리, 호박색 눈, 류트, **개성: 올리브빛 피부, 한쪽 눈썹을 늘 치켜올린 능청스러운 표정, 양 볼 보조개, 눈가에 그린 작은 별 무대 화장, 하트형 얼굴과 뾰족한 턱, 보통 키(리나와 비슷)**
+- 말투: 노래하듯 과장되고 말끝을 올린다. "자, 여기서 퀴즈~ 내가 한 말 중 진짜는 몇 개게?"
+- 반전 매력: 거짓말쟁이인데 노래할 때만은 절대 거짓말을 안 한다
   - 전투복 전용(일상복에는 넣지 않음): 깃털 베레모, 겨자색·자주색 두 가지 색 더블릿
-- BODY: `Rowen, a 22-year-old adult woman bard, reddish-orange hair in a half-up ponytail, amber eyes, sly playful smile, curvy figure`
+- BODY: `Rowen, a 22-year-old adult woman bard, reddish-orange hair in a half-up ponytail, amber eyes. FACE: warm olive skin, wide expressive almond eyes with thick lashes, one eyebrow always raised in amusement, deep dimples in both cheeks, a wide theatrical sly smile, a small heart-shaped face with a pointed chin, a tiny painted gold star beside her left eye as stage makeup; average height like Lina, curvy figure`
 - COMBAT: `wearing a feathered beret, a bicolor doublet in mustard yellow and plum purple, dark hose, short travel boots, a lute slung on her back`
 - CASUAL: `adult woman, wearing a tavern stage costume: a plum corset bodice with bare shoulders and a modest neckline, a layered ruffled skirt with a high slit, dark thigh-high stockings, small bells on one ankle, a feather hairpin, simple heeled shoes, holding her lute mid-performance, winking, no beret`
 
@@ -114,9 +143,11 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - 특기: 조사 (지능), 운동 (힘) · 노출: 없음
 - 성격: 무뚝뚝하고 말수가 적다. 술을 좋아한다
 - 이야기: 옛 길드 몰락 사건의 **생존자.** 진실을 알지만 말하지 않는다(H1 메인 미스터리의 열쇠)
-- MUST KEEP: 짧은 회색 머리와 수염, 오른쪽 눈의 가죽 안대
+- MUST KEEP: 짧은 회색 머리와 수염, 오른쪽 눈의 가죽 안대, **개성: 한 번 부러졌던 코, 굵고 처진 눈썹, 깊은 눈가 주름, 안대 위아래로 이어진 흉터, 볕에 탄 거친 피부, 리나보다 머리 하나 큰 떡 벌어진 몸**
+- 말투: 짧게 끊는다. "…그래." "마셔." 꼭 필요한 말만 한다
+- 반전 매력: 아이들과 동물에게는 서툴게 다정하다
   - 전투복 전용(일상복에는 넣지 않음): 낡은 갬비슨, 은빛 등불 문양이 바랜 망토, 석궁
-- BODY: `Godric, a 55-year-old veteran, short grey hair and trimmed grey beard, leather eyepatch over his right eye, broad weathered build, stern weary face`
+- BODY: `Godric, a 55-year-old veteran, short grey hair and trimmed grey beard, leather eyepatch over his right eye. FACE: a once-broken crooked nose, thick heavy drooping eyebrows, deep crow's feet and forehead lines, an old scar running above and below the eyepatch, sun-weathered rough skin, a stern weary face; a head taller than Lina, broad barrel-chested build, NOT a handsome young man`
 - COMBAT: `wearing a worn quilted gambeson, a faded cloak with a tarnished silver lantern emblem, a heavy crossbow`
 - CASUAL: `wearing a rolled-sleeve linen shirt and a leather apron, plain wool trousers, worn ankle boots, holding a wooden tankard of ale, a faint rare smile, no crossbow, no cloak`
 
@@ -128,19 +159,24 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - 특기: 기만, 설득 (매력) · 노출: 일상복 **높음** (귀족 드레스)
 - 성격: 오만하고 자존심이 세지만 약자에게 약하다
 - 이야기: 가문이 몰락해 결투 대리인으로 생계를 잇는 영애. 개인 퀘스트는 가문 몰락의 진실
-- MUST KEEP: 세로 롤 금발 트윈테일, 진홍색 눈, 가문 문장 반지
+- MUST KEEP: 세로 롤 금발 트윈테일, 진홍색 눈, 가문 문장 반지, **개성: 높은 광대와 곧은 콧날의 날카로운 귀족 얼굴, 내려다보는 듯한 긴 속눈썹의 아몬드 눈, 각지게 올라간 가는 눈썹, 도자기처럼 흰 피부, 와인색 입술의 도도한 입매, 아랫입술의 아주 작은 흉터(결투 상처), 꼿꼿한 자세, 리나와 비슷한 키에 가늘다**
+- 대표 색: 검정 + 와인 (리나의 진홍과 구별)
+- 말투: 고풍스러운 아가씨 말투. "그 정도로 저를 이기실 생각이셨나요?" 진심일 때만 반말이 튀어나온다
+- 반전 매력: 가난해서 몰래 바느질 부업을 한다
   - 전투복 전용(일상복에는 넣지 않음): 검은색·진홍색 승마복풍 결투복, 레이피어
-- BODY: `Isolde, a 21-year-old adult woman fallen noble, golden blonde twin tails in drill curls, crimson eyes, proud haughty face, elegant slender figure, a signet ring with a family crest`
-- COMBAT: `wearing a black and crimson riding-style dueling coat with silver buttons, fitted breeches, tall black boots, a rapier`
+- BODY: `Isolde, a 21-year-old adult woman fallen noble, golden blonde twin tails in drill curls, crimson eyes, a signet ring with a family crest. FACE: sharp aristocratic features with high cheekbones and a straight narrow nose, almond eyes with long dark lashes and a haughty downward gaze, thin sharply angled eyebrows, porcelain-white skin, wine-colored lips in a proud little pout, a tiny dueling scar on her lower lip; ramrod-straight posture, Lina's height, slender elegant figure`
+- COMBAT: `wearing a black and deep wine-red riding-style dueling coat with silver buttons, fitted breeches, tall black boots, a rapier`
 - CASUAL: `adult woman, wearing a black and crimson evening gown with an off-shoulder neckline and a high leg slit, long black silk gloves, a velvet choker bearing her family crest, black heeled shoes, holding a folded fan, haughty elegant pose, no rapier`
 
 ### C08 카샤 (Kasha / カーシャ) · 19세 · 원거리 딜러 · 북방 사냥꾼
 - 특기: 은신 (민첩), 운동 (힘) · 노출: 일상복 **중간**
 - 성격: 과묵하고 자연을 사랑한다. 늑대와는 말이 통한다
 - 이야기: 북방 숲에서 내려온 사냥꾼. 늑대 "스콜"과 함께 다닌다
-- MUST KEEP: 흰 머리 느슨하게 땋은 장발, 청회색 눈, 회색 늑대 스콜
+- MUST KEEP: 흰 머리 느슨하게 땋은 장발, 청회색 눈, 회색 늑대 스콜, **개성: 바람에 붉어진 볼과 코끝, 흰 눈썹, 넓게 떨어진 차분한 눈, 곧고 또렷한 콧날, 턱에 세로로 그은 푸른 문신 두 줄(북방 부족 표시), 좀처럼 웃지 않는 작은 입, 리나보다 크고 다부진 체격**
+- 말투: 단어 몇 개로만 말한다. "…눈 온다. 내일." 그런데 늑대 스콜에게는 길고 다정하게 말한다
+- 반전 매력: 단 음식 앞에서 무너진다
   - 전투복 전용(일상복에는 넣지 않음): 털 달린 갈색 망토, 롱보우
-- BODY: `Kasha, a 19-year-old adult woman northern huntress, long white hair in loose braids, blue-grey eyes, calm quiet face, a large grey wolf companion`
+- BODY: `Kasha, a 19-year-old adult woman northern huntress, long white hair in loose braids, blue-grey eyes, a large grey wolf companion. FACE: fair skin with wind-reddened cheeks and nose tip, white eyebrows, wide-set calm eyes, a strong straight nose, two thin vertical blue tribal tattoo lines on her chin, a small serious mouth that rarely smiles; taller than Lina, sturdy athletic build`
 - COMBAT: `wearing a brown fur-trimmed cloak over leather hunting garb, a longbow and a quiver of arrows`
 - CASUAL: `adult woman, wearing a Nordic-style embroidered linen dress with bare shoulders, a fur shawl draped loosely on her arms, a flower crown, barefoot on grass, the wolf resting beside her, no bow, no quiver`
 
@@ -152,8 +188,8 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 |---|---|---|---|
 | N01 | 마르타 (Martha) | 선술집 주인, 길드의 오랜 이웃 | `Martha, a boisterous big-hearted tavern keeper in her early 40s, broad sturdy plump build, strong forearms with rolled sleeves, hands on hips with a wooden ladle, faded green kerchief over an auburn bun with grey streaks, freckles across a wide nose, ruddy cheeks, beauty mark by the mouth, brass hoop earrings, stained apron` |
 | N02 | 공증인 바실 (Basil) | 길드 재건 서류를 관리하는 공증인 | `Basil, a tall lanky fastidious notary in his late 30s, long narrow face, aquiline nose, thin mustache and small pointed goatee, small round spectacles low on the nose, slicked-back hair with a widow's peak, ink-stained fingers, quill behind ear, black scholar's robe, brass key ring and wax seal stamp on the belt, ledger clutched to his chest` |
-| N03 | 영주 오스왈드 (Oswald) | 지역 영주, 속을 알 수 없다 | `Lord Oswald, a stately nobleman in his 50s, fur-lined mantle, gold chain of office, neatly trimmed beard` |
-| N04 | 주교 엘리노어 (Eleanor) | 수도원과 교회의 권력자 | `Bishop Eleanor, an elderly stern woman, white and gold vestments, mitre, crozier` |
+| N03 | 영주 오스왈드 (Oswald) | 지역 영주, 속을 알 수 없다 | `Lord Oswald, a stately nobleman in his mid 50s, handsome in a cold calculating way, silver-streaked dark hair swept back, a sharp pointed goatee, heavy-lidded pale grey eyes that measure everything, a thin polite smile, faint lines at the eyes and mouth, tall lean posture, fur-lined mantle, gold chain of office, rings on gloved fingers, NOT a young man` |
+| N04 | 주교 엘리노어 (Eleanor) | 수도원과 교회의 권력자 | `Bishop Eleanor, a woman in her late 60s with a graceful dignified face, silver hair pinned under the mitre, high cheekbones, piercing pale blue eyes, deep but elegant wrinkles, tight thin lips, upright regal posture, white and gold vestments, mitre, crozier, NOT a young woman` |
 | N06 | 가면의 남자 | 흑막 | `a mysterious masked figure, plain white porcelain mask, black hooded cloak, faceless and unsettling` |
 | N07 | 마을 사람 (남) | 범용 의뢰인 | `a sturdy weathered farmer in his 40s, short scruffy beard, crooked nose, frayed straw hat, patched linen tunic, pitchfork` |
 | N08 | 마을 사람 (여) | 범용 의뢰인 | `a village woman in her early 30s, round freckled face, thick dark braid, faded blue headscarf, wool dress and worn apron, basket of eggs` |
@@ -166,14 +202,15 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 > 공통 의상 요소: **파란 서코트/망토에 은빛 등불 문장.** 현재 길드 재건 후 쓰일 문장과 같다.
 
 ### P01 에드릭 (Edric / エドリック) · 40대 · 전 길드장 · 지휘관
-- 이야기: 몰락 사건의 중심. 현재는 행방불명
-- MUST KEEP: 짧게 다듬은 흑갈색 머리와 수염, 회색 눈, 손등의 흉터, 파란 서코트의 은빛 등불 문장, 장검과 길드장의 등불 모양 펜던트
-- PROMPT: `Edric, a charismatic guildmaster in his early 40s, neatly trimmed dark brown hair and short beard, grey eyes, scarred hands, wearing a blue surcoat with a silver lantern emblem over a mail shirt, a lantern-shaped silver pendant, a longsword, warm confident smile`
+- 이야기: 30년 전 재앙을 쓰러뜨린 **용사**. 몰락 사건의 중심이고 현재는 행방불명. 사실은 일행 중 가장 약했고, 사람을 믿고 맞는 자리에 세우는 힘으로 이겼다 (docs/02 8.0절)
+- MUST KEEP: 짧게 다듬은 흑갈색 머리와 수염, 회색 눈, 손등의 흉터, 파란 서코트의 은빛 등불 문장, 장검과 길드장의 등불 모양 펜던트, **개성: 잘생긴 영웅상이 아니라 친근하고 평범한 얼굴, 웃으면 눈가에 깊게 접히는 주름, 살짝 휜 코, 보통 체격(알도보다 작고 가늘다)**
+- 말버릇: "등불은 싸우지 않는다. 길을 비출 뿐이다."
+- PROMPT: `Edric, a guildmaster in his early 40s with a friendly ordinary face rather than a handsome hero face, neatly trimmed dark brown hair and short beard, kind grey eyes with deep laugh lines, a slightly crooked nose, scarred hands, average build smaller than a knight, wearing a blue surcoat with a silver lantern emblem over a mail shirt, a lantern-shaped silver pendant, a longsword, warm trusting smile`
 
 ### P02 기사 알도 (Sir Aldo / アルド) · 40대 · 탱커 · 리나의 아버지
 - 이야기: 몰락 때 죽었다고 알려져 있다. 리나와 닮은 얼굴
-- MUST KEEP: **리나와 같은 갈색 머리와 연보라색 눈**, 짧은 머리, 듬직한 체격, 리나의 것과 같은 흰 바탕 붉은 셰브런 방패(리나가 물려받은 방패), 파란 서코트의 은빛 등불 문장
-- PROMPT: `Sir Aldo, a broad-shouldered knight in his 40s, short chestnut-brown hair, pale violet eyes, kind but stern face resembling his daughter, wearing chainmail and a blue surcoat with a silver lantern emblem, a white heater shield with a red chevron, a longsword`
+- MUST KEEP: **리나와 같은 갈색 머리와 연보라색 눈**, 짧은 머리, 듬직한 체격, **개성: 각진 턱과 짧은 턱수염, 굵은 일자 눈썹, 리나를 닮은 순한 눈매, 일행 중 가장 큰 키**, 리나의 것과 같은 흰 바탕 붉은 셰브런 방패(리나가 물려받은 방패), 파란 서코트의 은빛 등불 문장
+- PROMPT: `Sir Aldo, a broad-shouldered knight in his 40s, the tallest of the party, short chestnut-brown hair, pale violet eyes, a square jaw with a short beard, thick straight eyebrows, kind gentle eyes resembling his daughter, wearing chainmail and a blue surcoat with a silver lantern emblem, a white heater shield with a red chevron, a longsword`
 
 ### P03 젊은 고드릭 (Young Godric / 若きゴドリック) · 30세 · 석궁수
 - 이야기: 현재의 고드릭. 아직 두 눈이 있고 잘 웃는다
@@ -182,8 +219,8 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 
 ### P04 모르칸트 (Morcant / モルカント) · 30대 · 길드의 검사 (회상 속 NPC)
 - 이야기: **훗날의 흑기사.** 회상마다 표정과 태도가 조금씩 어두워진다
-- MUST KEEP: 어깨까지 오는 검은 머리, 날카로운 검은 눈, 왼쪽 눈썹의 흉터, 파란 서코트의 은빛 등불 문장, 대검
-- PROMPT: `Morcant, a lean swordsman in his 30s, shoulder-length black hair, sharp dark eyes, a scar through his left eyebrow, wearing dark plate pieces over a blue surcoat with a silver lantern emblem, a greatsword on his back, an easy smile that does not reach his eyes`
+- MUST KEEP: 어깨까지 오는 검은 머리, 날카로운 검은 눈, 왼쪽 눈썹의 흉터, **개성: 움푹 들어간 볼, 창백한 피부, 깊게 꺼진 눈, 얇은 입술, 마르고 길쭉한 체형**, 파란 서코트의 은빛 등불 문장, 대검
+- PROMPT: `Morcant, a lean lanky swordsman in his 30s, shoulder-length black hair, sharp deep-set dark eyes, hollow cheeks, pale skin, thin lips, a scar through his left eyebrow, wearing dark plate pieces over a blue surcoat with a silver lantern emblem, a greatsword on his back, an easy smile that does not reach his eyes`
 
 ---
 
