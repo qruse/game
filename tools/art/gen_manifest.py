@@ -41,10 +41,6 @@ chars = {
          [("skill1", "a lute with rising golden notes"),
           ("skill2", "a crescent moon with drifting sleepy notes"),
           ("ult", "swirling enchanted ribbons of music")]),
- "C06": ("godric", "고드릭", "aiming the heavy crossbow with his one eye, a bolt glowing with silver light",
-         [("skill1", "a crossbow bolt piercing through armor"),
-          ("skill2", "a rope snare trap on the ground"),
-          ("ult", "a silver-glowing crossbow bolt in flight")]),
  "C07": ("isolde", "이졸데", "a lightning-fast rapier thrust leaving a crimson trail of rose petals",
          [("skill1", "a rapier parry with bright sparks"),
           ("skill2", "a thrown white dueling glove"),
@@ -109,9 +105,9 @@ for nid, slug, ko, ph, n in npcs:
                 f"EDIT (face mask only, see style-guide 3.1): change only the facial expression to: {d}.",
                 [neutral], f"{base}/{nid}_portrait_{e}.png", "얼굴 영역만 편집")
 
-# past guild (flashbacks): P01-P03 playable, P04 NPC
+# past guild (flashbacks): P01-P02 playable, P04 NPC (P03 Godric removed 2026-10-17)
 past = [("P01", "edric", "에드릭", True), ("P02", "aldo", "기사 알도", True),
-        ("P03", "young_godric", "젊은 고드릭", True), ("P04", "morcant", "모르칸트", False)]
+        ("P04", "morcant", "모르칸트", False)]
 for pid, slug, ko, playable in past:
     base = f"art/final/past/{pid}_{slug}"
     ref = f"art/refs/{pid}_ref.png"
@@ -204,8 +200,7 @@ cgs = [
  ("cg_ch1_inheritance", "P1", "1장 오프닝: 폐허 길드 상속", "Lina standing alone in the ruined guild hall, holding the rusted guild key out toward the viewer (the player), light through broken windows.", ["C01"]),
  ("cg_ch1_end", "P2", "1장 엔딩", "The first companions celebrating around a campfire in the ruined guild hall.", ["C01", "C02", "C03", "C04"]),
  ("cg_ch2_key", "P2", "2장 핵심 장면", "Adelheid confronting the Fallen Abbot in the candle-lit catacombs.", ["C03"]),
- ("cg_ch3_climax", "P2", "3장 클라이맥스", "Godric facing the Black Knight on a castle rampart at night, recognizing the old scratched-off mark on his shield.", ["C06"]),
- ("cg_ending", "P2", "엔딩", "The fully restored guild hall with all companions gathered under the blue guild banner with the silver well-and-crossed-swords emblem.", ["C01", "C02", "C03", "C04", "C05", "C06"]),
+ ("cg_ending", "P2", "엔딩", "The fully restored guild hall with all companions gathered under the blue guild banner with the silver well-and-crossed-swords emblem.", ["C01", "C02", "C03", "C04", "C05"]),
  ("cg_C07_quest_end", "P2", "이졸데 개인 퀘스트 엔딩", "Isolde kneeling at her family's ruined manor, holding her signet ring.", ["C07"]),
  ("cg_C08_quest_end", "P2", "카샤 개인 퀘스트 엔딩", "Kasha and her wolf on a snowy northern ridge at dawn.", ["C08"]),
 ]
@@ -215,7 +210,6 @@ affection = {
  "C03": ("P1", "Adelheid asleep at a candle-lit desk piled with books, the viewer's cloak draped over her shoulders, a bookmark with the guild crest in her hand"),
  "C04": ("P1", "Miriam by a moonlit spring without her veil, reaching out her hand toward the viewer, gentle mysterious smile"),
  "C05": ("P2", "Rowen on the tavern stage singing a song clearly dedicated to the viewer, the crowd blurred, spotlight of candlelight"),
- "C06": ("P2", "Godric and the viewer sharing ale at the restored guild hearth, Godric finally laughing, a faded guild-crest badge on the table"),
 }
 for cid, (ph, ex) in affection.items():
     cgs.append((f"cg_affection_{cid}", ph, f"{chars[cid][1]} 호감도 최대 CG",
@@ -225,9 +219,9 @@ for gid, ph, ko, ex, cs in cgs:
     add(gid, ph, "cg", ";".join(cs), ko, ex, [ANCHOR] + [f"art/refs/{c}_ref_{of}.png" for c in cs],
         f"art/final/cg/{gid}.png")
 
-add("mk_key_visual", "P2", "cg", "C01;C02;C03;C04;C05;C06", "키 비주얼 (로고 없음)",
+add("mk_key_visual", "P2", "cg", "C01;C02;C03;C04;C05", "키 비주얼 (로고 없음)",
     "Game key visual: the companions posed heroically before the restored guild hall under the blue guild banner with the silver well-and-crossed-swords emblem. Leave empty space at the top for a logo.",
-    [ANCHOR] + [f"art/refs/C0{i}_ref_combat.png" for i in range(1, 7)], "art/final/marketing/mk_key_visual.png",
+    [ANCHOR] + [f"art/refs/C0{i}_ref_combat.png" for i in range(1, 6)], "art/final/marketing/mk_key_visual.png",
     "Steam 캡슐, 앱 아이콘은 정식 제목이 정해진 뒤 이 이미지에서 파생")
 
 for cid in ["C07", "C08"]:
@@ -240,7 +234,7 @@ for cid in ["C07", "C08"]:
 S33_IDS = {"bg_town_harwell", "bg_smithy", "bg_general_store", "bg_chief_house"}
 S03_IDS = {"C01_portrait_combat_neutral", "C01_portrait_combat_smile", "C01_sd_idle", "C01_sd_attack"}
 CHAR_STEPS = {"C02": ("S07", "S08"), "C03": ("S09", "S10"), "C04": ("S11", "S12"),
-              "C05": ("S19", "S20"), "C06": ("S21", "S22"), "C07": ("S23", "S24"), "C08": ("S25", "S26")}
+              "C05": ("S19", "S20"), "C07": ("S23", "S24"), "C08": ("S25", "S26")}
 
 def step_of(r):
     i, ph, fmt, subj = r["id"], r["phase"], r["format"], r["subject"]
@@ -255,7 +249,7 @@ def step_of(r):
     if subj in CHAR_STEPS and fmt != "cg":
         ref_step, set_step = CHAR_STEPS[subj]
         return ref_step if fmt == "ref_sheet" else set_step
-    if subj in ("P01", "P02", "P03", "P04"):
+    if subj in ("P01", "P02", "P04"):
         return "S13" if (fmt == "ref_sheet" or i == "P04_portrait_neutral") else "S14"
     if ph == "P1":
         if subj[:1] in ("E", "B"): return "S15"

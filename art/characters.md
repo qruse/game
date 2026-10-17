@@ -57,7 +57,6 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 | 아델하이트 | 남색 + 검정 |
 | 미리엄 | 아이보리 + 금 |
 | 로웬 | 겨자 + 자주 |
-| 고드릭 | 회색 + 바랜 파랑 |
 | 이졸데 | 검정 + 와인 (리나의 진홍과 구별되게 어두운 와인색) |
 | 카샤 | 흰색 + 회청색 + 털 갈색 |
 | 노라 (NPC 부관) | 청록 + 놋쇠 |
@@ -140,22 +139,6 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - COMBAT: `wearing a feathered beret, a bicolor doublet in mustard yellow and plum purple, dark hose, short travel boots, a lute slung on her back`
 - CASUAL: `adult woman, wearing a tavern stage costume: a plum corset bodice with bare shoulders and a modest neckline, a layered ruffled skirt with a high slit, dark thigh-high stockings, small bells on one ankle, a feather hairpin, simple heeled shoes, holding her lute mid-performance, winking, no beret`
 
-### C06 고드릭 (Godric / ゴドリック) · 55세 · 원거리 딜러 · 노병 석궁수
-- 특기: 조사 (지능), 운동 (힘) · 노출: 없음
-- 성격: 무뚝뚝하고 말수가 적다. 술을 좋아한다
-- 이야기: 옛 길드 몰락 사건의 **생존자.** 진실을 알지만 말하지 않는다(H1 메인 미스터리의 열쇠)
-- MUST KEEP: 짧은 회색 머리와 수염, 오른쪽 눈의 가죽 안대, **개성: 한 번 부러졌던 코, 굵고 처진 눈썹, 깊은 눈가 주름, 안대 위아래로 이어진 흉터, 볕에 탄 거친 피부, 리나보다 머리 하나 큰 떡 벌어진 몸**
-- 말투: 짧게 끊는다. "…그래." "마셔." 꼭 필요한 말만 한다
-- 반전 매력: 아이들과 동물에게는 서툴게 다정하다
-  - 전투복 전용(일상복에는 넣지 않음): 낡은 갬비슨, 빛바랜 파란 망토(용사 일행 시절의 것), 석궁
-- BODY: `Godric, a 55-year-old veteran, short grey hair and trimmed grey beard, leather eyepatch over his right eye. FACE: a once-broken crooked nose, thick heavy drooping eyebrows, deep crow's feet and forehead lines, an old scar running above and below the eyepatch, sun-weathered rough skin, a stern weary face; a head taller than Lina, broad barrel-chested build, NOT a handsome young man`
-- COMBAT: `wearing a worn quilted gambeson, a faded old blue cloak, a heavy crossbow`
-- CASUAL: `wearing a rolled-sleeve linen shirt and a leather apron, plain wool trousers, worn ankle boots, holding a wooden tankard of ale, a faint rare smile, no crossbow, no cloak`
-
----
-
-## 첫 확장팩 동료 (출시 후)
-
 ### C07 이졸데 (Isolde / イゾルデ) · 21세 · 근접 딜러 · 몰락 귀족 결투가
 - 특기: 기만, 설득 (매력) · 노출: 일상복 **높음** (귀족 드레스)
 - 성격: 오만하고 자존심이 세지만 약자에게 약하다
@@ -215,7 +198,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 
 ## 전대 용사 일행 (회상 전용)
 
-> 봉인된 방의 과거 회상에서 플레이하는 인물들. 회상 파티 3명(P01~P03)은 스탠딩 + SD + 레퍼런스 시트를 만든다. 의상은 1벌(전성기 길드 제복)이고, 표정은 3종(기본, 긍정, 부정)으로 줄인다.
+> 봉인된 방의 과거 회상에서 플레이하는 인물들. 회상 파티 2명(P01~P02)은 스탠딩 + SD + 레퍼런스 시트를 만든다. 의상은 1벌(전성기 길드 제복)이고, 표정은 3종(기본, 긍정, 부정)으로 줄인다.
 > 공통 의상 요소: **파란 서코트/망토 (문장 없음).** 용사 일행은 하웰 길드와 관계없으므로 하웰 문장을 넣지 않는다 (2026-10-17).
 
 ### P01 에드릭 (Edric / エドリック) · 40대 · 전 길드장 · 지휘관
@@ -228,11 +211,6 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - 이야기: 몰락 때 죽었다고 알려져 있다. 리나와 닮은 얼굴
 - MUST KEEP: **리나와 같은 갈색 머리와 연보라색 눈**, 짧은 머리, 듬직한 체격, **개성: 각진 턱과 짧은 턱수염, 굵은 일자 눈썹, 리나를 닮은 순한 눈매, 일행 중 가장 큰 키**, 리나의 것과 같은 흰 바탕 붉은 셰브런 방패(리나가 물려받은 방패), 파란 서코트
 - PROMPT: `Sir Aldo, a broad-shouldered knight in his 40s, the tallest of the party, short chestnut-brown hair, pale violet eyes, a square jaw with a short beard, thick straight eyebrows, kind gentle eyes resembling his daughter, wearing chainmail and a plain blue surcoat, a white heater shield with a red chevron, a longsword`
-
-### P03 젊은 고드릭 (Young Godric / 若きゴドリック) · 30세 · 석궁수
-- 이야기: 현재의 고드릭. 아직 두 눈이 있고 잘 웃는다
-- MUST KEEP: 짧은 흑회색 머리, **두 눈 모두 멀쩡함(안대 없음)**, 짧은 수염, 선명한 파란 망토(아직 바래지 않음), 석궁
-- PROMPT: `young Godric, a 30-year-old crossbowman, short dark grey hair, both eyes intact (no eyepatch), light stubble, cheerful cocky grin, wearing a quilted gambeson and a bright blue cloak, a heavy crossbow`
 
 ### P04 모르칸트 (Morcant / モルカント) · 30대 · 길드의 검사 (회상 속 NPC)
 - 이야기: **훗날의 흑기사.** 회상마다 표정과 태도가 조금씩 어두워진다
