@@ -1,0 +1,60 @@
+Asset: N14_portrait_neutral
+Step: S34, redesigned neutral checkpoint only
+Tool/model: built-in image_gen.imagegen; underlying model identifier not exposed
+Generation date: 2026-10-17 Asia/Seoul
+Generation calls: 1; no regeneration, art-content self-review, comparison sheets or QA artifacts
+Tool option: transparent_background=true
+Raw: art/raw/N14_portrait_neutral_v2.png
+First draft preserved: art/raw/N14_portrait_neutral_v1.png
+First draft prompt preserved: art/raw/N14_portrait_neutral_v1.prompt.txt
+Final: art/final/npcs/N14_nora/N14_portrait_neutral.png
+Canvas: 1024x1536 RGBA; no repositioning or mirroring
+Postprocessing: generated native transparency retained; existing key() for background cleanup then normalize_alpha() for opaque interiors and antialiased boundary; tools/art/despill.py then tools/art/unmagenta_hair.py actually executed. Technical size/mode/alpha checked only.
+Python: workspace-local embedded Python 3.12.10 using existing NumPy/Pillow dependencies.
+Postprocessing log:
+C:\Users\이현상\Workplace\game\art\final\npcs\N14_nora\N14_portrait_neutral.png 고친 픽셀 2753
+C:\Users\이현상\Workplace\game\art\final\npcs\N14_nora\N14_portrait_neutral.png 고친 픽셀 4967
+
+References, attachment order:
+art/refs/style-anchor.png
+art/final/npcs/N01_martha/N01_portrait_neutral.png
+art/refs/emblem-harwell.png
+
+FULL PROMPT:
+Use case: stylized-concept
+Asset: N14_portrait_neutral. ONE new finished game dialogue portrait, 1024x1536 transparent PNG. Full redesign using the NEW character specification below.
+
+STYLE_BLOCK:
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+FORMAT_BLOCK:
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, face directed toward the viewer, with the specified smiling closed itome eyes, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, genuinely transparent background (if a backdrop is unavoidable, flat solid #FF00FF magenta only), no shadow on the background.
+
+NPC PROMPT (current N14 block, verbatim):
+Nora, the deputy officer of the Harwell adventurers' guild, an attractive adult woman of 26, NOT a young girl, tall and slender (clearly taller than an average heroine) with a very upright posture, copper-red hair pulled up into a high tight bun pierced by two crossed brass pens, long face-framing side locks and short blunt bangs, thin rectangular half-rim brass glasses with a fine glasses chain, always-smiling narrow closed-looking eyes (itome: eyes like thin smiling arcs behind the glasses), thin arched dark brows, a slim V-shaped jaw, light warm olive skin, a small tear mole under her left eye, a polite closed-mouth smile, a fitted teal waistcoat with brass buttons over a white blouse with full sleeves held by black sleeve garters, a short teal shoulder capelet fastened with a brass clasp, a teal armband with the Harwell guild emblem (blue shield, silver stone well, two crossed swords) on her left upper arm, a high-waisted dark charcoal pencil skirt to mid-calf with a side slit for walking, brown lace-up boots, a brass pocket watch chain across the waistcoat, a big wooden approval stamp with red ink held up in her right hand
+
+Manifest extra (verbatim):
+REDESIGN 2026-10-17 (first draft lacked individuality, discard its face, hair and outfit entirely). Follow the NEW N14 block and N14 checklist in characters.md exactly: glasses (thin rectangular half-rim brass glasses with a glasses chain), always-smiling narrow closed itome eyes behind the glasses, copper-red high tight bun pierced by two crossed brass pens with face-framing side locks and blunt bangs, tall slender upright figure, teal waistcoat and short teal capelet, white full-sleeved blouse with black sleeve garters, charcoal pencil skirt, guild emblem armband on HER left upper arm, big wooden approval stamp with red ink held up in HER right hand, pocket watch chain on the waistcoat, tear mole under HER left eye. Calm closed-mouth polite smile. Use the Martha reference ONLY for art style, canvas size and framing, never for face, colors or pose. NO quill, NO ledger, NO round spectacles.
+
+N14 individuality checklist:
+A precise, polite secretary who smiles while reminding the guildmaster of deadlines; highly competent with numbers. Tall, slender and upright, about half a head taller than Lina, with a high tight bun pierced by TWO crossed brass pens and a short shoulder capelet. Main palette TEAL and BRASS. Face: always-smiling CLOSED itome eyes like thin smiling arcs behind thin RECTANGULAR HALF-RIM brass glasses with a fine glasses chain, thin arched dark brows, slim V jaw, light warm olive skin, a small tear mole below HER LEFT eye, calm polite CLOSED-MOUTH smile. Her amber irises are hidden by the closed eyes in this NEUTRAL asset. Hair is copper-red with long face-framing side locks and short blunt bangs. Signature prop: a LARGE WOODEN APPROVAL STAMP with red ink on its base, held up by its handle in HER RIGHT hand; brass pocket-watch CHAIN across the waistcoat. White full blouse sleeves held by black sleeve garters, fitted teal waistcoat with brass buttons, short teal shoulder capelet, high-waisted charcoal pencil skirt to mid-calf with a walking slit. Knee-up framing naturally hides the lower skirt and boots; do not shrink to full-body framing. No held pocket watch, no rolled quest notice, no ledger, no quill, no round spectacles, no bob haircut, no long coat. The two plain brass pens belong in her bun.
+Speech and hidden personality are characterization only: polite honorific speech with a number in each sentence; secretly a longtime Harwell guild fan who keeps old quest notices. Do not draw text or add a scrapbook.
+Near-frontal anatomical orientation: HER RIGHT hand holding up the large stamp is on VIEWER LEFT; HER LEFT upper-arm armband and tear mole under HER LEFT eye are on VIEWER RIGHT. Keep both hands, the entire stamp and the high bun with its pens inside the canvas. Do not mirror.
+
+Input images, attached order:
+1. style-anchor: art style, rendering polish and drawing scale ONLY. Nora must have her own distinctive adult face, closed itome eyes, copper-red updo and teal/brass palette. Do not copy Lina's face, hair, colors, clothes, armor, weapons, pose or symbols.
+2. Martha: art style, canvas size, knee-up framing and comparable head scale ONLY; never copy her face, colors, pose, build, hairstyle, clothes or props.
+3. Harwell emblem: heraldic reference ONLY for a small embroidered patch on HER LEFT upper-arm armband. Blue shield, silver stone well and two crossed swords behind the well. No lantern emblem. This specified guild patch is allowed.
+Make Nora as attractive and polished as a main companion while following all of her own design details. One single standing illustration, no collage or design sheet. Genuinely transparent background, no scenery, checkerboard pattern or background shadow.
+
+NEGATIVE_BLOCK (the explicitly requested brass glasses and guild patch are allowed):
+Do not include: any text, letters, watermark, signature, unrelated logo, UI elements, frames or borders;
+modern objects or clothing (zippers, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
