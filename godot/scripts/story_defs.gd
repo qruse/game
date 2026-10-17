@@ -83,7 +83,7 @@ const SCENES := {
 	"martha_2": {
 		"bg": "backgrounds/scene/bg_tavern.png",
 		"lines": [
-			["martha", "neutral", "저 구석 자리, 옛날 용사 일행이 늘 앉던 데야. 에드릭 그 양반, 외상 안 갚고 사라졌지."],
+			["martha", "neutral", "저 구석 자리, 옛날 용사 일행이 하웰에 들렀을 때 앉았던 데야. 에드릭 그 양반, 외상 안 갚고 떠났지."],
 			["martha", "negative", "…장부? 아직 있지. 버리려다 매번 다시 넣어 둬."],
 			["martha", "positive", "대신 요즘 손님들 소문은 내가 다 듣고 있으니까, 장부 마감할 때마다 한 줄씩 흘려 줄게."],
 		],
@@ -304,7 +304,7 @@ const SCENES := {
 		"bg": "backgrounds/scene/bg_guildhall_ruined.png",
 		"lines": [
 			["martha", "negative", "단장! 붉은 수염 패거리가 길드로 쳐들어오고 있어!"],
-			["basil", "negative", "영주님께 넘기기도 전에 불타게 생겼군요."],
+			["basil", "negative", "재건 서류에 도장도 마르기 전에 불타게 생겼군요."],
 			["lina", "angry", "길드는 우리가 지킵니다."],
 			["cecile", "smile", "집 지키는 싸움이라. 나쁘지 않네."],
 			["adelheid", "neutral", "…책 젖으면 다 얼려 버릴 거야."],
