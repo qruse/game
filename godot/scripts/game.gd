@@ -207,6 +207,9 @@ func add_bond(id: String, n: int) -> void:
 	var b: Dictionary = Game.bond_def(id)
 	var seen: int = bond_seen.get(id, 0)
 	var cap: int = b.need[seen] if seen < b.need.size() else b.need[-1]
+	# 문턱 0 인 단계(동료 첫인상)는 보기 전에도 다음 문턱까지 쌓인다
+	if cap == 0 and seen + 1 < b.need.size():
+		cap = b.need[seen + 1]
 	bond[id] = mini(bond.get(id, 0) + n, cap)
 
 
@@ -237,9 +240,11 @@ func bond_ratio(id: String) -> float:
 	return clampf(float(bond.get(id, 0) - lo) / float(b.need[seen] - lo), 0.0, 1.0)
 
 
-## 호감도 정의 (마르타·노라만. 동료 호감도는 없다, 2026-10-17 사용자)
+## 호감도 정의: NPC 는 G.BONDS, 동료는 5단계 (G.companion_bond)
 func bond_def(id: String) -> Dictionary:
-	return G.BONDS[id]
+	if G.BONDS.has(id):
+		return G.BONDS[id]
+	return G.companion_bond(id, P_HEROES()[id].name)
 
 
 func P_HEROES() -> Dictionary:
@@ -252,6 +257,8 @@ func join(k: String) -> void:
 	if heroes.has(k):
 		return
 	heroes[k] = {"lv": 1, "xp": 0, "weapon": [0, 0], "armor": [0, 0]}
+	bond[k] = 0
+	bond_seen[k] = 0
 
 
 ## 경험치를 주고, 오른 레벨 수를 돌려준다
@@ -263,6 +270,7 @@ func give_xp(k: String, n: int) -> int:
 		h.xp -= P.xp_need(h.lv)
 		h.lv += 1
 		ups += 1
+		add_bond(k, G.CB_LEVEL)
 	if h.lv >= P.LV_MAX:
 		h.xp = 0
 	return ups
@@ -630,7 +638,7 @@ func best(stat: String, who := "") -> Dictionary:
 	for k in party:
 		if who != "" and k != who:
 			continue
-		var m: int = Defs.HEROES[k].mod.get(stat, 0)
+		var m: int = Defs.HEROES[k].mod.get(stat, 0) + (1 if bond_seen.get(k, 0) >= 2 else 0)  # 동료 2단계: 판정 +1
 		if m > mod:
 			mod = m
 			pick = k

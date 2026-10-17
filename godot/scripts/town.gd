@@ -1053,7 +1053,7 @@ func _gear_fx(kind: String, tier: int, plus: int) -> String:
 
 # ── 잡화점: 소모품 · 선물 · 식재료 ──
 
-const STORE_KIND := [["use", "소모품"], ["gift", "선물 · 노라, 마르타에게"], ["food", "식재료 · 마르타 납품, 주방 도시락"]]
+const STORE_KIND := [["use", "소모품"], ["gift", "선물 · 동료와 노라, 마르타에게"], ["food", "식재료 · 마르타 납품, 주방 도시락"]]
 
 
 func _store(v: VBoxContainer) -> void:
@@ -1087,4 +1087,4 @@ func _store(v: VBoxContainer) -> void:
 			p.add_child(h)
 			gr.add_child(p)
 		v.add_child(gr)
-	v.add_child(_note("누르면 하나 산다. 회복약은 전투에서, 행운 부적은 의뢰를 떠날 때 저절로 쓴다. 선물은 노라(길드)와 마르타(선술집)에게 준다."))
+	v.add_child(_note("누르면 하나 산다. 회복약은 전투에서, 행운 부적은 의뢰를 떠날 때 저절로 쓴다. 선물은 길드의 동료 화면에서 준다."))

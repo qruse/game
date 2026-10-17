@@ -152,6 +152,31 @@ const BONDS := {
 		"stage_names": ["단골", "그때 그 국자", "길드의 식탁"],
 		"rewards": ["야영 칸에서 행운 주사위 +1 더", "장부를 마감하면 소식에 선술집 소문 한 줄", "의뢰 출발 때 행운 주사위 +1"]},
 }
+## 동료 서브 스토리 5단계 (docs/04-game-flow.md 6.1절). 1단계는 합류하면 바로 볼 수 있다
+## 장면이 아직 없는 단계는 열리지 않는다 (체험판은 1·2단계)
+const COMPANION_STAGES := ["첫인상", "속마음", "개인 의뢰", "지난날", "유대"]
+const COMPANION_NEED := [0, 20, 45, 70, 100]
+const COMPANION_CHAPTER := [0, 0, 1, 2, 3]
+const COMPANION_REWARDS := ["", "%s 굴리는 판정 +1", "전용 장비", "스킬 강화 1개", "궁극기 연출 강화 · 전용 주사위 스킨"]
+const COMPANIONS := ["lina", "cecile", "adelheid", "miriam"]
+
+
+static func companion_bond(key: String, name: String) -> Dictionary:
+	var rw: Array = []
+	for r in COMPANION_REWARDS:
+		rw.append(r % (name + josa(name, "이", "가")) if "%s" in r else r)
+	return {"name": name, "meter": "호감도", "need": COMPANION_NEED, "chapter": COMPANION_CHAPTER, "scene": key + "_",
+		"stage_names": COMPANION_STAGES, "rewards": rw}
+
+
+## 동료 호감도가 오르는 일 (6.2절)
+const CB_PAGE := 6  # 파티로 의뢰 페이지를 끝냄
+const CB_FINALE := 10  # 결전
+const CB_CHECK_OK := 2  # 판정을 맡아 성공
+const CB_CHECK_NG := 1  # 판정을 맡아 실패
+const CB_LUCK := 2  # 그 동료 판정에 행운 주사위
+const CB_LEVEL := 3  # 레벨이 오름
+
 ## 상회 빚 (3.8절 ⑥): 금저울 상회의 재건 자금. 장이 끝날 때까지 갚을 몫 (장마다)
 const DEBT := 1200
 const DEBT_DUE := [300, 400, 500]
@@ -165,6 +190,16 @@ const RUMORS := {
 	1: ["북쪽 마을 사람들이 밤마다 도적 걱정을 한대.", "숲길 덫사냥꾼, 요즘 씀씀이가 헤퍼졌다더라."],
 	2: ["붉은 수염 패거리가 길드를 노린다는 소문이 돌아. 단단히 준비해 둬.", "모험가 지망생들이 스카우트실 앞을 기웃거리더라."],
 }
+
+
+## 받침에 따라 조사를 고른다 (리나가, 세실이)
+static func josa(word: String, with_final: String, without: String) -> String:
+	if word.is_empty():
+		return without
+	var c := word.unicode_at(word.length() - 1)
+	if c < 0xAC00 or c > 0xD7A3:
+		return without
+	return with_final if (c - 0xAC00) % 28 != 0 else without
 
 
 static func cost_text(c: Dictionary) -> String:

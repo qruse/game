@@ -73,6 +73,14 @@ const GIFT_OK := 3
 const GIFT_MEH := 1
 ## like / meh 목록 + 반응 [좋아함, 보통, 별로]
 const GIFTS := {
+	"lina": {"like": ["knight_book"], "meh": ["trinket"],
+		"say": ["이, 이건… 기사단 이야기! 오늘 밤에 다 읽을게요.", "감사합니다. 소중히 쓸게요.", "장신구는… 갑옷 안에 하면 안 보이는데요."]},
+	"cecile": {"like": ["apple", "trinket"], "meh": ["knight_book"],
+		"say": ["…헤, 단장치고 보는 눈 있네.", "오, 공짜? 고마워.", "책? 베개로 쓰면 되겠다."]},
+	"adelheid": {"like": ["tea", "candle"], "meh": ["trinket"],
+		"say": ["…나쁘지 않아. 고마워.", "받아 둘게.", "이런 건 반짝이기만 하잖아."]},
+	"miriam": {"like": ["flowers", "tea"], "meh": [],
+		"say": ["어머, 저를 생각해 주셨군요.", "고마워요. 기도할 때 떠올릴게요.", "고마워요. 마음만으로도 기뻐요."]},
 	"nora": {"like": ["ink"], "meh": ["trinket"],
 		"say": ["수도 문방구 잉크네요! 결재 도장보다 더 아껴 쓸게요.", "감사합니다. 장부에 적어 둘게요.", "…장신구는 장부 정리에 0점이에요."]},
 	"martha": {"like": ["flowers"], "meh": [],

@@ -158,7 +158,9 @@ func _debug_goto(g: String) -> void:
 			Game.give_xp("lina", 150)
 			Game.heroes.lina.weapon = [1, 1]
 			Game.items = {"potion": 2, "apple": 1, "tea": 2, "knight_book": 1}
-			mates.show(g.get_slice(":", 1) if g.get_slice_count(":") > 1 else "lina")
+			Game.bond_seen["lina"] = 1
+			Game.bond["lina"] = 14
+			mates.show(g.get_slice(":", 1) if g.get_slice_count(":") > 1 else "lina", g.get_slice(":", 2) if g.get_slice_count(":") > 2 else "grow")
 		"town":
 			town.show_town()
 		"hub":
@@ -821,11 +823,13 @@ func _choose(ch: Dictionary, who: Dictionary) -> void:
 	if used:
 		p.luck -= 1
 		ok = true
+		Game.add_bond(who.key, G.CB_LUCK)  # 그 동료 판정에 행운 주사위를 써 줌
 	else:
 		roll = randi_range(1, 20)
 		ok = roll == 20 or (roll != 1 and roll + who.mod >= ch.dc)
 		if roll == 20:
 			p.luck = mini(Game.LUCK_MAX, p.luck + 1)
+	Game.add_bond(who.key, G.CB_CHECK_OK if ok else G.CB_CHECK_NG)  # "믿고 맡겨 줬다"
 	_sync_page()
 	_side_clear()
 	side.add_child(Kit.cap("판정 · %s · %s" % [FDefs.STAT[ch.stat], who.name]))
@@ -963,6 +967,8 @@ func _finish_page() -> void:
 	Game.pages.append({"quest": p.quest, "lines": p.lines.duplicate()})
 	_sync_page()
 	var rew: Dictionary = Game.quest_reward(q.name, ok)
+	for k in Game.party:
+		Game.add_bond(k, G.CB_PAGE)
 	var xp := Game.quest_xp(PDefs.XP_OK if ok else PDefs.XP_NG)
 	_side_head("페이지 완성 · %s" % q.name, "의뢰 성공" if ok else "절반의 성공", Kit.GOOD if ok else Color("ffd28a"))
 	_side_text("연대기에 한 페이지가 더해졌다." if ok else "의뢰는 절반만 이뤘다. 그래도 길은 기록에 남는다.")
@@ -1140,6 +1146,8 @@ func _finale_result(res: Dictionary) -> void:
 		var fr: Dictionary = G.FINALE_REWARD[Game.chapter()]
 		Game.earn(fr.gold, fr.mats, fr.fame, "결전 승리")
 		Game.flags["chapter1_done"] = true
+		for k in Game.party:
+			Game.add_bond(k, G.CB_FINALE)
 		Game.quest_xp(PDefs.XP_FINALE)
 		_play("finale_ok", func(_s, _k): _show_end())
 		return

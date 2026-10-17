@@ -32,12 +32,12 @@ static func run(m) -> void:
 	_check("주방 1", Game.upgrade("kitchen"))
 	_check("주방 2", Game.upgrade("kitchen"))
 	_check("기록실 1", Game.upgrade("records"))
-	_check("선물 두 번 막힘 준비", Game.buy_item("ink"))
+	_check("선물 리나", not Game.give_gift("lina", "knight_book").is_empty())
+	_check("선물 두 번 막힘", Game.give_gift("lina", "knight_book").is_empty())
 	_check("선물 노라", not Game.give_gift("nora", "ink").is_empty())
-	_check("선물 두 번 막힘", Game.give_gift("nora", "ink").is_empty())
 	_check("선물 마르타", not Game.give_gift("martha", "flowers").is_empty())
 	for scr in [func(): m.town.show_place("smithy"), func(): m.town.show_place("store"), func(): m.town.show_place("tavern"),
-			func(): m.mates.show("lina"), func(): m.mates.show("cecile"), func(): m.desk.show(), func(): m._board()]:
+			func(): m.mates.show("lina", "grow"), func(): m.mates.show("cecile", "bond"), func(): m.desk.show(), func(): m._board()]:
 		scr.call()
 		await tree.create_timer(0.2).timeout
 	say("마을 준비 끝 · 금화 %d · 공사 %d · 물건 %s" % [Game.gold, Game.build, str(Game.items)])
@@ -65,7 +65,7 @@ static func run(m) -> void:
 	await tree.create_timer(1.0).timeout
 	var lv: Array = []
 	for k in Game.heroes:
-		lv.append("%s Lv%d" % [k, Game.heroes[k].lv])
+		lv.append("%s Lv%d 호감도 %d(%d단계)" % [k, Game.heroes[k].lv, Game.bond.get(k, 0), Game.bond_seen.get(k, 0)])
 	say("동료 " + ", ".join(PackedStringArray(lv)))
 	say("금화 %d · 빚 %d · 공사 %d · 명성 %d · 1장 %s · 추심 %s" % [Game.gold, Game.debt, Game.build, Game.fame, str(Game.flags.get("chapter1_done", false)), str(Game.flags.get("collect_ch2", false))])
 	say("화면 %s" % Game.stage)
