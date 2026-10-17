@@ -1,4 +1,4 @@
-extends RefCounted
+﻿extends RefCounted
 ## 디자인 규칙과 공용 부품 (확정 시안: design/mockups/guild_desk_v5.html).
 ## 하웰 파랑 + 놋쇠 + 남색 판, 의뢰서(봉랍 인장 · 절취선 · 채택 도장), 로마 숫자.
 ## 크기는 시안(1600×900) px 로 적고 px() 가 화면 크기로 바꾼다.
@@ -108,7 +108,8 @@ static func label(text: String, size: float, col := WHITE, font: Font = null, wr
 	var l := Label.new()
 	l.text = text
 	l.add_theme_font_override("font", font if font != null else f_body)
-	l.add_theme_font_size_override("font_size", pxi(size))
+	# 모바일(960×540)에서 아주 작은 글자는 읽히지 않으니 9px 아래로 내리지 않는다
+	l.add_theme_font_size_override("font_size", maxi(pxi(size), 9 if touch else 0))
 	l.add_theme_color_override("font_color", col)
 	if wrap:
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
