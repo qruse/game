@@ -59,3 +59,23 @@ modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
 
+
+
+Revision: v3; S37 second-round feedback dated 2026-10-18
+Edit date: 2026-10-17 (Asia/Seoul)
+Tool/model: built-in image_gen; underlying model identifier not exposed.
+Edit calls: exactly 1; no self-review, regeneration or comparison images.
+Input/edit target: art/final/cg/cg_title.png (v2, before overwrite).
+Mask: white editable polygon on black protected 1920x1080 canvas.
+Mask polygon (x,y): (1120,102),(1178,102),(1201,142),(1180,188),(1164,238),(1148,275),(1113,291),(1060,278),(1054,252),(1070,222),(1069,179),(1090,151),(1107,133).
+Supporting mask input: art/raw/cg_title_v3_mask.png (temporary; removed after compositing).
+Raw original model output: art/raw/cg_title_v3.png.
+Final: art/final/cg/cg_title.png, 1920x1080 opaque PNG, unapproved replacement.
+Postprocessing: normalize edited image to original canvas; copy only white-mask pixels onto original v2, preserving every pixel outside the mask by construction. No visual review or comparison image.
+
+Full edit prompt:
+Use case: precise-object-edit.
+Edit target: Image 1 is the existing 1920x1080 title illustration, the sole scene and style source. Image 2 is a spatial mask at exactly the same canvas coordinates: WHITE is the only editable region; BLACK must remain completely unchanged. The mask is a guide, never render the mask in the result.
+Perform one localized edit ONLY within that small white region around Lina's raised brown leather gloved hand and the large rusty key she is holding, near x=1054..1201 and y=102..291 on Image 1. Lina is the chestnut-haired woman in crimson looking upward.
+Completely remove the entire rusty key, including its ornate bow, shaft and teeth. Replace her clenched key-holding hand with an anatomically natural OPEN hand wearing the same brown full-finger leather glove, fingers extended in an open-handed gesture pointing up toward the guild house roof. Keep the same wrist position and raised arm. Let the extended glove-covered fingers point upward and slightly right toward the roof. Match glove material, linework, scale, light and shadows. Reconstruct the tiny roof/background areas exposed where the key used to be. Fit the new hand entirely within the white mask. Do not retain any fragment of the key.
+Everything outside the white mask must be pixel-identical to Image 1: all three characters' faces, eyes, gazes, hair, poses and clothing; Lina's forearm and gauntlet below the edit; Cecile's adjacent cloak; hammer, book, staff, building, scaffolds, sky, landscape, light, composition and left-side open space. Do not redraw or restyle the scene. Full unchanged framing, 16:9 opaque PNG. No text, logo, watermark. Exactly one edited image.
