@@ -11,10 +11,10 @@
 
 | 요소 | 정한 것 |
 |---|---|
-| 중심 편성 | **피아노, 바이올린, 첼로** (곡에 따라 클라리넷, 아코디언, 플루트, 콘트라베이스, 가벼운 손 타악기). **기타는 쓰지 않는다** (2026-10-17 사용자: 기타가 한 번씩 들어가는 게 취향이 아님. 류트처럼 기타 소리가 나는 발현 악기도 뺀다) |
+| 중심 편성 | **피아노, 바이올린, 첼로** (곡에 따라 클라리넷, 아코디언, 플루트, 콘트라베이스, 가벼운 손 타악기). **기타는 쓰지 않는다** (2026-10-17 사용자: 기타가 한 번씩 들어가는 게 취향이 아님. 류트는 중세 양념으로 **살짝만** 남긴다) |
 | 화성 | 재즈풍 7·9화음을 섞은 맑은 화음. 장조라도 한 방울의 아련함 |
 | 질감 | 작은 방에서 연주하는 듯한 따뜻한 어쿠스틱 소리. 웅장한 오케스트라가 아니라 **가까이서 들리는 실내악** |
-| 중세 | **한 방울만.** 곡마다 틴 휘슬, 리코더, 하프, 덜시머, 허디거디 드론 중 하나가 한 구간에서 색을 낸다 |
+| 중세 | **한 방울만.** 곡마다 틴 휘슬, 리코더, 하프, 류트(살짝), 덜시머, 허디거디 드론 중 하나가 한 구간에서 색을 낸다 |
 | 멜로디 | 한 번 들으면 흥얼거리는 주선율(훅)이 곡의 중심. 반주만 깔리는 배경음은 만들지 않는다 |
 | 구성 | 반복용 곡도 인트로 → A → B → 절정 → 돌아오기로 이야기가 있는 완결된 곡 |
 | 메인 모티프 | 타이틀곡의 훅을 보스·회상·승리 곡에서 다른 모습으로 다시 쓴다 (Suno Cover) |
@@ -29,7 +29,7 @@
 | # | 파일 / 가제 | 쓰는 곳 | 리드 | 리듬 · 조 · 템포 | 개성 | 중세 한 방울 |
 |---|---|---|---|---|---|---|
 | 1 | bgm_title / 다시 켜진 등불 ✅ | 타이틀 | 피아노 → 바이올린 | 6/8 흔들리는 리듬, G장조, 104 | 첫 여행을 떠나는 설렘. 피아노와 플루트의 부름으로 시작해 바이올린이 훅에서 날아오르고, 마지막 후렴이 크게 터진다 | 틴 휘슬이 바이올린에 대답 |
-| 2 | bgm_guild / 먼지 쌓인 장부 | 길드, 일상 대화 | 클라리넷과 피아노 2중주 | 4/4 느긋한 스윙, F장조, 86 | 카페 같은 아늑함. 클라리넷이 묻고 피아노가 답한다. 첼로 피치카토가 발끝을 까딱이게 한다. 이 곡만 브러시 스네어가 살짝 | 브리지에서 리코더 한 소절 |
+| 2 | bgm_guild / 먼지 쌓인 장부 | 길드, 일상 대화 | 클라리넷과 피아노 2중주 | 4/4 느긋한 스윙, F장조, 86 | 카페 같은 아늑함. 클라리넷이 묻고 피아노가 답한다. 첼로 피치카토가 발끝을 까딱이게 한다. 이 곡만 브러시 스네어가 살짝 | 브리지에서 류트 한 소절 (살짝) |
 | 3 | bgm_chronicle / 잉크가 닿는 길 | 게시판, 연대기 페이지 | 아코디언 | 2/4 경쾌한 걸음, A장조, 116 | 유럽 시골길 같은 여행 느낌. 아코디언 선율 위로 바이올린 피치카토가 펜처럼 달린다 | 해머 덜시머가 반주 일부 |
 | 4 | bgm_tension / 붉은 수염의 그림자 | 위기 장면, 결전 직전 | 피아노 저음 | 5/4, D단조, 96 | 다섯 박이라 발이 걸리는 불안. 바이올린이 줄 가까이 긁는 소리(sul ponticello), 첼로가 낮게 숨 쉰다. 멜로디는 적고 공간이 넓다 | 허디거디의 낮은 지속음 |
 | 5 | bgm_battle / 검과 주사위 | 일반 전투 | 피아노 리프와 바이올린 | 4/4 몰아치는 브레이크비트, E단조, 150 | 재즈 피아노 리프가 몰아치고 바이올린과 피아노가 솔로를 주고받는다. **이 곡만 드럼 세트와 베이스가 단단하게** 받친다 | 피들이 훅을 한 번 이어받음 |
@@ -47,13 +47,13 @@
 5. **타이틀부터.** 마음에 드는 한 곡을 정하면 그 훅이 메인 모티프가 된다. 6·7·8·9번은 정한 타이틀 곡을 **Cover** 에 넣고 아래 스타일로 바꿔 만든다
 6. 곡마다 최소 6번 생성해서 아래 고르는 기준으로 고른다
 
-**공통 Exclude:** `vocals, guitar, acoustic guitar, electric guitar, lute, EDM, dubstep, trap, metal, synth pad, lo-fi, epic trailer`
+**공통 Exclude:** `vocals, guitar, acoustic guitar, electric guitar, EDM, dubstep, trap, metal, synth pad, lo-fi, epic trailer`
 - 기타는 스타일 칸에 적지 않아도 Suno 가 끼워 넣는 경우가 있다. Exclude 칸이 없으면 기타가 들어간 결과는 버리고 다시 뽑는다
 
 | # | Style | Lyrics (구성 태그) |
 |---|---|---|
 | 1 ✅ | `instrumental japanese new age fantasy adventure theme, acoustic chamber trio of piano violin and cello, bright piano melody with jazzy seventh chords, expressive violin answers and soars on the hook, warm cello counter melody, flute and tin whistle answer the violin, light hand percussion, lilting 6/8 rhythm, G major, 104 bpm, heartwarming and exciting like setting off on a first journey, catchy main hook, big uplifting final chorus, intimate warm acoustic room sound` | `[Intro: piano and flute call] [Verse: piano melody, light percussion, cello pulse] [Pre-Chorus: violin rises, trio builds] [Chorus: full hook, violin soars, tin whistle answers] [Bridge: quiet, piano and cello, violin hums] [Final Chorus: everything, uplifting] [Outro: piano and flute, last note rings]` |
-| 2 | `instrumental japanese new age cafe piece, warm clarinet and piano duet in playful call and response, cello pizzicato walking line, soft brushed snare, relaxed swing in 4/4, F major, 86 bpm, cozy warm and a little wistful, jazzy seventh chords, a short recorder phrase in the bridge, charming catchy melody, intimate warm acoustic room sound` | `[Intro: piano alone] [Verse: clarinet asks, piano answers] [Chorus: both together, cello walks] [Bridge: recorder phrase, soft] [Chorus] [Outro: clarinet and piano, gentle end]` |
+| 2 | `instrumental japanese new age cafe piece, warm clarinet and piano duet in playful call and response, cello pizzicato walking line, soft brushed snare, relaxed swing in 4/4, F major, 86 bpm, cozy warm and a little wistful, jazzy seventh chords, a brief soft lute phrase in the bridge, charming catchy melody, intimate warm acoustic room sound` | `[Intro: piano alone] [Verse: clarinet asks, piano answers] [Chorus: both together, cello walks] [Bridge: soft lute phrase] [Chorus] [Outro: clarinet and piano, gentle end]` |
 | 3 | `instrumental japanese new age travel piece, accordion carries a bouncy melody, violin pizzicato running like a pen on paper, staccato piano, hammered dulcimer accents, light hand percussion, cheerful 2/4 walking rhythm, A major, 116 bpm, curious and adventurous with a nostalgic european countryside feel, catchy hook, intimate warm acoustic room sound` | `[Intro: staccato piano and pizzicato] [Verse: accordion melody] [Chorus: full hook, violin joins] [Break: dulcimer and pizzicato] [Chorus] [Outro: accordion fades]` |
 | 4 | `instrumental dark japanese new age, sparse low piano ostinato in 5/4, D minor, 96 bpm, breathing cello lines, eerie sul ponticello violin, faint hurdy-gurdy drone, distant soft timpani, lots of space and silence, uneasy and suspenseful, minimal melody, intimate acoustic room sound` | `[Intro: low piano ostinato] [Section A: cello enters] [Section B: violin scrapes, drone swells] [Section A] [Outro: ostinato alone]` |
 | 5 | `instrumental japanese jazz fusion battle theme, relentless jazzy piano riff, virtuosic violin and piano trading solos, tight live drum kit breakbeat and upright bass, cello stabs, E minor, 150 bpm, fiddle takes the hook once, energetic heroic and a little wistful, catchy riff, crisp warm mix` | `[Intro: piano riff] [Verse: violin melody over drums] [Chorus: full hook] [Solo: piano] [Solo: violin] [Chorus: fiddle hook] [Outro: riff, hard stop]` |
