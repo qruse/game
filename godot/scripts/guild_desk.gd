@@ -33,7 +33,7 @@ func show() -> void:
 	m.bg.texture = t if t != null else Game.tex("backgrounds/scene/bg_guildhall_ruined.png")
 	m.bg.modulate = Color(0.78, 0.76, 0.74)
 	var s: Control = m.screen
-	_shade(s)
+	shade(s)
 	_hero(s)
 	_head(s)
 	s.add_child(resource_bar())
@@ -44,7 +44,7 @@ func show() -> void:
 
 # ── 배경 위 그늘 (오른쪽과 위아래를 남색으로) ──
 
-func _shade(s: Control) -> void:
+static func shade(s: Control) -> void:
 	var g := TextureRect.new()
 	var gt := GradientTexture2D.new()
 	var gr := Gradient.new()
