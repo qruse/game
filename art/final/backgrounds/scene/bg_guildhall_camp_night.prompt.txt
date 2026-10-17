@@ -26,3 +26,35 @@ Do not include: any text, letters, watermark, signature, logo, UI elements, fram
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
 Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
 nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+
+=== 2026-10-17 문장 교체 마스크 편집 (등불 → 하웰 문장) ===
+Model: built-in image_gen (underlying model identifier not exposed)
+Date: 2026-10-17 Asia/Seoul
+Operation: one built-in edit attempt; spatial mask supplied as Image 3 (tool has no dedicated mask parameter).
+Output: art/raw/bg_guildhall_camp_night_emblem.png
+Attached images in order:
+C:/Users/이현상/Workplace/game/art/final/backgrounds/scene/bg_guildhall_camp_night.png
+C:/Users/이현상/Workplace/game/art/refs/emblem-harwell.png
+C:/Users/이현상/Workplace/game/art/raw/.emblem-work/bg_guildhall_camp_night_mask.png
+C:/Users/이현상/Workplace/game/art/refs/style-anchor.png
+
+Full prompt:
+Use case: precise-object-edit
+Asset type: approved 1920x1080 painterly anime RPG background, localized emblem replacement.
+Input images: Image 1 is the EDIT TARGET, preserve its complete canvas and registration. Image 2 is the NEW HARWELL EMBLEM design reference. Image 3 is a spatial edit mask at exactly the target's resolution: WHITE islands are the only editable regions; BLACK is locked. Image 4 is the established STYLE reference only; do not transfer its character, costume or composition.
+Primary request: Replace only the two silver lantern drawings on the torn blue banners: the large upper-left banner and the right-pillar banner. Match this image's warm firelight and cool moonlight; retain the existing dim silver tones. All actual lanterns, candles and hearth flames are room lighting and must remain untouched.
+Within each white mask island, remove the obsolete lantern drawing completely and replace it with the Harwell emblem from Image 2: a SILVER STONE WELL with a SMALL PEAKED ROOF and a HANGING BUCKET, with TWO CROSSED SWORDS BEHIND the well. Render the complete symbol as delicate SILVER-WHITE LINEWORK directly on the existing BLUE CLOTH, with blue negative spaces. Use the reference for the well/bucket/swords motif, translating its bold graphic design into the target's painterly linework; do not paste the reference as a graphic sticker. Keep the emblem entirely inside its white mask island, scaling down as needed. No added shield outline, no black border, no gold sword hilts.
+Style/medium: Match Image 1's existing painterly anime rendering, brushwork, perspective, fabric folds, shading, wear, fading, tears, lighting and colors. The motif bends and is occluded with the original cloth. The cloth remains blue.
+Composition/framing: Return the entire Image 1 at 1920x1080, exact original 16:9 framing, no crop, zoom, shift, or rearrangement.
+Constraints: Edit only the white masked lantern-drawing footprints. Keep everything outside the mask pixel-identical. Preserve ALL room lighting, architecture, props, people and all existing cloth edges. Never reproduce the black-and-white mask as artwork. No text, watermark, signature, UI or new objects. One edited image only.
+
+Technical processing: Resize the generated full canvas to 1920x1080 only if necessary; copy only white-mask pixels onto the original. Preserve every black-mask pixel from the original. No visual QA retries.
+
+Generated source file: C:\Users\이현상\.codex\generated_images\01a147bc-882e-75a1-994a-e324e0a13bcf\exec-1160498e-1b20-4194-8516-40a86685c56d.png
+Actual generated resolution: 1672x941
+Saved resolution: 1920x1080
+Resampling: System.Drawing HighQualityBicubic, exact full-canvas registration.
+Technical check: decoded saved PNG has 0 RGBA pixel differences outside the binary white mask.
+
+
