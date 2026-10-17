@@ -95,7 +95,9 @@ for cid, (slug, ko, ult, icons) in chars.items():
 npcs = [("N01", "martha", "마르타", "P1", 3), ("N02", "basil", "바실", "P1", 3),
         ("N03", "oswald", "오스왈드", "P2", 3), ("N04", "eleanor", "엘리노어", "P2", 3),
         ("N06", "masked", "가면의 남자", "P2", 1),
-        ("N07", "villager_m", "마을 사람(남)", "P1", 1), ("N08", "villager_f", "마을 사람(여)", "P1", 1)]
+        ("N07", "villager_m", "마을 사람(남)", "P1", 1), ("N08", "villager_f", "마을 사람(여)", "P1", 1),
+        ("N11", "tobias", "촌장 토비아스", "P1", 3), ("N12", "greta", "대장장이 그레타", "P1", 1),
+        ("N13", "pip", "잡화점 주인 핍", "P1", 1)]
 for nid, slug, ko, ph, n in npcs:
     base = f"art/final/npcs/{nid}_{slug}"
     neutral = f"{base}/{nid}_portrait_neutral.png"
@@ -156,6 +158,10 @@ scenes = [
  ("bg_noticeboard", "P1", "의뢰 게시판", "Close-up of a wooden quest notice board covered in pinned parchment notices and wax seals (no readable text)."),
  ("bg_village_square", "P1", "마을 광장", "A medieval village square with a stone well, timber-framed houses and a market stall, morning light."),
  ("bg_tavern", "P1", "선술집", "Interior of a cozy medieval tavern with a hearth, barrels, long benches, candlelight."),
+ ("bg_town_harwell", "P1", "하웰 마을 전경 (허브)", "TOWN: a wide establishing view of Harwell, a small frontier village of timber-framed houses on a gentle hillside by a river ford, seen from a slightly elevated angle as a village overview. Six places, each clearly separated and readable as a click target: the two-storey timber guild house with a damaged roof and a torn blue banner with the silver well-and-crossed-swords emblem (art/refs/emblem-harwell.png); a cozy tavern with a hanging copper ladle sign; a blacksmith with a smoking chimney and an anvil out front; a general store with striped awnings and crates; the village chief's modest stone house with a small garden; and the central square with an old stone well. Fields and forest beyond, morning light, warm and inviting. No text or labels."),
+ ("bg_smithy", "P1", "대장간", "Interior of a village blacksmith's forge (see TOWN): glowing forge fire, anvil, hanging tools, racks of swords, shields and armor for sale, warm orange light."),
+ ("bg_general_store", "P1", "잡화점", "Interior of a cluttered cozy village general store (see TOWN): shelves of jars, potions, dried herbs, sacks of grain, ribbons and trinkets, a wooden counter with scales, soft daylight."),
+ ("bg_chief_house", "P1", "촌장 집", "Interior of the village chief's modest stone house (see TOWN): a fireplace, a heavy oak table with ledgers and a village map, dried herbs hanging from beams, a window to the garden, calm afternoon light."),
  ("bg_forest_road", "P1", "숲길", "A forest road through tall oaks, dappled light, a worn wooden signpost."),
  ("bg_bandit_hideout", "P1", "도적 은신처", "A bandit hideout in a rocky ravine, tents, crates, a smoky fire."),
  ("bg_monastery_gate", "P2", "수도원 정문", "The gate of a remote stone monastery on a misty hill at dusk."),
@@ -228,6 +234,7 @@ for cid in ["C07", "C08"]:
         "인게임 상점 + Steam DLC 상점 이미지의 원본. 규격 이미지는 여기서 파생", outfit="combat")
 
 # --- step assignment (see art/steps/README.md) ---
+S33_IDS = {"bg_town_harwell", "bg_smithy", "bg_general_store", "bg_chief_house"}
 S03_IDS = {"C01_portrait_combat_neutral", "C01_portrait_combat_smile", "C01_sd_idle", "C01_sd_attack"}
 CHAR_STEPS = {"C02": ("S07", "S08"), "C03": ("S09", "S10"), "C04": ("S11", "S12"),
               "C05": ("S19", "S20"), "C06": ("S21", "S22"), "C07": ("S23", "S24"), "C08": ("S25", "S26")}
@@ -235,6 +242,7 @@ CHAR_STEPS = {"C02": ("S07", "S08"), "C03": ("S09", "S10"), "C04": ("S11", "S12"
 def step_of(r):
     i, ph, fmt, subj = r["id"], r["phase"], r["format"], r["subject"]
     if i.startswith("P0_"): return "S01"
+    if i in S33_IDS or subj in ("N11", "N12", "N13"): return "S33"
     if i == "C01_ref_combat": return "S02"
     if i in S03_IDS: return "S03"
     if i.startswith("C01_"):
