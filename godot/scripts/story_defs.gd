@@ -431,7 +431,7 @@ const QUESTS := {
 				"text": "목록과 실제 책이 맞지 않는다.\n금서 한 칸이 비어 있다.",
 				"choices": [
 					{"label": "빠진 책을 찾는다", "stat": "int", "dc": 12, "who": "adelheid",
-						"ok": {"line": "빠진 책은 '재앙의 연대기'. 누군가 최근에 가져갔다.", "next": "n3", "flag": "lost_book"},
+						"ok": {"line": "빠진 책은 '재앙의 연대기'. 대출 기록 없이 자리만 비어 있다.", "next": "n3", "flag": "lost_book"},
 						"ng": {"line": "빠진 책이 무엇인지 끝내 알아내지 못했다.", "next": "n3"}},
 					{"label": "책장 뒤를 뒤진다", "stat": "dex", "dc": 13, "who": "cecile",
 						"ok": {"line": "책장 뒤에서 붉은 수염의 인장이 찍힌 쪽지를 찾았다. 길드를 노린다는 내용이다.", "next": "n3", "flag": "redbeard_note"},
