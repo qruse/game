@@ -86,7 +86,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 ### C01 리나 (Lina / リナ) · 18세 · 탱커 · 견습 기사
 - 특기: 위협, 운동 (힘) · 노출: 전투복 없음 / 일상복 **낮음**
 - 성격: 고지식하고 정의감이 넘친다. 기사도에 진심이지만 허당이다. 요리를 못하는데 자꾸 하려고 한다
-- 이야기: 몰락한 길드 마지막 기사의 딸. 아버지의 이름을 되찾으려고 길드에 남은 유일한 사람
+- 이야기: 용사 일행 기사 알도의 딸. 세실·아델하이트와 하웰에서 함께 자란 **소꿉친구** 셋 중 하나. 아버지의 이름을 걸고 길드 재건에 가장 먼저 나섰다 (2026-10-17 사용자: 셋은 소꿉친구)
 - 기준 이미지: `art/samples/codex-lina-v1.png` (수정 전 시안)
 - MUST KEEP: 갈색 긴 머리, 연보라색 눈, **왼쪽(보는 사람 기준 오른쪽) 옆머리의 작은 땋은 머리를 묶은 붉은 리본**
   - SD(오른쪽을 보는 3/4 시점)에서는 리본이 **얼굴 쪽 관자놀이**에 보여야 한다. 뒤통수 쪽에 있으면 반대다. 기준: `C01_sd_idle.png`
@@ -99,7 +99,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 ### C02 세실 (Cécile / セシル) · 18세 · 근접 딜러 · 도적
 - 특기: 은신, 손재주 (민첩) · 노출: 일상복 **중간**
 - 성격: 장난기 많고 입이 험하지만 의리가 있다. 톰보이
-- 이야기: 길드 금고를 털러 들어왔다가 텅 빈 금고를 보고 어이가 없어 눌러앉은 소매치기
+- 이야기: 리나·아델하이트의 **소꿉친구.** 하웰을 떠나 소매치기로 떠돌다, 리나가 길드를 되살린다는 말에 돌아왔다. 첫날 텅 빈 금고부터 열어 봤다
 - MUST KEEP: 짧은 은회색 단발(삐죽삐죽한 울프컷), 초록 눈, 왼쪽 볼의 작은 흉터, **2026-10-16 개성: 볕에 그을린 피부와 코의 주근깨, 고양이처럼 올라간 눈매, 굵은 눈썹, 덧니가 보이는 비뚜름한 웃음, 한쪽 귀의 은귀걸이, 작고 마른 체격(리나보다 작다)**
   - 전투복 전용(일상복에는 넣지 않음): 짙은 녹색 후드 망토, 가죽 조끼, 쌍단검
 - BODY: `Cecile, an 18-year-old adult woman street thief, shaggy choppy short silver-grey wolf-cut bob with a longer messy strand by the face, green eyes, small scar on her left cheek. FACE: sun-kissed lightly tanned skin with a dusting of freckles across the nose, sharp upturned cat-like eyes, thick straight expressive eyebrows, a cocky lopsided grin showing one small snaggletooth fang, a small silver hoop and a stud in her right ear, a slightly narrower foxy face; petite wiry build, clearly shorter than Lina`
@@ -109,7 +109,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 ### C03 아델하이트 (Adelheid / アーデルハイト) · 20세 · 원거리 딜러 · 마법사
 - 특기: 마법학, 지식 (지능) · 노출: 일상복 **낮음** (귀여움 담당)
 - 성격: 냉소적인 독서광. 사람보다 책을 좋아한다. 밤샘 독서가 일상
-- 이야기: 수도원에서 금서를 몰래 읽다 쫓겨난 견습 수녀 마법사
+- 이야기: 리나·세실의 **소꿉친구**(두 살 위). 수도원에서 금서를 몰래 읽다 쫓겨난 견습 수녀 마법사. 고향 하웰로 돌아와 리나가 부르는 길드에 들어왔다
 - MUST KEEP: 땋아 내린 검은 긴 머리, 금색 눈, 둥근 철테 안경, **2026-10-16 개성: 반듯한 일자 앞머리, 창백한 피부와 밤샘으로 생긴 눈 밑 그늘, 반쯤 감긴 나른한 처진 눈매, 가는 눈썹, 오른쪽 눈 밑 눈물점, 시큰둥한 입매, 키가 크고 가늘다(리나보다 크다)**
   - 전투복 전용(일상복에는 넣지 않음): 짙은 남색 수도복을 개조한 로브, 쇠사슬로 묶은 마법서, 나무 지팡이
 - BODY: `Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid with a straight blunt-cut fringe across the forehead, golden eyes, round wire-rimmed glasses. FACE: pale porcelain skin with faint shadows under the eyes from reading all night, heavy-lidded half-closed droopy eyes with a bored deadpan look, thin arched eyebrows, a small beauty mark under her right eye, a small unimpressed flat mouth, a longer oval face and long neck; tall slender willowy build, clearly taller than Lina`

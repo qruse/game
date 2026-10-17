@@ -28,8 +28,8 @@ const SCENES := {
 			["lina", "smile", "오늘부터 당신이 단장입니다."],
 			["basil", "neutral", "재건 서류는 제가 맡았습니다. 이 폐허는 당신 것입니다. 빚까지 포함해서요."],
 			["basil", "negative", "상회에서 빌린 재건 자금, 잊지 마시고요. 지붕부터 고치려면 금화가 꽤 듭니다."],
-			["cecile", "smile", "금고 털러 왔더니 텅 비었더라고. 재밌어 보여서 눌러앉았어."],
-			["adelheid", "neutral", "…시끄러워. 난 책 읽을 자리만 있으면 돼."],
+			["cecile", "smile", "리나가 길드 살린다길래 와 봤지. 금고부터 열어 봤는데 텅 비었더라."],
+			["adelheid", "neutral", "…리나가 부르니까 온 거야. 난 책 읽을 자리만 있으면 돼."],
 			["lina", "angry", "되살릴 겁니다. 아버지의 이름을 걸고요."],
 			["", "", "그렇게 당신은 폐허의 단장이 되었다."],
 		],
@@ -129,7 +129,7 @@ const SCENES := {
 	"cecile_2": {
 		"bg": "@guild",
 		"lines": [
-			["cecile", "neutral", "옛날 패거리에선 아무도 날 믿지 않았어. 나도 아무도 안 믿었고."],
+			["cecile", "neutral", "하웰을 떠나 있던 동안, 패거리에선 아무도 날 믿지 않았어. 리나랑 아델 말고는."],
 			["cecile", "embarrassed", "근데 단장은 자물쇠 앞에 날 먼저 세우더라. 이상한 사람."],
 			["cecile", "smile", "좋아. 그 믿음, 손해 안 보게 해 줄게."],
 		],
@@ -209,7 +209,7 @@ const SCENES := {
 		"bg": "backgrounds/scene/bg_room_archive.png",
 		"lines": [
 			["adelheid", "sad", "…수도원 서고. 내가 쫓겨난 곳이야."],
-			["lina", "surprised", "괜찮으시겠어요?"],
+			["lina", "surprised", "아델, 괜찮겠어?"],
 			["adelheid", "neutral", "의뢰는 의뢰지. 금서 목록만 맞추면 돼."],
 			["cecile", "smile", "금서? 비싸게 팔리겠는데."],
 			["adelheid", "angry", "손대면 손목을 얼려 버릴 거야."],
@@ -220,7 +220,7 @@ const SCENES := {
 		"bg": "backgrounds/scene/bg_room_archive.png",
 		"lines": [
 			["adelheid", "embarrassed", "…고마워. 여기 다시 올 줄은 몰랐어."],
-			["lina", "smile", "언제든 같이 와요."],
+			["lina", "smile", "언제든 같이 오자, 아델."],
 		],
 		"summary": "아델하이트는 오랜만에 서고에서 웃었다.",
 	},
