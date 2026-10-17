@@ -207,6 +207,9 @@ func add_bond(id: String, n: int) -> void:
 	var b: Dictionary = Game.bond_def(id)
 	var seen: int = bond_seen.get(id, 0)
 	var cap: int = b.need[seen] if seen < b.need.size() else b.need[-1]
+	# 문턱 0 인 단계(동료 첫인상)는 보기 전에도 다음 문턱까지 쌓인다
+	if cap == 0 and seen + 1 < b.need.size():
+		cap = b.need[seen + 1]
 	bond[id] = mini(bond.get(id, 0) + n, cap)
 
 

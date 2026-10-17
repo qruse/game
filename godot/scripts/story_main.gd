@@ -36,6 +36,7 @@ var page_view: Control
 var side: VBoxContainer
 var _luck_use := false
 var _board_sel := ""
+var autoplay := false  # 자동 플레이 시험(sims/playtest.gd): 장면을 건너뛴다
 
 
 func _ready() -> void:
@@ -149,6 +150,8 @@ func _debug_goto(g: String) -> void:
 			_show_title()
 		"continue":
 			_start_game()
+		"playtest":
+			load("res://sims/playtest.gd").run(self)
 		"mates":
 			# mates:cecile:bond
 			Game.flags["seen_week%d" % Game.week] = true
@@ -331,6 +334,9 @@ func _process(delta: float) -> void:
 
 ## 장면 재생. 건너뛰면 요약 한 줄을 띄운다
 func _play(id: String, then: Callable) -> void:
+	if autoplay:
+		then.call_deferred("", true)
+		return
 	for c in player.finished.get_connections():
 		player.finished.disconnect(c.callable)
 	player.finished.connect(func(summary: String, skipped: bool):
