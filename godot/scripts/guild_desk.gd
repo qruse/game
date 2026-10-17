@@ -5,6 +5,7 @@ extends RefCounted
 const K = preload("res://scripts/ui_kit.gd")
 const G = preload("res://scripts/guild_defs.gd")
 const SDefs = preload("res://scripts/story_defs.gd")
+const Talk = preload("res://scripts/talk.gd")
 
 ## 의뢰 인장 → 봉랍 그림
 const SEAL_KIND := {"왕관": "crown", "교회": "dawn", "상회": "scales", "쥐": "rat"}
@@ -13,6 +14,7 @@ const ROMAN := ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
 
 var m  # story_main
 var town  # town.gd
+var _say_lbl: Label  # 노라 한마디 (그림을 누르면 바뀐다)
 
 
 func _init(main, t) -> void:
@@ -90,7 +92,13 @@ func _hero(s: Control) -> void:
 	h.position = Vector2(K.px(70), 0)
 	h.offset_top = -hh + K.px(430)
 	h.offset_bottom = K.px(430)
-	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# 누르면 일반 대화 한 줄 (니케식, 제한 없음)
+	h.mouse_filter = Control.MOUSE_FILTER_STOP
+	h.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	h.gui_input.connect(func(ev):
+		if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT and _say_lbl != null:
+			_say_lbl.text = Talk.idle_line("nora")
+			Talk._type(_say_lbl))
 	s.add_child(h)
 	# 천천히 숨쉬기
 	h.pivot_offset = Vector2(h.size.x / 2.0, h.size.y)
@@ -617,13 +625,15 @@ func _say(s: Control) -> void:
 	who.add_child(tb)
 	var st := Game.bond_ready("nora")
 	if st > 0:
-		var b := K.btn_sub("이야기 %s" % ROMAN[st - 1], "i_chat", _bond_scene.bind("nora", st), 34, 132)
+		var b := K.btn_sub("이야기 %s" % ROMAN[st - 1], "i_book", _bond_scene.bind("nora", st), 34, 132)
 		who.add_child(b)
+	who.add_child(Talk.button(m, "nora", show, 34, 140))
 	v.add_child(who)
 	var box := SayBox.new()
 	for sd in [["left", 20], ["right", 44], ["top", 13], ["bottom", 14]]:
 		box.add_theme_constant_override("margin_" + sd[0], K.pxi(sd[1]))
-	box.add_child(K.label(line, 19, Color.WHITE, null, true))
+	_say_lbl = K.label(line, 19, Color.WHITE, null, true)
+	box.add_child(_say_lbl)
 	v.add_child(box)
 
 

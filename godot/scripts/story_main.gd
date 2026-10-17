@@ -14,6 +14,7 @@ const Kit = preload("res://scripts/ui_kit.gd")
 const Desk = preload("res://scripts/guild_desk.gd")
 const G = preload("res://scripts/guild_defs.gd")
 const FDefs = preload("res://scripts/fk_defs.gd")
+const Talk = preload("res://scripts/talk.gd")
 
 var touch := false
 var town  # 마을·길드 운영 화면
@@ -186,6 +187,8 @@ func _debug_goto(g: String) -> void:
 		"news":
 			Game.picks = ["bandits", "trapper"]
 			Game.results = {"bandits": "ok", "trapper": "ng"}
+			if g.get_slice(":", 1) == "rumor":
+				Game.bond_seen["martha"] = 2
 			Game.settle()
 			_show_news()
 		"scene":
@@ -202,6 +205,19 @@ func _debug_goto(g: String) -> void:
 			get_tree().change_scene_to_file.call_deferred("res://fk.tscn")
 		"lose":
 			_finale_result({"result": "lose"})
+		"talk":
+			# talk:nora (질문) / talk:nora:2 (두 번째 대답을 고른 뒤)
+			Game.flags["seen_week%d" % Game.week] = true
+			var id := g.get_slice(":", 1)
+			if id == "martha":
+				town.show_place("tavern")
+			else:
+				_show_hub()
+			Talk.open(self, id, _show_hub)
+			var ans := int(g.get_slice(":", 2)) if g.get_slice_count(":") > 2 else 0
+			if ans > 0:
+				var picks := screen.get_child(screen.get_child_count() - 1).find_children("*", "MarginContainer", true, false).filter(func(n): return n is Kit.Pick)
+				picks[ans - 1].cb.call()
 		"book":
 			Game.pages = [{"quest": "bandits", "lines": ["단장 일행은 '북쪽 마을의 도적' 의뢰를 맡아 길을 나섰다.", "겁먹은 마을 사람들이 도적이 오는 길을 알려 주었다."]}, {"quest": "trapper", "lines": ["숲 가장자리에서 덫 사냥꾼의 흔적을 찾았다."]}]
 			Game.results = {"bandits": "ok", "trapper": "ng"}
@@ -533,7 +549,9 @@ func _start_quest(qid: String) -> void:
 
 func _open_page(qid: String) -> void:
 	Game.stage = "page"
-	Game.page = {"quest": qid, "node": "start", "lines": [], "visited": ["start"], "vars": {}, "luck": Game.LUCK_START, "fail": false, "done": false}
+	# 마르타 3단계(길드의 식탁): 출발 도시락 → 행운 주사위 +1
+	var luck0: int = mini(Game.LUCK_MAX, Game.LUCK_START + (1 if Game.bond_seen.get("martha", 0) >= 3 else 0))
+	Game.page = {"quest": qid, "node": "start", "lines": [], "visited": ["start"], "vars": {}, "luck": luck0, "fail": false, "done": false}
 	_show_page()
 	var q: Dictionary = Defs.QUESTS[qid]
 	_add_line("단장 일행은 '%s' 의뢰를 맡아 길을 나섰다." % q.name)
@@ -802,10 +820,14 @@ func _camp(n: Dictionary) -> void:
 	_side_text(n.text)
 	side.add_child(Kit.spacer(0, 4))
 	side.add_child(_luck_line(p.luck))
-	_side_text("모닥불 곁에서 쉬면 행운 주사위가 하나 돌아온다 (최대 %d)." % Game.LUCK_MAX, Kit.DIM, 14)
+	# 마르타 1단계(단골): 싸 준 음식으로 야영 칸 행운 주사위 +1 더
+	var gain := 2 if Game.bond_seen.get("martha", 0) >= 1 else 1
+	_side_text("모닥불 곁에서 쉬면 행운 주사위가 %d개 돌아온다 (최대 %d)." % [gain, Game.LUCK_MAX], Kit.DIM, 14)
+	if gain > 1:
+		side.add_child(Kit.chip("마르타가 싸 준 음식 · 행운 +1", Color(Kit.GOOD, 0.2), Kit.GOOD, 13))
 	_side_fill()
-	side.add_child(Kit.btn_main("쉬어 간다", "행운 +1", func():
-		p.luck = mini(Game.LUCK_MAX, p.luck + 1)
+	side.add_child(Kit.btn_main("쉬어 간다", "행운 +%d" % gain, func():
+		p.luck = mini(Game.LUCK_MAX, p.luck + gain)
 		_apply({"line": n.line, "next": n.next}), 58))
 
 
@@ -867,6 +889,9 @@ func _finale_mods() -> Dictionary:
 	elif Game.flags.get("supply_strong", false):
 		boss += 10
 		notes.append("보급이 넉넉한 붉은 수염 · 보스 체력 +10")
+	if Game.bond_seen.get("martha", 0) >= 3:
+		luck += 1
+		notes.append("마르타가 싸 준 결전 도시락 · 행운 주사위 +1")
 	if Game.flags.get("redbeard_note", false):
 		luck += 1
 		notes.append("서고에서 찾은 쪽지로 습격을 미리 알았다 · 행운 주사위 +1")
@@ -886,6 +911,10 @@ func _show_news() -> void:
 	var lines := _week_news()
 	if lines.is_empty():
 		lines = [["quiet", "조용한 한 주", "위탁 의뢰를 맡은 모험가들만 바삐 오갔다."]]
+	# 마르타 2단계(그때 그 국자): 선술집 소문 한 줄 (다음 주 의뢰 힌트)
+	var rumors: Array = G.RUMORS.get(Game.week + 1, [])
+	if Game.bond_seen.get("martha", 0) >= 2 and not rumors.is_empty():
+		lines.append(["rumor", "선술집 소문", rumors[0]])
 	Game.news = lines.duplicate()
 	for it in lines:
 		v.add_child(Kit.hr())

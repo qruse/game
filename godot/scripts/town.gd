@@ -7,6 +7,7 @@ const K = preload("res://scripts/ui_kit.gd")
 const Desk = preload("res://scripts/guild_desk.gd")
 const Card = preload("res://scripts/adv_card.gd")
 const SDefs = preload("res://scripts/story_defs.gd")
+const Talk = preload("res://scripts/talk.gd")
 
 const ROMAN := ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
 
@@ -276,8 +277,10 @@ func show_place(id: String) -> void:
 	if path.count("%s") == 1:
 		path = path % "neutral"
 	var pt: Texture2D = Game.tex(path) if path != "" else null
+	var pic_ref: TextureRect = null
 	if pt != null:
 		var pic := TextureRect.new()
+		pic_ref = pic
 		pic.texture = pt
 		pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
@@ -300,8 +303,19 @@ func show_place(id: String) -> void:
 			Game.flags["rumor_%d" % Game.week] = true
 			for r in G.RUMORS.get(Game.week, []):
 				v.add_child(_quote(r))
-			v.add_child(_bond_row("martha", func(): show_place("tavern")))
-			v.add_child(_note("식재료 납품(호감도를 올리는 선물)은 다음 작업에서 연다. 지금은 의뢰를 성공할 때마다 호감도가 오른다."))
+			var back := func(): show_place("tavern")
+			v.add_child(_bond_row("martha", back))
+			var acts := K.hbox(8)
+			acts.add_child(Talk.button(m, "martha", back, 46, 170))
+			var fed: bool = Game.flags.get("food_%d" % Game.week, false)
+			var fb := K.btn_sub("이번 주 납품 끝" if fed else "식재료 납품", "res_herb", _deliver_food, 46, 170)
+			fb.disabled = fed or Game.mats.get("herb", 0) < 1
+			fb.tooltip_text = "약초 1 → 마르타 호감도 +%d (한 주에 한 번)" % FOOD_BOND
+			acts.add_child(fb)
+			v.add_child(acts)
+			v.add_child(_note("마르타를 누르면 말을 건다. 식재료 납품은 약초 1개, 한 주에 한 번. 의뢰를 성공해도 호감도가 조금 오른다."))
+			if pic_ref != null:
+				_talk_on_click(pic_ref, "martha")
 		"smithy":
 			v.add_child(_quote("어서 와, 단장! 장비 사고팔기랑 강화는 곧 시작할 거야. 무기고를 지어 두면 더 세게 두드려 줄게."))
 			v.add_child(_note("장비 사기·강화는 다음 작업에서 연다. 강화 상한은 길드 무기고 레벨을 따른다."))
@@ -324,7 +338,7 @@ func show_place(id: String) -> void:
 	v.add_child(back)
 
 
-const NEWS_TAG := {"ok": ["성공", K.GOOD], "half": ["절반", Color("ffd28a")], "miss": ["놓침", K.BAD], "quiet": ["소식", K.DIM]}
+const NEWS_TAG := {"ok": ["성공", K.GOOD], "half": ["절반", Color("ffd28a")], "miss": ["놓침", K.BAD], "quiet": ["소식", K.DIM], "rumor": ["소문", K.BRASS_HI]}
 
 
 ## 소식 한 줄: [kind, 이름, 글] → 색 칩 + 이름 + 글
@@ -344,6 +358,42 @@ func news_row(it, size := 16.0) -> Control:
 	v.add_child(K.label(it[2], size - 1, K.DIM, null, true))
 	h.add_child(v)
 	return h
+
+
+const FOOD_BOND := 6  # 식재료 납품 한 번
+
+
+## 마르타에게 식재료(약초 1) 납품: 한 주에 한 번, 호감도
+func _deliver_food() -> void:
+	if not Game.pay({"herb": 1}, "마르타에게 식재료 납품"):
+		return
+	Game.flags["food_%d" % Game.week] = true
+	var before: int = Game.bond.get("martha", 0)
+	Game.add_bond("martha", FOOD_BOND)
+	var got: int = Game.bond.get("martha", 0) - before
+	m._show_toast("마르타: 오, 싱싱한데! · 호감도 +%d" % got if got > 0 else "마르타: 고마워! (호감도가 다음 이야기 문턱에 닿아 있다)")
+	show_place("tavern")
+
+
+## 장소 주인 그림을 누르면 일반 대화 한 줄 (아래 대사 띠)
+func _talk_on_click(pic: TextureRect, id: String) -> void:
+	var box := Desk.SayBox.new()
+	for sd in [["left", 20], ["right", 60], ["top", 12], ["bottom", 13]]:
+		box.add_theme_constant_override("margin_" + sd[0], K.pxi(sd[1]))
+	var l := K.label(Talk.idle_line(id), 17, Color.WHITE)
+	box.add_child(l)
+	box.anchor_top = 1.0
+	box.anchor_bottom = 1.0
+	box.offset_left = K.px(30)
+	box.offset_bottom = -K.px(28)
+	box.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	m.screen.add_child(box)
+	pic.mouse_filter = Control.MOUSE_FILTER_STOP
+	pic.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	pic.gui_input.connect(func(ev):
+		if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
+			l.text = Talk.idle_line(id)
+			Talk._type(l))
 
 
 ## NPC 호감도 줄: 이름 + 마름모 3개 + 막대 (+ 이야기 버튼)

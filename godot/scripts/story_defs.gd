@@ -78,7 +78,7 @@ const SCENES := {
 			["martha", "neutral", "단장, 너희 길드 몫으로 외상 장부 하나 새로 폈다."],
 			["martha", "positive", "그리고 이거. 남은 고기파이야. 굶고 다니다 쓰러지면 외상도 못 받잖아!"],
 		],
-		"summary": "마르타가 길드 몫 외상 장부를 폈다. 야영 칸 회복량이 1 오른다.",
+		"summary": "마르타가 길드 몫 외상 장부를 폈다. 야영 칸에서 행운 주사위가 하나 더 돌아온다.",
 	},
 	"martha_2": {
 		"bg": "backgrounds/scene/bg_tavern.png",
@@ -96,7 +96,7 @@ const SCENES := {
 			["", "", "마르타가 낡은 외상 장부를 길드 사람들 앞에서 찢었다."],
 			["martha", "positive", "이제 너희가 이 마을 단골이야. 출발하는 날엔 도시락 챙겨 가!"],
 		],
-		"summary": "선술집에 하웰 길드 자리가 생겼다. 주방 시설의 출발 버프가 한 단계 오른다.",
+		"summary": "선술집에 하웰 길드 자리가 생겼다. 의뢰를 떠날 때 행운 주사위를 하나 더 들고 간다.",
 	},
 	"bandits_in": {
 		"bg": "backgrounds/scene/bg_village_square.png",
