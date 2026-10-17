@@ -149,9 +149,9 @@ for bid, ch in [("B01", "1"), ("B02", "2"), ("B03", "3")]:
             f"art/final/enemies/{bid}/{bid}_sd_{p}.png")
 
 scenes = [
- ("bg_guildhall_ruined", "P1", "길드 하우스 (폐허)", "GUILDHALL: interior of a modest two-storey medieval timber-framed guild house (like a large town inn or mead hall, NOT a palace or cathedral): dark oak posts and beams, wattle-and-daub plaster walls, plank floor, a big stone hearth, a wooden gallery. Now abandoned and damaged: a collapsed section of the thatched/plank roof letting in light, broken benches and a long trestle table, dust, cobwebs, a torn blue banner with a silver lantern emblem. Humble and homely, not luxurious."),
+ ("bg_guildhall_ruined", "P1", "길드 하우스 (폐허)", "GUILDHALL: interior of a modest two-storey medieval timber-framed guild house (like a large town inn or mead hall, NOT a palace or cathedral): dark oak posts and beams, wattle-and-daub plaster walls, plank floor, a big stone hearth, a wooden gallery. Now abandoned and damaged: a collapsed section of the thatched/plank roof letting in light, broken benches and a long trestle table, dust, cobwebs, a torn blue banner with a silver well-and-crossed-swords emblem. Humble and homely, not luxurious."),
  ("bg_guildhall_camp_night", "P1", "길드 하우스 캠프 (밤)", "The same ruined timber guild house (see GUILDHALL) at night, partly cleaned, a warm fire in the stone hearth and bedrolls, companions' gear leaning on the walls."),
- ("bg_guildhall_restored1", "P2", "길드 하우스 (복구 1단계)", "The same timber guild house (see GUILDHALL) partly restored: fresh oak beams patching the roof, a repaired long table, a new blue lantern banner."),
+ ("bg_guildhall_restored1", "P2", "길드 하우스 (복구 1단계)", "The same timber guild house (see GUILDHALL) partly restored: fresh oak beams patching the roof, a repaired long table, a new blue guild banner with the silver well-and-crossed-swords emblem."),
  ("bg_guildhall_restored2", "P2", "길드 하우스 (복구 2단계)", "The same timber guild house (see GUILDHALL) fully restored and lively: banners, warm hearth, trophy shelves, notice board with requests."),
  ("bg_noticeboard", "P1", "의뢰 게시판", "Close-up of a wooden quest notice board covered in pinned parchment notices and wax seals (no readable text)."),
  ("bg_village_square", "P1", "마을 광장", "A medieval village square with a stone well, timber-framed houses and a market stall, morning light."),
@@ -164,11 +164,11 @@ scenes = [
  ("bg_lord_hall", "P2", "영주의 대전", "The great hall of a lord's castle with a throne, tapestries and torches."),
  ("bg_city_gate_night", "P2", "밤의 성문", "A fortified city gate at night with torches and rain."),
  ("bg_world_map", "P1", "지역 지도 (이번 주 의뢰 화면 바탕)", "An illustrated parchment map of a medieval region with forests, villages, a monastery, a walled city and mountains, no labels or text. Top-down map view, with empty spots where quest pins can be placed."),
- ("bg_guildhall_past", "P1", "전성기의 길드 하우스 (회상)", "The same timber guild house (see GUILDHALL) in its glorious past: well-kept oak and plaster, blue banners with a silver lantern emblem, a busy lively hall full of adventurers, warm golden hearth light. Prosperous but still a timber guild house, not a palace."),
+ ("bg_guildhall_past", "P1", "전성기의 길드 하우스 (회상)", "The same timber guild house (see GUILDHALL) in its glorious past: well-kept oak and plaster, blue banners with a silver well-and-crossed-swords emblem, a busy lively hall full of adventurers, warm golden hearth light. Prosperous but still a timber guild house, not a palace."),
  ("bg_room_archive", "P1", "봉인된 방: 기록실", "A dusty sealed archive room inside the timber guild house (see GUILDHALL: oak beams, plaster walls, plank floor), shelves of old ledgers and scrolls, a single beam of light on a locked chest."),
  ("bg_room_armory", "P2", "봉인된 방: 무기고", "A sealed armory in the timber guild house (oak beams, plaster walls), rusted weapon racks, a broken blue banner, one empty armor stand."),
  ("bg_room_office", "P2", "봉인된 방: 길드장 집무실", "The guildmaster's sealed office in the timber guild house (oak panelling, low beamed ceiling), an overturned desk, scattered letters, a portrait with the face slashed out."),
- ("bg_room_vault", "P2", "봉인된 방: 지하 금고", "A hidden stone cellar vault beneath the timber guild house, candle stubs, a stone pedestal holding a silver lantern."),
+ ("bg_room_vault", "P2", "봉인된 방: 지하 금고", "A hidden stone cellar vault beneath the timber guild house, candle stubs, a stone pedestal holding an old iron-bound guild ledger."),
 ]
 for sid, ph, ko, ex in scenes:
     add(sid, ph, "bg_scene", "-", ko, ex, [ANCHOR], f"art/final/backgrounds/scene/{sid}.png")
@@ -195,18 +195,18 @@ cgs = [
  ("cg_ch1_inheritance", "P1", "1장 오프닝: 폐허 길드 상속", "Lina standing alone in the ruined guild hall, holding the rusted guild key out toward the viewer (the player), light through broken windows.", ["C01"]),
  ("cg_ch1_end", "P2", "1장 엔딩", "The first companions celebrating around a campfire in the ruined guild hall.", ["C01", "C02", "C03", "C04"]),
  ("cg_ch2_key", "P2", "2장 핵심 장면", "Adelheid confronting the Fallen Abbot in the candle-lit catacombs.", ["C03"]),
- ("cg_ch3_climax", "P2", "3장 클라이맥스", "Godric facing the Black Knight on a castle rampart at night, recognizing the scratched lantern emblem.", ["C06"]),
- ("cg_ending", "P2", "엔딩", "The fully restored guild hall with all companions gathered under the silver lantern banner.", ["C01", "C02", "C03", "C04", "C05", "C06"]),
+ ("cg_ch3_climax", "P2", "3장 클라이맥스", "Godric facing the Black Knight on a castle rampart at night, recognizing the old scratched-off mark on his shield.", ["C06"]),
+ ("cg_ending", "P2", "엔딩", "The fully restored guild hall with all companions gathered under the blue guild banner with the silver well-and-crossed-swords emblem.", ["C01", "C02", "C03", "C04", "C05", "C06"]),
  ("cg_C07_quest_end", "P2", "이졸데 개인 퀘스트 엔딩", "Isolde kneeling at her family's ruined manor, holding her signet ring.", ["C07"]),
  ("cg_C08_quest_end", "P2", "카샤 개인 퀘스트 엔딩", "Kasha and her wolf on a snowy northern ridge at dawn.", ["C08"]),
 ]
 affection = {
  "C01": ("P1", "Lina in her casual dress at dusk on the guild hall balcony, shyly offering a slightly burnt homemade pie to the viewer, warm sunset light"),
  "C02": ("P1", "Cecile sitting on a rooftop at night next to the viewer, sharing a stolen apple under the stars, unusually honest gentle smile"),
- "C03": ("P1", "Adelheid asleep at a candle-lit desk piled with books, the viewer's cloak draped over her shoulders, a bookmark with the guild lantern in her hand"),
+ "C03": ("P1", "Adelheid asleep at a candle-lit desk piled with books, the viewer's cloak draped over her shoulders, a bookmark with the guild crest in her hand"),
  "C04": ("P1", "Miriam by a moonlit spring without her veil, reaching out her hand toward the viewer, gentle mysterious smile"),
  "C05": ("P2", "Rowen on the tavern stage singing a song clearly dedicated to the viewer, the crowd blurred, spotlight of candlelight"),
- "C06": ("P2", "Godric and the viewer sharing ale at the restored guild hearth, Godric finally laughing, a faded lantern badge on the table"),
+ "C06": ("P2", "Godric and the viewer sharing ale at the restored guild hearth, Godric finally laughing, a faded guild-crest badge on the table"),
 }
 for cid, (ph, ex) in affection.items():
     cgs.append((f"cg_affection_{cid}", ph, f"{chars[cid][1]} 호감도 최대 CG",
@@ -217,7 +217,7 @@ for gid, ph, ko, ex, cs in cgs:
         f"art/final/cg/{gid}.png")
 
 add("mk_key_visual", "P2", "cg", "C01;C02;C03;C04;C05;C06", "키 비주얼 (로고 없음)",
-    "Game key visual: the companions posed heroically before the restored guild hall under the silver lantern banner. Leave empty space at the top for a logo.",
+    "Game key visual: the companions posed heroically before the restored guild hall under the blue guild banner with the silver well-and-crossed-swords emblem. Leave empty space at the top for a logo.",
     [ANCHOR] + [f"art/refs/C0{i}_ref_combat.png" for i in range(1, 7)], "art/final/marketing/mk_key_visual.png",
     "Steam 캡슐, 앱 아이콘은 정식 제목이 정해진 뒤 이 이미지에서 파생")
 

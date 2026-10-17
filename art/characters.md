@@ -75,7 +75,7 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 
 ## 공통 설정
 
-- 세계: 12~14세기 유럽풍 저마법(low fantasy) 중세. 몰락한 명문 모험가 길드 **"은빛 등불 길드"(가칭)**를 재건하는 이야기
+- 세계: 12~14세기 유럽풍 저마법(low fantasy) 중세. 평화의 시대에 몰락한 시골 모험가 길드 **"하웰 모험가 길드"**(전대 용사와는 관계없는 평범한 길드)를 재건하는 이야기. 길드 문장은 파란 바탕에 은빛 우물과 교차한 두 검 (등불 문장은 2026-10-17에 버렸다)
 - **주인공(길드 단장)은 화면에 그리지 않는다.** 플레이어 시점 인물이다
 - 크로마키 배경색 **#FF00FF(마젠타)는 어떤 캐릭터 디자인에도 쓰지 않는다**(배경 제거용)
 
@@ -146,9 +146,9 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 - MUST KEEP: 짧은 회색 머리와 수염, 오른쪽 눈의 가죽 안대, **개성: 한 번 부러졌던 코, 굵고 처진 눈썹, 깊은 눈가 주름, 안대 위아래로 이어진 흉터, 볕에 탄 거친 피부, 리나보다 머리 하나 큰 떡 벌어진 몸**
 - 말투: 짧게 끊는다. "…그래." "마셔." 꼭 필요한 말만 한다
 - 반전 매력: 아이들과 동물에게는 서툴게 다정하다
-  - 전투복 전용(일상복에는 넣지 않음): 낡은 갬비슨, 은빛 등불 문양이 바랜 망토, 석궁
+  - 전투복 전용(일상복에는 넣지 않음): 낡은 갬비슨, 빛바랜 파란 망토(용사 일행 시절의 것), 석궁
 - BODY: `Godric, a 55-year-old veteran, short grey hair and trimmed grey beard, leather eyepatch over his right eye. FACE: a once-broken crooked nose, thick heavy drooping eyebrows, deep crow's feet and forehead lines, an old scar running above and below the eyepatch, sun-weathered rough skin, a stern weary face; a head taller than Lina, broad barrel-chested build, NOT a handsome young man`
-- COMBAT: `wearing a worn quilted gambeson, a faded cloak with a tarnished silver lantern emblem, a heavy crossbow`
+- COMBAT: `wearing a worn quilted gambeson, a faded old blue cloak, a heavy crossbow`
 - CASUAL: `wearing a rolled-sleeve linen shirt and a leather apron, plain wool trousers, worn ankle boots, holding a wooden tankard of ale, a faint rare smile, no crossbow, no cloak`
 
 ---
@@ -192,35 +192,36 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 | N04 | 주교 엘리노어 (Eleanor) | 수도원과 교회의 권력자 | `Bishop Eleanor, a woman in her late 60s with a graceful dignified face, silver hair pinned under the mitre, high cheekbones, piercing pale blue eyes, deep but elegant wrinkles, tight thin lips, upright regal posture, white and gold vestments, mitre, crozier, NOT a young woman` |
 | N06 | 가면의 남자 | 흑막 | `a mysterious masked figure, plain white porcelain mask, black hooded cloak, faceless and unsettling` |
 | N07 | 마을 사람 (남) | 범용 의뢰인 | `a sturdy weathered farmer in his 40s, short scruffy beard, crooked nose, frayed straw hat, patched linen tunic, pitchfork` |
+| N09 | 하웰 촌장 (그림은 나중에) | 어린 주인공을 알아본 에드릭의 귓속말을 20년 동안 기억한 사람. 1장에서 길드 열쇠를 맡긴다 | 프롬프트는 새 캐릭터 개성 체크리스트대로 그릴 때 쓴다. 메모: 60대, 우호 NPC라 나이 든 멋 (마르타·바실과 다른 얼굴) |
 | N08 | 마을 사람 (여) | 범용 의뢰인 | `a village woman in her early 30s, round freckled face, thick dark braid, faded blue headscarf, wool dress and worn apron, basket of eggs` |
 
 ---
 
-## 과거의 은빛 등불 길드 (회상 전용)
+## 전대 용사 일행 (회상 전용)
 
 > 봉인된 방의 과거 회상에서 플레이하는 인물들. 회상 파티 3명(P01~P03)은 스탠딩 + SD + 레퍼런스 시트를 만든다. 의상은 1벌(전성기 길드 제복)이고, 표정은 3종(기본, 긍정, 부정)으로 줄인다.
-> 공통 의상 요소: **파란 서코트/망토에 은빛 등불 문장.** 현재 길드 재건 후 쓰일 문장과 같다.
+> 공통 의상 요소: **파란 서코트/망토 (문장 없음).** 용사 일행은 하웰 길드와 관계없으므로 하웰 문장을 넣지 않는다 (2026-10-17).
 
 ### P01 에드릭 (Edric / エドリック) · 40대 · 전 길드장 · 지휘관
 - 이야기: 30년 전 재앙을 쓰러뜨린 **용사**. 몰락 사건의 중심이고 현재는 행방불명. **누구보다 강한 검사이자 지휘관**이다 (2026-10-17 사용자 확정: 강한 건 에드릭, 약한 건 단장). docs/02 8.0절
-- MUST KEEP: 짧게 다듬은 흑갈색 머리와 수염, 회색 눈, 손등의 흉터, 파란 서코트의 은빛 등불 문장, 장검과 길드장의 등불 모양 펜던트, **개성: 위압적인 영웅상이 아니라 친근하고 소탈한 얼굴인데 은근히 잘생겼다(미형), 웃으면 눈가에 접히는 주름, 살짝 휜 코, 단련된 탄탄한 체격(알도보다 키는 작다)**
-- 말버릇: "등불은 싸우지 않는다. 길을 비출 뿐이다."
-- PROMPT: `Edric, a legendary hero and guildmaster in his early 40s, a friendly approachable everyman face that is still quietly handsome, neatly trimmed dark brown hair and short beard, kind grey eyes with laugh lines, a slightly crooked nose, scarred hands, a lean battle-hardened athletic build a little shorter than Aldo, wearing a blue surcoat with a silver lantern emblem over a mail shirt, a lantern-shaped silver pendant, a longsword, warm trusting smile`
+- MUST KEEP: 짧게 다듬은 흑갈색 머리와 수염, 회색 눈, 손등의 흉터, 파란 서코트, 장검과 은빛 펜던트, **개성: 위압적인 영웅상이 아니라 친근하고 소탈한 얼굴인데 은근히 잘생겼다(미형), 웃으면 눈가에 접히는 주름, 살짝 휜 코, 단련된 탄탄한 체격(알도보다 키는 작다)**
+- 말버릇: "문은 열어 둬. 누가 두드릴지 모르니까."
+- PROMPT: `Edric, a legendary hero and guildmaster in his early 40s, a friendly approachable everyman face that is still quietly handsome, neatly trimmed dark brown hair and short beard, kind grey eyes with laugh lines, a slightly crooked nose, scarred hands, a lean battle-hardened athletic build a little shorter than Aldo, wearing a plain blue surcoat over a mail shirt, a simple silver pendant, a longsword, warm trusting smile`
 
 ### P02 기사 알도 (Sir Aldo / アルド) · 40대 · 탱커 · 리나의 아버지
 - 이야기: 몰락 때 죽었다고 알려져 있다. 리나와 닮은 얼굴
-- MUST KEEP: **리나와 같은 갈색 머리와 연보라색 눈**, 짧은 머리, 듬직한 체격, **개성: 각진 턱과 짧은 턱수염, 굵은 일자 눈썹, 리나를 닮은 순한 눈매, 일행 중 가장 큰 키**, 리나의 것과 같은 흰 바탕 붉은 셰브런 방패(리나가 물려받은 방패), 파란 서코트의 은빛 등불 문장
-- PROMPT: `Sir Aldo, a broad-shouldered knight in his 40s, the tallest of the party, short chestnut-brown hair, pale violet eyes, a square jaw with a short beard, thick straight eyebrows, kind gentle eyes resembling his daughter, wearing chainmail and a blue surcoat with a silver lantern emblem, a white heater shield with a red chevron, a longsword`
+- MUST KEEP: **리나와 같은 갈색 머리와 연보라색 눈**, 짧은 머리, 듬직한 체격, **개성: 각진 턱과 짧은 턱수염, 굵은 일자 눈썹, 리나를 닮은 순한 눈매, 일행 중 가장 큰 키**, 리나의 것과 같은 흰 바탕 붉은 셰브런 방패(리나가 물려받은 방패), 파란 서코트
+- PROMPT: `Sir Aldo, a broad-shouldered knight in his 40s, the tallest of the party, short chestnut-brown hair, pale violet eyes, a square jaw with a short beard, thick straight eyebrows, kind gentle eyes resembling his daughter, wearing chainmail and a plain blue surcoat, a white heater shield with a red chevron, a longsword`
 
 ### P03 젊은 고드릭 (Young Godric / 若きゴドリック) · 30세 · 석궁수
 - 이야기: 현재의 고드릭. 아직 두 눈이 있고 잘 웃는다
-- MUST KEEP: 짧은 흑회색 머리, **두 눈 모두 멀쩡함(안대 없음)**, 짧은 수염, 파란 망토의 은빛 등불 문장(아직 바래지 않음), 석궁
-- PROMPT: `young Godric, a 30-year-old crossbowman, short dark grey hair, both eyes intact (no eyepatch), light stubble, cheerful cocky grin, wearing a quilted gambeson and a bright blue cloak with a polished silver lantern emblem, a heavy crossbow`
+- MUST KEEP: 짧은 흑회색 머리, **두 눈 모두 멀쩡함(안대 없음)**, 짧은 수염, 선명한 파란 망토(아직 바래지 않음), 석궁
+- PROMPT: `young Godric, a 30-year-old crossbowman, short dark grey hair, both eyes intact (no eyepatch), light stubble, cheerful cocky grin, wearing a quilted gambeson and a bright blue cloak, a heavy crossbow`
 
 ### P04 모르칸트 (Morcant / モルカント) · 30대 · 길드의 검사 (회상 속 NPC)
 - 이야기: **훗날의 흑기사.** 회상마다 표정과 태도가 조금씩 어두워진다
-- MUST KEEP: 어깨까지 오는 검은 머리, 날카로운 검은 눈, 왼쪽 눈썹의 흉터, **개성: 움푹 들어간 볼, 창백한 피부, 깊게 꺼진 눈, 얇은 입술, 마르고 길쭉한 체형**, 파란 서코트의 은빛 등불 문장, 대검
-- PROMPT: `Morcant, a lean lanky swordsman in his 30s, shoulder-length black hair, sharp deep-set dark eyes, hollow cheeks, pale skin, thin lips, a scar through his left eyebrow, wearing dark plate pieces over a blue surcoat with a silver lantern emblem, a greatsword on his back, an easy smile that does not reach his eyes`
+- MUST KEEP: 어깨까지 오는 검은 머리, 날카로운 검은 눈, 왼쪽 눈썹의 흉터, **개성: 움푹 들어간 볼, 창백한 피부, 깊게 꺼진 눈, 얇은 입술, 마르고 길쭉한 체형**, 파란 서코트, 대검
+- PROMPT: `Morcant, a lean lanky swordsman in his 30s, shoulder-length black hair, sharp deep-set dark eyes, hollow cheeks, pale skin, thin lips, a scar through his left eyebrow, wearing dark plate pieces over a plain blue surcoat, a greatsword on his back, an easy smile that does not reach his eyes`
 
 ---
 
@@ -247,4 +248,4 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 | E13 | 3 | 도시 경비병 | `a city guard with a halberd and the city's tabard` |
 | E14 | 3 | 암살자 | `an assassin in black with two curved knives` |
 | E15 | 3 | 전투견 | `an armored war hound` |
-| B03 | 3 | **보스: 흑기사** | `the Black Knight, a towering knight in blackened full plate, tattered black cape, greatsword, a faded silver lantern emblem scratched off his shield` |
+| B03 | 3 | **보스: 흑기사** | `the Black Knight, a towering knight in blackened full plate, tattered black cape, greatsword, an old emblem scratched off his shield` |
