@@ -201,7 +201,7 @@ func _grow(v: VBoxContainer) -> void:
 	# 편성
 	var inp: bool = sel in Game.party
 	var ph := K.hbox(10)
-	var pl := K.label("이번 주 의뢰에 데려간다" if inp else "길드에 남는다 (훈련장이 있으면 경험치 일부)", 14, K.GOOD if inp else K.DIM, null, true)
+	var pl := K.label("이번 의뢰에 데려간다" if inp else "길드에 남는다 (훈련장이 있으면 경험치 일부)", 14, K.GOOD if inp else K.DIM, null, true)
 	pl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ph.add_child(pl)
 	var pb := K.btn_sub("파티에서 빼기" if inp else "파티에 넣기", "i_people", _toggle_party, 38, 150)
@@ -305,7 +305,7 @@ func _bond(v: VBoxContainer) -> void:
 	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bh.add_child(bar)
 	v.add_child(bh)
-	v.add_child(K.label("데려가 판정을 맡기고 의뢰를 끝낼수록 크게 오른다. 선물과 호감도 대화는 한 주에 한 번씩.", 13, K.DIM, null, true))
+	v.add_child(K.label("데려가 판정을 맡기고 의뢰를 끝낼수록 크게 오른다. 선물과 호감도 대화는 장부 한 쪽에 한 번씩.", 13, K.DIM, null, true))
 	# 다섯 단계
 	for i in b.need.size():
 		var row := K.hbox(10)
@@ -341,7 +341,7 @@ func _bond(v: VBoxContainer) -> void:
 ## 선물: 가방에 있는 선물 중 하나 (한 주에 한 번)
 func _gifts(v: VBoxContainer) -> void:
 	var can := Game.can_gift(sel)
-	v.add_child(K.cap("선물 · 한 주에 한 번" + ("" if can else " · 이번 주에 줬다")))
+	v.add_child(K.cap("선물 · 장부 한 쪽에 한 번" + ("" if can else " · 이번에 줬다")))
 	var owned: Array = []
 	for id in P.STORE_ORDER:
 		if P.ITEMS[id].kind == "gift" and Game.items.get(id, 0) > 0:

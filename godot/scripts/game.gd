@@ -161,8 +161,16 @@ func earn(g: int, m: Dictionary, f: int, why: String) -> void:
 	week_log.append("수입 · %s (%s)" % [why, ", ".join(PackedStringArray(parts))])
 
 
-func quest_reward(qname: String, ok: bool) -> Dictionary:
-	var r: Dictionary = G.QUEST_REWARD["ok" if ok else "ng"]
+## 지금 장 (0부터): 끝낸 장 수
+func chapter() -> int:
+	var ch := 0
+	while ch < 2 and flags.get("chapter%d_done" % (ch + 1), false):
+		ch += 1
+	return ch
+
+
+func quest_reward(qname: String, ok: bool, ch := -1) -> Dictionary:
+	var r: Dictionary = G.QUEST_REWARD[chapter() if ch < 0 else ch]["ok" if ok else "ng"]
 	earn(r.gold, r.mats, r.fame, "의뢰 '%s' %s" % [qname, "성공" if ok else "절반의 성공"])
 	if ok:
 		add_bond("martha", 6)  # "길드 덕에 손님이 늘었어!"
@@ -501,10 +509,10 @@ func _make_jobs() -> void:
 	pool.shuffle()
 	for i in n:
 		var t: Array = pool[i]
-		var top := mini(G.JOB_REQ.size() - 1, 1 + rank + build)
+		var top := mini(G.JOB_REQ.size() - 1, 1 + rank + build / 2)
 		var req: int = G.JOB_REQ[randi_range(0, top)] + randi_range(-3, 3)
 		var mat: String = G.JOB_MATS[t[1]]
-		jobs.append({"id": i, "name": t[0], "tag": t[1], "req": req, "gold": int(req * 2.2) + randi_range(0, 20),
+		jobs.append({"id": i, "name": t[0], "tag": t[1], "req": req, "gold": int(req * G.JOB_GOLD) + randi_range(0, 20),
 			"mat": mat, "mat_n": 1 + req / 35 if mat != "" else 0, "fame": maxi(1, req / 15), "crew": []})
 
 
@@ -561,7 +569,7 @@ func _settle_jobs() -> void:
 				if not a.trait.get("safe", false):
 					a.hurt = 2  # 다음 주 한 주 쉰다 (new_week 에서 1 줄어든다)
 					hurt.append(a.name)
-			week_log.append("실패 · 위탁 '%s' · %s%s" % [j.name, who, (" · %s 다쳐서 한 주 쉰다" % ", ".join(PackedStringArray(hurt))) if not hurt.is_empty() else ""])
+			week_log.append("실패 · 위탁 '%s' · %s%s" % [j.name, who, (" · %s 다쳐서 한 차례 쉰다" % ", ".join(PackedStringArray(hurt))) if not hurt.is_empty() else ""])
 
 
 func _maybe_promote(a: Dictionary) -> void:

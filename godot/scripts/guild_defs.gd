@@ -16,22 +16,22 @@ const RANKS := [
 const STAGES := [
 	{"name": "폐허", "gold": 0, "mats": {}, "slots": 2, "max_lv": 1, "scout_max": 1,
 		"bg": "backgrounds/scene/bg_guildhall_ruined.png", "desc": "무너진 지붕 아래 쓸 만한 방 두 칸만 치웠다."},
-	{"name": "지붕 수리", "gold": 400, "mats": {"wood": 5}, "slots": 3, "max_lv": 1, "scout_max": 2,
+	{"name": "지붕 수리", "gold": 350, "mats": {"wood": 5}, "slots": 3, "max_lv": 1, "scout_max": 2,
 		"bg": "backgrounds/scene/bg_guildhall_restored1.png", "desc": "무너진 지붕을 새 참나무로 덮는다. 시설 3칸, 스카우트실 2레벨까지."},
-	{"name": "큰 홀 복구", "gold": 800, "mats": {"wood": 6, "iron": 2}, "slots": 4, "max_lv": 2, "scout_max": 3,
+	{"name": "큰 홀 복구", "gold": 700, "mats": {"wood": 6, "iron": 2}, "slots": 4, "max_lv": 2, "scout_max": 3,
 		"bg": "backgrounds/scene/bg_guildhall_restored2.png", "desc": "탁자와 벽난로를 고쳐 큰 홀을 다시 쓴다. 시설 4칸, 최고 2레벨."},
-	{"name": "2층 복구", "gold": 1300, "mats": {"wood": 8, "iron": 4}, "slots": 5, "max_lv": 2, "scout_max": 3,
+	{"name": "2층 복구", "gold": 1100, "mats": {"wood": 8, "iron": 4}, "slots": 5, "max_lv": 2, "scout_max": 3,
 		"bg": "backgrounds/scene/bg_guildhall_restored3.png", "desc": "회랑과 2층 방을 되살린다. 시설 5칸."},
-	{"name": "별채 증축", "gold": 2000, "mats": {"wood": 10, "iron": 6}, "slots": 6, "max_lv": 3, "scout_max": 4,
+	{"name": "별채 증축", "gold": 1500, "mats": {"wood": 10, "iron": 6}, "slots": 6, "max_lv": 3, "scout_max": 4,
 		"bg": "backgrounds/scene/bg_guildhall_restored4.png", "desc": "뒤뜰에 별채를 새로 짓는다. 시설 6칸, 최고 3레벨."},
-	{"name": "길드 완공", "gold": 3000, "mats": {"wood": 12, "iron": 8, "herb": 4}, "slots": 7, "max_lv": 3, "scout_max": 5,
+	{"name": "길드 완공", "gold": 2000, "mats": {"wood": 12, "iron": 8, "herb": 4}, "slots": 7, "max_lv": 3, "scout_max": 5,
 		"bg": "backgrounds/scene/bg_guildhall_restored5.png", "desc": "하웰 모험가 길드가 완전히 다시 선다. 시설 7칸, 스카우트실 5레벨까지."},
 ]
 
 ## 시설. cost[레벨-1] = 그 레벨로 올리는 값. fx[레벨-1] = 효과 설명
 const FACILITIES := {
 	"board": {"name": "의뢰 게시판", "max": 3,
-		"fx": ["메인 의뢰와 위탁 의뢰를 받는다", "위탁 의뢰가 1개 더 붙는다", "주마다 메인 의뢰를 1개 더 고를 수 있다 (3장 이후)"],
+		"fx": ["메인 의뢰와 위탁 의뢰를 받는다", "위탁 의뢰가 1개 더 붙는다", "메인 의뢰를 1개 더 고를 수 있다 (3장 이후)"],
 		"cost": [{}, {"gold": 300, "wood": 3}, {"gold": 700, "wood": 4, "iron": 3}]},
 	"scout": {"name": "스카우트실", "max": 5,
 		"fx": ["지원자 2명 · 최고 D급", "지원자 3명 · 최고 C급", "지원자 3명 · 최고 B급", "지원자 4명 · 최고 A급", "지원자 4명 · S급이 드물게"],
@@ -115,13 +115,21 @@ const JOBS := [
 ]
 ## 위탁 의뢰 난도: 필요 실력. 길드 등급이 오를수록 위쪽 칸까지 나온다
 const JOB_REQ := [20, 35, 50, 70, 90]
+const JOB_GOLD := 6.0  # 위탁 보상 = 필요 실력 × 이 값 (밸런스: godot/sims/econ_sim.tscn)
 const JOB_MATS := {"토벌": "iron", "호위": "", "정찰": "", "조사": "herb", "채집": "herb", "운반": "wood"}
 
-## 메인 의뢰 보상 (체험판 공통값)
-const QUEST_REWARD := {
-	"ok": {"gold": 220, "fame": 18, "mats": {"wood": 3, "iron": 1}},
-	"ng": {"gold": 90, "fame": 6, "mats": {"wood": 1}},
-}
+## 메인 의뢰 보상 (장마다 오른다. 밸런스: godot/sims/econ_sim.tscn)
+const QUEST_REWARD := [
+	{"ok": {"gold": 250, "fame": 18, "mats": {"wood": 3, "iron": 1}}, "ng": {"gold": 90, "fame": 6, "mats": {"wood": 1}}},
+	{"ok": {"gold": 350, "fame": 24, "mats": {"wood": 3, "iron": 2}}, "ng": {"gold": 120, "fame": 8, "mats": {"wood": 1, "iron": 1}}},
+	{"ok": {"gold": 450, "fame": 30, "mats": {"wood": 4, "iron": 2, "herb": 1}}, "ng": {"gold": 150, "fame": 10, "mats": {"wood": 2, "iron": 1}}},
+]
+## 결전 보상 (장마다)
+const FINALE_REWARD := [
+	{"gold": 400, "fame": 40, "mats": {"wood": 4, "iron": 2}},
+	{"gold": 600, "fame": 60, "mats": {"wood": 5, "iron": 3}},
+	{"gold": 800, "fame": 80, "mats": {"wood": 6, "iron": 4, "herb": 2}},
+]
 
 ## 마을 장소: 그림(bg_town_harwell, 1920×1080) 위의 자리
 const PLACES := {
@@ -139,10 +147,10 @@ const PLACES := {
 const BONDS := {
 	"nora": {"name": "노라", "meter": "호감도", "need": [30, 60, 100], "chapter": [0, 1, 2], "scene": "nora_",
 		"stage_names": ["부관의 스크랩북", "수도에서 온 편지", "하웰의 부관"],
-		"rewards": ["장부에 다음 주 예상 수입이 보인다", "재건 공사 금화 비용 −5%", "위탁 의뢰 보수 +10%"]},
+		"rewards": ["장부에 다음 쪽 예상 수입이 보인다", "재건 공사 금화 비용 −5%", "위탁 의뢰 보수 +10%"]},
 	"martha": {"name": "마르타", "meter": "호감도", "need": [30, 60, 100], "chapter": [0, 1, 2], "scene": "martha_",
 		"stage_names": ["단골", "그때 그 국자", "길드의 식탁"],
-		"rewards": ["야영 칸에서 행운 주사위 +1 더", "주말 소식에 선술집 소문 한 줄", "의뢰 출발 때 행운 주사위 +1"]},
+		"rewards": ["야영 칸에서 행운 주사위 +1 더", "장부를 마감하면 소식에 선술집 소문 한 줄", "의뢰 출발 때 행운 주사위 +1"]},
 }
 ## 동료 서브 스토리 5단계 (docs/04-game-flow.md 6.1절). 1단계는 합류하면 바로 볼 수 있다
 ## 장면이 아직 없는 단계는 열리지 않는다 (체험판은 1·2단계)

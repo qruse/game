@@ -38,9 +38,9 @@ static func portrait(id: String, expr: String) -> Texture2D:
 ## 호감도 대화 버튼 (이번 주에 했으면 꺼진다)
 static func button(main, id: String, back: Callable, h := 42.0, w := 150.0) -> Button:
 	var on := can_talk(id)
-	var b := K.btn_sub("호감도 대화" if on else "이번 주 대화 끝", "i_chat", func(): open(main, id, back), h, w)
+	var b := K.btn_sub("호감도 대화" if on else "이번 대화 끝", "i_chat", func(): open(main, id, back), h, w)
 	b.disabled = not on
-	b.tooltip_text = "한 주에 한 번. 대답에 따라 호감도가 %d 또는 %d 오른다" % [T.GOOD, T.OK]
+	b.tooltip_text = "장부 한 쪽에 한 번. 대답에 따라 호감도가 %d 또는 %d 오른다" % [T.GOOD, T.OK]
 	return b
 
 
@@ -88,7 +88,7 @@ static func open(main, id: String, back: Callable) -> void:
 	var head := K.vbox(2)
 	head.position = Vector2(K.px(30), K.px(26))
 	root.add_child(head)
-	head.add_child(K.shadowed(K.cap("호감도 대화 · 한 주에 한 번")))
+	head.add_child(K.shadowed(K.cap("호감도 대화 · 장부 한 쪽에 한 번")))
 	var hh2 := K.hbox(10)
 	hh2.add_child(K.shadowed(K.title(b.name, 30)))
 	var seen: int = Game.bond_seen.get(id, 0)
@@ -186,7 +186,7 @@ static func gift_button(main, id: String, back: Callable, h := 42.0, w := 130.0)
 	var on := Game.can_gift(id)
 	var b := K.btn_sub("선물" if on else "선물 줬다", "i_star", func(): _gift_box(main, id, back), h, w)
 	b.disabled = not on or not has
-	b.tooltip_text = "잡화점 선물 하나 (한 주에 한 번). 좋아함 +6 · 보통 +3 · 별로 +1" if has else "가진 선물이 없다. 잡화점에서 산다"
+	b.tooltip_text = "잡화점 선물 하나 (장부 한 쪽에 한 번). 좋아함 +6 · 보통 +3 · 별로 +1" if has else "가진 선물이 없다. 잡화점에서 산다"
 	return b
 
 
@@ -211,7 +211,7 @@ static func _gift_box(main, id: String, back: Callable) -> void:
 	root.add_child(c)
 	var v := K.vbox(8)
 	c.add_child(v)
-	v.add_child(K.cap("선물 · 한 주에 한 번"))
+	v.add_child(K.cap("선물 · 장부 한 쪽에 한 번"))
 	v.add_child(K.title("%s에게 줄 선물" % Game.bond_def(id).name, 26))
 	for k in P.STORE_ORDER:
 		if P.ITEMS[k].kind != "gift" or Game.items.get(k, 0) <= 0:

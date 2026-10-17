@@ -146,7 +146,7 @@ static func week_stamp() -> Control:
 	var n := K.num(str(Game.week), 26, K.BRASS_HI)
 	n.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(n)
-	var l := K.label("주차", 10, K.BRASS)
+	var l := K.label("쪽", 10, K.BRASS)
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(l)
 	return c
@@ -238,13 +238,13 @@ func _board() -> Control:
 	v.add_child(ph)
 	var left := K.vbox(3)
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	left.add_child(K.cap("의뢰 게시판 · 제%d주" % Game.week))
-	left.add_child(K.title("이번 주 의뢰", 32))
+	left.add_child(K.cap("의뢰 게시판 · 장부 %d쪽" % Game.week))
+	left.add_child(K.title("이번 의뢰", 32))
 	ph.add_child(left)
 	if not quests.is_empty():
 		var pk := K.vbox(8)
 		pk.alignment = BoxContainer.ALIGNMENT_END
-		var cl := K.cap("맡을 수 있는 의뢰" if not confirmed else "이번 주 진행")
+		var cl := K.cap("맡을 수 있는 의뢰" if not confirmed else "진행 중")
 		cl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		pk.add_child(cl)
 		var d := K.hbox(8)
@@ -262,7 +262,7 @@ func _board() -> Control:
 	var list := K.vbox(10)
 	v.add_child(list)
 	if quests.is_empty():
-		list.add_child(K.label("이번 주는 큰 의뢰가 없다. 위탁 의뢰를 돌리고 다음 일에 대비하자.", 15, K.DIM, null, true))
+		list.add_child(K.label("지금은 큰 의뢰가 없다. 위탁 의뢰를 돌리고 다음 일에 대비하자.", 15, K.DIM, null, true))
 	var shown: Array = Game.picks if confirmed else quests
 	for i in shown.size():
 		var qid: String = shown[i]
@@ -274,7 +274,7 @@ func _board() -> Control:
 	acts.add_child(K.btn_sub("의뢰 지도", "i_map", m._board))
 	var main: Button
 	if quests.is_empty() or (confirmed and m._left_quests().is_empty()):
-		main = K.btn_main("주말을 맞는다", "장부 정리", m._weekend)
+		main = K.btn_main("장부 정리", "이번 쪽을 마감한다", m._weekend)
 	elif not confirmed:
 		var need: int = SDefs.WEEK_PICKS - Game.picks.size()
 		main = K.btn_main("의뢰 확정", ("%d개 더 고르세요" % need) if need > 0 else "첫 의뢰로 출발", func():
@@ -348,12 +348,12 @@ func _ticket(qid: String, i: int, confirmed: bool) -> Control:
 		var g := K.hbox(5)
 		g.alignment = BoxContainer.ALIGNMENT_CENTER
 		g.add_child(K.icon("res_gold", 21, Color.WHITE))
-		g.add_child(K.num(str(G.QUEST_REWARD.ok.gold), 22, K.INK))
+		g.add_child(K.num(str(G.QUEST_REWARD[Game.chapter()].ok.gold), 22, K.INK))
 		rw.add_child(g)
 		var f := K.hbox(3)
 		f.alignment = BoxContainer.ALIGNMENT_CENTER
 		f.add_child(K.icon("res_fame", 13, Color.WHITE))
-		f.add_child(K.num("+%d" % G.QUEST_REWARD.ok.fame, 11.5, K.INK_2))
+		f.add_child(K.num("+%d" % G.QUEST_REWARD[Game.chapter()].ok.fame, 11.5, K.INK_2))
 		rw.add_child(f)
 	h.add_child(rw)
 	# 채택 도장
@@ -669,15 +669,15 @@ func _nora_line() -> String:
 	if Game.bond_ready("nora") > 0:
 		return "단장님, 5분만 시간 내 주시겠어요? 드릴 말씀이 하나 있습니다."
 	if quests.is_empty():
-		return "이번 주 큰 의뢰는 0건입니다. 위탁 의뢰를 돌려 금화를 모아 두시죠."
+		return "지금 큰 의뢰는 0건입니다. 위탁 의뢰를 돌려 금화를 모아 두시죠."
 	if not confirmed:
 		var need: int = SDefs.WEEK_PICKS - Game.picks.size()
 		if Game.picks.is_empty():
-			return "게시판에 의뢰가 %d건 붙었습니다. 이번 주엔 %d건만 고르실 수 있어요." % [quests.size(), SDefs.WEEK_PICKS]
+			return "게시판에 의뢰가 %d건 붙었습니다. 이번엔 %d건만 고르실 수 있어요." % [quests.size(), SDefs.WEEK_PICKS]
 		return "%d건 더 고르시면 됩니다. 마감은 웃는 얼굴로 기다릴게요." % need
 	var left: Array = m._left_quests()
 	if left.is_empty():
-		return "이번 주 일정 끝났습니다. 장부 정리하고 주말을 맞으시죠."
+		return "이번 일정 끝났습니다. 장부 정리하시죠."
 	return "준비 끝났습니다. '%s'부터 출발하시죠. 남은 의뢰 %d건입니다." % [SDefs.QUESTS[left[0]].name, left.size()]
 
 

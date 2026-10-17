@@ -403,7 +403,7 @@ func _save_note() -> String:
 	var d := _peek_save()
 	if d.is_empty():
 		return "새 이야기"
-	return "제%d주 · %s" % [d.get("week", 1), G.STAGES[clampi(d.get("build", 0), 0, G.STAGES.size() - 1)].name]
+	return "장부 %d쪽 · %s" % [d.get("week", 1), G.STAGES[clampi(d.get("build", 0), 0, G.STAGES.size() - 1)].name]
 
 
 func _peek_save() -> Dictionary:
@@ -483,7 +483,7 @@ func _board() -> void:
 	var confirmed: bool = Game.flags.get("picked_%d" % Game.week, false)
 	if _board_sel == "" and not quests.is_empty():
 		_board_sel = quests[0]
-	town._frame("의뢰 지도", "제%d주 · %s" % [Game.week, "이번 주 의뢰를 정했다" if confirmed else "둘만 고를 수 있다"],
+	town._frame("의뢰 지도", "장부 %d쪽 · %s" % [Game.week, "이번 의뢰를 정했다" if confirmed else "둘만 고를 수 있다"],
 		func():
 			_board_sel = ""
 			_show_hub(), "backgrounds/scene/bg_world_map.png", 0.92)
@@ -500,7 +500,7 @@ func _board() -> void:
 		screen.add_child(pin)
 	var v: VBoxContainer = town._side(520)
 	if _board_sel == "":
-		v.add_child(Kit.label("이번 주는 지도에 붙은 의뢰가 없다.", 16, Kit.DIM, null, true))
+		v.add_child(Kit.label("지금은 지도에 붙은 의뢰가 없다.", 16, Kit.DIM, null, true))
 		return
 	var q: Dictionary = Defs.QUESTS[_board_sel]
 	var head := Kit.hbox(14)
@@ -525,10 +525,10 @@ func _board() -> void:
 	var rw := Kit.hbox(8)
 	rw.add_child(Kit.label("보상", 13, Kit.DIM))
 	rw.add_child(Kit.icon("res_gold", 20, Color.WHITE))
-	rw.add_child(Kit.num(str(G.QUEST_REWARD.ok.gold), 17))
+	rw.add_child(Kit.num(str(G.QUEST_REWARD[Game.chapter()].ok.gold), 17))
 	rw.add_child(Kit.spacer(6))
 	rw.add_child(Kit.icon("res_fame", 18, Color.WHITE))
-	rw.add_child(Kit.num("+%d" % G.QUEST_REWARD.ok.fame, 17))
+	rw.add_child(Kit.num("+%d" % G.QUEST_REWARD[Game.chapter()].ok.fame, 17))
 	v.add_child(rw)
 	_enemy_preview(v, q)
 	v.add_child(Kit.spacer(0, 4))
@@ -541,9 +541,9 @@ func _board() -> void:
 	st.add_child(Kit.num("%d / %d" % [Game.picks.size(), Defs.WEEK_PICKS], 14, Kit.DIM))
 	v.add_child(st)
 	if confirmed:
-		v.add_child(Kit.label("이번 주 의뢰는 이미 정했다. 길드 하우스에서 출발한다.", 14, Kit.DIM, null, true))
+		v.add_child(Kit.label("이번 의뢰는 이미 정했다. 길드 하우스에서 출발한다.", 14, Kit.DIM, null, true))
 		return
-	v.add_child(Kit.label("고르지 않은 의뢰는 다음 주 소식으로 돌아온다.", 13, Kit.DIM, null, true))
+	v.add_child(Kit.label("고르지 않은 의뢰는 장부를 마감할 때 소식으로 돌아온다.", 13, Kit.DIM, null, true))
 	v.add_child(Kit.spacer(0, 4))
 	var acts := Kit.hbox(10)
 	v.add_child(acts)
@@ -557,7 +557,7 @@ func _board() -> void:
 	tg_b.disabled = not on and Game.picks.size() >= Defs.WEEK_PICKS
 	acts.add_child(tg_b)
 	var need: int = Defs.WEEK_PICKS - Game.picks.size()
-	var go := Kit.btn_main("이번 주 확정", ("%d개 더" % need) if need > 0 else "첫 의뢰로 출발", func():
+	var go := Kit.btn_main("의뢰 확정", ("%d개 더" % need) if need > 0 else "첫 의뢰로 출발", func():
 		_board_sel = ""
 		Game.flags["picked_%d" % Game.week] = true
 		_start_quest(Game.picks[0]))
@@ -721,7 +721,7 @@ func _luck_line(n: int) -> HBoxContainer:
 func _sync_page() -> void:
 	var p: Dictionary = Game.page
 	var q: Dictionary = Defs.QUESTS[p.quest]
-	page_view.set_state(q, p.visited, p.lines, p.luck, p.done, "하웰 모험가 길드 연대기 · 제%d주 · %s" % [Game.week, q.name])
+	page_view.set_state(q, p.visited, p.lines, p.luck, p.done, "하웰 모험가 길드 연대기 · 장부 %d쪽 · %s" % [Game.week, q.name])
 
 
 func _add_line(s: String) -> void:
@@ -1053,12 +1053,12 @@ func _show_news() -> void:
 	Kit.shade(screen, "b", 0.8, 0.5)
 	screen.add_child(Desk.resource_bar())
 	var v := _center_card(820)
-	v.add_child(Kit.cap("제%d주 · 주말" % Game.week))
-	v.add_child(Kit.title("이번 주 소식", 34))
+	v.add_child(Kit.cap("장부 %d쪽 · 마감" % Game.week))
+	v.add_child(Kit.title("그간의 소식", 34))
 	v.add_child(Kit.spacer(0, 4))
 	var lines := _week_news()
 	if lines.is_empty():
-		lines = [["quiet", "조용한 한 주", "위탁 의뢰를 맡은 모험가들만 바삐 오갔다."]]
+		lines = [["quiet", "조용한 나날", "위탁 의뢰를 맡은 모험가들만 바삐 오갔다."]]
 	# 마르타 2단계(그때 그 국자): 선술집 소문 한 줄 (다음 주 의뢰 힌트)
 	var rumors: Array = G.RUMORS.get(Game.week + 1, [])
 	if Game.bond_seen.get("martha", 0) >= 2 and not rumors.is_empty():
@@ -1070,9 +1070,9 @@ func _show_news() -> void:
 	v.add_child(Kit.hr())
 	if Game.week < Defs.FINALE_WEEK:
 		v.add_child(Kit.spacer(0, 6))
-		v.add_child(Kit.label("다음 주에도 의뢰는 들어온다. 스카우트실에 새 지원자가 찾아온다.", 14, Kit.DIM, null, true))
+		v.add_child(Kit.label("다음 쪽에도 의뢰는 들어온다. 스카우트실에 새 지원자가 찾아온다.", 14, Kit.DIM, null, true))
 		v.add_child(Kit.spacer(0, 6))
-		v.add_child(Kit.btn_main("다음 주로", "제%d주" % (Game.week + 1), func():
+		v.add_child(Kit.btn_main("다음 장부로", "장부 %d쪽" % (Game.week + 1), func():
 			Game.week += 1
 			Game.picks = []
 			Game.new_week()
@@ -1137,6 +1137,8 @@ func _finale_result(res: Dictionary) -> void:
 		# 이번 장 상회 빚 몫을 못 갚았으면 다음 장에 추심 의뢰
 		if Game.debt_due() > 0:
 			Game.flags["collect_ch2"] = true
+		var fr: Dictionary = G.FINALE_REWARD[Game.chapter()]
+		Game.earn(fr.gold, fr.mats, fr.fame, "결전 승리")
 		Game.flags["chapter1_done"] = true
 		for k in Game.party:
 			Game.add_bond(k, G.CB_FINALE)

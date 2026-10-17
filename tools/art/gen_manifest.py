@@ -96,7 +96,7 @@ npcs = [("N01", "martha", "마르타", "P1", 3), ("N02", "basil", "바실", "P1"
         ("N03", "oswald", "오스왈드", "P2", 3), ("N04", "eleanor", "엘리노어", "P2", 3),
         ("N06", "masked", "가면의 남자", "P2", 1),
         ("N07", "villager_m", "마을 사람(남)", "P1", 1), ("N08", "villager_f", "마을 사람(여)", "P1", 1),
-        ("N11", "tobias", "촌장 토비아스", "P1", 3), ("N12", "greta", "대장장이 그레타", "P1", 1),
+        ("N11", "tobias", "촌장 토비아스", "P1", 3), ("N12", "wolfram", "대장장이 볼프람", "P1", 1),
         ("N13", "pip", "잡화점 주인 핍", "P1", 1), ("N14", "nora", "부관 노라", "P1", 3)]
 for nid, slug, ko, ph, n in npcs:
     base = f"art/final/npcs/{nid}_{slug}"
@@ -245,7 +245,8 @@ CHAR_STEPS = {"C02": ("S07", "S08"), "C03": ("S09", "S10"), "C04": ("S11", "S12"
 def step_of(r):
     i, ph, fmt, subj = r["id"], r["phase"], r["format"], r["subject"]
     if i.startswith("P0_"): return "S01"
-    if i in S33_IDS or subj in ("N11", "N12", "N13"): return "S33"
+    if subj == "N12": return "S35"  # 2026-10-17 대장장이 남캐로 교체
+    if i in S33_IDS or subj in ("N11", "N13"): return "S33"
     if i == "C01_ref_combat": return "S02"
     if i in S03_IDS: return "S03"
     if i.startswith("C01_"):

@@ -97,7 +97,7 @@ func _draw() -> void:
 	# 머리: 머리말 + 의뢰 이름 + 행운 주사위
 	var x0 := r.position.x + pad
 	var y0 := r.position.y + pad
-	draw_string(K.f_cap, Vector2(x0, y0 + K.px(12)), "하웰 모험가 길드 연대기 · 제%d주" % Game.week, HORIZONTAL_ALIGNMENT_LEFT, -1, K.pxi(12), Color("8a6a3a"))
+	draw_string(K.f_cap, Vector2(x0, y0 + K.px(12)), "하웰 모험가 길드 연대기 · 장부 %d쪽" % Game.week, HORIZONTAL_ALIGNMENT_LEFT, -1, K.pxi(12), Color("8a6a3a"))
 	draw_string(K.f_title, Vector2(x0, y0 + K.px(56)), quest.get("name", title), HORIZONTAL_ALIGNMENT_LEFT, r.size.x - pad * 2.0 - K.px(200), K.pxi(36), INK)
 	var lx := r.end.x - pad
 	draw_string(K.f_cap, Vector2(lx - K.px(160), y0 + K.px(12)), "행운 주사위", HORIZONTAL_ALIGNMENT_RIGHT, K.px(160), K.pxi(11), K.INK_2)

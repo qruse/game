@@ -213,10 +213,10 @@ func _plate(id: String, text: String, alert: bool) -> Button:
 
 func _town_hint() -> String:
 	if not Game.flags.get("picked_%d" % Game.week, false) and not _week_quests().is_empty():
-		return "길드 하우스에서 이번 주 의뢰를 고르자."
+		return "길드 하우스에서 이번 의뢰를 고르자."
 	if not m._left_quests().is_empty():
 		return "의뢰를 떠날 준비가 되면 길드 하우스로."
-	return "이번 주 할 일을 마쳤으면 길드 하우스에서 주말을 맞자."
+	return "할 일을 마쳤으면 길드 하우스에서 장부를 정리하자."
 
 
 ## 새 일이 있는 장소에 붉은 표시
@@ -264,7 +264,7 @@ class TownMap extends Control:
 
 const PLACE_INFO := {
 	"tavern": {"bg": "backgrounds/scene/bg_tavern.png", "who": "martha", "cap": "단골 술집"},
-	"smithy": {"bg": "backgrounds/scene/bg_smithy.png", "who": "greta", "cap": "무기와 갑옷"},
+	"smithy": {"bg": "backgrounds/scene/bg_smithy.png", "who": "wolfram", "cap": "무기와 갑옷"},
 	"store": {"bg": "backgrounds/scene/bg_general_store.png", "who": "pip", "cap": "회복약 · 선물 · 식재료"},
 	"chief": {"bg": "backgrounds/scene/bg_chief_house.png", "who": "tobias", "cap": "길드 등급"},
 	"square": {"bg": "backgrounds/scene/bg_village_square.png", "who": "farmer", "cap": "소식 게시판"},
@@ -312,12 +312,12 @@ func show_place(id: String) -> void:
 			acts.add_child(Talk.button(m, "martha", back, 46, 170))
 			acts.add_child(Talk.gift_button(m, "martha", back, 46, 110))
 			var fed: bool = Game.flags.get("food_%d" % Game.week, false)
-			var fb := K.btn_sub("이번 주 납품 끝" if fed else "식재료 납품", "res_herb", _deliver_food, 46, 170)
+			var fb := K.btn_sub("이번 납품 끝" if fed else "식재료 납품", "res_herb", _deliver_food, 46, 170)
 			fb.disabled = fed or (Game.food_count() < 1 and Game.mats.get("herb", 0) < 1)
-			fb.tooltip_text = "잡화점 식재료 1개 (없으면 약초 1) → 마르타 호감도 +%d (한 주에 한 번)" % FOOD_BOND
+			fb.tooltip_text = "잡화점 식재료 1개 (없으면 약초 1) → 마르타 호감도 +%d (장부 한 쪽에 한 번)" % FOOD_BOND
 			acts.add_child(fb)
 			v.add_child(acts)
-			v.add_child(_note("마르타를 누르면 말을 건다. 식재료 납품은 잡화점 식재료나 약초 1개, 한 주에 한 번. 의뢰를 성공해도 호감도가 조금 오른다."))
+			v.add_child(_note("마르타를 누르면 말을 건다. 식재료 납품은 잡화점 식재료나 약초 1개, 장부 한 쪽에 한 번. 의뢰를 성공해도 호감도가 조금 오른다."))
 			if pic_ref != null:
 				_talk_on_click(pic_ref, "martha")
 		"smithy":
@@ -329,9 +329,9 @@ func show_place(id: String) -> void:
 		"square":
 			Game.flags["news_%d" % Game.week] = true
 			if Game.news.is_empty():
-				v.add_child(_quote("아직 붙은 소식이 없다. 주말이 지나면 우물가 게시판에 소식이 붙는다."))
+				v.add_child(_quote("아직 붙은 소식이 없다. 장부를 마감하면 우물가 게시판에 소식이 붙는다."))
 			else:
-				v.add_child(K.cap("우물가 게시판 · 지난 주 소식"))
+				v.add_child(K.cap("우물가 게시판 · 지난 소식"))
 				for it in Game.news:
 					v.add_child(_hr())
 					v.add_child(news_row(it, 14))
@@ -504,7 +504,7 @@ func show_scout() -> void:
 	var row := K.hbox(18)
 	area.add_child(row)
 	if Game.applicants.is_empty():
-		row.add_child(K.shadowed(K.label("이번 주 지원자는 모두 계약했거나 떠났다.", 17)))
+		row.add_child(K.shadowed(K.label("이번 지원자는 모두 계약했거나 떠났다.", 17)))
 	for i in Game.applicants.size():
 		var a: Dictionary = Game.applicants[i]
 		var c := _card(a, _card_w() * (1.15 if Game.applicants.size() <= 3 else 1.0))
@@ -517,7 +517,7 @@ func show_scout() -> void:
 		row.add_child(c)
 	# 오른쪽: 고른 지원자
 	var v := _side(520)
-	v.add_child(K.cap("이번 주 지원자 · %d명" % Game.applicants.size()))
+	v.add_child(K.cap("이번 지원자 · %d명" % Game.applicants.size()))
 	if _sel_app >= 0 and _sel_app < Game.applicants.size():
 		var a: Dictionary = Game.applicants[_sel_app]
 		var gi: Dictionary = G.GRADE_INFO[a.grade]
@@ -543,7 +543,7 @@ func show_scout() -> void:
 			v.add_child(K.label("명부가 꽉 찼다. 숙소를 지으면 늘어난다.", 13, K.BAD))
 		elif Game.gold < fee:
 			v.add_child(K.label("금화가 모자란다.", 13, K.BAD))
-	v.add_child(_note("명부 %d / %d명 · 뽑지 않은 지원자는 주말에 떠난다. 주급은 없다." % [Game.roster.size(), Game.roster_cap()]))
+	v.add_child(_note("명부 %d / %d명 · 뽑지 않은 지원자는 장부를 마감하면 떠난다. 주급은 없다." % [Game.roster.size(), Game.roster_cap()]))
 
 
 func _grade_chip(grade: String) -> Label:
@@ -606,7 +606,7 @@ func show_roster() -> void:
 # ── 위탁 의뢰 ──
 
 func show_jobs() -> void:
-	_frame("위탁 의뢰", "명부의 모험가에게 맡긴다 · 결과는 주말 장부에", func():
+	_frame("위탁 의뢰", "명부의 모험가에게 맡긴다 · 결과는 장부 마감 때", func():
 		_sel_job = -1
 		show_guild())
 	if _sel_job < 0 and not Game.jobs.is_empty():
@@ -619,7 +619,7 @@ func show_jobs() -> void:
 	m.screen.add_child(lc)
 	var lv := K.vbox(8)
 	lc.add_child(lv)
-	lv.add_child(K.cap("이번 주 위탁 · %d건" % Game.jobs.size()))
+	lv.add_child(K.cap("이번 위탁 · %d건" % Game.jobs.size()))
 	for i in Game.jobs.size():
 		lv.add_child(_job_row(i))
 	# 오른쪽 위: 고른 의뢰
@@ -646,7 +646,7 @@ func show_jobs() -> void:
 	else:
 		ch_text = "성공 가능성 %s  ·  기록실을 지으면 숫자로 보인다" % ("높음" if ch >= 0.7 else ("보통" if ch >= 0.45 else "낮음"))
 	v.add_child(K.bold(ch_text, 17, Color("9fe39a") if ch >= 0.6 else (K.BRASS_HI if not j.crew.is_empty() else K.DIM)))
-	v.add_child(_note("특기가 맞으면 실력이 25% 더 쳐진다. 실패하면 다친 모험가는 한 주 쉰다."))
+	v.add_child(_note("특기가 맞으면 실력이 25% 더 쳐진다. 실패하면 다친 모험가는 한 차례 쉰다."))
 	# 아래: 맡길 수 있는 모험가 카드
 	var sc := ScrollContainer.new()
 	sc.anchor_right = 1.0
@@ -880,13 +880,13 @@ func show_ledger(e: Dictionary, then: Callable) -> void:
 	v.add_child(top)
 	var tl := K.vbox(2)
 	tl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	tl.add_child(K.cap("제%d주 결산" % e.week))
+	tl.add_child(K.cap("장부 %d쪽 결산" % e.week))
 	tl.add_child(K.title("단장의 장부", 34))
 	top.add_child(tl)
 	top.add_child(K.icon("i_ledger", 40, K.BRASS_HI))
 	v.add_child(_hr())
 	if e.lines.is_empty():
-		v.add_child(K.label("이번 주는 적을 게 없었다.", 16, K.DIM))
+		v.add_child(K.label("이번엔 적을 게 없었다.", 16, K.DIM))
 	for ln in e.lines:
 		v.add_child(_ledger_line(ln))
 	v.add_child(_hr())
@@ -899,11 +899,11 @@ func show_ledger(e: Dictionary, then: Callable) -> void:
 	if Game.bond_seen.get("nora", 0) >= 1:  # 노라 1단계: 다음 주 예상 수입
 		var fc := K.hbox(8)
 		fc.add_child(K.chip("부관 노라", Color(K.BLUE, 0.35), Color.WHITE, 12))
-		fc.add_child(K.label("다음 주 예상 수입 약 %d 금화 (최근 장부 평균)" % _forecast(), 14, K.DIM))
+		fc.add_child(K.label("다음 쪽 예상 수입 약 %d 금화 (최근 장부 평균)" % _forecast(), 14, K.DIM))
 		v.add_child(fc)
 	_debt_row(v, e, then)
 	v.add_child(K.spacer(0, 6))
-	v.add_child(K.btn_main("소식 보기", "제%d주 마무리" % e.week, then))
+	v.add_child(K.btn_main("소식 보기", "장부 %d쪽 마무리" % e.week, then))
 
 
 ## 금저울 상회 빚: 남은 빚, 이번 장까지 갚을 몫, 갚기 버튼 (docs/04-game-flow.md 3.8 ⑥)
@@ -979,7 +979,7 @@ func _total(key: String, val: String, col: Color) -> Control:
 # ── 대장간: 동료 장비 바꾸기 · 강화 (강화 상한은 무기고) ──
 
 func _smithy(v: VBoxContainer) -> void:
-	v.add_child(_quote("단장, 오늘은 뭘 두드려 줄까? 쓰던 건 값 쳐서 받아 줄게."))
+	v.add_child(_quote("왔나, 단장. 쓰던 건 값 쳐서 받아 주지. 오늘은 뭘 두드릴까."))
 	if _smith_sel == "" or not Game.heroes.has(_smith_sel):
 		_smith_sel = Game.party[0]
 	var hs := K.hbox(6)
@@ -1012,7 +1012,7 @@ func _smithy(v: VBoxContainer) -> void:
 			ph.add_child(K.spacer(0, 0, true))
 			var pb := K.btn_sub("강화 +%d" % (g[1] + 1), "i_hammer", func():
 				if Game.plus_gear(_smith_sel, kind):
-					m._show_toast("그레타: 좋아, 단단해졌어!")
+					m._show_toast("볼프람: 됐다. 한결 단단해졌어.")
 				show_place("smithy"), 38, 150)
 			pb.disabled = not Game.can_pay(c)
 			ph.add_child(pb)
@@ -1037,7 +1037,7 @@ func _smithy(v: VBoxContainer) -> void:
 			var locked: bool = Game.build < P.TIERS[nt].build
 			var bb := K.btn_sub("공사 %d단계 뒤" % P.TIERS[nt].build if locked else "사기", "i_anvil", func():
 				if Game.buy_gear(_smith_sel, kind, nt):
-					m._show_toast("그레타: 새 장비야. 아껴 써!")
+					m._show_toast("볼프람: 새 물건이다. 아껴 써라.")
 				show_place("smithy"), 38, 150)
 			bb.disabled = locked or not Game.can_pay(c2)
 			th.add_child(bb)
