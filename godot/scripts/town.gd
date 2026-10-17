@@ -431,38 +431,7 @@ func _chief(v: VBoxContainer) -> void:
 # ── 길드 하우스 ──
 
 func show_guild() -> void:
-	m._clear()
-	Game.stage = "hub"
-	var t: Texture2D = Game.tex(G.STAGES[Game.build].bg)
-	m.bg.texture = t if t != null else Game.tex("backgrounds/scene/bg_guildhall_ruined.png")
-	m.bg.modulate = Color(0.85, 0.82, 0.78)
-	_head("하웰 모험가 길드", "제%d주 · 길드 하우스: %s" % [Game.week, G.STAGES[Game.build].name])
-	var v := _side_panel(0.13)
-	v.add_child(m._label("단장의 책상", _fs(18, 28), Color(0.96, 0.84, 0.55), false))
-	v.add_child(m.divider(_fs(200, 320)))
-	# 이번 주 할 일
-	var left: Array = m._left_quests()
-	if Game.picks.is_empty() and not _week_quests().is_empty():
-		v.add_child(_tile("m_board", "의뢰 게시판", "이번 주 의뢰 %d개 중 %d개를 고른다" % [_week_quests().size(), SDefs.WEEK_PICKS], m._show_board, 0, true))
-	elif not left.is_empty():
-		v.add_child(_tile("m_depart", "출발", "다음 의뢰: %s" % SDefs.QUESTS[left[0]].name, func(): m._start_quest(left[0]), 0, true))
-	else:
-		var sub := "이번 주는 큰 의뢰가 없다. 위탁 의뢰를 돌리자" if _week_quests().is_empty() else "장부를 정리하고 다음 주로"
-		v.add_child(_tile("m_weekend", "주말을 맞는다", sub, m._weekend, 0, true))
-	# 길드 운영
-	var g := GridContainer.new()
-	g.columns = 2
-	g.add_theme_constant_override("h_separation", _fs(8, 14))
-	g.add_theme_constant_override("v_separation", _fs(8, 14))
-	v.add_child(g)
-	var idle := Game.jobs.filter(func(j): return j.crew.is_empty()).size()
-	g.add_child(_tile("m_jobs", "위탁 의뢰", "%d개 · 맡길 일 %d" % [Game.jobs.size(), idle], show_jobs, idle if not Game.roster.is_empty() else 0))
-	g.add_child(_tile("m_scout", "스카우트실", "지원자 %d명" % Game.applicants.size(), show_scout, Game.applicants.size()))
-	g.add_child(_tile("m_roster", "모험가 명부", "%d / %d명" % [Game.roster.size(), Game.roster_cap()], show_roster))
-	var can_build := Game.build + 1 < G.STAGES.size() and Game.can_pay(Game.stage_cost(Game.build + 1))
-	g.add_child(_tile("m_build", "재건 공사", "공사 %d / %d단계" % [Game.build, G.STAGES.size() - 1], show_build, 1 if can_build else 0))
-	g.add_child(_tile("m_book", "연대기", "%d쪽" % Game.pages.size(), m._show_book))
-	g.add_child(_tile("m_town", "마을로", "하웰 마을", show_town))
+	m.desk.show()
 
 
 # ── 스카우트실 ──

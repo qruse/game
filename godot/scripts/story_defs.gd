@@ -143,7 +143,7 @@ const SCENES := {
 ## 선택지: stat, dc, who(정해진 동료, 없으면 파티에서 가장 높은 동료), ok/ng → {line, next, set(페이지 변수), flag}
 const QUESTS := {
 	"bandits": {
-		"name": "북쪽 마을의 도적", "seal": "왕관", "client": "마을 사람", "pin": Vector2(0.66, 0.2),
+		"name": "북쪽 마을의 도적", "seal": "왕관", "client": "북쪽 마을", "short": "밤마다 내려와 곡식을 털어 가는 도적 떼", "tags": ["토벌", "전투 2회"], "risk": 2, "pin": Vector2(0.66, 0.2),
 		"desc": "도적이 밤마다 내려와 곡식을 털어 간다. 마을을 지켜 줄 사람이 필요하다.",
 		"intro": "bandits_in", "outro_ok": "bandits_ok", "outro_ng": "bandits_ng",
 		"skip": {"news": "북쪽 마을이 도적에게 털렸다. 마을 사람들이 길드를 원망한다.", "flag": "village_raided"},
@@ -173,7 +173,7 @@ const QUESTS := {
 		},
 	},
 	"trapper": {
-		"name": "숲의 덫사냥꾼 조사", "seal": "상회", "client": "공증인 바실", "pin": Vector2(0.38, 0.55),
+		"name": "숲의 덫사냥꾼 조사", "seal": "상회", "client": "공증인 바실", "short": "도적과 내통한다는 소문의 사냥꾼", "tags": ["정찰", "조사"], "risk": 1, "pin": Vector2(0.38, 0.55),
 		"desc": "숲길 상인 마차가 털린다. 덫사냥꾼 하나가 도적과 내통한다는 소문.",
 		"intro": "trapper_in", "outro_ok": "trapper_ok", "outro_ng": "trapper_ng",
 		"skip": {"news": "숲길에서 상인 마차가 또 털렸다. 도적의 보급이 넉넉해졌다.", "flag": "supply_strong"},
@@ -221,7 +221,7 @@ const QUESTS := {
 		},
 	},
 	"archive": {
-		"name": "수도원 서고 정리", "seal": "교회", "client": "수도원", "pin": Vector2(0.9, 0.15),
+		"name": "수도원 서고 정리", "seal": "교회", "client": "수도원", "short": "금서 목록이 맞지 않는 서고", "tags": ["조사"], "risk": 1, "pin": Vector2(0.9, 0.15),
 		"desc": "수도원 서고의 금서 목록이 맞지 않는다. 책을 잘 아는 사람이 필요하다.",
 		"intro": "archive_in", "outro_ok": "archive_ok", "outro_ng": "archive_ok",
 		"skip": {"news": "수도원 서고에서 금서 한 권이 사라졌다는 소문이 돈다. 아델하이트는 아무 말도 하지 않았다.", "flag": "archive_skipped"},

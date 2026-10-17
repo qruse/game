@@ -10,9 +10,12 @@ const ScenePlayer = preload("res://scripts/scene_player.gd")
 const Page = preload("res://scripts/chronicle_page.gd")
 const Battle = preload("res://scripts/fk_battle.gd")
 const Town = preload("res://scripts/town.gd")
+const Kit = preload("res://scripts/ui_kit.gd")
+const Desk = preload("res://scripts/guild_desk.gd")
 
 var touch := false
 var town  # 마을·길드 운영 화면
+var desk  # 길드 하우스 로비
 var bold: Font
 var bg: TextureRect
 var screen: Control
@@ -37,8 +40,11 @@ func _ready() -> void:
 	var t: Dictionary = UI.make_theme(touch)
 	theme = t.theme
 	bold = t.bold
+	Kit.setup(touch, theme.default_font, bold)
+	Kit.apply_theme(theme)
 	set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 	town = Town.new(self)
+	desk = Desk.new(self, town)
 	var black := ColorRect.new()
 	black.color = Color(0.06, 0.05, 0.04)
 	black.set_anchors_preset(PRESET_FULL_RECT)
@@ -132,6 +138,9 @@ func _debug_goto(g: String) -> void:
 		"town":
 			town.show_town()
 		"hub":
+			Game.flags["seen_week%d" % Game.week] = true
+			if g.get_slice(":", 1) == "pick":
+				Game.picks = ["bandits"]
 			_show_hub()
 		"scout":
 			town.show_scout()
@@ -339,7 +348,7 @@ func divider(w: float) -> TextureRect:
 
 ## 길드 하우스 (단장의 책상). 마을에서 들어온다 (town.gd)
 func _show_hub() -> void:
-	town.show_guild()
+	desk.show()
 
 
 ## 주말: 위탁 의뢰 결과까지 정리한 장부 → 소식
@@ -412,6 +421,7 @@ func _board() -> void:
 	v.add_child(_label("고른 의뢰 %d / %d · 고르지 않은 의뢰는 다음 주 소식으로 돌아온다" % [Game.picks.size(), Defs.WEEK_PICKS], 12 if touch else 18, Color(0.85, 0.8, 0.7)))
 	var go := _btn("이번 주 확정", func():
 		_board_sel = ""
+		Game.flags["picked_%d" % Game.week] = true
 		_start_quest(Game.picks[0]), true)
 	go.disabled = Game.picks.size() < Defs.WEEK_PICKS
 	v.add_child(go)

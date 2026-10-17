@@ -53,6 +53,7 @@ def copy_art() -> int:
         "art/final/enemies/*/*_sd_*.png",
         "art/final/props/*.png",
         "art/final/characters/*/*_portrait_combat_*.png",  # 이야기 장면은 전투복 스탠딩
+        "art/final/characters/*/*_portrait_casual_smile.png",  # 길드 하우스 로비
         "art/final/npcs/*/*_portrait_*.png",
     ] + used_art()
     n = 0
@@ -88,19 +89,31 @@ def used_text() -> str:
     return "".join(sorted(c for c in chars if c.isprintable()))
 
 
-def make_font() -> str:
-    out_dir = os.path.join(ROOT, "godot", "fonts")
-    os.makedirs(out_dir, exist_ok=True)
-    out = os.path.join(out_dir, "NotoSansKR-Game.ttf")
+def _subset(src: str, out: str, text: str) -> None:
     opts = subset.Options()
     opts.layout_features = ["*"]
     opts.name_IDs = ["*"]
     opts.notdef_outline = True
-    font = TTFont(SRC_FONT)
+    font = TTFont(src)
     sub = subset.Subsetter(opts)
-    sub.populate(text=used_text())
+    sub.populate(text=text)
     sub.subset(font)
     font.save(out)
+
+
+def make_font() -> str:
+    out_dir = os.path.join(ROOT, "godot", "fonts")
+    os.makedirs(out_dir, exist_ok=True)
+    out = os.path.join(out_dir, "NotoSansKR-Game.ttf")
+    text = used_text()
+    _subset(SRC_FONT, out, text)
+    # 제목(송명)·숫자와 소제목(함렛): OFL, art/src/fonts 원본에서 같은 글자만 남긴다
+    # 함렛은 숫자·로마 숫자(라틴 글자)에만 쓰므로 영문·기호만
+    latin = "".join(chr(c) for c in range(0x20, 0x7F)) + "·×→←…—–%"
+    for name, t in [("SongMyung", text), ("Hahmlet", latin)]:
+        src = glob.glob(os.path.join(ROOT, "art", "src", "fonts", name + "*.ttf"))[0]
+        _subset(src, os.path.join(out_dir, name + "-Game.ttf"), t)
+        shutil.copy2(os.path.join(ROOT, "art", "src", "fonts", "OFL-%s.txt" % name), os.path.join(out_dir, "OFL-%s.txt" % name))
     # OFL: 저작권 표시와 라이선스를 글꼴과 함께 배포한다
     name = TTFont(SRC_FONT)["name"]
     copy = name.getDebugName(0) or ""

@@ -5,5 +5,7 @@ $root = (Resolve-Path "$PSScriptRoot\..\..").Path
 $godot = "$env:LOCALAPPDATA\Microsoft\WinGet\Packages\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\Godot_v4.7.2-stable_win64_console.exe"
 python "$root\tools\ui\ui_svg.py"
 python "$root\tools\icons\hub_ui.py"
+python "$root\tools\icons\line_icons.py"
+python "$root\tools\icons\faction_seals.py"
 & $godot --headless --path "$root\godot" -s "$root\tools\ui\render_ui.gd"
 & $godot --headless --path "$root\godot" --import | Out-Null
