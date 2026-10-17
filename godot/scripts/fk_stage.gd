@@ -189,6 +189,8 @@ func _feet(uid: int) -> Vector2:
 	var y: float = 0.74 + 0.10 * (u.slot % 2)
 	if u.side == "ally":
 		x = 0.38 - 0.12 * u.slot
+	elif battle.wide and u.slot < 5:
+		x = 0.585 + 0.09 * u.slot
 	elif u.slot < 4:
 		x = 0.62 + 0.10 * u.slot
 	else:
@@ -368,6 +370,7 @@ func _draw_unit(u, font: Font, fs: int) -> void:
 			else:
 				draw_string(font, r.position + Vector2(0, isz * 0.8), str(k).substr(0, 1), HORIZONTAL_ALIGNMENT_LEFT, -1, int(isz * 0.7), Color(1.0, 0.9, 0.6))
 			sx += isz + 3.0
+	_draw_intent(u, feet, top, bp.y + bh + nfs * 2.2 + 4.0, nf, nfs, down)
 	if u.uid == actor_uid:
 		var ay := top - fs * 1.6 + sin(_t * 5.0) * 4.0
 		# 지금 차례: 놋쇠 마름모 (ui_kit 규칙)
@@ -375,6 +378,38 @@ func _draw_unit(u, font: Font, fs: int) -> void:
 		draw_colored_polygon(PackedVector2Array([dc + Vector2(0, -11), dc + Vector2(9, 0), dc + Vector2(0, 11), dc + Vector2(-9, 0)]), Color("f0d596"))
 		draw_polyline(PackedVector2Array([dc + Vector2(0, -11), dc + Vector2(9, 0), dc + Vector2(0, 11), dc + Vector2(-9, 0), dc + Vector2(0, -11)]), Color(0.04, 0.06, 0.11, 0.8), 1.5, true)
 	_hits.append({"rect": Rect2(feet.x - h * 0.28, feet.y - h * 0.85, h * 0.56, h * 0.95), "ref": ref})
+
+
+## 노림 표시: 적 머리 위 "▶ 대상", 노림받는 동료 이름 아래 "노림 N" (도발·은신으로 바꿀 수 있다)
+func _draw_intent(u, feet: Vector2, top: float, below: float, font: Font, fs: int, down: bool) -> void:
+	if battle.result != "" or down or _fade.has(u.uid):
+		return
+	var text := ""
+	var col := Color(1.0, 0.55, 0.45)
+	var y := 0.0
+	if u.side == "enemy":
+		if u.intent == -1:
+			return
+		if u.intent == -2:
+			text = "▶ 동료 전원"
+		else:
+			var t = battle.unit(u.intent)
+			if t == null:
+				return
+			text = "▶ " + t.name
+		y = top - fs * 2.9
+	else:
+		var n: int = battle.threat_on(u)
+		if n <= 0:
+			return
+		text = "노림 %d" % n
+		col = Color(1.0, 0.42, 0.36) if n >= 2 else Color(1.0, 0.62, 0.5)
+		y = below
+	var w := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x + fs * 0.9
+	var r := Rect2(feet.x - w / 2.0, y - fs * 1.05, w, fs * 1.4)
+	draw_rect(r, Color(0.08, 0.03, 0.03, 0.82))
+	draw_rect(r, Color(col, 0.75), false, 1.0)
+	draw_string(font, Vector2(r.position.x, y), text, HORIZONTAL_ALIGNMENT_CENTER, w, fs, col)
 
 
 ## 소품 그림 크기 (유닛 키 대비, 512 정사각 캔버스 한 변)

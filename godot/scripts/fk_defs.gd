@@ -34,10 +34,12 @@ const HEROES := {
 
 ## atk: 명중 보너스, power: 칸을 전부 성공했을 때 피해, slots: 판정 칸 수
 const ENEMIES := {
-	"bandit": {"name": "도적", "hp": 15, "def": 12, "spd": 2, "atk": 4, "power": 7, "slots": 2, "color": Color(0.55, 0.30, 0.22)},
-	"archer": {"name": "도적 궁수", "hp": 11, "def": 12, "spd": 4, "atk": 4, "power": 7, "slots": 2, "color": Color(0.45, 0.40, 0.20)},
-	"wolf": {"name": "늑대", "hp": 12, "def": 13, "spd": 5, "atk": 4, "power": 6, "slots": 2, "color": Color(0.40, 0.40, 0.45)},
-	"redbeard": {"name": "붉은 수염", "hp": 60, "def": 14, "spd": 2, "atk": 5, "power": 11, "slots": 3, "boss": true, "color": Color(0.62, 0.10, 0.10)},
+	"bandit": {"name": "도적", "hp": 18, "def": 12, "spd": 2, "atk": 4, "power": 8, "slots": 2, "color": Color(0.55, 0.30, 0.22)},
+	"archer": {"name": "도적 궁수", "hp": 13, "def": 12, "spd": 4, "atk": 4, "power": 8, "slots": 2, "color": Color(0.45, 0.40, 0.20)},
+	"wolf": {"name": "늑대", "hp": 14, "def": 13, "spd": 5, "atk": 4, "power": 7, "slots": 2, "color": Color(0.40, 0.40, 0.45)},
+	"trapper": {"name": "덫사냥꾼", "hp": 18, "def": 12, "spd": 3, "atk": 4, "power": 8, "slots": 2, "color": Color(0.42, 0.36, 0.24)},
+	"boar": {"name": "멧돼지", "hp": 24, "def": 11, "spd": 1, "atk": 3, "power": 10, "slots": 2, "color": Color(0.38, 0.27, 0.2)},
+	"redbeard": {"name": "붉은 수염", "hp": 85, "def": 14, "spd": 2, "atk": 5, "power": 12, "slots": 3, "boss": true, "color": Color(0.62, 0.10, 0.10)},
 }
 
 ## target: enemy / ally / ally_any(쓰러진 아군 포함) / self / all_enemies / all_allies
@@ -120,5 +122,25 @@ const BATTLES := [
 			{"key": "chandelier", "x": 0.71, "y": 0.10},
 			{"key": "ale_cask", "x": 0.555, "y": 0.82},
 		],
+	},
+	{
+		"name": "도적 야영지", "desc": "보급 수레 옆에서 쉬던 도적들. 술통과 기름 항아리가 쌓여 있다",
+		"bg": "backgrounds/battle/bt_ch1_bandit_cliff.png",
+		"enemies": ["bandit", "bandit", "archer", "bandit", "archer"],
+		"objects": [
+			{"key": "table", "x": 0.06, "y": 0.86},
+			{"key": "oil_jar", "x": 0.515, "y": 0.82},
+			{"key": "ale_cask", "x": 0.465, "y": 0.66},
+		],
+	},
+	{
+		"name": "어두운 숲", "desc": "달아난 덫사냥꾼이 늑대를 풀었다",
+		"bg": "backgrounds/battle/bt_ch1_forest_ambush.png",
+		"enemies": ["wolf", "trapper", "wolf"],
+		"objects": [
+			{"key": "bush", "x": 0.05, "y": 0.86},
+			{"key": "dead_tree", "x": 0.74, "y": 0.40},
+		],
+		"event": {"round": 3, "alive": "trapper", "spawn": ["wolf"], "warn": "3라운드 끝: 덫사냥꾼이 살아 있으면 휘파람 → 늑대 증원", "text": "덫사냥꾼이 휘파람을 불었다! 늑대가 1마리 더 나타났다"},
 	},
 ]

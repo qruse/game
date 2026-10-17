@@ -1,19 +1,20 @@
 Asset: N12_portrait_neutral
-Step: S35
+Step: S35 rework
 Date: 2026-10-17 (Asia/Seoul)
 Tool: built-in image_gen
 Model: identifier not exposed by built-in tool
-Attempts: 1; no retries
+Attempts: exactly 1; NEW full-body generation; no retries
 Tool options: transparent_background=true
-Raw: art/raw/N12_portrait_neutral_v2.png
+Raw: art/raw/N12_portrait_neutral_v3.png
+Previous final backup: art/raw/N12_portrait_neutral_v1_soft.png
 References (attachment order):
 art/refs/style-anchor.png
 art/final/npcs/N01_martha/N01_portrait_neutral.png
-Postprocessing: 1024x1536 transparent PNG; native antialiased edge alpha retained, deep interiors forced to alpha 255; despill.py RGB rule (radius 10) applied using the existing C# technical processor; no repositioning. Python unavailable.
+Postprocessing: 1024x1536 RGBA PNG; native antialiased edge alpha retained, deep interiors forced to 255; despill.py radius-10 RGB rule using existing C# technical processor; no repositioning. No visual self-QA or comparison sheets.
 
 FULL PROMPT:
 Use case: stylized-concept
-Asset: N12_portrait_neutral; S35 dialogue standing portrait.
+Asset: N12_portrait_neutral; S35 NEW full-body standing game illustration.
 
 Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
 cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
@@ -23,15 +24,17 @@ wool, linen, leather, heraldry, candlelight, stone and timber.
 Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
 forest green, parchment cream, warm browns.
 
-Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas. Output exactly 1024x1536 PNG with a genuinely transparent background, no backdrop, no ground shadow. One person only. Fully opaque character interiors and smooth antialiased edge alpha.
+Dialogue standing portrait for a visual-novel conversation screen. NEW composition: FULL BODY standing, complete head-to-toe figure including both feet fully inside the canvas, facing the viewer with body angled slightly, eyes looking at the viewer, centered, small clear margins. Hands and shoulder hammer fully inside the canvas. Exactly 1024x1536 portrait PNG with a genuinely transparent background, no backdrop, no ground shadow. One person only; fully opaque character interior and smooth antialiased edge alpha. Full-body framing is explicitly required for this request and overrides the usual knee-up portrait format and the reference crop.
 
-NPC PROMPT from NEW N12 block in characters.md (verbatim):
-Wolfram, the Harwell blacksmith, a handsome weathered man in his mid 40s, tall and broad-shouldered with strong forearms, lightly tanned skin, a defined jaw with a neatly trimmed short dark beard with grey at the chin, swept-back dark brown hair greying at the temples tied in a short low ponytail, calm deep-set grey eyes with faint crow's feet, a thin old scar across the bridge of the nose, a dark leather apron over a rolled-sleeve charcoal work shirt open at the collar, a rust-orange neckerchief, a leather bracer on his right forearm, heavy gloves tucked in his belt, a forging hammer resting on his shoulder, a quiet confident half smile
+UPDATED N12 character block (verbatim):
+Wolfram, the Harwell blacksmith, a rugged weather-beaten man in his mid 40s, NOT pretty and NOT a bishonen, coarse heavy features, a broad flat nose that was broken once, a thick unkempt dark beard with grey streaks, bushy brows, deep creases on the forehead and around narrow grey eyes, ruddy soot-stained skin with burn marks, shaggy greying dark hair tied back roughly, a thick bull neck, barrel chest and huge hairy forearms, a dark scorched leather apron over a sweat-stained rolled-sleeve charcoal work shirt, a rust-orange neckerchief, a battered leather bracer on his right forearm, heavy gloves tucked in his belt, a forging hammer resting on his shoulder, a gruff closed-mouth look with a faint grudging smirk
 
 Manifest extra (verbatim):
-REDESIGN 2026-10-17: the blacksmith is now a MAN (Wolfram), mid 40s, slightly handsome. Discard the old Greta image entirely (face, hair, outfit, body). Follow the NEW N12 block in characters.md exactly. Calm closed-mouth confident half smile. Keep the shoulder hammer fully inside the canvas. Use the Martha reference ONLY for art style, canvas size and framing.
+REDESIGN v2 2026-10-17: rugged, rough and weather-beaten blacksmith in his mid 40s. NOT handsome, NOT pretty, NOT bishonen; the previous draft looked too soft and smooth, discard its face entirely. Coarse heavy features, broken nose, thick unkempt beard, bushy brows, deep wrinkles, soot and burn marks, thick neck and heavy build. Follow the N12 block in characters.md exactly. Gruff closed-mouth expression with a faint grudging smirk. Keep the shoulder hammer fully inside the canvas. Use the Martha reference ONLY for art style, canvas size and framing.
 
-Reference 1 (style-anchor): illustration style and rendering only. Reference 2 (Martha): art style, canvas size, comparable head scale and knee-up framing ONLY. Do not copy either reference character's identity, face, hair, clothing, body type, props or signature colors. Wolfram is visibly a man in his mid 40s, NOT a handsome young man; retain the handsome mature face, grey temples, trimmed beard, faint crow's feet and nose-bridge scar. Quiet confident CLOSED-MOUTH half smile. Preserve the right-forearm bracer on his anatomical right forearm. Keep the entire forging hammer, including its head and handle, inside the canvas with a small margin. Follow the new N12 design exactly.
+Generate a NEW image from this updated rugged design; do not edit or reuse any earlier Wolfram or Greta draft. Coarse, rough, weather-beaten and visibly mid-40s. Thick irregular features, a broad flattened once-broken nose, untidy bristly dark-and-grey beard, heavy bushy brows, deep forehead and eye creases, ruddy soot-stained skin and healed burn marks, bull neck, barrel chest, huge hairy forearms. A gruff CLOSED-MOUTH look with a faint grudging smirk. No beautification: NOT handsome, NOT pretty, NOT bishonen, no smooth youthful face, no neatly groomed beard, no soft elegant features. Keep the battered bracer on his anatomical RIGHT forearm. Practical worn medieval work trousers and work shoes for the full-body view.
+
+Reference image 1: style-anchor, rendering and linework ONLY. Reference image 2: Martha, rendering, canvas proportions and dialogue-standing presentation ONLY; extend to full body rather than copying her crop. Do not copy either woman's identity, face, hair, costume, body, props or signature colors. The N12 block determines Wolfram's identity, build, colors, costume and props. Rendering should retain coarse work-worn surface character rather than beautifying the subject.
 
 Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
 modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);

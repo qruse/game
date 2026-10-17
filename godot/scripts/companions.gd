@@ -1,6 +1,6 @@
 extends RefCounted
-## 동료 화면: 왼쪽 동료 목록, 가운데 스탠딩, 오른쪽 카드 (성장 / 유대 두 쪽)
-## 성장: 편성 · 레벨 · 능력치 · 장비 · 스킬. 유대: 호감도 5단계 · 이야기 · 호감도 대화 · 선물 (docs/04-game-flow.md 5, 6절)
+## 동료 화면: 왼쪽 동료 목록, 가운데 스탠딩(누르면 한 줄), 오른쪽 카드
+## 편성 · 레벨 · 능력치 · 장비 · 스킬 (docs/04-game-flow.md 9.2). 동료 호감도는 없다 (2026-10-17 사용자)
 
 const K = preload("res://scripts/ui_kit.gd")
 const G = preload("res://scripts/guild_defs.gd")
@@ -10,12 +10,10 @@ const SDefs = preload("res://scripts/story_defs.gd")
 const Desk = preload("res://scripts/guild_desk.gd")
 const Talk = preload("res://scripts/talk.gd")
 
-const ROMAN := ["I", "II", "III", "IV", "V"]
 const SKILL_ICON := ["basic", "skill1", "skill2", "ult"]
 
 var m  # story_main
 var sel := ""
-var tab := "grow"  # grow / bond
 var _say: Label
 
 
@@ -23,23 +21,17 @@ func _init(main) -> void:
 	m = main
 
 
-func show(key := "", t := "") -> void:
+func show(key := "") -> void:
 	if key != "":
 		sel = key
-	if t != "":
-		tab = t
 	if sel == "" or not Game.heroes.has(sel):
 		sel = Game.party[0] if not Game.party.is_empty() else Game.heroes.keys()[0]
-	m.town._frame("동료", "편성 · 장비 · 레벨 · 스킬 · 호감도", m.desk.show)
+	m.town._frame("동료", "편성 · 장비 · 레벨 · 스킬", m.desk.show)
 	var s: Control = m.screen
 	_portrait(s)
 	_list(s)
 	_card(s)
 	_hint(s)
-
-
-func _back() -> void:
-	show()
 
 
 # ── 왼쪽: 동료 목록 ──
@@ -75,18 +67,10 @@ func _list(s: Control) -> void:
 		nh.add_child(K.bold(d.name, 17, K.BRASS_HI if k == sel else Color.WHITE))
 		nh.add_child(K.num("Lv %d" % h.lv, 14, K.DIM))
 		tv.add_child(nh)
-		var sh := K.hbox(6)
-		sh.add_child(K.label(d.role, 12, K.DIM))
-		var seen: int = Game.bond_seen.get(k, 0)
-		for i in G.COMPANION_STAGES.size():
-			sh.add_child(K.Diamond.make(K.px(4), K.BRASS_HI, i < seen, i < seen))
-		tv.add_child(sh)
+		tv.add_child(K.label(d.role, 12, K.DIM))
 		row.add_child(tv)
 		if k in Game.party:
 			row.add_child(K.chip("파티", Color(K.BLUE, 0.6), Color.WHITE, 11))
-		if Game.bond_ready(k) > 0 or (Talk.can_talk(k) and Talk.T.TALKS.has(k)):
-			var bd := K.badge("!")
-			row.add_child(bd)
 		if k == sel:
 			p.add_theme_constant_override("margin_left", K.pxi(20))
 		v.add_child(p)
@@ -179,19 +163,7 @@ func _card(s: Control) -> void:
 	lv.add_child(xb)
 	hd.add_child(lv)
 	v.add_child(hd)
-	# 쪽 고르기
-	var tabs := K.hbox(8)
-	for tt in [["grow", "성장", "i_sword"], ["bond", "유대", "i_chat"]]:
-		var b := K.btn_sub(tt[1], tt[2], show.bind(sel, tt[0]), 40, 0)
-		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		if tt[0] == tab:
-			b.add_theme_stylebox_override("normal", K.sb_flat(Color(K.BLUE, 0.45), K.BLUE_HI, 1))
-		tabs.add_child(b)
-	v.add_child(tabs)
-	if tab == "grow":
-		_grow(v)
-	else:
-		_bond(v)
+	_grow(v)
 
 
 func _grow(v: VBoxContainer) -> void:
@@ -287,89 +259,4 @@ func _toggle_party() -> void:
 			Game.party.erase(sel)
 	elif Game.party.size() < 3:
 		Game.party.append(sel)
-	show()
-
-
-func _bond(v: VBoxContainer) -> void:
-	var b := Game.bond_def(sel)
-	var seen: int = Game.bond_seen.get(sel, 0)
-	# 호감도 막대
-	var bh := K.hbox(10)
-	bh.add_child(K.label("호감도", 13, K.DIM))
-	bh.add_child(K.num(str(Game.bond.get(sel, 0)), 22, Color.WHITE))
-	var bar := Desk.Bar.new()
-	bar.ratio = Game.bond_ratio(sel)
-	bar.col = K.BLUE_HI
-	bar.custom_minimum_size = Vector2(K.px(160), K.px(4))
-	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bh.add_child(bar)
-	v.add_child(bh)
-	v.add_child(K.label("데려가 판정을 맡기고 의뢰를 끝낼수록 크게 오른다. 선물과 호감도 대화는 장부 한 쪽에 한 번씩.", 13, K.DIM, null, true))
-	# 다섯 단계
-	for i in b.need.size():
-		var row := K.hbox(10)
-		var done: bool = i < seen
-		row.add_child(K.Diamond.make(K.px(7), K.BRASS_HI, done, done))
-		row.add_child(K.num(ROMAN[i], 14, K.BRASS_HI if done else K.DIM))
-		var tv := K.vbox(0)
-		tv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		tv.add_child(K.bold(b.stage_names[i], 15, Color.WHITE if done or i == seen else K.DIM))
-		var cond := ""
-		if not done:
-			var parts: Array = []
-			if b.need[i] > 0:
-				parts.append("호감도 %d" % b.need[i])
-			if b.chapter[i] > 0:
-				parts.append("%d장 완료" % b.chapter[i])
-			cond = " · ".join(PackedStringArray(parts)) if not parts.is_empty() else "지금 볼 수 있다"
-		var rw: String = b.rewards[i]
-		tv.add_child(K.label((rw + ("  ·  " if rw != "" and cond != "" else "") + cond) if (rw + cond) != "" else "", 12, K.DIM, null, true))
-		row.add_child(tv)
-		if Game.bond_ready(sel) == i + 1:
-			row.add_child(K.btn_sub("보기", "i_book", func(): Desk.play_bond(m, sel, i + 1, _back), 34, 90))
-		v.add_child(row)
-	v.add_child(K.hr())
-	# 호감도 대화 + 선물
-	var acts := K.hbox(8)
-	if Talk.T.TALKS.has(sel):
-		acts.add_child(Talk.button(m, sel, _back, 42, 170))
-	v.add_child(acts)
-	_gifts(v)
-
-
-## 선물: 가방에 있는 선물 중 하나 (한 주에 한 번)
-func _gifts(v: VBoxContainer) -> void:
-	var can := Game.can_gift(sel)
-	v.add_child(K.cap("선물 · 장부 한 쪽에 한 번" + ("" if can else " · 이번에 줬다")))
-	var owned: Array = []
-	for id in P.STORE_ORDER:
-		if P.ITEMS[id].kind == "gift" and Game.items.get(id, 0) > 0:
-			owned.append(id)
-	if owned.is_empty():
-		v.add_child(K.label("가진 선물이 없다. 잡화점에서 산다.", 13, K.DIM))
-		return
-	var gr := GridContainer.new()
-	gr.columns = 2
-	gr.add_theme_constant_override("h_separation", K.pxi(8))
-	gr.add_theme_constant_override("v_separation", K.pxi(8))
-	for id in owned:
-		var p := K.pick(_give.bind(id), 8)
-		p.disabled = not can
-		p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var h := K.hbox(6)
-		h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		h.add_child(K.bold(P.ITEMS[id].name, 14, Color.WHITE if can else K.DIM))
-		h.add_child(K.num("×%d" % Game.items[id], 13, K.DIM))
-		p.add_child(h)
-		gr.add_child(p)
-	v.add_child(gr)
-
-
-func _give(id: String) -> void:
-	var r := Game.give_gift(sel, id)
-	if r.is_empty():
-		return
-	var say: Array = P.GIFTS.get(sel, {}).get("say", ["고마워.", "고마워.", "고마워."])
-	m._show_toast("%s: %s · 호감도 +%d" % [FDefs.HEROES[sel].name, say[r[0]], r[1]] if r[1] > 0 else "%s: %s" % [FDefs.HEROES[sel].name, say[r[0]]])
 	show()

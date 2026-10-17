@@ -42,6 +42,7 @@ class Unit:
 	var downed := false
 	var removed := false
 	var n_act := 0
+	var intent := -1  # 적: 이번 라운드에 노리는 동료 uid (-2 = 동료 전원, -1 = 없음)
 
 	func alive() -> bool:
 		return not downed and not removed
@@ -61,6 +62,7 @@ var result := ""
 var downs := 0
 var round_event := {}
 var potions := 0  # 이야기 모드에서 들고 온 회복약 (Game.items)
+var wide := false  # 처음부터 적이 다섯 이상이면 무대 오른쪽에 다섯 칸을 펼친다
 const POTION_HEAL := 10
 var _next_uid := 1
 
@@ -71,6 +73,7 @@ func setup(battle_idx: int, party: Array) -> void:
 	title = b.name
 	bg = b.bg
 	round_event = b.get("event", {}).duplicate()
+	wide = b.enemies.size() >= 5
 	for i in party.size():
 		units.append(_make_hero(party[i], i))
 	var es: Array = []
@@ -284,7 +287,9 @@ func hurt(t: Unit, amount: int, src := "") -> void:
 		t.downed = true
 		t.st.clear()
 		downs += 1
-		_log("%s 쓰러짐! (치유로 일으킬 수 있다)" % t.name)
+		_log("%s 쓰러짐! (치유나 회복약으로 일으킬 수 있다)" % t.name)
+		for e in side_units("enemy"):
+			_fix_intent(e)
 		events.append({"t": "pose", "uid": t.uid, "pose": "down", "to": -1, "obj": -1})
 	else:
 		t.removed = true
@@ -317,6 +322,9 @@ func add_st(t: Unit, s: String, turns: int) -> void:
 		return
 	t.st[s] = maxi(t.st.get(s, 0), turns)
 	_float(t, Defs.STATUS[s], PURPLE if s in ["stun", "burn", "taunt"] else GOLD)
+	if s in ["taunt", "stealth"]:
+		for e in side_units("enemy"):
+			_fix_intent(e)
 
 
 func _check_end() -> void:
@@ -337,6 +345,41 @@ func _make_order() -> void:
 	live.sort_custom(_faster)
 	order = live.map(func(u): return u.uid)
 	turn_idx = 0
+	plan_intents()
+
+
+## 라운드 시작: 적마다 누구를 칠지 미리 정해 무대에 보여 준다 (도발·은신이면 바뀐다)
+func plan_intents() -> void:
+	var allies := side_units("ally")
+	for e in side_units("enemy"):
+		if allies.is_empty():
+			e.intent = -1
+		elif e.boss and (e.n_act + 1) % 3 == 0:
+			e.intent = -2
+		else:
+			e.intent = _pick_target(e, allies).uid
+
+
+## 노림이 지금도 유효한지 보고, 아니면 다시 고른다
+func _fix_intent(e: Unit) -> void:
+	if e.intent == -2:
+		return
+	var allies := side_units("ally")
+	if allies.is_empty():
+		e.intent = -1
+		return
+	var t := unit(e.intent)
+	if has_st(e, "taunt") or t == null or not t.alive() or has_st(t, "stealth"):
+		e.intent = _pick_target(e, allies).uid
+
+
+## 이 동료를 노리는 적 수
+func threat_on(a: Unit) -> int:
+	var n := 0
+	for e in side_units("enemy"):
+		if e.intent == a.uid or e.intent == -2:
+			n += 1
+	return n
 
 
 ## 속도가 빠른 순, 같으면 동료 먼저, 그다음 앞자리부터
@@ -423,7 +466,7 @@ func actions_for(u: Unit) -> Array:
 		out.append({"id": sid, "name": s.name, "kind": "ult" if sid == u.ult else "skill", "slots": s.get("slots", 0), "stat": s.get("stat", ""), "ready": ready and not targets(u, sid).is_empty(), "note": note, "desc": desc})
 	out.append({"id": "guard", "name": "방어", "kind": "basic", "slots": 0, "stat": "", "ready": true, "note": "", "desc": "다음 턴까지 방어 +3"})
 	if potions > 0:
-		out.append({"id": "potion", "name": "회복약", "kind": "item", "slots": 0, "stat": "", "ready": not targets(u, "potion").is_empty(), "note": "%d개" % potions, "desc": "동료 하나 체력 %d 회복 (판정 없음)" % POTION_HEAL})
+		out.append({"id": "potion", "name": "회복약", "kind": "item", "slots": 0, "stat": "", "ready": not targets(u, "potion").is_empty(), "note": "%d개" % potions, "desc": "동료 하나 체력 %d 회복, 쓰러진 동료도 일으킨다 (판정 없음)" % POTION_HEAL})
 	return out
 
 
@@ -522,8 +565,8 @@ func targets(u: Unit, aid: String) -> Array:
 			for a in side_units("ally"):
 				out.append({"k": "u", "uid": a.uid})
 		"ally_hurt":
-			for a in side_units("ally"):
-				if a.hp < a.max_hp:
+			for a in side_units("ally", true):
+				if a.downed or a.hp < a.max_hp:
 					out.append({"k": "u", "uid": a.uid})
 		"ally_any":
 			for a in side_units("ally", true):
@@ -741,7 +784,7 @@ func enemy_act(e: Unit) -> void:
 	var allies := side_units("ally")
 	if allies.is_empty():
 		return
-	if e.boss and e.n_act % 3 == 0:
+	if e.intent == -2:
 		_pose(e, "attack")
 		_log("%s 휩쓸기! (동료 전원, 난이도 13)" % e.name)
 		var ok_n := roll_slots(e, "휩쓸기", 2, e.atk, 13)
@@ -750,7 +793,8 @@ func enemy_act(e: Unit) -> void:
 		for a in allies:
 			hurt(_guarded(a), scaled(7, ok_n, 2), "←휩쓸기")
 		return
-	var t := _pick_target(e, allies)
+	_fix_intent(e)
+	var t := unit(e.intent)
 	_pose(e, "attack", t.uid)
 	var ok_n := roll_slots(e, "공격 → %s" % t.name, e.slots, e.atk, eff_def(t))
 	if ok_n == 0:
@@ -767,7 +811,7 @@ func _pick_target(e: Unit, allies: Array) -> Unit:
 	var seen: Array = allies.filter(func(a): return not has_st(a, "stealth"))
 	if seen.is_empty():
 		seen = allies
-	if rng.randf() < 0.55:
+	if rng.randf() < 0.4:
 		var low: Unit = seen[0]
 		for a in seen:
 			if a.hp < low.hp:
@@ -811,11 +855,22 @@ func auto_act(u: Unit) -> void:
 		if hurt_a != null:
 			act(u, "miriam_heal", {"k": "u", "uid": hurt_a.uid}, locks)
 			return
+	# 노림을 보고 막는다: 약한 동료가 여럿에게 노려지면 도발, 자기가 몰리면 연막·방어
 	if u.key == "lina" and acts.has("lina_taunt"):
 		for a in side_units("ally"):
-			if a != u and a.hp * 5 < a.max_hp * 3:
+			if a != u and (threat_on(a) >= 2 or (threat_on(a) >= 1 and a.hp * 2 < a.max_hp)):
 				act(u, "lina_taunt", {"k": "self"})
 				return
+	if u.key == "cecile" and acts.has("cecile_smoke") and threat_on(u) >= 2:
+		act(u, "cecile_smoke", {"k": "self"})
+		return
+	var pot_t: Unit = null
+	for a in side_units("ally", true):
+		if a.downed:
+			pot_t = a
+	if pot_t != null and acts.has("potion"):
+		act(u, "potion", {"k": "u", "uid": pot_t.uid})
+		return
 	if u.key == "adelheid" and acts.has("adel_fire") and enemies.size() >= 2:
 		for o in objects:
 			if flammable(o) and Defs.OBJECTS[o.key].fire == "explode":

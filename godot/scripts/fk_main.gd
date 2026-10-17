@@ -12,9 +12,9 @@ const Kit = preload("res://scripts/ui_kit.gd")
 const Desk = preload("res://scripts/guild_desk.gd")
 
 ## 적 그림이 아직 없어서, 동료 SD 를 어둡게 칠해 자리만 잡는다
-const ENEMY_SIL := {"bandit": "C01_lina", "archer": "C03_adelheid", "wolf": "C02_cecile", "redbeard": "C01_lina"}
+const ENEMY_SIL := {"bandit": "C01_lina", "archer": "C03_adelheid", "wolf": "C02_cecile", "redbeard": "C01_lina", "trapper": "C01_lina", "boar": "C02_cecile"}
 ## 적 그림 폴더 (art/final/enemies/<ID>). 그림은 왼쪽을 보고 있다
-const ENEMY_ART := {"bandit": "E01", "archer": "E02", "wolf": "E03", "redbeard": "B01"}
+const ENEMY_ART := {"bandit": "E01", "archer": "E02", "wolf": "E03", "redbeard": "B01", "boar": "E04", "trapper": "E05"}
 
 var battle = null
 var stage: Control
