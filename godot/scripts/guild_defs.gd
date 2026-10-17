@@ -12,14 +12,20 @@ const RANKS := [
 	{"name": "금패", "fame": 200},
 ]
 
-## 재건 공사: 단계마다 배경이 바뀌고, 시설 칸과 시설 최고 레벨이 늘어난다
+## 재건 공사 5단계 (0은 시작 상태): 단계마다 배경이 바뀌고, 시설 칸과 시설 최고 레벨이 늘어난다
 const STAGES := [
-	{"name": "폐허 정리", "gold": 0, "mats": {}, "slots": 2, "max_lv": 1, "scout_max": 1,
+	{"name": "폐허", "gold": 0, "mats": {}, "slots": 2, "max_lv": 1, "scout_max": 1,
 		"bg": "backgrounds/scene/bg_guildhall_ruined.png", "desc": "무너진 지붕 아래 쓸 만한 방 두 칸만 치웠다."},
-	{"name": "지붕과 홀 수리", "gold": 600, "mats": {"wood": 6}, "slots": 4, "max_lv": 2, "scout_max": 3,
-		"bg": "backgrounds/scene/bg_guildhall_restored1.png", "desc": "지붕을 다시 얹고 큰 홀을 고친다. 시설 4칸, 최고 2레벨."},
-	{"name": "증축과 2층 복구", "gold": 1800, "mats": {"wood": 10, "iron": 6}, "slots": 7, "max_lv": 3, "scout_max": 5,
-		"bg": "backgrounds/scene/bg_guildhall_restored2.png", "desc": "2층과 별채를 되살린다. 시설 7칸, 최고 3레벨."},
+	{"name": "지붕 수리", "gold": 400, "mats": {"wood": 5}, "slots": 3, "max_lv": 1, "scout_max": 2,
+		"bg": "backgrounds/scene/bg_guildhall_restored1.png", "desc": "무너진 지붕을 새 참나무로 덮는다. 시설 3칸, 스카우트실 2레벨까지."},
+	{"name": "큰 홀 복구", "gold": 800, "mats": {"wood": 6, "iron": 2}, "slots": 4, "max_lv": 2, "scout_max": 3,
+		"bg": "backgrounds/scene/bg_guildhall_restored2.png", "desc": "탁자와 벽난로를 고쳐 큰 홀을 다시 쓴다. 시설 4칸, 최고 2레벨."},
+	{"name": "2층 복구", "gold": 1300, "mats": {"wood": 8, "iron": 4}, "slots": 5, "max_lv": 2, "scout_max": 3,
+		"bg": "backgrounds/scene/bg_guildhall_restored3.png", "desc": "회랑과 2층 방을 되살린다. 시설 5칸."},
+	{"name": "별채 증축", "gold": 2000, "mats": {"wood": 10, "iron": 6}, "slots": 6, "max_lv": 3, "scout_max": 4,
+		"bg": "backgrounds/scene/bg_guildhall_restored4.png", "desc": "뒤뜰에 별채를 새로 짓는다. 시설 6칸, 최고 3레벨."},
+	{"name": "길드 완공", "gold": 3000, "mats": {"wood": 12, "iron": 8, "herb": 4}, "slots": 7, "max_lv": 3, "scout_max": 5,
+		"bg": "backgrounds/scene/bg_guildhall_restored5.png", "desc": "하웰 모험가 길드가 완전히 다시 선다. 시설 7칸, 스카우트실 5레벨까지."},
 ]
 
 ## 시설. cost[레벨-1] = 그 레벨로 올리는 값. fx[레벨-1] = 효과 설명
