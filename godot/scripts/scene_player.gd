@@ -137,7 +137,7 @@ func play(id: String) -> void:
 func _show_line() -> void:
 	var ln: Array = _scene.lines[_i]
 	var who: String = ln[0]
-	var cg_on: bool = _cg.texture != null and _i < int(_scene.get("cg_lines", 0))
+	var cg_on: bool = _cg.texture != null and _i >= int(_scene.get("cg_from", 0)) and _i < int(_scene.get("cg_lines", 0))
 	_cg.visible = cg_on
 	if who != "" and not cg_on:
 		_stand(who, ln[1])

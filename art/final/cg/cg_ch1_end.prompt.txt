@@ -1,0 +1,59 @@
+Asset: cg_ch1_end
+Tool/model: built-in image_gen (underlying model identifier not exposed by tool)
+Generation date: 2026-10-17 (Asia/Seoul)
+Generation calls: exactly 1; regeneration: 0
+Raw: art/raw/cg_ch1_end_v1.png
+Source dimensions: 1672x941
+Final: art/final/cg/cg_ch1_end.png
+Technical processing: proportional cover resize to 1920x1080; opaque RGB PNG.
+Content review: not performed; user/Claude review pending.
+
+Attached reference images (in order):
+art/refs/style-anchor.png
+art/refs/C01_ref_combat.png
+art/refs/C02_ref_combat.png
+art/refs/C03_ref_combat.png
+art/refs/emblem-harwell.png
+
+Full prompt:
+Use case: illustration-story
+Asset type: cg_ch1_end, Chapter 1 ending event CG for a medieval RPG.
+
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Key story event illustration, cinematic composition, 16:9.
+
+Lina, an 18-year-old young woman squire, long chestnut-brown hair with a small side braid tied with a red ribbon on the left side of her head, pale violet eyes, slender athletic build, earnest determined face
+wearing a full chainmail hauberk and chainmail chausses, a crimson surcoat with gold trim and a gold cross fleury with flared floral tips on the chest, a white frilled underskirt hem peeking under the surcoat, brown leather belt, brown leather gloves, tall brown leather boots with straps, a longsword in her right hand, a white heater shield with a red chevron strapped to her left forearm (held by its inner straps, not by the rim)
+
+Cecile, an 18-year-old adult woman street thief, shaggy choppy short silver-grey wolf-cut bob with a longer messy strand by the face, green eyes, small scar on her left cheek. FACE: sun-kissed lightly tanned skin with a dusting of freckles across the nose, sharp upturned cat-like eyes, thick straight expressive eyebrows, a cocky lopsided grin showing one small snaggletooth fang, a small silver hoop and a stud in her right ear, a slightly narrower foxy face; petite wiry build, clearly shorter than Lina
+wearing a dark green hooded cloak, a fitted brown leather vest over a linen shirt, dark breeches, fingerless gloves, soft leather boots, twin daggers on her belt
+
+Adelheid, a 20-year-old young woman former novice nun turned mage, long black hair in a single thick braid with a straight blunt-cut fringe across the forehead, golden eyes, round wire-rimmed glasses. FACE: pale porcelain skin with faint shadows under the eyes from reading all night, heavy-lidded half-closed droopy eyes with a bored deadpan look, thin arched eyebrows, a small beauty mark under her right eye, a small unimpressed flat mouth, a longer oval face and long neck; tall slender willowy build, clearly taller than Lina
+wearing a modified dark navy nun's habit robe with a short cape, carrying a thick grimoire bound with an iron chain and a gnarled wooden staff
+
+Chapter 1 ending at night. Outside the front door of the Harwell guild house, a modest two-storey timber-framed building with oak beams, plaster walls and a still-damaged roof (seen from outside; describe only, do not copy any interior picture). Lina (C01) stands on a wooden ladder hanging a freshly repainted wooden guild sign above the door. The sign shows only the Harwell emblem from art/refs/emblem-harwell.png (blue field, silver stone well, two crossed swords) and no readable text. Cecile (C02) steadies the ladder from below with a mischievous grin. Adelheid (C03) holds up a lantern that lights the sign, looking a little embarrassed but quietly pleased. Warm lantern light against a deep blue starry sky, a few village houses with lit windows in the background. Wide 16:9 composition, all three girls clearly visible and in their combat outfits, the viewer (guild master) is not shown.
+
+Reference images, in supplied order:
+1. style-anchor.png: illustration style only; do not copy this face onto other companions.
+2. C01_ref_combat.png: Lina's approved identity, hair, clothes and equipment only.
+3. C02_ref_combat.png: Cecile's approved distinct face, hair, clothes and equipment only.
+4. C03_ref_combat.png: Adelheid's approved distinct face, hair, glasses, clothes and equipment only.
+5. emblem-harwell.png: exact heraldic design for the painted guild sign.
+Use each identity reference for that woman only. No reference-sheet layout or plain grey backdrop.
+For this peaceful working scene, prioritize the actions in the scene paragraph: Lina has hands free to hang the sign, her longsword safely sheathed and shield secured out of her working hands; Adelheid has a hand free to raise the lantern, her other combat equipment carried securely.
+This is the guild sign being rehung for the first time in fifteen years, on the night of victory: warm, quietly moving and hopeful. Exactly the three named companions, no other people. Modest rural timber construction, no palace, cathedral, gothic arches, stone columns or gold candelabra.
+The required painted Harwell emblem is the sole exception to the general logo prohibition below, and Adelheid's medieval round wire-rimmed spectacles must be retained.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+Technical output: one single finished full-bleed landscape image, 16:9, 1920x1080 opaque PNG, fully painted background, no transparency.

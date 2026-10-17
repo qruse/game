@@ -220,8 +220,11 @@ func _debug_goto(g: String) -> void:
 				Game.bond_seen["martha"] = 2
 			Game.settle()
 			_show_news()
-		"scene":
+		"scene":  # scene:장면[:줄 번호]
 			_play(g.get_slice(":", 1), func(_s, _k): _show_hub())
+			if g.get_slice_count(":") > 2:
+				player._i = int(g.get_slice(":", 2))
+				player._show_line()
 		"battle":
 			# 페이지를 그 칸까지 진행한 상태로 만들고 바로 전투로
 			var qid := g.get_slice(":", 1)

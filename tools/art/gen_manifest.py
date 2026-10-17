@@ -198,7 +198,7 @@ for bid, ph, ko, (cols, rows_), ex in battles:
 
 cgs = [
  ("cg_ch1_inheritance", "P1", "1장 오프닝: 폐허 길드 상속", "Lina standing alone in the ruined guild hall, holding the rusted guild key out toward the viewer (the player), light through broken windows.", ["C01"]),
- ("cg_ch1_end", "P2", "1장 엔딩", "The first companions celebrating around a campfire in the ruined guild hall.", ["C01", "C02", "C03", "C04"]),
+ ("cg_ch1_end", "P1", "1장 엔딩: 간판을 다시 거는 밤", "Chapter 1 ending at night. Outside the front door of the Harwell guild house, a modest two-storey timber-framed building with oak beams, plaster walls and a still-damaged roof (seen from outside; describe only, do not copy any interior picture). Lina (C01) stands on a wooden ladder hanging a freshly repainted wooden guild sign above the door. The sign shows only the Harwell emblem from art/refs/emblem-harwell.png (blue field, silver stone well, two crossed swords) and no readable text. Cecile (C02) steadies the ladder from below with a mischievous grin. Adelheid (C03) holds up a lantern that lights the sign, looking a little embarrassed but quietly pleased. Warm lantern light against a deep blue starry sky, a few village houses with lit windows in the background. Wide 16:9 composition, all three girls clearly visible and in their combat outfits, the viewer (guild master) is not shown.", ["C01", "C02", "C03"]),
  ("cg_ch2_key", "P2", "2장 핵심 장면", "Adelheid confronting the Fallen Abbot in the candle-lit catacombs.", ["C03"]),
  ("cg_ending", "P2", "엔딩", "The fully restored guild hall with all companions gathered under the blue guild banner with the silver well-and-crossed-swords emblem.", ["C01", "C02", "C03", "C04", "C05"]),
  ("cg_C07_quest_end", "P2", "이졸데 개인 퀘스트 엔딩", "Isolde kneeling at her family's ruined manor, holding her signet ring.", ["C07"]),
@@ -240,6 +240,7 @@ def step_of(r):
     i, ph, fmt, subj = r["id"], r["phase"], r["format"], r["subject"]
     if i.startswith("P0_"): return "S01"
     if subj == "N12": return "S35"  # 2026-10-17 대장장이 남캐로 교체
+    if i == "cg_ch1_end": return "S36"  # 2026-10-17 1장 엔딩 CG
     if i in S33_IDS or subj in ("N11", "N13"): return "S33"
     if i == "C01_ref_combat": return "S02"
     if i in S03_IDS: return "S03"

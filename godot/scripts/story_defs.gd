@@ -18,7 +18,7 @@ const SPEAKERS := {
 	"nun": {"name": "늙은 수녀", "path": ""},
 }
 
-## 장면: bg(배경), cg(앞쪽 몇 줄에 띄울 CG), cg_lines, lines [말하는 사람, 표정, 대사], summary(건너뛰면 남는 한 줄)
+## 장면: bg(배경), cg(CG), cg_from~cg_lines 번째 줄에 CG를 띄운다 (cg_from 기본 0), lines [말하는 사람, 표정, 대사], summary(건너뛰면 남는 한 줄)
 const SCENES := {
 	"opening": {
 		"bg": "backgrounds/scene/bg_guildhall_ruined.png", "cg": "cg/cg_ch1_inheritance.png", "cg_lines": 3,
@@ -312,7 +312,7 @@ const SCENES := {
 		"summary": "붉은 수염 패거리가 길드 회관을 덮쳤다.",
 	},
 	"finale_ok": {
-		"bg": "backgrounds/scene/bg_guildhall_ruined.png",
+		"bg": "backgrounds/scene/bg_guildhall_ruined.png", "cg": "cg/cg_ch1_end.png", "cg_from": 3, "cg_lines": 5,
 		"lines": [
 			["lina", "smile", "해냈어요, 단장! 길드는 아직 살아 있어요."],
 			["martha", "positive", "오늘 밤 술은 내가 쏜다!"],
