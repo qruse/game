@@ -301,7 +301,7 @@ func show_place(id: String) -> void:
 			for r in G.RUMORS.get(Game.week, []):
 				v.add_child(_quote(r))
 			v.add_child(_bond_row("martha", func(): show_place("tavern")))
-			v.add_child(_note("식재료 납품(단골도를 올리는 선물)은 다음 작업에서 연다. 지금은 의뢰를 성공할 때마다 단골도가 오른다."))
+			v.add_child(_note("식재료 납품(호감도를 올리는 선물)은 다음 작업에서 연다. 지금은 의뢰를 성공할 때마다 호감도가 오른다."))
 		"smithy":
 			v.add_child(_quote("어서 와, 단장! 장비 사고팔기랑 강화는 곧 시작할 거야. 무기고를 지어 두면 더 세게 두드려 줄게."))
 			v.add_child(_note("장비 사기·강화는 다음 작업에서 연다. 강화 상한은 길드 무기고 레벨을 따른다."))

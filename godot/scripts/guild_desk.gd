@@ -603,7 +603,7 @@ func _say(s: Control) -> void:
 	ln.custom_minimum_size = Vector2(K.px(120), 1)
 	ln.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	who.add_child(ln)
-	# 신임: 작은 마름모 3개 (본 단계) + 다음 단계 막대
+	# 호감도: 작은 마름모 3개 (본 단계) + 다음 단계 막대
 	var seen: int = Game.bond_seen.get("nora", 0)
 	for i in 3:
 		who.add_child(K.Diamond.make(K.px(6), K.BRASS_HI, i < seen))
@@ -612,7 +612,7 @@ func _say(s: Control) -> void:
 	tb.col = K.BLUE_HI
 	tb.custom_minimum_size = Vector2(K.px(60), K.px(3))
 	tb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	tb.tooltip_text = "신임 %d" % Game.bond.get("nora", 0)
+	tb.tooltip_text = "호감도 %d" % Game.bond.get("nora", 0)
 	tb.mouse_filter = Control.MOUSE_FILTER_PASS
 	who.add_child(tb)
 	var st := Game.bond_ready("nora")
