@@ -42,6 +42,15 @@ def used_art() -> list:
     return ["art/final/" + b for b in sorted(out)]
 
 
+def used_portraits() -> list:
+    """이야기 장면에 나오는 인물(story_defs.gd 의 SPEAKERS 경로)의 스탠딩만. 동료는 전투복 스탠딩"""
+    with open(os.path.join(ROOT, "godot", "scripts", "story_defs.gd"), encoding="utf-8") as f:
+        src = f.read()
+    out = ["art/final/characters/%s/*_portrait_combat_*.png" % d for d in sorted(set(re.findall(r"characters/(C\d\d_[a-z]+)/", src)))]
+    out += ["art/final/npcs/%s/*_portrait_*.png" % d for d in sorted(set(re.findall(r"npcs/(N\d\d_[a-z_]+)/", src)))]
+    return out
+
+
 def copy_art() -> int:
     dst = os.path.join(ROOT, "godot", "art")
     if os.path.isdir(dst):
@@ -52,9 +61,7 @@ def copy_art() -> int:
         "art/final/icons/skills/*.png",
         "art/final/enemies/*/*_sd_*.png",
         "art/final/props/*.png",
-        "art/final/characters/*/*_portrait_combat_*.png",  # 이야기 장면은 전투복 스탠딩
-        "art/final/npcs/*/*_portrait_*.png",
-    ] + used_art()
+    ] + used_portraits() + used_art()
     n = 0
     for pat in pats:
         for src in glob.glob(os.path.join(ROOT, pat)):
