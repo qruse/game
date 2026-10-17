@@ -224,6 +224,82 @@ const SCENES := {
 		],
 		"summary": "아델하이트는 오랜만에 서고에서 웃었다.",
 	},
+	"boars_in": {
+		"bg": "backgrounds/scene/bg_chief_house.png",
+		"lines": [
+			["tobias", "negative", "멧돼지 떼가 밤마다 밭을 갈아엎소. 이대로면 겨울 양식이 없어."],
+			["cecile", "smile", "멧돼지면 오늘 저녁은 고기네."],
+			["lina", "neutral", "마을 밭은 저희가 지킬게요, 촌장님."],
+		],
+		"summary": "촌장 토비아스가 밭을 망치는 멧돼지 떼를 쫓아 달라고 했다.",
+	},
+	"boars_ok": {
+		"bg": "backgrounds/scene/bg_chief_house.png",
+		"lines": [
+			["tobias", "positive", "밭이 살았소! 길드 몫으로 곡식을 따로 떼어 두리다."],
+			["cecile", "smile", "고기는? 고기도 떼어 줘."],
+		],
+		"summary": "토비아스는 길드 몫으로 곡식을 떼어 두겠다고 했다.",
+	},
+	"boars_ng": {
+		"bg": "backgrounds/scene/bg_chief_house.png",
+		"lines": [
+			["tobias", "negative", "몇 마리는 쫓았지만… 밭 절반은 끝났소."],
+			["lina", "sad", "다음엔 꼭 지킬게요."],
+		],
+		"summary": "밭 절반을 잃었다. 토비아스는 말없이 고개를 끄덕였다.",
+	},
+	"hideout_in": {
+		"bg": "backgrounds/scene/bg_noticeboard.png",
+		"lines": [
+			["basil", "neutral", "붉은 수염의 소굴을 찾았습니다. 협곡 안쪽, 천막촌이더군요."],
+			["basil", "negative", "영주님은 병사를 못 보냅니다. 서류상으로는 길드 일이죠."],
+			["adelheid", "neutral", "먼저 치러 가자는 거네. 나쁘지 않아."],
+			["lina", "angry", "길드를 노리는 놈들이에요. 가요, 단장."],
+		],
+		"summary": "공증인 바실이 붉은 수염 패거리의 소굴을 정찰해 달라고 했다.",
+	},
+	"hideout_ok": {
+		"bg": "backgrounds/scene/bg_bandit_hideout.png",
+		"lines": [
+			["cecile", "smile", "천막 몇 개 태웠더니 다들 우왕좌왕하던데."],
+			["adelheid", "neutral", "이제 놈들이 언제 올지 알아. 다음은 우리가 기다릴 차례야."],
+		],
+		"summary": "길드는 붉은 수염의 소굴을 흔들어 놓고 돌아왔다.",
+	},
+	"hideout_ng": {
+		"bg": "backgrounds/scene/bg_bandit_hideout.png",
+		"lines": [
+			["lina", "sad", "들켜 버렸어요. 놈들도 이제 우리를 알아요."],
+			["adelheid", "neutral", "…그래도 소굴 위치는 알아냈어."],
+		],
+		"summary": "정찰은 들켰다. 그래도 소굴 위치는 알아냈다.",
+	},
+	"escort_in": {
+		"bg": "backgrounds/scene/bg_general_store.png",
+		"lines": [
+			["pip", "neutral", "옆 마을까지 짐마차를 끌고 가야 하는데, 숲길이 요즘 험해서요."],
+			["pip", "neutral", "무사히 다녀오면 회복약 좀 챙겨 드릴게요. 장사꾼 약속입니다."],
+			["cecile", "smile", "장사꾼 약속이면 반만 믿어야지."],
+		],
+		"summary": "잡화점 주인 핍이 숲길 짐마차를 지켜 달라고 했다.",
+	},
+	"escort_ok": {
+		"bg": "backgrounds/scene/bg_general_store.png",
+		"lines": [
+			["pip", "neutral", "물건 하나 안 깨졌네요! 약속한 회복약입니다."],
+			["lina", "smile", "잘 쓸게요, 핍 씨."],
+		],
+		"summary": "핍은 약속대로 회복약을 챙겨 주었다.",
+	},
+	"escort_ng": {
+		"bg": "backgrounds/scene/bg_general_store.png",
+		"lines": [
+			["pip", "neutral", "짐 절반은 늑대 밥이 됐지만… 목숨은 건졌으니까요."],
+			["cecile", "neutral", "약은? …없구나."],
+		],
+		"summary": "짐마차는 절반만 도착했다.",
+	},
 	"finale_in": {
 		"bg": "backgrounds/scene/bg_guildhall_ruined.png",
 		"lines": [
@@ -370,12 +446,119 @@ const QUESTS := {
 			"end": {"t": "end", "pos": Vector2(0.92, 0.5)},
 		},
 	},
+	"boars": {
+		"name": "하웰 밭의 멧돼지", "seal": "왕관", "client": "촌장 토비아스", "short": "밤마다 밭을 갈아엎는 멧돼지 떼", "tags": ["토벌"], "risk": 2, "pin": Vector2(0.5, 0.75),
+		"desc": "멧돼지 떼가 하웰 밭을 갈아엎는다. 이대로면 겨울 양식이 모자란다.",
+		"intro": "boars_in", "outro_ok": "boars_ok", "outro_ng": "boars_ng",
+		"skip": {"news": "멧돼지 떼가 하웰 밭을 갈아엎었다. 촌장 토비아스가 한숨을 쉬었다.", "flag": "farm_ruined"},
+		"ok_flag": "farm_saved",
+		"nodes": {
+			"start": {"t": "start", "pos": Vector2(0.08, 0.5), "next": "n1"},
+			"n1": {
+				"t": "talk", "pos": Vector2(0.34, 0.5), "title": "갈아엎은 밭",
+				"text": "밭고랑이 엉망이다.\n멧돼지는 해 질 녘에 마을 어귀로 내려온다.",
+				"choices": [
+					{"label": "발자국으로 길목을 찾는다", "stat": "int", "dc": 12, "who": "adelheid",
+						"ok": {"line": "아델하이트가 발자국을 읽어 멧돼지가 지나는 길목을 찾았다.", "next": "n2", "set": {"ambush": true}},
+						"ng": {"line": "발자국이 너무 많아 길목을 찾지 못했다.", "next": "n2"}},
+					{"label": "썩은 사과로 미끼를 놓는다", "stat": "dex", "dc": 13, "who": "cecile",
+						"ok": {"line": "세실이 놓은 미끼에 멧돼지들이 고개를 처박았다.", "next": "n2", "set": {"ambush": true}},
+						"ng": {"line": "미끼는 늑대가 먼저 먹어 치웠다.", "next": "n2"}},
+				],
+			},
+			"n2": {
+				"t": "battle", "pos": Vector2(0.64, 0.5), "title": "마을 어귀", "battle": 4,
+				"text": "해 질 녘, 멧돼지 떼가 마을 어귀로 내려온다.",
+				"ambush_text": "길목에서 먼저 기다렸다. 적은 첫 차례에 움직이지 못한다.",
+				"win": {"line": "길드는 멧돼지 떼를 숲으로 쫓아 보냈다.", "next": "end"},
+				"lose": {"line": "멧돼지 떼에 밀려 밭 절반을 내줬다.", "next": "end", "fail": true},
+			},
+			"end": {"t": "end", "pos": Vector2(0.9, 0.5)},
+		},
+	},
+	"hideout": {
+		"name": "붉은 수염 소굴 정찰", "seal": "왕관", "client": "공증인 바실", "short": "협곡 안쪽 도적 천막촌", "tags": ["정찰", "전투"], "risk": 3, "pin": Vector2(0.8, 0.4),
+		"desc": "붉은 수염 패거리의 소굴을 찾았다. 놈들이 길드를 치기 전에 먼저 살핀다.",
+		"intro": "hideout_in", "outro_ok": "hideout_ok", "outro_ng": "hideout_ng",
+		"skip": {"news": "붉은 수염 패거리가 하웰 길드를 칠 날을 고르고 있다는 소문이 돈다.", "flag": "hideout_skipped"},
+		"ok_flag": "hideout_hit",
+		"nodes": {
+			"start": {"t": "start", "pos": Vector2(0.08, 0.5), "next": "n1"},
+			"n1": {
+				"t": "talk", "pos": Vector2(0.28, 0.5), "title": "협곡 길",
+				"text": "협곡 위 망루에 횃불이 흔들린다.\n정면으로 가면 들킨다.",
+				"choices": [
+					{"label": "그림자를 따라 몰래 다가간다", "stat": "dex", "dc": 13, "who": "cecile",
+						"ok": {"line": "세실이 망루 아래를 지나 천막촌 입구까지 길을 열었다.", "next": "n2", "set": {"ambush": true}},
+						"ng": {"line": "자갈이 굴러 떨어졌다. 망루의 종이 울렸다.", "next": "n2"}},
+					{"label": "절벽에 밧줄을 걸고 내려간다", "stat": "str", "dc": 13, "who": "lina",
+						"ok": {"line": "리나가 밧줄을 붙잡아 일행을 천막촌 뒤로 내려보냈다.", "next": "n2", "set": {"ambush": true}},
+						"ng": {"line": "밧줄이 미끄러졌다. 요란하게 떨어진 일행을 도적들이 둘러쌌다.", "next": "n2"}},
+				],
+			},
+			"n2": {
+				"t": "battle", "pos": Vector2(0.5, 0.5), "title": "천막촌", "battle": 5,
+				"text": "모닥불 둘레에 도적들이 모여 있다.",
+				"ambush_text": "들키지 않고 천막촌에 들어섰다. 적은 첫 차례에 움직이지 못한다.",
+				"win": {"line": "길드는 천막촌 입구의 도적들을 쓰러뜨렸다.", "next": "n3"},
+				"lose": {"line": "도적들에게 밀려 협곡을 빠져나왔다.", "next": "end", "fail": true},
+			},
+			"n3": {
+				"t": "talk", "pos": Vector2(0.72, 0.5), "title": "두목의 천막",
+				"text": "붉은 수염은 자리에 없다.\n탁자 위에 지도와 쪽지가 흩어져 있다.",
+				"choices": [
+					{"label": "지도의 표시를 읽는다", "stat": "int", "dc": 12, "who": "adelheid",
+						"ok": {"line": "지도에 길드로 오는 길과 날짜가 적혀 있었다. 습격 길을 알아냈다.", "next": "end", "flag": "raid_plan"},
+						"ng": {"line": "암호 같은 표시를 끝내 읽지 못했다.", "next": "end"}},
+					{"label": "천막을 뒤진다", "stat": "dex", "dc": 13, "who": "cecile",
+						"ok": {"line": "세실이 침상 밑에서 습격 계획이 적힌 쪽지를 찾았다.", "next": "end", "flag": "raid_plan"},
+						"ng": {"line": "발소리가 들려 서둘러 천막을 빠져나왔다.", "next": "end"}},
+				],
+			},
+			"end": {"t": "end", "pos": Vector2(0.92, 0.5)},
+		},
+	},
+	"escort": {
+		"name": "핍의 짐마차 호위", "seal": "상회", "client": "잡화점 주인 핍", "short": "숲길로 물건을 떼러 가는 짐마차", "tags": ["호위", "전투"], "risk": 1, "pin": Vector2(0.24, 0.32),
+		"desc": "잡화점 짐마차가 옆 마을까지 숲길을 지난다. 무사히 다녀오면 회복약을 준다.",
+		"intro": "escort_in", "outro_ok": "escort_ok", "outro_ng": "escort_ng",
+		"skip": {"news": "핍의 짐마차가 숲길에서 늑대에게 쫓겨 돌아왔다. 잡화점 선반이 한동안 비었다.", "flag": "pip_robbed"},
+		"ok_flag": "escort_done",
+		"ok_items": {"potion": 2},
+		"nodes": {
+			"start": {"t": "start", "pos": Vector2(0.08, 0.5), "next": "n1"},
+			"n1": {
+				"t": "talk", "pos": Vector2(0.28, 0.5), "title": "무너진 다리",
+				"text": "개울 다리가 반쯤 무너졌다.\n짐마차 바퀴가 진흙에 빠졌다.",
+				"choices": [
+					{"label": "짐마차를 밀어 올린다", "stat": "str", "dc": 12, "who": "lina",
+						"ok": {"line": "리나가 바퀴를 들어 올려 짐마차가 다리를 건넜다.", "next": "n2"},
+						"ng": {"line": "짐 몇 상자를 개울에 버리고서야 다리를 건넜다.", "next": "n2", "set": {"slow": true}}},
+					{"label": "얕은 여울을 찾는다", "stat": "int", "dc": 12,
+						"ok": {"line": "물살이 느린 여울을 찾아 짐마차를 무사히 건넸다.", "next": "n2"},
+						"ng": {"line": "여울을 찾다 해가 졌다. 숲에서 밤을 보내야 한다.", "next": "n2", "set": {"slow": true}}},
+				],
+			},
+			"n2": {
+				"t": "camp", "pos": Vector2(0.5, 0.5), "title": "숲길 야영",
+				"text": "짐마차 옆에 불을 피웠다.\n멀리서 늑대 울음이 들린다.",
+				"line": "짐마차 옆에서 불을 지키며 밤을 보냈다.", "next": "n3",
+			},
+			"n3": {
+				"t": "battle", "pos": Vector2(0.72, 0.5), "title": "늑대 떼", "battle": 3,
+				"text": "어두운 숲에서 늑대 떼가 짐마차를 에워쌌다.",
+				"win": {"line": "길드는 늑대 떼를 쫓고 짐마차를 옆 마을까지 데려갔다.", "next": "end"},
+				"lose": {"line": "늑대 떼에 짐 절반을 내주고 겨우 빠져나왔다.", "next": "end", "fail": true},
+			},
+			"end": {"t": "end", "pos": Vector2(0.92, 0.5)},
+		},
+	},
 }
 
-## 주마다 들어오는 메인 의뢰. 체험판은 1주차에 셋(그중 둘), 2주차는 위탁 의뢰와 결전 준비만
-const WEEK_QUESTS_BY := {1: ["bandits", "trapper", "archive"], 2: []}
+## 장부 쪽마다 들어오는 메인 의뢰 (셋 중 둘). 1장은 3쪽: 3쪽은 위탁 의뢰와 결전 준비만
+const WEEK_QUESTS_BY := {1: ["bandits", "trapper", "archive"], 2: ["boars", "hideout", "escort"], 3: []}
 const WEEK_PICKS := 2
-const FINALE_WEEK := 2  # 이 주의 주말에 결전
+const FINALE_WEEK := 3  # 이 쪽을 마감하면 결전
 const FINALE_BATTLE := 1
 
 ## 칸 종류별 표시

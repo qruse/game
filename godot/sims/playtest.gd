@@ -41,24 +41,26 @@ static func run(m) -> void:
 		scr.call()
 		await tree.create_timer(0.2).timeout
 	say("마을 준비 끝 · 금화 %d · 공사 %d · 물건 %s" % [Game.gold, Game.build, str(Game.items)])
-	# ── 1쪽: 의뢰 둘 ──
-	var quests: Array = Defs.WEEK_QUESTS_BY[1]
-	Game.picks = [quests[0], quests[1]]
-	Game.flags["picked_1"] = true
-	for qid in Game.picks:
-		m._open_page(qid)
-		await _page(m, tree)
-		say("의뢰 %s · %s · 행운 %d · 물건 %s" % [qid, Game.results.get(qid, "?"), Game.page.luck, str(Game.items)])
-	await _weekend(m, tree)
-	# ── 2쪽: 결전 ──
-	Game.week += 1
-	Game.picks = []
-	Game.new_week()
-	m.town.show_town()
-	await tree.create_timer(0.3).timeout
-	await _weekend(m, tree)
+	# ── 쪽마다 의뢰 둘 (1쪽은 앞의 둘, 2쪽은 뒤의 둘) → 마지막 쪽은 결전 ──
+	for wk in range(1, Defs.FINALE_WEEK + 1):
+		if wk > 1:
+			Game.week = wk
+			Game.picks = []
+			Game.new_week()
+			m.town.show_town()
+			await tree.create_timer(0.3).timeout
+		var quests: Array = Defs.WEEK_QUESTS_BY.get(wk, [])
+		if not quests.is_empty():
+			Game.picks = quests.slice(0, 2) if wk % 2 == 1 else quests.slice(1, 3)
+			Game.flags["picked_%d" % wk] = true
+			for qid in Game.picks:
+				m._open_page(qid)
+				await _page(m, tree)
+				say("의뢰 %s · %s · 행운 %d · 물건 %s" % [qid, Game.results.get(qid, "?"), Game.page.luck, str(Game.items)])
+		await _weekend(m, tree)
 	var fm: Dictionary = m._finale_mods()
-	var res := _battle(FDefs.BATTLES.size() - 1 if Defs.FINALE_BATTLE >= FDefs.BATTLES.size() else Defs.FINALE_BATTLE, fm.luck, 0, fm.boss_hp)
+	say("결전 준비 " + " / ".join(PackedStringArray(fm.notes)))
+	var res := _battle(Defs.FINALE_BATTLE, fm.luck, fm.lunch, fm.boss_hp, fm.ambush)
 	say("결전 %s" % res.result)
 	Game.stage = "finale"
 	m._finale_result(res)
@@ -128,7 +130,7 @@ static func _weekend(m, tree: SceneTree) -> void:
 
 
 ## 자동 전투 (fk_sim 과 같은 방식) + 이야기 모드 조건
-static func _battle(idx: int, luck: int, lunch: int, boss_hp: int) -> Dictionary:
+static func _battle(idx: int, luck: int, lunch: int, boss_hp: int, ambush := false) -> Dictionary:
 	var b = Battle.new()
 	b.setup(idx, Game.party)
 	b.fate = luck

@@ -143,4 +143,25 @@ const BATTLES := [
 		],
 		"event": {"round": 3, "alive": "trapper", "spawn": ["wolf"], "warn": "3라운드 끝: 덫사냥꾼이 살아 있으면 휘파람 → 늑대 증원", "text": "덫사냥꾼이 휘파람을 불었다! 늑대가 1마리 더 나타났다"},
 	},
+	{
+		"name": "마을 어귀", "desc": "해 질 녘 밭으로 내려온 멧돼지 떼. 굶주린 늑대가 뒤를 따른다",
+		"bg": "backgrounds/battle/bt_ch1_village_outskirts.png",
+		"enemies": ["boar", "wolf", "boar", "wolf"],
+		"objects": [
+			{"key": "bush", "x": 0.05, "y": 0.86},
+			{"key": "dead_tree", "x": 0.70, "y": 0.40},
+		],
+		"event": {"round": 3, "alive": "boar", "spawn": ["boar"], "warn": "3라운드 끝: 멧돼지가 남아 있으면 무리가 더 내려온다", "text": "숲에서 멧돼지 한 마리가 더 뛰쳐나왔다!"},
+	},
+	{
+		"name": "도적 천막촌", "desc": "붉은 수염 패거리의 소굴. 망루 궁수가 경보를 울린다",
+		"bg": "backgrounds/scene/bg_bandit_hideout.png",
+		"enemies": ["bandit", "archer", "trapper", "bandit", "archer"],
+		"objects": [
+			{"key": "table", "x": 0.06, "y": 0.86},
+			{"key": "oil_jar", "x": 0.52, "y": 0.82},
+			{"key": "ale_cask", "x": 0.465, "y": 0.66},
+		],
+		"event": {"round": 3, "alive": "archer", "spawn": ["bandit"], "warn": "3라운드 끝: 궁수가 살아 있으면 경보 → 도적 증원", "text": "궁수가 경보 종을 울렸다! 도적이 1명 더 뛰어나왔다"},
+	},
 ]

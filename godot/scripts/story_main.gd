@@ -205,6 +205,10 @@ func _debug_goto(g: String) -> void:
 				Game.facilities["records"] = 3
 			Game.picks = ["trapper"]
 			_board_sel = "bandits"
+			if g.get_slice(":", 1) == "2":  # 2쪽 의뢰 지도
+				Game.week = 2
+				Game.picks = ["hideout"]
+				_board_sel = "boars"
 			_board()
 		"page":
 			Game.picks = [g.get_slice(":", 1), "archive"]
@@ -982,6 +986,12 @@ func _finish_page() -> void:
 	rw.add_child(Kit.icon("res_fame", 24, Color.WHITE))
 	rw.add_child(Kit.num("+%d" % rew.fame, 24))
 	side.add_child(rw)
+	if ok and q.has("ok_items"):
+		var got: Array = []
+		for id in q.ok_items:
+			Game.items[id] = Game.items.get(id, 0) + int(q.ok_items[id])
+			got.append("%s %d개" % [PDefs.ITEMS[id].name, q.ok_items[id]])
+		side.add_child(Kit.label("받은 물건 · " + ", ".join(PackedStringArray(got)), 15, Kit.GOOD))
 	_xp_rows(xp)
 	_side_fill()
 	side.add_child(Kit.btn_main("마무리", "길드로 돌아간다", func():
@@ -1049,7 +1059,17 @@ func _finale_mods() -> Dictionary:
 	if Game.flags.get("redbeard_note", false):
 		luck += 1
 		notes.append("서고에서 찾은 쪽지로 습격을 미리 알았다 · 행운 주사위 +1")
-	return {"luck": mini(luck, Game.LUCK_MAX), "boss_hp": boss, "notes": notes}
+	var lunch := 0
+	if Game.flags.get("farm_saved", false):
+		lunch = 4
+		notes.append("토비아스가 보낸 마을 곡식 · 동료 체력 +4")
+	if Game.flags.get("hideout_hit", false):
+		boss -= 10
+		notes.append("소굴을 털려 기가 꺾인 붉은 수염 · 보스 체력 -10")
+	var ambush: bool = Game.flags.get("raid_plan", false)
+	if ambush:
+		notes.append("습격 길을 미리 알고 매복했다 · 적은 첫 차례에 움직이지 못한다")
+	return {"luck": mini(luck, Game.LUCK_MAX), "boss_hp": boss, "lunch": lunch, "ambush": ambush, "notes": notes}
 
 
 func _show_news() -> void:
@@ -1133,7 +1153,7 @@ func _center_card(w: float) -> VBoxContainer:
 func _go_finale() -> void:
 	Game.stage = "finale"
 	var m := _finale_mods()
-	Game.battle_req = {"idx": Defs.FINALE_BATTLE, "party": Game.party.duplicate(), "luck": m.luck, "boss_hp": m.boss_hp}
+	Game.battle_req = {"idx": Defs.FINALE_BATTLE, "party": Game.party.duplicate(), "luck": m.luck, "boss_hp": m.boss_hp, "lunch": m.lunch, "ambush": m.ambush}
 	get_tree().change_scene_to_file("res://fk.tscn")
 
 

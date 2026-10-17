@@ -133,7 +133,11 @@ class TurnBar extends UIBase:
 			var t: Texture2D = faces.get(u.uid)
 			if t != null:
 				# SD 512 캔버스의 머리 부분
-				var reg := Rect2(0.2, 0.03, 0.6, 0.6) if u.key not in ["wolf"] else Rect2(0.0, 0.25, 0.6, 0.6)
+				var reg := Rect2(0.2, 0.03, 0.6, 0.6)
+				if u.key == "wolf":
+					reg = Rect2(0.0, 0.25, 0.6, 0.6)
+				elif u.key == "boar":
+					reg = Rect2(0.0, 0.32, 0.55, 0.55)
 				draw_face(c, rr - 1.0, t, reg)
 			else:
 				draw_string(font, c + Vector2(-rr, rr * 0.35), u.name.substr(0, 1), HORIZONTAL_ALIGNMENT_CENTER, rr * 2.0, int(rr), Color.WHITE)
