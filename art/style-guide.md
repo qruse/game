@@ -148,6 +148,7 @@ nudity, see-through clothing, underwear, or poses that focus on body parts.
 
 - 새 요소가 생기면 먼저 이 표로 담당을 정한다. 애매하면 **"얼굴이 있나, 같은 틀을 반복하나"**로 가른다
 - 모험가 인력풀(S~F 등급 일반 모험가)은 **일러스트를 만들지 않는다.** 카드 SVG만 쓴다 (docs/04-game-flow.md 3.8절)
+- **UI 디자인은 Claude만 한다 (2026-10-17).** 순서: HTML/CSS 시안(`design/mockups/`, Chrome으로 PNG) → 사용자 확정 → Godot 공용 부품 `godot/scripts/ui_kit.gd` 로 구현. 확정 시안은 `design/mockups/guild_desk_v5.html` (남색 판 + 놋쇠 테 + 하웰 파랑 주 버튼, 의뢰서 종이 · 봉랍 인장 · 채택 도장, 마름모 ◆◇ 와 로마 숫자, 송명 · 함렛 · Noto Sans KR). Codex 에는 UI 를 맡기지 않는다 (토큰 절약)
 
 - UI 프레임, 대화창, 패널, 버튼, 양피지 질감 (SVG / Godot 테마)
 - 상태이상 아이콘, 판정 결과 표시, 주사위(d20)와 굴림 애니메이션
