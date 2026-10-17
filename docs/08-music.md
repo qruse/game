@@ -51,7 +51,7 @@
 3. Advanced Options 의 **Exclude** 칸이 보이면 공통 제외를 넣는다. 안 보이면 비워 둔다. 스타일 칸에 "no ○○"는 쓰지 않는다 (그 단어 때문에 오히려 들어간다)
 4. Style Influence 슬라이더가 있으면 70% 정도로 올린다
 5. **타이틀부터.** 마음에 드는 한 곡을 정하면 그 훅이 메인 모티프가 된다. 6·7·8·9번은 정한 타이틀 곡을 **Cover** 에 넣고 아래 스타일로 바꿔 만든다
-6. 곡마다 최소 6번 생성해서 아래 고르는 기준으로 고른다
+6. 곡마다 **Create 한 번(2곡)**만 뽑는다 (2026-10-17 사용자). 마음에 안 들면 그때 더 뽑는다
 
 **공통 Exclude:** `vocals, guitar, acoustic guitar, electric guitar, EDM, dubstep, trap, metal, synth pad, lo-fi, epic trailer`
 - 기타는 스타일 칸에 적지 않아도 Suno 가 끼워 넣는 경우가 있다. Exclude 칸이 없으면 기타가 들어간 결과는 버리고 다시 뽑는다
