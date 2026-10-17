@@ -1,4 +1,4 @@
-extends Control
+﻿extends Control
 ## 포 더 킹식 전투 시험판 화면.
 ## 실행 옵션 (-- 뒤에): --battle=0|1  --party=lina,cecile,adelheid  --demo  --shot=경로.png  --at=초,초,…  --touch
 
@@ -8,6 +8,8 @@ const Battle = preload("res://scripts/fk_battle.gd")
 const Defs = preload("res://scripts/fk_defs.gd")
 const Stage = preload("res://scripts/fk_stage.gd")
 const UI = preload("res://scripts/fk_ui.gd")
+const Kit = preload("res://scripts/ui_kit.gd")
+const Desk = preload("res://scripts/guild_desk.gd")
 
 ## 적 그림이 아직 없어서, 동료 SD 를 어둡게 칠해 자리만 잡는다
 const ENEMY_SIL := {"bandit": "C01_lina", "archer": "C03_adelheid", "wolf": "C02_cecile", "redbeard": "C01_lina"}
@@ -112,6 +114,8 @@ func _setup_theme() -> void:
 	var t: Dictionary = UI.make_theme(touch)
 	theme = t.theme
 	bold_font = t.bold
+	Kit.setup(touch, theme.default_font, bold_font)
+	Kit.apply_theme(theme)
 
 
 func _place(c: Control, al: float, at: float, ar: float, ab: float, l: float, t: float, r: float, b: float) -> void:
@@ -143,7 +147,7 @@ func _small_btn(text: String, cb: Callable) -> Button:
 
 
 func _panel_style(_a := 1.0) -> StyleBox:
-	return UI.sbt("panel", 30, 10.0 if touch else 16.0)
+	return Kit.sb_panel(16, Color(0.05, 0.075, 0.13, 0.94), Kit.LINE, 12 if touch else 14)
 
 
 func _outlined(l: Label, size: int, col: Color) -> void:
@@ -171,18 +175,25 @@ func _build_hud() -> void:
 	stage.picked.connect(_on_pick)
 	hud.add_child(stage)
 
+	# 위쪽 그늘 (차례 줄·라운드 글자가 그림 위에서 읽히게)
+	Kit.shade(hud, "t", 0.6, 0.2)
 	# 왼쪽 위: 라운드와 다가오는 사건
-	var tl := VBoxContainer.new()
-	_place(tl, 0, 0, 0, 0, 12, 8, 520, 90)
-	tl.add_theme_constant_override("separation", 0)
+	var tl := Kit.vbox(2)
+	_place(tl, 0, 0, 0, 0, Kit.px(26), Kit.px(18), Kit.px(26 + 440), 90)
 	hud.add_child(tl)
-	round_lbl = Label.new()
-	_outlined(round_lbl, 22 if touch else 34, UI.GOLD)
-	tl.add_child(round_lbl)
-	event_lbl = Label.new()
-	_outlined(event_lbl, 12 if touch else 18, Color(1.0, 0.62, 0.35))
-	event_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	event_lbl.custom_minimum_size.x = 300 if touch else 480
+	tl.add_child(Kit.shadowed(Kit.cap("ROUND")))
+	round_lbl = Kit.shadowed(Kit.num("1", 34, Color.WHITE))
+	var rh := Kit.hbox(12)
+	rh.add_child(round_lbl)
+	var rl := Desk.Bar.new()
+	rl.ratio = 1.0
+	rl.col = Color(Kit.BRASS, 0.6)
+	rl.custom_minimum_size = Vector2(Kit.px(90), 1)
+	rl.size_flags_vertical = SIZE_SHRINK_CENTER
+	rh.add_child(rl)
+	tl.add_child(rh)
+	event_lbl = Kit.shadowed(Kit.label("", 14, Color("ffc6a8"), Kit.f_bold, true))
+	event_lbl.custom_minimum_size.x = Kit.px(400)
 	tl.add_child(event_lbl)
 
 	# 가운데 위: 차례 줄
@@ -193,16 +204,15 @@ func _build_hud() -> void:
 	hud.add_child(turnbar)
 
 	# 오른쪽 위: 메뉴
-	var tr := HBoxContainer.new()
-	_place(tr, 1, 0, 1, 0, -(250 if touch else 380), 8, -10, 52 if touch else 60)
-	tr.alignment = BoxContainer.ALIGNMENT_END
-	tr.add_theme_constant_override("separation", 6)
+	var tr := Kit.hbox(8)
+	_place(tr, 1, 0, 1, 0, 0, Kit.px(22), -Kit.px(26), 0)
+	tr.grow_horizontal = GROW_DIRECTION_BEGIN
 	hud.add_child(tr)
-	speed_btn = _small_btn(" ▶ 1배속 ", _toggle_speed)
+	speed_btn = Kit.btn_sub("1배속", "", _toggle_speed, 42, 96)
 	tr.add_child(speed_btn)
-	log_btn = _small_btn(" 기록 ", func(): log_box.visible = not log_box.visible)
+	log_btn = Kit.btn_sub("기록", "i_scroll", func(): log_box.visible = not log_box.visible, 42, 104)
 	tr.add_child(log_btn)
-	tr.add_child(_small_btn(" 물러나기 " if not Game.battle_req.is_empty() else " 처음으로 ", _to_menu))
+	tr.add_child(Kit.btn_sub("물러나기" if not Game.battle_req.is_empty() else "처음으로", "i_back", _to_menu, 42, 128))
 
 	log_box = RichTextLabel.new()
 	_place(log_box, 1, 0, 1, 1, -(300 if touch else 520), 60 if touch else 80, -8, -bot_h - 8)
@@ -213,8 +223,9 @@ func _build_hud() -> void:
 	hud.add_child(log_box)
 
 	# 아래 판넬
-	var bottom := PanelContainer.new()
+	var bottom := Kit.card(0, 14 if touch else 16)
 	_place(bottom, 0, 1, 1, 1, card_w + 4, -bot_h, -4, -4)
+	(bottom.sb as StyleBoxFlat).bg_color = Color(0.04, 0.06, 0.11, 0.94)
 	hud.add_child(bottom)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8 if touch else 16)
@@ -222,7 +233,8 @@ func _build_hud() -> void:
 
 	# 왼쪽 아래: 차례인 동료의 초상 카드 (판넬 위로 솟는다)
 	var card := Panel.new()
-	card.add_theme_stylebox_override("panel", UI.sbt("panel_light", 30, 0))
+	var csb := Kit.sb_panel(18, Color(0.07, 0.1, 0.18, 0.96), Kit.BRASS, 0)
+	card.add_theme_stylebox_override("panel", csb)
 	_place(card, 0, 1, 0, 1, 4, -(bot_h + lift), card_w, -4)
 	hud.add_child(card)
 	card_pic = TextureRect.new()
@@ -256,18 +268,18 @@ func _build_hud() -> void:
 	hint = RichTextLabel.new()
 	hint.bbcode_enabled = true
 	hint.size_flags_vertical = SIZE_EXPAND_FILL
-	hint.add_theme_font_size_override("normal_font_size", 12 if touch else 20)
-	hint.add_theme_font_size_override("bold_font_size", 14 if touch else 24)
+	hint.add_theme_font_override("normal_font", Kit.f_body)
+	hint.add_theme_font_override("bold_font", Kit.f_title)
+	hint.add_theme_font_size_override("normal_font_size", Kit.pxi(15))
+	hint.add_theme_font_size_override("bold_font_size", Kit.pxi(22))
+	hint.add_theme_constant_override("line_separation", Kit.pxi(3))
 	side.add_child(hint)
-	var fr := HBoxContainer.new()
-	fr.add_theme_constant_override("separation", 4)
+	var fr := Kit.hbox(8)
 	side.add_child(fr)
-	var fl := Label.new()
-	fl.text = "행운"
-	_outlined(fl, 13 if touch else 18, Color(0.85, 0.7, 1.0))
+	var fl := Kit.label("행운 주사위", 13, Kit.DIM)
+	fl.size_flags_vertical = SIZE_SHRINK_CENTER
 	fr.add_child(fl)
-	fate_row = HBoxContainer.new()
-	fate_row.add_theme_constant_override("separation", 2)
+	fate_row = Kit.hbox(4)
 	fr.add_child(fate_row)
 
 func _build_menu() -> void:
@@ -314,21 +326,28 @@ func _build_menu() -> void:
 
 func _build_over() -> void:
 	over = PanelContainer.new()
-	_place(over, 0.5, 0.5, 0.5, 0.5, -260, -150, 260, 150)
-	over.add_theme_stylebox_override("panel", _panel_style())
+	_place(over, 0.5, 0.5, 0.5, 0.5, -Kit.px(300), 0, Kit.px(300), 0)
+	over.grow_vertical = GROW_DIRECTION_BOTH
+	over.add_theme_stylebox_override("panel", Kit.sb_panel(20, Color(0.04, 0.06, 0.11, 0.96), Kit.BRASS, 28))
 	add_child(over)
-	var v := VBoxContainer.new()
+	var v := Kit.vbox(14)
 	over.add_child(v)
 	over_lbl = RichTextLabel.new()
 	over_lbl.bbcode_enabled = true
 	over_lbl.fit_content = true
-	over_lbl.size_flags_vertical = SIZE_EXPAND_FILL
+	over_lbl.add_theme_font_override("normal_font", Kit.f_body)
+	over_lbl.add_theme_font_override("bold_font", Kit.f_title)
+	over_lbl.add_theme_font_size_override("normal_font_size", Kit.pxi(16))
+	over_lbl.add_theme_font_size_override("bold_font_size", Kit.pxi(36))
+	over_lbl.add_theme_constant_override("line_separation", Kit.pxi(4))
 	v.add_child(over_lbl)
-	var h := HBoxContainer.new()
+	var h := Kit.hbox(10)
 	v.add_child(h)
-	h.add_child(_btn("  다시 하기  ", _start))
-	h.add_child(_btn("  처음으로  ", _to_menu))
-	h.add_child(_btn("  계속  ", _back_to_story))
+	h.add_child(Kit.btn_sub("다시 하기", "", _start, 52, 130))
+	h.add_child(Kit.btn_sub("처음으로", "i_back", _to_menu, 52, 130))
+	var cont := Kit.btn_main("계속", "연대기로", _back_to_story, 52)
+	cont.size_flags_horizontal = SIZE_EXPAND_FILL
+	h.add_child(cont)
 	over.visible = false
 
 
@@ -485,8 +504,9 @@ func _back_to_story() -> void:
 func _check_over() -> void:
 	state = "over"
 	var win: bool = battle.result == "win"
-	var t := "[font_size=40][b]%s[/b][/font_size]\n" % ("승리!" if win else "패배")
-	t += "%d라운드 · 쓰러진 횟수 %d · 남은 행운 주사위 %d" % [battle.round_no, battle.downs, battle.fate]
+	var t := "[color=#cfa75c][font_size=%d]전투 결과[/font_size][/color]\n" % Kit.pxi(13)
+	t += "[b][color=%s]%s[/color][/b]\n" % ["#9fdc8f" if win else "#ff9b86", "승리" if win else "패배"]
+	t += "[color=#9ba4b5]%d라운드 · 쓰러진 횟수 %d · 남은 행운 주사위 %d[/color]" % [battle.round_no, battle.downs, battle.fate]
 	over_lbl.text = t
 	over.visible = true
 	# 이야기 모드: 이기면 계속, 지면 다시 하거나 물러나기(패배로 돌아감)
@@ -494,7 +514,7 @@ func _check_over() -> void:
 	hb.get_child(0).visible = story.is_empty() or not win
 	hb.get_child(1).visible = story.is_empty()
 	hb.get_child(2).visible = not story.is_empty()
-	hb.get_child(2).text = "  계속  " if win else "  물러나기  "
+	(hb.get_child(2).get_meta("label") as Label).text = "계속" if win else "물러나기"
 	_refresh()
 	if _demo:
 		print("demo result: %s, rounds %d, downs %d" % [battle.result, battle.round_no, battle.downs])
@@ -567,7 +587,7 @@ func _on_pick(ref: Dictionary) -> void:
 func _toggle_speed() -> void:
 	speed = 2.0 if speed == 1.0 else 1.0
 	stage.speed = speed
-	speed_btn.text = " ▶ %d배속 " % int(speed)
+	(speed_btn.get_meta("label") as Label).text = "%d배속" % int(speed)
 
 
 # ── 그림 ────────────────────────────────────────────
@@ -594,7 +614,7 @@ func _load_art() -> void:
 			if pt != null:
 				stage.props[o.key] = pt
 	stage.bold_font = bold_font
-	stage.panel_sb = UI.sbt("panel", 30, 0)
+	stage.panel_sb = Kit.sb_panel(14, Color(0.04, 0.06, 0.11, 0.94), Kit.LINE, 0)
 	_sync_faces()
 
 
@@ -666,7 +686,7 @@ func _tex(rel: String) -> Texture2D:
 func _refresh() -> void:
 	if battle == null:
 		return
-	round_lbl.text = "ROUND %d" % battle.round_no
+	round_lbl.text = "%d" % battle.round_no
 	event_lbl.text = battle.upcoming_text()
 	turnbar.battle = battle
 	turnbar.queue_redraw()
@@ -719,31 +739,80 @@ func _fix_aims() -> void:
 
 
 ## 행동 카드 하나: 위에 아이콘, 아래에 이름과 판정 칸·확률
+## 행동 카드: 남색 칸 + 아이콘 + 이름 + 판정 칸 마름모 · 확률. 궁극기는 하웰 파랑, 주변 행동은 녹색 테
 func _card(a: Dictionary, icon: Texture2D, style: String) -> Button:
-	var label: String = a.name
-	var sub := ""
-	if a.slots > 0:
-		sub = "◆".repeat(a.slots)
-	var t := _target_for(a.id) if a.ready else {}
-	if not t.is_empty() and a.slots > 0:
-		sub += " %d%%" % roundi(battle.preview(actor, a.id, t).chance * 100)
-	if a.note != "":
-		sub = a.note
-	var b := _btn("%s\n%s" % [label, sub] if sub != "" else label, _pick_action.bind(a.id))
-	b.custom_minimum_size = Vector2(86, 104) if touch else Vector2(132, 156)
-	b.add_theme_font_size_override("font_size", 11 if touch else 17)
+	var base := Color(0.06, 0.09, 0.16, 0.95)
+	var edge := Kit.LINE
+	if style == "gold":
+		base = Color(Kit.BLUE_DK, 0.95)
+		edge = Kit.BRASS_HI
+	elif style == "env":
+		edge = Color(Kit.GOOD, 0.6)
+	var normal := Kit.sb_flat(base, edge, 1, 10)
+	var hover := Kit.sb_flat(Kit.PAPER, Kit.BLUE, 0, 10)
+	hover.border_width_top = Kit.pxi(3)
+	var off := Kit.sb_flat(Color(0.05, 0.07, 0.12, 0.6), Color(1, 1, 1, 0.08), 1, 10)
+	var b := Button.new()
+	b.focus_mode = FOCUS_NONE
+	b.mouse_default_cursor_shape = CURSOR_POINTING_HAND
+	for st in [["normal", normal], ["hover", hover], ["pressed", hover], ["disabled", off], ["focus", StyleBoxEmpty.new()]]:
+		b.add_theme_stylebox_override(st[0], st[1])
+	b.pressed.connect(_pick_action.bind(a.id))
+	b.custom_minimum_size = Vector2(Kit.px(116), Kit.px(146))
 	b.disabled = not a.ready
 	b.tooltip_text = a.desc
+	var v := Kit.vbox(5)
+	v.alignment = BoxContainer.ALIGNMENT_CENTER
+	v.set_anchors_preset(PRESET_FULL_RECT)
+	v.mouse_filter = MOUSE_FILTER_IGNORE
+	b.add_child(v)
 	if icon != null:
-		b.icon = icon
-		b.expand_icon = true
-		b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		b.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
-		b.add_theme_constant_override("icon_max_width", 46 if touch else 76)
-	if style != "" and a.ready:
-		var m := 9.0 if touch else 12.0
-		b.add_theme_stylebox_override("normal", UI.sbt("btn_" + style, 18, m))
-		b.add_theme_stylebox_override("hover", UI.sbt("btn_" + style + "_hover", 18, m))
+		var ic := TextureRect.new()
+		ic.texture = icon
+		ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		ic.custom_minimum_size = Vector2(Kit.px(60), Kit.px(60))
+		ic.size_flags_horizontal = SIZE_SHRINK_CENTER
+		ic.mouse_filter = MOUSE_FILTER_IGNORE
+		v.add_child(ic)
+	var name_l := Kit.bold(a.name, 14, Color("e6e9ef") if a.ready else Kit.DIM)
+	name_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(name_l)
+	var sub := Kit.hbox(3)
+	sub.alignment = BoxContainer.ALIGNMENT_CENTER
+	sub.mouse_filter = MOUSE_FILTER_IGNORE
+	var subs: Array = []
+	if a.note != "":
+		subs.append(Kit.label(a.note, 12, Kit.DIM))
+	else:
+		for i in a.slots:
+			subs.append(Kit.Diamond.make(Kit.px(6), Kit.BRASS_HI if a.ready else Kit.DIM))
+		var t := _target_for(a.id) if a.ready else {}
+		if not t.is_empty() and a.slots > 0:
+			subs.append(Kit.spacer(3))
+			subs.append(Kit.num("%d%%" % roundi(battle.preview(actor, a.id, t).chance * 100), 13, Color.WHITE))
+	for s in subs:
+		sub.add_child(s)
+	v.add_child(sub)
+	# 마우스를 올리면 종이색 바탕에 잉크 글자
+	b.mouse_entered.connect(func():
+		if b.disabled:
+			return
+		name_l.add_theme_color_override("font_color", Kit.INK)
+		for s in subs:
+			if s is Label:
+				s.add_theme_color_override("font_color", Kit.INK)
+			elif s is Kit.Diamond:
+				s.col = Kit.BLUE
+				s.queue_redraw())
+	b.mouse_exited.connect(func():
+		name_l.add_theme_color_override("font_color", Color("e6e9ef") if a.ready else Kit.DIM)
+		for s in subs:
+			if s is Label:
+				s.add_theme_color_override("font_color", Color.WHITE if s.get_theme_font("font") == Kit.f_num else Kit.DIM)
+			elif s is Kit.Diamond:
+				s.col = Kit.BRASS_HI
+				s.queue_redraw())
 	return b
 
 
@@ -779,16 +848,19 @@ func _update_side() -> void:
 	for c in fate_row.get_children():
 		c.queue_free()
 	for i in Battle.FATE_MAX:
-		var d := TextureButton.new()
-		d.ignore_texture_size = true
-		d.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
-		d.custom_minimum_size = Vector2(34, 34) if touch else Vector2(52, 52)
+		# 행운 주사위: 파란 마름모(남음) · 놋쇠 마름모(이번 행동에 씀) · 빈 마름모
+		var d := Button.new()
 		d.focus_mode = FOCUS_NONE
-		var name := "fate_off"
-		if i < battle.fate:
-			name = "fate_lock" if i < locks else "fate_on"
-		d.texture_normal = UI.tex(name)
+		d.flat = true
+		d.custom_minimum_size = Vector2(Kit.px(34), Kit.px(34))
+		var on: bool = i < battle.fate
+		var dm := Kit.Diamond.make(Kit.px(11), (Kit.BRASS_HI if i < locks else Kit.BLUE_HI) if on else Color(Kit.BRASS, 0.5), on, on)
+		dm.set_anchors_preset(PRESET_CENTER)
+		dm.grow_horizontal = GROW_DIRECTION_BOTH
+		dm.grow_vertical = GROW_DIRECTION_BOTH
+		d.add_child(dm)
 		d.disabled = state != "player" or i >= battle.fate
+		d.mouse_default_cursor_shape = CURSOR_POINTING_HAND
 		d.tooltip_text = "누르면 다음 행동의 앞 칸부터 확정 성공"
 		d.pressed.connect(_on_fate.bind(i))
 		fate_row.add_child(d)
@@ -796,20 +868,20 @@ func _update_side() -> void:
 		hint.text = ""
 		return
 	if state != "player":
-		hint.text = "[color=#a89a88]%s 차례…[/color]" % (actor.name if actor != null else "")
+		hint.text = "[color=#9ba4b5]%s 차례…[/color]" % (actor.name if actor != null else "")
 		return
-	var t := "[b][color=#f0d79a]%s 차례[/color][/b]\n" % actor.name
+	var t := "[b][color=#f0d596]%s[/color][/b] [color=#9ba4b5]차례[/color]\n" % actor.name
 	var e = battle.unit(aim_enemy)
 	if e != null:
-		t += "[color=#ff9a8a]▶ %s[/color] [color=#a89a88]방어 %d[/color]\n" % [e.name, battle.eff_def(e)]
+		t += "[color=#ff9b86]◆ %s[/color]  [color=#9ba4b5]방어 %d[/color]\n" % [e.name, battle.eff_def(e)]
 	if aim_ally != -1:
-		t += "[color=#9aff9a]♥ %s[/color]\n" % battle.unit(aim_ally).name
+		t += "[color=#9fdc8f]◆ %s[/color]\n" % battle.unit(aim_ally).name
 	if aim_obj != -1:
 		for a in battle.obj_actions(actor, aim_obj):
-			t += "[color=#b8ff9a]%s[/color]\n" % a.desc
+			t += "[color=#9fdc8f]%s[/color]\n" % a.desc
 	if locks > 0:
-		t += "[color=#e0b0ff]행운 %d개 · %d칸 확정[/color]\n" % [locks, locks]
-	t += "[color=#8a8070]무대를 눌러 대상 바꾸기 · 주변 살펴보기[/color]"
+		t += "[color=#f0d596]행운 %d개 · 앞 %d칸 확정[/color]\n" % [locks, locks]
+	t += "[color=#6f7889]무대를 눌러 대상 바꾸기 · 주변 살펴보기[/color]"
 	hint.text = t
 
 

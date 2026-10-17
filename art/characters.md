@@ -197,17 +197,17 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 | N12 | 대장장이 그레타 (Greta) | 하웰 대장간 주인. 장비 사기·강화. 호탕하고 일 욕심이 많다 | `Greta, the Harwell blacksmith, a burly cheerful adult woman in her mid 30s, sun-tanned skin, a square jaw, short cropped ash-blonde hair under a red headband, a soot smudge on one cheek, a small burn scar on the left forearm, broad shoulders and strong muscular arms, attractive in a sturdy way, a scorched leather apron over a sleeveless linen shirt, heavy gloves tucked in her belt, a forging hammer resting on her shoulder, a big toothy grin` |
 | N13 | 잡화점 주인 핍 (Pip) | 하웰 잡화점 주인. 소모품·선물·식재료. 수다스럽고 흥정을 좋아한다 | `Pip, the Harwell general store keeper, a plump fussy man in his mid 50s, NOT a young man, a round face with rosy cheeks, a large curled grey mustache, a bald head under a small embroidered cap, small bright eyes, short stocky build, a striped vest over a white shirt, a measuring cord around his neck, a wooden abacus in hand, an eager salesman smile` |
 | N08 | 마을 사람 (여) | 범용 의뢰인 | `a village woman in her early 30s, round freckled face, thick dark braid, faded blue headscarf, wool dress and worn apron, basket of eggs` |
-| N14 | 부관 노라 (Nora) | 하웰 모험가 길드 부관. 접수·장부·일정 담당. 길드 하우스 로비에 서서 이번 주 할 일을 알려 준다. 호감도(신임) 3단계 (docs/04-game-flow.md 6.4절). 전투에 나오지 않는다 | `Nora, the deputy officer of the Harwell adventurers' guild, an attractive adult woman of 26, NOT a young girl, slightly taller and slimmer than an average heroine with a very upright posture, a copper-red chin-length bob with straight-cut side locks and a small brass pen-nib hairpin, narrow upturned fox-like amber eyes that look half-smiling, thick straight dark brows, a slim V-shaped jaw, light warm olive skin, a small tear mole under her left eye, a polite businesslike smile with one corner of the mouth raised, a long teal deputy's coat with brass buttons over a white high-collared blouse, a teal armband with the Harwell guild emblem (blue shield, silver stone well, two crossed swords) on her left upper arm, a dark charcoal long skirt and polished brown boots, an open brass pocket watch in her right hand, a rolled quest notice held at her waist in her left hand` |
+| N14 | 부관 노라 (Nora) | 하웰 모험가 길드 부관. 접수·장부·일정 담당. 길드 하우스 로비에 서서 이번 주 할 일을 알려 준다. 호감도(신임) 3단계 (docs/04-game-flow.md 6.4절). 전투에 나오지 않는다 | `Nora, the deputy officer of the Harwell adventurers' guild, an attractive adult woman of 26, NOT a young girl, tall and slender (clearly taller than an average heroine) with a very upright posture, copper-red hair pulled up into a high tight bun pierced by two crossed brass pens, long face-framing side locks and short blunt bangs, thin rectangular half-rim brass glasses with a fine glasses chain, always-smiling narrow closed-looking eyes (itome: eyes like thin smiling arcs behind the glasses), thin arched dark brows, a slim V-shaped jaw, light warm olive skin, a small tear mole under her left eye, a polite closed-mouth smile, a fitted teal waistcoat with brass buttons over a white blouse with full sleeves held by black sleeve garters, a short teal shoulder capelet fastened with a brass clasp, a teal armband with the Harwell guild emblem (blue shield, silver stone well, two crossed swords) on her left upper arm, a high-waisted dark charcoal pencil skirt to mid-calf with a side slit for walking, brown lace-up boots, a brass pocket watch chain across the waistcoat, a big wooden approval stamp with red ink held up in her right hand` |
 
-### N14 노라 개성 체크리스트 (2026-10-17)
+### N14 노라 개성 체크리스트 (2026-10-17, 같은 날 개정: 개성 부족 → 안경 · 실눈 · 올림머리 · 결재 도장)
 | # | 항목 | 노라 |
 |---|---|---|
 | 1 | 한 줄 콘셉트 | 웃으면서 마감을 독촉하는 비서. 깍듯한 존댓말, 숫자에 칼같다 |
-| 2 | 실루엣 | 턱선 단발 보브 + 무릎 아래까지 오는 긴 부관 코트, 꼿꼿한 자세 |
+| 2 | 실루엣 | 펜 두 자루를 꽂은 높은 올림머리 + 짧은 어깨 망토, 키가 크고 꼿꼿하다 |
 | 3 | 대표 색 | 청록 + 놋쇠 |
-| 4 | 얼굴 | 가늘게 올라간 여우눈(호박색), 짙은 일자 눈썹, 갸름한 V턱, 따뜻한 올리브 피부, **본인 왼쪽 눈 밑 눈물점**, 한쪽 입꼬리만 올라간 사무적 미소 |
-| 5 | 키·체형 | 리나보다 조금 크고 가늘다 |
-| 6 | 상징 소품·버릇 | 놋쇠 회중시계를 딸깍 여닫는다. 놋쇠 펜촉 머리핀. (바실과 겹치지 않게 깃펜·장부는 들지 않는다) |
+| 4 | 얼굴 | **늘 웃는 실눈** + 가는 직사각 반테 놋쇠 안경(안경줄). 화날 때만 눈을 뜬다(호박색 눈). 가는 아치 눈썹, 갸름한 V턱, 따뜻한 올리브 피부, **본인 왼쪽 눈 밑 눈물점**. 바실의 작고 둥근 안경과 다르다 |
+| 5 | 키·체형 | 리나보다 머리 반 개 크고 가늘다 |
+| 6 | 상징 소품·버릇 | **커다란 나무 결재 도장**(붉은 인주)을 들고 다니며 쾅 찍는다. 조끼에 회중시계 줄. (바실과 겹치지 않게 깃펜·장부는 들지 않는다) |
 | 7 | 말투 | "단장님, 장부 마감까지 사흘 남았습니다. 웃는 얼굴로 기다릴게요." 문장마다 숫자가 들어간다 |
 | 8 | 반전 매력 | 어릴 때부터 하웰 길드의 오랜 팬. 옛 의뢰서를 전부 스크랩해 두었다 |
 

@@ -275,7 +275,7 @@ func _draw_unit(u, font: Font, fs: int) -> void:
 	var col: Color = u.color
 	# 발밑 표시: 차례(금색), 대상 후보(빨강/초록), 고른 대상(밝게)
 	if u.uid == actor_uid:
-		_ellipse(feet, h * 0.30, h * 0.08, Color(1.0, 0.85, 0.3, 0.9))
+		_ellipse(feet, h * 0.30, h * 0.08, Color("f0d596", 0.9))
 	if tg:
 		var tc := Color(1.0, 0.3, 0.25) if u.side == "enemy" else Color(0.4, 1.0, 0.5)
 		tc.a = 0.55 + 0.25 * sin(_t * 6.0)
@@ -370,7 +370,10 @@ func _draw_unit(u, font: Font, fs: int) -> void:
 			sx += isz + 3.0
 	if u.uid == actor_uid:
 		var ay := top - fs * 1.6 + sin(_t * 5.0) * 4.0
-		draw_colored_polygon(PackedVector2Array([Vector2(feet.x - 12, ay), Vector2(feet.x + 12, ay), Vector2(feet.x, ay + 16)]), Color(1.0, 0.85, 0.3))
+		# 지금 차례: 놋쇠 마름모 (ui_kit 규칙)
+		var dc := Vector2(feet.x, ay + 8)
+		draw_colored_polygon(PackedVector2Array([dc + Vector2(0, -11), dc + Vector2(9, 0), dc + Vector2(0, 11), dc + Vector2(-9, 0)]), Color("f0d596"))
+		draw_polyline(PackedVector2Array([dc + Vector2(0, -11), dc + Vector2(9, 0), dc + Vector2(0, 11), dc + Vector2(-9, 0), dc + Vector2(0, -11)]), Color(0.04, 0.06, 0.11, 0.8), 1.5, true)
 	_hits.append({"rect": Rect2(feet.x - h * 0.28, feet.y - h * 0.85, h * 0.56, h * 0.95), "ref": ref})
 
 
