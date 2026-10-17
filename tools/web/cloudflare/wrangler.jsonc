@@ -6,5 +6,9 @@
   "assets": {
     "directory": "./public",
     "binding": "ASSETS"
-  }
+  },
+  // 25 MiB 넘는 파일(gzip)은 R2 에 둔다 (tools/web/deploy_web.ps1)
+  "r2_buckets": [
+    { "binding": "WEB", "bucket_name": "project-d20-web" }
+  ]
 }

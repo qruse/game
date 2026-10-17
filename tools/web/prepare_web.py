@@ -2,7 +2,7 @@
 
 1. 전투에 쓰는 그림을 art/final 에서 godot/art 로 복사한다 (웹에서는 godot 폴더 밖 파일을 못 읽는다)
    배경·CG 는 스크립트가 실제로 부르는 것만, 큰 그림(배경·스탠딩·컷인)은 손실 압축(WebP)으로 들여온다
-   (Cloudflare 파일 하나 25MiB 제한: PNG 그대로면 index.pck 가 넘친다)
+   (index.pck 를 작게: 모바일 첫 로딩. 큰 파일은 R2 에 올라간다, tools/web/deploy_web.ps1)
 2. 한글 글꼴을 godot/fonts 에 넣는다 (웹에는 시스템 글꼴이 없다)
    Noto Sans KR(OFL)에서 게임에 나오는 글자 + 자주 쓰는 한글 2,350자 + 기호만 남겨 크기를 줄인다
 
@@ -42,15 +42,6 @@ def used_art() -> list:
     return ["art/final/" + b for b in sorted(out)]
 
 
-def used_portraits() -> list:
-    """이야기 장면에 나오는 인물(story_defs.gd 의 SPEAKERS 경로)의 스탠딩만. 동료는 전투복 스탠딩"""
-    with open(os.path.join(ROOT, "godot", "scripts", "story_defs.gd"), encoding="utf-8") as f:
-        src = f.read()
-    out = ["art/final/characters/%s/*_portrait_combat_*.png" % d for d in sorted(set(re.findall(r"characters/(C\d\d_[a-z]+)/", src)))]
-    out += ["art/final/npcs/%s/*_portrait_*.png" % d for d in sorted(set(re.findall(r"npcs/(N\d\d_[a-z_]+)/", src)))]
-    return out
-
-
 def copy_art() -> int:
     dst = os.path.join(ROOT, "godot", "art")
     if os.path.isdir(dst):
@@ -61,7 +52,9 @@ def copy_art() -> int:
         "art/final/icons/skills/*.png",
         "art/final/enemies/*/*_sd_*.png",
         "art/final/props/*.png",
-    ] + used_portraits() + used_art()
+        "art/final/characters/*/*_portrait_combat_*.png",  # 이야기 장면은 전투복 스탠딩
+        "art/final/npcs/*/*_portrait_*.png",
+    ] + used_art()
     n = 0
     for pat in pats:
         for src in glob.glob(os.path.join(ROOT, pat)):
