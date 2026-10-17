@@ -134,7 +134,11 @@ func _ready() -> void:
 		_debug_goto(goto)
 		Game.flags["_goto_done"] = true
 		return
-	_show_title()
+	# 웹은 브라우저가 첫 터치 전에는 소리를 막으므로, 한 번 눌러야 타이틀(음악)이 시작된다
+	if OS.has_feature("web"):
+		_show_gate()
+	else:
+		_show_title()
 
 
 func _take_shot() -> void:
@@ -355,11 +359,36 @@ func _play(id: String, then: Callable) -> void:
 
 # ── 제목 ────────────────────────────────────────────
 
+## 타이틀 일러 (cg_title, 왼쪽 40%가 비어 있다). 아직 없으면 전성기 길드 하우스
+func _title_bg() -> void:
+	var t := Game.tex("cg/cg_title.png")
+	bg.texture = t if t else Game.tex("backgrounds/scene/bg_guildhall_past.png")
+	bg.modulate = Color(0.92, 0.9, 0.88) if t else Color(0.72, 0.68, 0.64)
+
+
+func _show_gate() -> void:
+	_clear()
+	_title_bg()
+	bg.modulate = Color(0.4, 0.38, 0.36)
+	var l := Kit.shadowed(Kit.label("화면을 눌러 시작", 26, Color("f4efe4")))
+	l.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
+	l.grow_horizontal = GROW_DIRECTION_BOTH
+	l.grow_vertical = GROW_DIRECTION_BOTH
+	screen.add_child(l)
+	var tw := l.create_tween().set_loops()
+	tw.tween_property(l, "modulate:a", 0.35, 0.9)
+	tw.tween_property(l, "modulate:a", 1.0, 0.9)
+	var hit := Button.new()
+	hit.flat = true
+	hit.focus_mode = Control.FOCUS_NONE
+	hit.set_anchors_preset(Control.PRESET_FULL_RECT)
+	hit.pressed.connect(_show_title)
+	screen.add_child(hit)
+
 func _show_title() -> void:
 	_clear()
 	Music.play("res://audio/bgm_title.ogg")
-	bg.texture = Game.tex("backgrounds/scene/bg_guildhall_past.png")
-	bg.modulate = Color(0.72, 0.68, 0.64)
+	_title_bg()
 	Kit.shade(screen, "l", 0.92, 0.62)
 	Kit.shade(screen, "b", 0.7, 0.4)
 	# 왼쪽 기둥: 문장 · 제목 · 버튼

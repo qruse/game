@@ -1,0 +1,84 @@
+<!-- 가로 고정 (tools/web/landscape.html, build_web.ps1 이 index.html 의 </head> 앞에 넣는다)
+     모바일을 세로로 들고 있으면 게임 화면을 90도 돌려 가로로 보여 준다 (안내 화면 없이 바로).
+     캔버스 크기는 이 스크립트가 정한다 (export_presets canvas_resize_policy=0): Godot 는 canvas.width/height 를 따라간다.
+     돌린 동안에는 터치·마우스 좌표도 돌려서 Godot 에 넘긴다. 첫 터치 때는 전체 화면 + 가로 잠금도 시도한다 (안드로이드) -->
+<style>
+html, body { margin: 0; padding: 0; overflow: hidden; background: #000; }
+#canvas, #status { position: fixed !important; left: 0 !important; top: 0 !important; right: auto !important; bottom: auto !important; transform-origin: 0 0; }
+</style>
+<script>
+(function () {
+  var rot = false;
+  var vw = 0;
+  function coarse() { return matchMedia("(pointer: coarse)").matches; }
+  function layout() {
+    var c = document.getElementById("canvas");
+    if (!c) return;
+    var w = window.innerWidth, h = window.innerHeight;
+    rot = coarse() && h > w;
+    vw = w;
+    var lw = rot ? h : w, lh = rot ? w : h;
+    var dpr = window.devicePixelRatio || 1;
+    var tf = rot ? "translateX(" + w + "px) rotate(90deg)" : "none";
+    if (c.width !== Math.floor(lw * dpr) || c.height !== Math.floor(lh * dpr)) {
+      c.width = Math.floor(lw * dpr);
+      c.height = Math.floor(lh * dpr);
+    }
+    [c, document.getElementById("status")].forEach(function (el) {
+      if (!el) return;
+      el.style.width = lw + "px";
+      el.style.height = lh + "px";
+      el.style.transform = tf;
+    });
+  }
+  // 돌린 동안 Godot 가 보는 캔버스 위치는 돌리기 전 기준
+  function patchRect() {
+    var c = document.getElementById("canvas");
+    var orig = c.getBoundingClientRect.bind(c);
+    c.getBoundingClientRect = function () {
+      if (!rot) return orig();
+      var lw = window.innerHeight, lh = window.innerWidth;
+      return { x: 0, y: 0, left: 0, top: 0, width: lw, height: lh, right: lw, bottom: lh };
+    };
+  }
+  // 화면 좌표 (sx, sy) -> 게임 좌표 (sy, 화면폭 - sx)
+  function remap(p) {
+    if (p.__rot) return;
+    var sx = p.clientX, sy = p.clientY;
+    Object.defineProperty(p, "clientX", { value: sy, configurable: true });
+    Object.defineProperty(p, "clientY", { value: vw - sx, configurable: true });
+    Object.defineProperty(p, "__rot", { value: true });
+  }
+  function onInput(e) {
+    if (!rot) return;
+    if (e.changedTouches) {
+      for (var i = 0; i < e.changedTouches.length; i++) remap(e.changedTouches[i]);
+      for (var j = 0; j < e.touches.length; j++) remap(e.touches[j]);
+    } else if ("clientX" in e) {
+      remap(e);
+    }
+  }
+  ["touchstart", "touchmove", "touchend", "touchcancel", "mousedown", "mousemove", "mouseup"].forEach(function (t) {
+    window.addEventListener(t, onInput, { capture: true, passive: true });
+  });
+  // 안드로이드: 첫 터치에 전체 화면 + 가로 잠금 (안 되면 위의 돌리기만으로 충분)
+  function lock() {
+    try { screen.orientation.lock("landscape").catch(function () {}); } catch (e) {}
+  }
+  function full() {
+    if (!coarse()) return;
+    if (document.fullscreenElement) return lock();
+    var el = document.documentElement;
+    if (!el.requestFullscreen) return;
+    el.requestFullscreen({ navigationUI: "hide" }).then(lock).catch(function () {});
+  }
+  window.addEventListener("touchend", full, true);
+  document.addEventListener("DOMContentLoaded", function () {
+    patchRect();
+    layout();
+  });
+  window.addEventListener("resize", layout);
+  window.addEventListener("orientationchange", function () { setTimeout(layout, 200); });
+  document.addEventListener("fullscreenchange", layout);
+})();
+</script>

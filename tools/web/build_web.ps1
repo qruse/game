@@ -11,6 +11,11 @@ if (Test-Path $out) { Remove-Item -Recurse -Force $out }
 New-Item -ItemType Directory -Force $out | Out-Null
 & $godot --headless --path "$root\godot" --export-release "Web" "$out\index.html"
 if (-not (Test-Path "$out\index.wasm")) { throw "export failed" }
+# Mobile landscape lock + rotate hint (tools/web/landscape.html)
+$utf8 = New-Object System.Text.UTF8Encoding $false
+$html = [IO.File]::ReadAllText("$out\index.html", $utf8)
+$snip = [IO.File]::ReadAllText("$root\tools\web\landscape.html", $utf8)
+[IO.File]::WriteAllText("$out\index.html", $html.Replace("</head>", "$snip</head>"), $utf8)
 
 $pub = "$root\tools\web\cloudflare\public"
 if (Test-Path $pub) { Remove-Item -Recurse -Force $pub }
