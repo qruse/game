@@ -1,0 +1,47 @@
+Asset: C04_sd_hit
+Model/tool: built-in image_gen.imagegen (underlying model ID not exposed)
+Generation date: 2026-10-17 Asia/Seoul
+Exactly one generation call, no regeneration or art-content self-review.
+Raw: art/raw/C04_sd_hit_v1.png
+Output: art/final/characters/C04_miriam/C04_sd_hit.png
+Actual source size: (1254, 1254)
+Final size: (512, 512)
+Postprocessing: technical canvas/alpha normalization only; transparent assets: magenta removal where needed, blonde rose-edge RGB decontamination using local interior blonde donors, then python tools/art/despill.py. SD lower baseline y=487, centered without mirroring. Cutin: central 3:1 crop, 1920x640 RGB.
+Face mask polygon (inward feather only): none
+For expression variants, only face-mask RGB is composited over neutral; alpha and pixels outside face are retained. No comparison sheets or QA scripts.
+
+References (attachment order):
+art/final/characters/C04_miriam/C04_sd_idle.png
+art/final/characters/C04_miriam/C04_portrait_combat_neutral.png
+art/refs/C04_ref_combat.png
+art/refs/C04_ref_casual.png
+art/refs/style-anchor.png
+
+Full prompt:
+Use case: stylized-concept
+Asset: C04_sd_hit. ONE finished game asset. Target canvas 1024x1024.
+
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), genuinely transparent background (if a background is required, use plain flat solid #FF00FF magenta), no ground shadow.
+
+Miriam, a 24-year-old adult woman, long voluminous wavy golden blonde hair, sky-blue eyes, wooden holy symbol necklace. FACE: a soft rounded mature face clearly older than the other girls, gentle droopy eyes with long lashes, a beauty mark under her left eye, full soft lips in a calm knowing half-smile, warm peach skin; tall graceful curvy figure
+
+wearing a white veil over her hair, a cream pilgrim's cloak with a scallop-shell badge over a modest grey-blue travel dress, a tall pilgrim's staff
+
+Pose: recoiling from being hit, wincing. One full-body sprite, about 2.5 heads tall, facing RIGHT in three-quarter view, same costume and staff as approved idle. Whole silhouette, hands, staff and both feet inside canvas; no mirroring, no ground shadow, no text or separate effects.Recoil backward while still facing right and gripping her staff, visibly wincing.
+
+Input image roles (attachment order): Image 1: APPROVED Miriam SD design/proportions and combat outfit. Image 2: APPROVED authoritative Miriam face identity. Image 3: APPROVED combat outfit/staff reference. Image 4: face, hair and body identity ONLY, never transfer the casual outfit. Image 5 is Lina: STYLE ONLY, do not copy her face, colors, outfit, weapons or accessories.
+
+Identity priority: approved C04_portrait_combat_neutral, approved Miriam references, and Miriam FACE specification. Her face is soft, rounded and mature; gentle drooping sky-blue eyes with long lashes; beauty mark beneath her own LEFT eye (viewer-right in front view); full soft lips; warm peach skin; tall graceful curvy figure. Her primary colors are ivory and golden blonde. No generic youthful pointed chin.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

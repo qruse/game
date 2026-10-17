@@ -1,0 +1,46 @@
+Asset: C04_portrait_combat_sad
+Model/tool: built-in image_gen.imagegen (underlying model ID not exposed)
+Generation date: 2026-10-17 Asia/Seoul
+Exactly one generation call, no regeneration or art-content self-review.
+Raw: art/raw/C04_portrait_combat_sad_v1.png
+Output: art/final/characters/C04_miriam/C04_portrait_combat_sad.png
+Actual source size: (1024, 1536)
+Final size: (1024, 1536)
+Postprocessing: technical canvas/alpha normalization only; transparent assets: magenta removal where needed, blonde rose-edge RGB decontamination using local interior blonde donors, then python tools/art/despill.py. SD lower baseline y=487, centered without mirroring. Cutin: central 3:1 crop, 1920x640 RGB.
+Face mask polygon (inward feather only): 405,211;432,207;451,222;463,208;460,174;481,157;516,149;541,158;550,194;549,236;541,267;516,297;505,305;473,295;444,277;424,259;410,243;400,229
+For expression variants, only face-mask RGB is composited over neutral; alpha and pixels outside face are retained. No comparison sheets or QA scripts.
+
+References (attachment order):
+art/final/characters/C04_miriam/C04_portrait_combat_neutral.png
+art/refs/C04_ref_combat.png
+art/refs/C04_ref_casual.png
+art/refs/style-anchor.png
+
+Full prompt:
+Use case: identity-preserve
+Asset: C04_portrait_combat_sad. ONE finished game asset. Target canvas 1024x1536.
+
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas, genuinely transparent background (if a background is required, use plain flat solid #FF00FF magenta), no shadow on the background.
+
+Miriam, a 24-year-old adult woman, long voluminous wavy golden blonde hair, sky-blue eyes, wooden holy symbol necklace. FACE: a soft rounded mature face clearly older than the other girls, gentle droopy eyes with long lashes, a beauty mark under her left eye, full soft lips in a calm knowing half-smile, warm peach skin; tall graceful curvy figure
+
+wearing a white veil over her hair, a cream pilgrim's cloak with a scallop-shell badge over a modest grey-blue travel dress, a tall pilgrim's staff
+
+Edit target is image 1. Edit only the masked face area (eyebrows, eyes, cheeks and mouth). Keep everything outside the mask pixel-identical. Change the facial expression to: sad, teary eyes. Retain the exact face position, head angle, jaw contour, skin tone, eye color and beauty mark under her own LEFT eye (viewer-right). Do not move or repaint the hair, veil, ears, neck, body, outfit, hands, props or background. The edit will be composited through a face-interior-only mask over image 1; therefore precise alignment of every facial feature with the base is essential. Output the same complete 1024x1536 canvas, not a close-up. Preserve transparency.
+
+Input image roles (attachment order): Image 1 is the neutral portrait EDIT TARGET, authoritative face identity and geometry. Images 2 and 3 are approved Miriam identity references only. Image 4 is Lina: STYLE ONLY, never copy her face, hair, colors, clothes or accessories.
+
+Identity priority: approved C04_portrait_combat_neutral, approved Miriam references, and Miriam FACE specification. Her face is soft, rounded and mature; gentle drooping sky-blue eyes with long lashes; beauty mark beneath her own LEFT eye (viewer-right in front view); full soft lips; warm peach skin; tall graceful curvy figure. Her primary colors are ivory and golden blonde. No generic youthful pointed chin.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

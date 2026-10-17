@@ -1,0 +1,52 @@
+Asset: C04_sd_idle
+Model/tool: built-in image_gen.imagegen (underlying model name not exposed)
+Generation date: 2026-10-17 (Asia/Seoul)
+Mode: reference-guided new generation; exactly one call, no retries or art-content review
+Requested generation dimensions: 1024x1024
+Actual source dimensions: 1254x1254
+Final dimensions: 512x512
+Generation background: solid #FF00FF magenta
+Final background: transparent RGBA PNG
+Raw: art/raw/C04_sd_idle_v1.png
+Output: art/final/characters/C04_miriam/C04_sd_idle.png
+Postprocessing: magenta chroma key; opaque interior with antialiased boundary; crop transparent margins, fit within 464x464, center horizontally, visible foot baseline y=487 (24px bottom margin); run python tools/art/despill.py on final PNG.
+No comparison sheet, QA script, art-content self-review or regeneration.
+
+Attached reference images (ordered):
+C:/Users/이현상/Workplace/game/art/refs/C04_ref_combat.png
+C:/Users/이현상/Workplace/game/art/refs/C04_ref_casual.png
+C:/Users/이현상/Workplace/game/art/refs/style-anchor.png
+
+Full prompt:
+Use case: stylized-concept
+Asset type: C04_sd_idle. Create ONE new finished single-character battle sprite, not a reference sheet. Target canvas 1024x1024.
+
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Chibi SD proportions about 2.5 heads tall, full body, three-quarter view facing right, thick clean outline, simplified details readable at small size (simplify chainmail into a light pattern), plain flat solid #FF00FF magenta background, no ground shadow.
+
+Miriam, a 24-year-old adult woman, long voluminous wavy golden blonde hair, sky-blue eyes, wooden holy symbol necklace. FACE: a soft rounded mature face clearly older than the other girls, gentle droopy eyes with long lashes, a beauty mark under her left eye, full soft lips in a calm knowing half-smile, warm peach skin; tall graceful curvy figure
+
+wearing a white veil over her hair, a cream pilgrim's cloak with a scallop-shell badge over a modest grey-blue travel dress, a tall pilgrim's staff
+
+Pose: relaxed ready combat stance. She stands ready for battle looking toward screen-right and holds her main pilgrim's staff in her hand with a secure natural grip, not merely slung or stored. Preserve her mature gentle facial identity in chibi form. Show her travelling boots and both feet clearly. Keep all hair, veil, cloak, hands and complete staff inside the canvas with a small margin. Place the staff bottom at or above the boot soles, so the feet define the lowest visible baseline. One isolated sprite, no floor, shadow, aura, scenery or additional figures.
+
+Input image roles, in attachment order:
+Image 1, C04_ref_combat.png: APPROVED Miriam identity and COMBAT outfit reference. Keep her face, golden hair, sky-blue eyes, wooden holy symbol, white veil, cream cloak, scallop-shell badge, modest grey-blue dress and pilgrim staff design.
+Image 2, C04_ref_casual.png: APPROVED Miriam FACE, hair and body identity reference ONLY. Do not transfer its casual outfit, neckline, bare shoulders, bare feet or slit into this combat asset.
+Image 3, style-anchor.png: another companion, Lina. STYLE AND RELATIVE DRAWING SCALE ONLY. Do not copy Lina's face, facial structure, eyes, hair, colors, outfit, weapons or accessories. Miriam must look like the same woman in images 1 and 2. Follow Miriam's ivory and gold identity colors with grey-blue combat dress.
+Preserve the softly rounded mature face, gentle downturned long-lashed eyes, full lips and her own LEFT under-eye beauty mark (viewer-right when front-facing). Do not replace her with a generic youthful pointed-chin heroine.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+
+
+2026-10-17 authorized technical addition: rose/blonde edge RGB decontamination from local interior blonde donors; then python tools/art/despill.py. Content, alpha, size and position retained. Backup: art/raw/S12_session/C04_sd_idle_before_technical.png
