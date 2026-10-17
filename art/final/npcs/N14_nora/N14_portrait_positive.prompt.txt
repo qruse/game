@@ -1,0 +1,24 @@
+Asset: N14_portrait_positive
+Step: S34
+Tool/model: built-in image_gen.imagegen; underlying model identifier not exposed
+Generation date: 2026-10-17 Asia/Seoul
+Generation calls: 1 for this asset
+Status: generated; human review pending
+Raw: art/raw/N14_portrait_positive_v1.png
+Final: art/final/npcs/N14_nora/N14_portrait_positive.png
+Canvas: 1024x1536 RGBA, unchanged placement
+Technique: style-guide 3.1.4; generated face interiors composited through N14_face_expression_mask.png onto approved neutral. Original RGBA retained at zero mask; original alpha retained everywhere. Explicit mask exclusions preserve the glasses, bridge, hinges and chain. No global color, alpha cleanup, despill, repositioning or mirroring applied to the final.
+No output art self-review, regeneration, comparison sheets, QA grids or validation JSON.
+Approved neutral image and its prompt are preserved without writing.
+Input images, attached order:
+1. art/final/npcs/N14_nora/N14_portrait_neutral.png (approved edit target)
+2. art/raw/S34_session/N14_face_expression_mask.png (white editable, black locked)
+FULL PROMPT:
+Use case: precise-object-edit
+Asset type: S34 Nora game dialogue portrait expression variant, 1024x1536 transparent RGBA.
+Input image 1 is the APPROVED neutral portrait and the sole edit target. Preserve its exact pose, head tilt, facial placement, contour, hair, glasses, glasses chain, clothes, hands, approval stamp, guild patch, lighting, canvas and transparency.
+Edit only the masked facial expression area, inside the face from eyebrows through mouth. Keep everything outside the mask pixel-identical. Do not redraw the character or change the head outline. Keep the thin rectangular half-rim brass glasses and their exact geometry, metal lines, lenses, bridge, temples and chain unchanged. The expression changes BEHIND the existing glasses. Preserve warm olive skin, face shape and tear mole. Preserve the source anime linework, detailed cel shading and rendering.
+Manifest extra (verbatim):
+EDIT (face mask only, see style-guide 3.1): change only the facial expression to: a bright delighted open-mouth smile, the itome eyes still closed as happy upturned arcs, faint blush (her hidden guild-fan side). Keep the glasses unchanged.
+Only one finished positive variant. No text, collage, comparison sheet, background or new props. Maintain native transparency.
+Input image 2 is the aligned grayscale FACE EDIT MASK, not artwork: white pixels indicate editable face interiors, black pixels are locked. Preserve the source at every black pixel, including all glasses lines. Return the complete 1024x1536 portrait with the positive expression; do not display or render the mask.

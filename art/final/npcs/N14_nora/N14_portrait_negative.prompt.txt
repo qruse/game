@@ -1,0 +1,22 @@
+Asset: N14_portrait_negative
+Step: S34, second rework, viewer-left eye only
+Tool/model: built-in image_gen.imagegen; underlying model identifier not exposed
+Generation date: 2026-10-17 Asia/Seoul
+Generation calls: 1 in this rework
+Status: generated; human review pending
+Raw: art/raw/N14_portrait_negative_v3.png
+Previous final backup: art/raw/N14_portrait_negative_previous_final_v2.png
+Final: art/final/npcs/N14_nora/N14_portrait_negative.png
+Mask: art/raw/S34_session/N14_left_eye_only_mask.png
+Technique: small ellipse x408-466 y230-274 intersected with existing glasses-excluding face mask. Composite generated pixels only through this mask onto current v2 backup. Original RGBA retained at zero mask and original alpha retained everywhere.
+No output art self-review, regeneration, comparison sheets, QA grids or validation JSON. No git commit.
+Input images:
+1. art/final/npcs/N14_nora/N14_portrait_negative.png (current v2 edit target at generation time; byte backup listed above)
+2. art/raw/S34_session/N14_left_eye_only_mask.png (white editable, black locked)
+FULL PROMPT:
+Use case: precise-object-edit
+Asset type: N14_portrait_negative, 1024x1536 transparent RPG standing portrait.
+Image 1 is the CURRENT negative portrait v2 and the sole edit target. Image 2 is the aligned small grayscale eye mask: white editable, black locked. Do not render the mask.
+Change ONLY the CLOSED eye on the VIEWER'S LEFT, Nora's own RIGHT eye, inside the small white mask around x408-466 y230-274. OPEN THIS ONE EYE HALFWAY, revealing an AMBER IRIS and dark pupil. Use the ALREADY OPEN eye on the VIEWER'S RIGHT as the exact reference for eye size, half-lidded aperture, amber color, gaze, rendering and relative height, accounting for the existing head tilt. Replace the closed curved eyelash arc with a real half-open upper and lower eyelid with a visible amber iris. It must read as two matching half-open eyes, never a wink.
+Do not alter the already open viewer-right eye at all. Do not change either eyebrow or the thin smile. Preserve the thin brass glasses frame, bridge, rims, lenses and chain exactly; the edit is only the eye behind the lens, never repaint the frame. Preserve all pixels outside the small white eye mask: hair, nose, skin outside eye, face outline, mouth, body, clothes, hands, props, pose, lighting, linework, composition and transparency.
+Return ONE complete portrait aligned exactly to Image 1, original 1024x1536 canvas, no zoom, crop, rotation, mirroring or rescaling. Transparent background. No variants, no collage, no text.
