@@ -24,6 +24,8 @@ const WHITE := Color("eef0f4")
 const DIM := Color("9ba4b5")
 const WAX := Color("b7342b")
 const BAD := Color("ff9b86")
+const GOOD := Color("9fdc8f")
+const SHADE := Color(0.03, 0.04, 0.08)
 
 static var k := 1.2  # 시안 px → 화면 px (데스크톱 1920 기준)
 static var touch := false
@@ -279,10 +281,12 @@ static func btn_main(text: String, sub: String, cb: Callable, h := 54.0) -> Butt
 	}, h, cb)
 	var box := _inner(b)
 	box.add_child(Diamond.make(px(8), BRASS_HI))
-	box.add_child(bold(text, 17, Color.WHITE))
+	var l := bold(text, 17, Color.WHITE)
+	box.add_child(l)
 	if sub != "":
 		box.add_child(label(sub, 13, Color("cfdcf6")))
 	b.set_meta("box", box)
+	b.set_meta("label", l)
 	return b
 
 
@@ -298,8 +302,106 @@ static func btn_sub(text: String, icon_name: String, cb: Callable, h := 54.0, w 
 	var box := _inner(b, 8)
 	if icon_name != "":
 		box.add_child(icon(icon_name, 20, BRASS_HI))
-	box.add_child(bold(text, 17, BRASS_HI))
+	if text != "":
+		var l := bold(text, 17, BRASS_HI)
+		box.add_child(l)
+		b.set_meta("label", l)
 	return b
+
+
+## 줄 버튼 (선택지 등): 내용을 직접 넣는 남색 줄. 글이 길면 줄이 높아진다
+static func pick(cb: Callable, pad := 14.0) -> Pick:
+	var p := Pick.new()
+	p.cb = cb
+	for side in ["left", "top", "right", "bottom"]:
+		p.add_theme_constant_override("margin_" + side, pxi(pad if side in ["top", "bottom"] else pad + 4))
+	p.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	return p
+
+
+class Pick extends MarginContainer:
+	var cb: Callable
+	var hot := false
+	var disabled := false
+
+	func _ready() -> void:
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		mouse_entered.connect(func():
+			hot = true
+			queue_redraw())
+		mouse_exited.connect(func():
+			hot = false
+			queue_redraw())
+
+	func _gui_input(ev: InputEvent) -> void:
+		if disabled:
+			return
+		if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
+			accept_event()
+			cb.call()
+
+	func _draw() -> void:
+		var r := Rect2(Vector2.ZERO, size)
+		var on := hot and not disabled
+		draw_rect(r, Color(0.09, 0.14, 0.25, 0.95) if on else Color(1, 1, 1, 0.035))
+		draw_rect(r, BRASS if on else LINE, false, 1.0)
+		draw_rect(Rect2(0, 0, 3.0, size.y), BLUE_HI if on else Color(BRASS, 0.55))
+
+
+## 작은 칩: 색 바탕 + 글자
+static func chip(text: String, bg: Color, fg := Color.WHITE, size := 12.0) -> Label:
+	var l := label(text, size, fg, f_bold)
+	var sb := sb_flat(bg)
+	sb.content_margin_left = px(8)
+	sb.content_margin_right = px(8)
+	sb.content_margin_top = px(1)
+	sb.content_margin_bottom = px(2)
+	l.add_theme_stylebox_override("normal", sb)
+	l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return l
+
+
+## 놋쇠 가는 줄 (가로)
+static func hr(col := HAIR) -> ColorRect:
+	var r := ColorRect.new()
+	r.color = col
+	r.custom_minimum_size = Vector2(0, 1)
+	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return r
+
+
+## 화면 그늘: dir 쪽(왼쪽 "l" / 아래 "b" / 위 "t")이 진하고 반대로 옅어진다
+static func shade(parent: Control, dir: String, alpha: float, reach := 0.6) -> TextureRect:
+	var g := TextureRect.new()
+	var gt := GradientTexture2D.new()
+	match dir:
+		"l":
+			gt.fill_from = Vector2(0, 0)
+			gt.fill_to = Vector2(1, 0)
+		"b":
+			gt.fill_from = Vector2(0, 1)
+			gt.fill_to = Vector2(0, 0)
+		"t":
+			gt.fill_from = Vector2(0, 0)
+			gt.fill_to = Vector2(0, 1)
+	var gr := Gradient.new()
+	gr.offsets = PackedFloat32Array([0.0, reach * 0.45, reach])
+	gr.colors = PackedColorArray([Color(SHADE, alpha), Color(SHADE, alpha * 0.6), Color(SHADE, 0.0)])
+	gt.gradient = gr
+	g.texture = gt
+	g.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	g.set_anchors_preset(Control.PRESET_FULL_RECT)
+	g.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(g)
+	return g
+
+
+## 행운 주사위 줄: 파란 마름모 (남은 것) / 빈 마름모
+static func luck_row(n: int, max_n: int, sz := 9.0) -> HBoxContainer:
+	var h := hbox(6)
+	for i in max_n:
+		h.add_child(Diamond.make(px(sz), BLUE_HI if i < n else Color(BRASS, 0.6), i < n, i < n))
+	return h
 
 
 ## 아래 메뉴 칸: 아이콘 + 이름 + 로마 숫자 (+ 붉은 숫자)

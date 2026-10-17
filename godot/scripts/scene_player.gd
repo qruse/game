@@ -5,6 +5,7 @@ extends Control
 signal finished(summary: String, skipped: bool)
 
 const Defs = preload("res://scripts/story_defs.gd")
+const K = preload("res://scripts/ui_kit.gd")
 const CPS := 38.0  # 초당 글자 수
 const AUTO_WAIT := 1.6
 
@@ -22,8 +23,9 @@ var _last := ""
 var _bg: TextureRect
 var _cg: TextureRect
 var _pics: Array = []
-var _box: PanelContainer
 var _name: Label
+var _name_line: ColorRect
+var _next_mark: Control
 var _text: RichTextLabel
 var _auto_btn: Button
 
@@ -45,41 +47,64 @@ func _ready() -> void:
 		add_child(p)
 		_pics.append(p)
 	_cg = _full_tex()
-	# 대사창
-	_box = PanelContainer.new()
-	_box.mouse_filter = MOUSE_FILTER_IGNORE
-	_box.anchor_left = 0.04
-	_box.anchor_right = 0.96
-	_box.anchor_top = 0.72
-	_box.anchor_bottom = 0.97
-	add_child(_box)
-	var v := VBoxContainer.new()
+	# 대사창: 아래에서 올라오는 남색 그늘 + 이름(놋쇠 선) + 대사
+	K.shade(self, "b", 0.94, 0.42)
+	K.shade(self, "t", 0.45, 0.16)
+	var v := K.vbox(10)
 	v.mouse_filter = MOUSE_FILTER_IGNORE
-	_box.add_child(v)
-	_name = Label.new()
-	_name.add_theme_font_override("font", bold)
-	_name.add_theme_font_size_override("font_size", 18 if touch else 28)
-	_name.add_theme_color_override("font_color", Color(0.96, 0.82, 0.5))
-	v.add_child(_name)
+	v.anchor_left = 0.5
+	v.anchor_right = 0.5
+	v.anchor_top = 1.0
+	v.anchor_bottom = 1.0
+	v.offset_left = -K.px(560)
+	v.offset_right = K.px(560)
+	v.offset_top = -K.px(220)
+	v.offset_bottom = -K.px(40)
+	add_child(v)
+	var nh := K.hbox(14)
+	nh.mouse_filter = MOUSE_FILTER_IGNORE
+	_name = K.title("", 28, K.BRASS_HI)
+	nh.add_child(_name)
+	_name_line = ColorRect.new()
+	_name_line.color = Color(K.BRASS, 0.6)
+	_name_line.custom_minimum_size = Vector2(K.px(180), 1)
+	_name_line.size_flags_vertical = SIZE_SHRINK_CENTER
+	_name_line.mouse_filter = MOUSE_FILTER_IGNORE
+	nh.add_child(_name_line)
+	v.add_child(nh)
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
 	_text.mouse_filter = MOUSE_FILTER_IGNORE
 	_text.size_flags_vertical = SIZE_EXPAND_FILL
-	_text.add_theme_font_size_override("normal_font_size", 18 if touch else 30)
-	_text.add_theme_font_size_override("italics_font_size", 18 if touch else 30)
+	_text.add_theme_font_override("normal_font", K.f_body)
+	_text.add_theme_font_override("italics_font", K.f_body)
+	_text.add_theme_font_size_override("normal_font_size", K.pxi(22))
+	_text.add_theme_font_size_override("italics_font_size", K.pxi(22))
+	_text.add_theme_color_override("default_color", Color("f2f3f6"))
+	_text.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.6))
+	_text.add_theme_constant_override("shadow_offset_y", K.pxi(2))
+	_text.add_theme_constant_override("line_separation", K.pxi(6))
 	v.add_child(_text)
+	# 다음 줄 표시 (다 써지면 깜빡이는 마름모)
+	_next_mark = K.Diamond.make(K.px(7), K.BRASS_HI)
+	_next_mark.anchor_left = 0.5
+	_next_mark.anchor_right = 0.5
+	_next_mark.anchor_top = 1.0
+	_next_mark.anchor_bottom = 1.0
+	_next_mark.offset_left = K.px(560) - K.px(14)
+	_next_mark.offset_top = -K.px(56)
+	add_child(_next_mark)
 	# 자동 / 건너뛰기
-	var h := HBoxContainer.new()
+	var h := K.hbox(8)
 	h.anchor_left = 1.0
 	h.anchor_right = 1.0
-	h.offset_left = -330 if not touch else -230
-	h.offset_right = -16
-	h.offset_top = 14
-	h.alignment = BoxContainer.ALIGNMENT_END
+	h.offset_right = -K.px(30)
+	h.offset_top = K.px(24)
+	h.grow_horizontal = GROW_DIRECTION_BEGIN
 	add_child(h)
-	_auto_btn = _small("자동", _toggle_auto)
+	_auto_btn = K.btn_sub("자동", "", _toggle_auto, 40, 92)
 	h.add_child(_auto_btn)
-	h.add_child(_small("건너뛰기", _skip))
+	h.add_child(K.btn_sub("건너뛰기", "i_close", _skip, 40, 128))
 	visible = false
 
 
@@ -93,23 +118,13 @@ func _full_tex() -> TextureRect:
 	return t
 
 
-func _small(text: String, cb: Callable) -> Button:
-	var b := Button.new()
-	b.text = "  %s  " % text
-	b.focus_mode = FOCUS_NONE
-	b.custom_minimum_size = Vector2(0, 34 if touch else 46)
-	b.add_theme_font_size_override("font_size", 13 if touch else 18)
-	b.pressed.connect(cb)
-	return b
-
-
 func play(id: String) -> void:
 	_scene = Defs.SCENES[id]
 	_i = 0
 	_slots = ["", ""]
 	_last = ""
 	_auto = false
-	_auto_btn.text = "  자동  "
+	_set_auto_look()
 	_bg.texture = Game.tex(_scene.get("bg", ""))
 	_cg.texture = Game.tex(_scene.get("cg", ""))
 	visible = true
@@ -132,6 +147,7 @@ func _show_line() -> void:
 	var sp: Dictionary = Defs.SPEAKERS.get(who, {})
 	_name.text = sp.get("name", "")
 	_name.visible = who != ""
+	_name_line.visible = who != ""
 	_text.text = ("[i]%s[/i]" % ln[2]) if who == "" else ln[2]
 	_text.visible_ratio = 0.0
 	_t = 0.0
@@ -190,6 +206,8 @@ func _process(delta: float) -> void:
 	_t += delta
 	var n := maxi(1, _text.get_total_character_count())
 	_text.visible_ratio = clampf(_t * CPS / n, 0.0, 1.0)
+	_next_mark.visible = _text.visible_ratio >= 1.0
+	_next_mark.modulate.a = 0.55 + 0.45 * sin(_t * 5.0)
 	if _auto and _text.visible_ratio >= 1.0:
 		_auto_t += delta
 		if _auto_t >= AUTO_WAIT:
@@ -216,7 +234,16 @@ func _next() -> void:
 
 func _toggle_auto() -> void:
 	_auto = not _auto
-	_auto_btn.text = "  자동 ▶  " if _auto else "  자동  "
+	_set_auto_look()
+
+
+## 자동이 켜지면 파랗게
+func _set_auto_look() -> void:
+	var on := K.sb_flat(Color(K.BLUE, 0.55), K.BLUE_HI, 1)
+	var off := K.sb_flat(Color(1, 1, 1, 0.03), K.LINE, 1)
+	_auto_btn.add_theme_stylebox_override("normal", on if _auto else off)
+	var l: Label = _auto_btn.get_meta("label")
+	l.add_theme_color_override("font_color", Color.WHITE if _auto else K.BRASS_HI)
 
 
 func _skip() -> void:

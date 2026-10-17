@@ -12,6 +12,8 @@ const Battle = preload("res://scripts/fk_battle.gd")
 const Town = preload("res://scripts/town.gd")
 const Kit = preload("res://scripts/ui_kit.gd")
 const Desk = preload("res://scripts/guild_desk.gd")
+const G = preload("res://scripts/guild_defs.gd")
+const FDefs = preload("res://scripts/fk_defs.gd")
 
 var touch := false
 var town  # 마을·길드 운영 화면
@@ -83,17 +85,18 @@ func _ready() -> void:
 	toast.anchor_top = 0.12
 	toast.grow_horizontal = GROW_DIRECTION_BOTH
 	toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_outlined(toast, 16 if touch else 24, Color(1.0, 0.9, 0.65))
-	var tsb := StyleBoxFlat.new()
-	tsb.bg_color = Color(0.07, 0.05, 0.04, 0.88)
-	tsb.border_color = UI.GOLD
-	tsb.border_width_top = 2
-	tsb.border_width_bottom = 2
-	tsb.set_corner_radius_all(4)
-	tsb.content_margin_left = 40
-	tsb.content_margin_right = 40
-	tsb.content_margin_top = 10
-	tsb.content_margin_bottom = 12
+	toast.add_theme_font_override("font", Kit.f_bold)
+	toast.add_theme_font_size_override("font_size", Kit.pxi(17))
+	toast.add_theme_color_override("font_color", Color.WHITE)
+	var tsb := Kit.sb_flat(Color(0.05, 0.075, 0.13, 0.94), Kit.LINE, 1, 12)
+	tsb.border_color = Kit.BRASS
+	tsb.border_width_left = Kit.pxi(3)
+	tsb.shadow_color = Color(0, 0, 0, 0.4)
+	tsb.shadow_size = Kit.pxi(10)
+	tsb.content_margin_left = Kit.px(26)
+	tsb.content_margin_right = Kit.px(30)
+	tsb.content_margin_top = Kit.px(10)
+	tsb.content_margin_bottom = Kit.px(11)
 	toast.add_theme_stylebox_override("normal", tsb)
 	toast.modulate.a = 0.0
 	toast.mouse_filter = MOUSE_FILTER_IGNORE
@@ -135,6 +138,8 @@ func _take_shot() -> void:
 func _debug_goto(g: String) -> void:
 	Game.reset()
 	match g.get_slice(":", 0):
+		"title":
+			_show_title()
 		"town":
 			town.show_town()
 		"hub":
@@ -191,8 +196,14 @@ func _debug_goto(g: String) -> void:
 			var n: Dictionary = Defs.QUESTS[qid].nodes[nid]
 			Game.battle_req = {"idx": n.battle, "party": Game.party.duplicate(), "luck": 2, "ambush": n.has("ambush_text")}
 			get_tree().change_scene_to_file.call_deferred("res://fk.tscn")
+		"lose":
+			_finale_result({"result": "lose"})
+		"book":
+			Game.pages = [{"quest": "bandits", "lines": ["단장 일행은 '북쪽 마을의 도적' 의뢰를 맡아 길을 나섰다.", "겁먹은 마을 사람들이 도적이 오는 길을 알려 주었다."]}, {"quest": "trapper", "lines": ["숲 가장자리에서 덫 사냥꾼의 흔적을 찾았다."]}]
+			Game.results = {"bandits": "ok", "trapper": "ng"}
+			_show_book()
 		"end":
-			Game.pages = [{"quest": "bandits", "lines": ["샘플 문장 하나.", "샘플 문장 둘."]}, {"quest": "trapper", "lines": ["샘플 문장 셋."]}]
+			Game.pages =[{"quest": "bandits", "lines": ["샘플 문장 하나.", "샘플 문장 둘."]}, {"quest": "trapper", "lines": ["샘플 문장 셋."]}]
 			Game.results = {"bandits": "ok", "trapper": "ng"}
 			_show_end()
 
@@ -291,45 +302,58 @@ func _play(id: String, then: Callable) -> void:
 func _show_title() -> void:
 	_clear()
 	bg.texture = Game.tex("backgrounds/scene/bg_guildhall_past.png")
-	bg.modulate = Color(0.5, 0.46, 0.42)
-	var c := CenterContainer.new()
-	c.set_anchors_preset(PRESET_FULL_RECT)
-	screen.add_child(c)
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 10 if touch else 16)
-	c.add_child(v)
-	var em := TextureRect.new()
-	em.texture = UI.tex("emblem_harwell")
-	em.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	em.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	em.custom_minimum_size = Vector2(0, 110 if touch else 190)
-	v.add_child(em)
-	var t := Label.new()
-	t.text = "몰락한 길드 재건하기"
-	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_outlined(t, 44 if touch else 80, Color(0.97, 0.86, 0.58))
-	t.add_theme_constant_override("outline_size", 14)
-	t.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.6))
-	t.add_theme_constant_override("shadow_offset_y", 6)
-	v.add_child(t)
-	v.add_child(divider(360.0 if touch else 520.0))
-	var s := _label("하웰 모험가 길드  ·  1장 체험판", 15 if touch else 24, Color(0.88, 0.82, 0.7), false)
-	s.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	v.add_child(s)
-	var gap := Control.new()
-	gap.custom_minimum_size = Vector2(0, 16 if touch else 36)
-	v.add_child(gap)
-	var bw := 300.0 if touch else 440.0
-	var b1 := _btn("이야기 시작", func():
+	bg.modulate = Color(0.72, 0.68, 0.64)
+	Kit.shade(screen, "l", 0.92, 0.62)
+	Kit.shade(screen, "b", 0.7, 0.4)
+	# 왼쪽 기둥: 문장 · 제목 · 버튼
+	var v := Kit.vbox(0)
+	v.anchor_top = 0.5
+	v.anchor_bottom = 0.5
+	v.offset_left = Kit.px(110)
+	v.grow_vertical = GROW_DIRECTION_BOTH
+	screen.add_child(v)
+	var top := Kit.hbox(16)
+	top.add_child(Kit.icon("emblem_harwell", 72, Color.WHITE))
+	var tv := Kit.vbox(4)
+	tv.alignment = BoxContainer.ALIGNMENT_CENTER
+	tv.add_child(Kit.cap("HARWELL ADVENTURERS' GUILD"))
+	var sub := Kit.hbox(8)
+	sub.add_child(Kit.Diamond.make(Kit.px(6), Kit.BRASS))
+	sub.add_child(Kit.label("하웰 모험가 길드 · 1장 체험판", 14, Color("d5d9e3")))
+	tv.add_child(sub)
+	top.add_child(tv)
+	v.add_child(top)
+	v.add_child(Kit.spacer(0, 18))
+	v.add_child(Kit.shadowed(Kit.title("몰락한 길드", 84, Color("f4efe4"))))
+	var t2 := Kit.hbox(18)
+	t2.add_child(Kit.shadowed(Kit.title("재건하기", 84, Kit.BRASS_HI)))
+	var ln := Desk.Bar.new()
+	ln.ratio = 1.0
+	ln.col = Color(Kit.BRASS, 0.6)
+	ln.custom_minimum_size = Vector2(Kit.px(150), 1)
+	ln.size_flags_vertical = SIZE_SHRINK_CENTER
+	t2.add_child(ln)
+	v.add_child(t2)
+	v.add_child(Kit.spacer(0, 14))
+	v.add_child(Kit.shadowed(Kit.label("무너진 길드 하우스를 다시 세우고, 흩어진 모험가를 모은다.", 17, Color("cfd4de"))))
+	v.add_child(Kit.spacer(0, 44))
+	var b1 := Kit.btn_main("이야기 시작", "새로 시작", func():
 		Game.reset()
-		_play("opening", func(_s, _k): town.show_town()), true)
-	b1.custom_minimum_size.x = bw
-	b1.size_flags_horizontal = SIZE_SHRINK_CENTER
+		_play("opening", func(_s, _k): town.show_town()), 60)
+	b1.custom_minimum_size.x = Kit.px(380)
+	b1.size_flags_horizontal = SIZE_SHRINK_BEGIN
 	v.add_child(b1)
-	var b2 := _btn("전투 시험판", func(): get_tree().change_scene_to_file("res://fk.tscn"))
-	b2.custom_minimum_size.x = bw
-	b2.size_flags_horizontal = SIZE_SHRINK_CENTER
+	v.add_child(Kit.spacer(0, 10))
+	var b2 := Kit.btn_sub("전투 시험판", "i_sword", func(): get_tree().change_scene_to_file("res://fk.tscn"), 50, 380)
+	b2.size_flags_horizontal = SIZE_SHRINK_BEGIN
 	v.add_child(b2)
+	var ver := Kit.label("PROJECT D20 · 체험판", 11, Color(1, 1, 1, 0.35), Kit.f_cap)
+	ver.anchor_top = 1.0
+	ver.anchor_bottom = 1.0
+	ver.offset_left = Kit.px(110)
+	ver.offset_top = -Kit.px(44)
+	screen.add_child(ver)
+	desk._slide_in(v, Vector2(-Kit.px(30), 0))
 
 
 ## 금색 장식 줄
@@ -370,61 +394,131 @@ func _show_board() -> void:
 
 
 func _board() -> void:
-	_clear()
+	var quests: Array = Defs.WEEK_QUESTS_BY.get(Game.week, [])
+	var confirmed: bool = Game.flags.get("picked_%d" % Game.week, false)
+	if _board_sel == "" and not quests.is_empty():
+		_board_sel = quests[0]
+	town._frame("의뢰 지도", "제%d주 · %s" % [Game.week, "이번 주 의뢰를 정했다" if confirmed else "둘만 고를 수 있다"],
+		func():
+			_board_sel = ""
+			_show_hub(), "backgrounds/scene/bg_world_map.png", 0.92)
 	Game.stage = "hub"
-	bg.texture = Game.tex("backgrounds/scene/bg_world_map.png")
-	bg.modulate = Color.WHITE
-	var head := Label.new()
-	head.text = "이번 주 의뢰 · 둘만 고를 수 있다"
-	head.position = Vector2(24, 18)
-	_outlined(head, 20 if touch else 32, Color(1.0, 0.92, 0.7))
-	screen.add_child(head)
-	for qid in Defs.WEEK_QUESTS_BY.get(Game.week, []):
+	for qid in quests:
 		var q: Dictionary = Defs.QUESTS[qid]
-		var b := Button.new()
-		b.focus_mode = FOCUS_NONE
-		var on: bool = qid in Game.picks
-		b.text = ("✔ " if on else "") + q.name
-		b.add_theme_font_size_override("font_size", 14 if touch else 22)
-		b.anchor_left = q.pin.x * 0.62
-		b.anchor_top = q.pin.y
-		b.anchor_right = q.pin.x * 0.62
-		b.anchor_bottom = q.pin.y
-		b.offset_right = 260 if not touch else 170
-		b.offset_bottom = 54 if not touch else 38
-		if on:
-			b.add_theme_stylebox_override("normal", UI.sbt("btn_gold", 18, 10))
-		b.pressed.connect(func():
-			_board_sel = qid
-			_board())
-		screen.add_child(b)
-	var v := _panel(0.64, 0.12, 0.97, 0.92)
+		var pin := _map_pin(qid, qid == _board_sel, qid in Game.picks)
+		pin.anchor_left = q.pin.x * 0.62
+		pin.anchor_right = pin.anchor_left
+		pin.anchor_top = q.pin.y
+		pin.anchor_bottom = q.pin.y
+		pin.offset_left = -Kit.px(28)
+		pin.offset_top = -Kit.px(28)
+		screen.add_child(pin)
+	var v: VBoxContainer = town._side(520)
 	if _board_sel == "":
-		v.add_child(_label("지도의 의뢰를 눌러 살펴본다.", 14 if touch else 22))
-	else:
-		var q: Dictionary = Defs.QUESTS[_board_sel]
-		v.add_child(_label(q.name, 18 if touch else 28, Color(0.96, 0.84, 0.55)))
-		v.add_child(_label("의뢰인: %s · %s의 인장" % [q.client, q.seal], 12 if touch else 18, Color(0.8, 0.75, 0.65)))
-		v.add_child(_label(q.desc, 14 if touch else 22))
-		var on: bool = _board_sel in Game.picks
-		var b := _btn("고르지 않기" if on else "이 의뢰를 맡는다", func():
-			if _board_sel in Game.picks:
-				Game.picks.erase(_board_sel)
-			elif Game.picks.size() < Defs.WEEK_PICKS:
-				Game.picks.append(_board_sel)
-			_board())
-		b.disabled = not on and Game.picks.size() >= Defs.WEEK_PICKS
-		v.add_child(b)
-	var sp := Control.new()
-	sp.size_flags_vertical = SIZE_EXPAND_FILL
-	v.add_child(sp)
-	v.add_child(_label("고른 의뢰 %d / %d · 고르지 않은 의뢰는 다음 주 소식으로 돌아온다" % [Game.picks.size(), Defs.WEEK_PICKS], 12 if touch else 18, Color(0.85, 0.8, 0.7)))
-	var go := _btn("이번 주 확정", func():
+		v.add_child(Kit.label("이번 주는 지도에 붙은 의뢰가 없다.", 16, Kit.DIM, null, true))
+		return
+	var q: Dictionary = Defs.QUESTS[_board_sel]
+	var head := Kit.hbox(14)
+	head.add_child(Kit.seal(Desk.SEAL_KIND.get(q.get("seal", ""), "crown"), 64))
+	var hv := Kit.vbox(2)
+	hv.alignment = BoxContainer.ALIGNMENT_CENTER
+	hv.add_child(Kit.cap("의뢰처 · %s (%s)" % [q.get("client", ""), Desk.SEAL_NAME.get(q.get("seal", ""), "")]))
+	hv.add_child(Kit.title(q.name, 30))
+	head.add_child(hv)
+	v.add_child(head)
+	var meta := Kit.hbox(8)
+	for tg in q.get("tags", []):
+		meta.add_child(Kit.chip(tg, Color(1, 1, 1, 0.08), Color("dfe3ea")))
+	meta.add_child(Kit.spacer(4))
+	meta.add_child(Kit.label("위험", 12, Kit.DIM))
+	for r in 3:
+		meta.add_child(Kit.Diamond.make(Kit.px(7), Kit.BAD if r < q.get("risk", 1) else Color(1, 1, 1, 0.2), r < q.get("risk", 1)))
+	v.add_child(meta)
+	v.add_child(Kit.spacer(0, 2))
+	v.add_child(Kit.label(q.desc, 16, Color("e3e6ec"), null, true))
+	v.add_child(Kit.spacer(0, 2))
+	var rw := Kit.hbox(8)
+	rw.add_child(Kit.label("보상", 13, Kit.DIM))
+	rw.add_child(Kit.icon("res_gold", 20, Color.WHITE))
+	rw.add_child(Kit.num(str(G.QUEST_REWARD.ok.gold), 17))
+	rw.add_child(Kit.spacer(6))
+	rw.add_child(Kit.icon("res_fame", 18, Color.WHITE))
+	rw.add_child(Kit.num("+%d" % G.QUEST_REWARD.ok.fame, 17))
+	v.add_child(rw)
+	v.add_child(Kit.spacer(0, 4))
+	v.add_child(Kit.hr())
+	v.add_child(Kit.spacer(0, 4))
+	var st := Kit.hbox(8)
+	st.add_child(Kit.label("고른 의뢰", 13, Kit.DIM))
+	for i in Defs.WEEK_PICKS:
+		st.add_child(Kit.Diamond.make(Kit.px(9), Kit.BRASS_HI, i < Game.picks.size(), i < Game.picks.size()))
+	st.add_child(Kit.num("%d / %d" % [Game.picks.size(), Defs.WEEK_PICKS], 14, Kit.DIM))
+	v.add_child(st)
+	if confirmed:
+		v.add_child(Kit.label("이번 주 의뢰는 이미 정했다. 길드 하우스에서 출발한다.", 14, Kit.DIM, null, true))
+		return
+	v.add_child(Kit.label("고르지 않은 의뢰는 다음 주 소식으로 돌아온다.", 13, Kit.DIM, null, true))
+	v.add_child(Kit.spacer(0, 4))
+	var acts := Kit.hbox(10)
+	v.add_child(acts)
+	var on: bool = _board_sel in Game.picks
+	var tg_b := Kit.btn_sub("빼기" if on else "맡는다", "i_close" if on else "i_check", func():
+		if _board_sel in Game.picks:
+			Game.picks.erase(_board_sel)
+		elif Game.picks.size() < Defs.WEEK_PICKS:
+			Game.picks.append(_board_sel)
+		_board(), 54, 150)
+	tg_b.disabled = not on and Game.picks.size() >= Defs.WEEK_PICKS
+	acts.add_child(tg_b)
+	var need: int = Defs.WEEK_PICKS - Game.picks.size()
+	var go := Kit.btn_main("이번 주 확정", ("%d개 더" % need) if need > 0 else "첫 의뢰로 출발", func():
 		_board_sel = ""
 		Game.flags["picked_%d" % Game.week] = true
-		_start_quest(Game.picks[0]), true)
-	go.disabled = Game.picks.size() < Defs.WEEK_PICKS
-	v.add_child(go)
+		_start_quest(Game.picks[0]))
+	go.disabled = need > 0
+	go.size_flags_horizontal = SIZE_EXPAND_FILL
+	acts.add_child(go)
+
+
+## 지도 위 의뢰 핀: 봉랍 인장 + 이름표 (고른 의뢰는 파랑, 보고 있는 의뢰는 놋쇠 테)
+func _map_pin(qid: String, sel: bool, picked: bool) -> Button:
+	var q: Dictionary = Defs.QUESTS[qid]
+	var b := Button.new()
+	b.focus_mode = FOCUS_NONE
+	b.mouse_default_cursor_shape = CURSOR_POINTING_HAND
+	var empty := StyleBoxEmpty.new()
+	for st in ["normal", "hover", "pressed", "focus"]:
+		b.add_theme_stylebox_override(st, empty)
+	var h := Kit.hbox(0)
+	h.mouse_filter = MOUSE_FILTER_IGNORE
+	b.add_child(h)
+	var sl := Kit.seal(Desk.SEAL_KIND.get(q.get("seal", ""), "crown"), 56)
+	h.add_child(sl)
+	var plate := PanelContainer.new()
+	plate.mouse_filter = MOUSE_FILTER_IGNORE
+	var sb := Kit.sb_flat(Kit.BLUE if picked else Color(0.05, 0.075, 0.13, 0.92), Kit.BRASS_HI if sel else Kit.LINE, 2 if sel else 1, 0, 10)
+	sb.content_margin_left = Kit.px(12)
+	sb.content_margin_right = Kit.px(14)
+	sb.content_margin_top = Kit.px(6)
+	sb.content_margin_bottom = Kit.px(7)
+	sb.shadow_color = Color(0, 0, 0, 0.45)
+	sb.shadow_size = Kit.pxi(8)
+	plate.add_theme_stylebox_override("panel", sb)
+	plate.size_flags_vertical = SIZE_SHRINK_CENTER
+	var pv := Kit.hbox(8)
+	if picked:
+		pv.add_child(Kit.icon("i_check", 18, Color.WHITE))
+	pv.add_child(Kit.bold(q.name, 16, Color.WHITE))
+	plate.add_child(pv)
+	h.add_child(plate)
+	b.custom_minimum_size = h.get_combined_minimum_size()
+	h.resized.connect(func(): b.custom_minimum_size = h.size)
+	b.mouse_entered.connect(func(): h.create_tween().tween_property(h, "position:y", -Kit.px(3), 0.08))
+	b.mouse_exited.connect(func(): h.create_tween().tween_property(h, "position:y", 0.0, 0.1))
+	b.pressed.connect(func():
+		_board_sel = qid
+		_board())
+	return b
 
 
 # ── 의뢰: 시작 장면 → 연대기 페이지 → 마무리 장면 ───
@@ -444,15 +538,52 @@ func _open_page(qid: String) -> void:
 
 func _show_page() -> void:
 	_clear()
-	bg.texture = null
+	var t: Texture2D = Game.tex(G.STAGES[Game.build].bg)
+	bg.texture = t if t != null else Game.tex("backgrounds/scene/bg_guildhall_ruined.png")
+	bg.modulate = Color(0.34, 0.34, 0.36)
 	page_view = Page.new()
 	page_view.bold = bold
 	page_view.touch = touch
-	page_view.anchor_right = 0.66
+	page_view.anchor_right = 0.655
 	page_view.anchor_bottom = 1.0
 	screen.add_child(page_view)
-	side = _panel(0.665, 0.04, 0.985, 0.96)
+	var c := Kit.card(20, 26)
+	c.anchor_left = 0.655
+	c.anchor_right = 1.0
+	c.anchor_bottom = 1.0
+	c.offset_left = Kit.px(6)
+	c.offset_right = -Kit.px(30)
+	c.offset_top = Kit.px(30)
+	c.offset_bottom = -Kit.px(30)
+	screen.add_child(c)
+	side = Kit.vbox(12)
+	c.add_child(side)
 	_sync_page()
+
+
+## 옆 칸 머리: 머리말 + 제목
+func _side_head(cap: String, title: String, col := Color.WHITE) -> void:
+	side.add_child(Kit.cap(cap))
+	side.add_child(Kit.title(title, 32, col))
+	side.add_child(Kit.spacer(0, 2))
+
+
+func _side_text(text: String, col := Color("e3e6ec"), size := 17.0) -> Label:
+	var l := Kit.label(text, size, col, null, true)
+	side.add_child(l)
+	return l
+
+
+func _side_fill() -> void:
+	side.add_child(Kit.spacer(0, 0, true))
+
+
+## 행운 주사위 줄: 머리말 + 마름모 + 남은 수
+func _luck_line(n: int) -> HBoxContainer:
+	var h := Kit.hbox(10)
+	h.add_child(Kit.label("행운 주사위", 13, Kit.DIM))
+	h.add_child(Kit.luck_row(n, Game.LUCK_MAX))
+	return h
 
 
 func _sync_page() -> void:
@@ -492,34 +623,56 @@ func _enter(id: String) -> void:
 
 
 func _talk(n: Dictionary) -> void:
-	var fs := 14 if touch else 22
-	side.add_child(_label(n.title, 18 if touch else 30, Color(0.96, 0.84, 0.55)))
-	side.add_child(_label(n.text, fs))
 	var p: Dictionary = Game.page
+	_side_head("판정 칸 · 고를 수 있는 길", n.title)
+	_side_text(n.text)
+	side.add_child(Kit.spacer(0, 4))
 	for ch in n.choices:
 		var who: Dictionary = Game.best(ch.stat, ch.get("who", ""))
 		if who.is_empty():
 			continue
-		var pct := roundi(Game.chance(who.mod, ch.dc) * 100)
-		var tag := "[%s · %s]" % [load("res://scripts/fk_defs.gd").STAT[ch.stat], who.name]
-		var b := _btn("%s %s  %d%%" % [tag, ch.label, pct if not _luck_use else 100], _choose.bind(ch, who))
-		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		side.add_child(b)
-	var sp := Control.new()
-	sp.size_flags_vertical = SIZE_EXPAND_FILL
-	side.add_child(sp)
-	var lb := CheckButton.new()
-	lb.text = "행운 주사위로 확정 성공 (남은 %d)" % p.luck
-	lb.button_pressed = _luck_use
-	lb.disabled = p.luck <= 0
-	lb.focus_mode = FOCUS_NONE
-	lb.add_theme_font_size_override("font_size", 13 if touch else 20)
-	lb.toggled.connect(func(on: bool):
-		_luck_use = on
+		side.add_child(_choice(ch, who))
+	_side_fill()
+	side.add_child(Kit.hr())
+	var lh := _luck_line(p.luck)
+	lh.add_child(Kit.spacer(0, 0, true))
+	var lb := Kit.btn_sub("확정 성공 켜짐" if _luck_use else "행운 주사위 쓰기", "i_star", func():
+		_luck_use = not _luck_use
 		_side_clear()
-		_talk(n))
-	side.add_child(lb)
+		_talk(n), 42, 190)
+	lb.disabled = p.luck <= 0
+	if _luck_use:
+		lb.add_theme_stylebox_override("normal", Kit.sb_flat(Color(Kit.BLUE, 0.35), Kit.BLUE_HI, 1))
+	lh.add_child(lb)
+	side.add_child(lh)
+
+
+## 선택지 한 줄: 능력치 칩 + 맡는 사람 / 고르는 말 / 성공 확률
+func _choice(ch: Dictionary, who: Dictionary) -> Control:
+	var pct := 100 if _luck_use else roundi(Game.chance(who.mod, ch.dc) * 100)
+	var b := Kit.pick(_choose.bind(ch, who))
+	var h := Kit.hbox(14)
+	h.mouse_filter = MOUSE_FILTER_IGNORE
+	b.add_child(h)
+	var lv := Kit.vbox(5)
+	lv.size_flags_horizontal = SIZE_EXPAND_FILL
+	var tg := Kit.hbox(8)
+	tg.add_child(Kit.chip(FDefs.STAT[ch.stat], Kit.BLUE, Color.WHITE, 12))
+	tg.add_child(Kit.label(who.name, 13, Kit.DIM))
+	lv.add_child(tg)
+	lv.add_child(Kit.label(ch.label, 17, Color.WHITE, Kit.f_bold, true))
+	h.add_child(lv)
+	var rv := Kit.vbox(0)
+	rv.alignment = BoxContainer.ALIGNMENT_CENTER
+	rv.custom_minimum_size.x = Kit.px(64)
+	var n := Kit.num("%d" % pct, 26, Kit.BRASS_HI if _luck_use else (Kit.GOOD if pct >= 70 else (Color.WHITE if pct >= 40 else Kit.BAD)))
+	n.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	rv.add_child(n)
+	var pl := Kit.label("성공 %", 11, Kit.DIM)
+	pl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	rv.add_child(pl)
+	h.add_child(rv)
+	return b
 
 
 func _choose(ch: Dictionary, who: Dictionary) -> void:
@@ -538,23 +691,51 @@ func _choose(ch: Dictionary, who: Dictionary) -> void:
 			p.luck = mini(Game.LUCK_MAX, p.luck + 1)
 	_sync_page()
 	_side_clear()
-	var fs := 14 if touch else 22
-	var big := Label.new()
-	big.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	side.add_child(Kit.cap("판정 · %s · %s" % [FDefs.STAT[ch.stat], who.name]))
+	side.add_child(Kit.spacer(0, 6))
+	# 주사위 칸: 큰 숫자 + 식
+	var dice := Kit.card(14, 18)
+	dice.accent = false
+	var dh := Kit.hbox(22)
+	dice.add_child(dh)
+	var dv := Kit.vbox(0)
+	dv.alignment = BoxContainer.ALIGNMENT_CENTER
+	dv.custom_minimum_size.x = Kit.px(110)
 	if used:
-		big.text = "행운 주사위 · 확정 성공"
+		var dd := Kit.Diamond.make(Kit.px(34), Kit.BLUE_HI, true, true)
+		dd.size_flags_horizontal = SIZE_SHRINK_CENTER
+		dv.add_child(dd)
 	else:
-		big.text = "d20: %d %s %d = %d  (필요 %d)" % [roll, "+" if who.mod >= 0 else "-", absi(who.mod), roll + who.mod, ch.dc]
-	_outlined(big, 18 if touch else 30, Color(0.6, 1.0, 0.6) if ok else Color(1.0, 0.55, 0.5))
-	side.add_child(big)
-	var res := _label("성공!" if ok else "실패…", 20 if touch else 34, Color(0.6, 1.0, 0.6) if ok else Color(1.0, 0.55, 0.5), false)
-	res.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	side.add_child(res)
+		var dn := Kit.num(str(roll), 64, Kit.BRASS_HI if roll == 20 else (Kit.BAD if roll == 1 else Color.WHITE))
+		dn.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		dv.add_child(dn)
+	var dl := Kit.cap("행운" if used else "d20")
+	dl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	dv.add_child(dl)
+	dh.add_child(dv)
+	var fv := Kit.vbox(4)
+	fv.alignment = BoxContainer.ALIGNMENT_CENTER
+	if used:
+		fv.add_child(Kit.label("행운 주사위를 썼다", 15, Kit.DIM))
+		fv.add_child(Kit.bold("확정 성공", 18))
+	else:
+		fv.add_child(Kit.label("%d %s %d (%s)" % [roll, "+" if who.mod >= 0 else "−", absi(who.mod), FDefs.STAT[ch.stat]], 15, Kit.DIM))
+		var tot := Kit.hbox(8)
+		tot.add_child(Kit.num(str(roll + who.mod), 26))
+		var nd := Kit.label("/ 필요 %d" % ch.dc, 15, Kit.DIM)
+		nd.size_flags_vertical = SIZE_SHRINK_END
+		tot.add_child(nd)
+		fv.add_child(tot)
+	dh.add_child(fv)
+	side.add_child(dice)
+	side.add_child(Kit.spacer(0, 6))
+	side.add_child(Kit.title("성공" if ok else "실패", 40, Kit.GOOD if ok else Kit.BAD))
 	if roll == 20:
-		side.add_child(_label("자연 20! 행운 주사위 +1", fs, Color(1.0, 0.85, 0.4)))
+		side.add_child(Kit.chip("자연 20 · 행운 주사위 +1", Color(Kit.BRASS, 0.25), Kit.BRASS_HI, 13))
 	var out: Dictionary = ch.ok if ok else ch.ng
-	side.add_child(_label(out.line, fs))
-	side.add_child(_btn("계속", func(): _apply(out), true))
+	_side_text(out.line)
+	_side_fill()
+	side.add_child(Kit.btn_main("계속", "연대기에 적는다", func(): _apply(out), 58))
 
 
 ## 선택 결과 적용: 연대기 문장, 페이지 변수, 깃발, 다음 칸
@@ -572,20 +753,27 @@ func _apply(out: Dictionary) -> void:
 
 func _battle_node(n: Dictionary) -> void:
 	var p: Dictionary = Game.page
-	var fs := 14 if touch else 22
-	side.add_child(_label(n.title, 18 if touch else 30, Color(1.0, 0.6, 0.5)))
-	side.add_child(_label(n.text, fs))
+	_side_head("전투 칸", n.title, Color("ffd2c8"))
+	_side_text(n.text)
 	if p.vars.get("ambush", false) and n.has("ambush_text"):
-		side.add_child(_label("기습! " + n.ambush_text, fs, Color(0.6, 1.0, 0.6)))
-	var names: Array = Game.party.map(func(k): return load("res://scripts/fk_defs.gd").HEROES[k].name)
-	side.add_child(_label("파티: " + ", ".join(PackedStringArray(names)), 12 if touch else 18, Color(0.8, 0.75, 0.65)))
-	side.add_child(_label("행운 주사위 %d개를 들고 간다" % p.luck, 12 if touch else 18, Color(0.85, 0.7, 1.0)))
-	var sp := Control.new()
-	sp.size_flags_vertical = SIZE_EXPAND_FILL
-	side.add_child(sp)
-	side.add_child(_btn("전투 시작", func():
+		var am := Kit.hbox(8)
+		am.add_child(Kit.chip("기습", Color(Kit.GOOD, 0.25), Kit.GOOD, 13))
+		var al := Kit.label(n.ambush_text, 15, Kit.GOOD, null, true)
+		al.size_flags_horizontal = SIZE_EXPAND_FILL
+		am.add_child(al)
+		side.add_child(am)
+	side.add_child(Kit.spacer(0, 4))
+	side.add_child(Kit.hr())
+	side.add_child(Kit.cap("출전 파티"))
+	var party := Kit.hbox(8)
+	for k in Game.party:
+		party.add_child(Kit.chip(FDefs.HEROES[k].name, Color(1, 1, 1, 0.08), Color("e3e6ec"), 14))
+	side.add_child(party)
+	side.add_child(_luck_line(p.luck))
+	_side_fill()
+	side.add_child(Kit.btn_main("전투 시작", "파티 %d명" % Game.party.size(), func():
 		Game.battle_req = {"idx": n.battle, "party": Game.party.duplicate(), "luck": p.luck, "ambush": p.vars.get("ambush", false) and n.has("ambush_text")}
-		get_tree().change_scene_to_file("res://fk.tscn"), true))
+		get_tree().change_scene_to_file("res://fk.tscn"), 58))
 
 
 func _battle_result(res: Dictionary) -> void:
@@ -597,21 +785,24 @@ func _battle_result(res: Dictionary) -> void:
 	var win: bool = res.result == "win"
 	var out: Dictionary = n.win if win else n.lose
 	_side_clear()
-	var big := _label("승리!" if win else "패배…", 22 if touch else 40, Color(0.6, 1.0, 0.6) if win else Color(1.0, 0.55, 0.5), false)
-	big.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	side.add_child(big)
-	side.add_child(_label(out.line, 14 if touch else 22))
-	side.add_child(_btn("계속", func(): _apply(out), true))
+	_side_head("전투 결과 · %s" % n.title, "승리" if win else "패배", Kit.GOOD if win else Kit.BAD)
+	_side_text(out.line)
+	side.add_child(_luck_line(p.luck))
+	_side_fill()
+	side.add_child(Kit.btn_main("계속", "연대기에 적는다", func(): _apply(out), 58))
 
 
 func _camp(n: Dictionary) -> void:
 	var p: Dictionary = Game.page
-	side.add_child(_label(n.title, 18 if touch else 30, Color(1.0, 0.75, 0.45)))
-	side.add_child(_label(n.text, 14 if touch else 22))
-	side.add_child(_label("캠프: 행운 주사위 1개를 더 굴린다 (최대 %d)" % Game.LUCK_MAX, 12 if touch else 18, Color(0.85, 0.7, 1.0)))
-	side.add_child(_btn("쉬어 간다", func():
+	_side_head("야영 칸", n.title, Color("ffe1b0"))
+	_side_text(n.text)
+	side.add_child(Kit.spacer(0, 4))
+	side.add_child(_luck_line(p.luck))
+	_side_text("모닥불 곁에서 쉬면 행운 주사위가 하나 돌아온다 (최대 %d)." % Game.LUCK_MAX, Kit.DIM, 14)
+	_side_fill()
+	side.add_child(Kit.btn_main("쉬어 간다", "행운 +1", func():
 		p.luck = mini(Game.LUCK_MAX, p.luck + 1)
-		_apply({"line": n.line, "next": n.next}), true))
+		_apply({"line": n.line, "next": n.next}), 58))
 
 
 func _finish_page() -> void:
@@ -625,11 +816,21 @@ func _finish_page() -> void:
 	Game.pages.append({"quest": p.quest, "lines": p.lines.duplicate()})
 	_sync_page()
 	var rew: Dictionary = Game.quest_reward(q.name, ok)
-	side.add_child(_label("페이지 완성", 20 if touch else 34, Color(0.96, 0.84, 0.55)))
-	side.add_child(_label("의뢰 성공" if ok else "의뢰는 절반만 이뤘다", 14 if touch else 22, Color(0.6, 1.0, 0.6) if ok else Color(1.0, 0.7, 0.5)))
-	side.add_child(_label("보상: 금화 %d · 명성 %d" % [rew.gold, rew.fame], 13 if touch else 20, Color(1.0, 0.9, 0.6)))
-	side.add_child(_btn("마무리", func():
-		_play(q.outro_ok if ok else q.outro_ng, func(_s, _k): _show_hub()), true))
+	_side_head("페이지 완성 · %s" % q.name, "의뢰 성공" if ok else "절반의 성공", Kit.GOOD if ok else Color("ffd28a"))
+	_side_text("연대기에 한 페이지가 더해졌다." if ok else "의뢰는 절반만 이뤘다. 그래도 길은 기록에 남는다.")
+	side.add_child(Kit.spacer(0, 4))
+	side.add_child(Kit.hr())
+	side.add_child(Kit.cap("받은 보상"))
+	var rw := Kit.hbox(10)
+	rw.add_child(Kit.icon("res_gold", 28, Color.WHITE))
+	rw.add_child(Kit.num("+%d" % rew.gold, 24))
+	rw.add_child(Kit.spacer(10))
+	rw.add_child(Kit.icon("res_fame", 24, Color.WHITE))
+	rw.add_child(Kit.num("+%d" % rew.fame, 24))
+	side.add_child(rw)
+	_side_fill()
+	side.add_child(Kit.btn_main("마무리", "길드로 돌아간다", func():
+		_play(q.outro_ok if ok else q.outro_ng, func(_s, _k): _show_hub()), 58))
 
 
 # ── 주말 소식 → 결전 ───────────────────────────────
@@ -639,11 +840,11 @@ func _week_news() -> Array:
 	for qid in Defs.WEEK_QUESTS_BY.get(Game.week, []):
 		var q: Dictionary = Defs.QUESTS[qid]
 		if not qid in Game.picks:
-			out.append("[color=#ffb08a]✖ %s[/color] — %s" % [q.name, q.skip.news])
+			out.append(["miss", q.name, q.skip.news])
 			Game.flags[q.skip.flag] = true
 		else:
 			var ok: bool = Game.results.get(qid, "") == "ok"
-			out.append("%s %s — %s" % ["[color=#9aff9a]✔[/color]" if ok else "[color=#ffd28a]△[/color]", q.name, "성공" if ok else "절반의 성공"])
+			out.append(["ok" if ok else "half", q.name, "의뢰를 마쳤다." if ok else "절반만 이뤘다."])
 	return out
 
 
@@ -671,43 +872,63 @@ func _finale_mods() -> Dictionary:
 func _show_news() -> void:
 	_clear()
 	bg.texture = Game.tex("backgrounds/scene/bg_guildhall_camp_night.png")
-	bg.modulate = Color(0.75, 0.72, 0.7)
-	var v := _panel(0.15, 0.08, 0.85, 0.92)
-	v.add_child(_label("주말 · 이번 주 소식", 20 if touch else 34, Color(0.96, 0.84, 0.55)))
-	var r := RichTextLabel.new()
-	r.bbcode_enabled = true
-	r.fit_content = true
-	r.add_theme_font_size_override("normal_font_size", 14 if touch else 22)
+	bg.modulate = Color(0.7, 0.68, 0.68)
+	Kit.shade(screen, "b", 0.8, 0.5)
+	screen.add_child(Desk.resource_bar())
+	var v := _center_card(820)
+	v.add_child(Kit.cap("제%d주 · 주말" % Game.week))
+	v.add_child(Kit.title("이번 주 소식", 34))
+	v.add_child(Kit.spacer(0, 4))
 	var lines := _week_news()
 	if lines.is_empty():
-		lines = ["조용한 한 주였다. 위탁 의뢰를 맡은 모험가들만 바삐 오갔다."]
+		lines = [["quiet", "조용한 한 주", "위탁 의뢰를 맡은 모험가들만 바삐 오갔다."]]
 	Game.news = lines.duplicate()
-	r.text = "\n".join(PackedStringArray(lines))
-	v.add_child(r)
+	for it in lines:
+		v.add_child(Kit.hr())
+		v.add_child(town.news_row(it))
+	v.add_child(Kit.hr())
 	if Game.week < Defs.FINALE_WEEK:
-		var sp0 := Control.new()
-		sp0.size_flags_vertical = SIZE_EXPAND_FILL
-		v.add_child(sp0)
-		v.add_child(_label("다음 주에도 의뢰는 들어온다. 스카우트실에 새 지원자가 찾아온다.", 13 if touch else 20, Color(0.85, 0.8, 0.7)))
-		v.add_child(_btn("다음 주로", func():
+		v.add_child(Kit.spacer(0, 6))
+		v.add_child(Kit.label("다음 주에도 의뢰는 들어온다. 스카우트실에 새 지원자가 찾아온다.", 14, Kit.DIM, null, true))
+		v.add_child(Kit.spacer(0, 6))
+		v.add_child(Kit.btn_main("다음 주로", "제%d주" % (Game.week + 1), func():
 			Game.week += 1
 			Game.picks = []
 			Game.new_week()
-			town.show_town(), true))
+			town.show_town(), 58))
 		return
 	var m := _finale_mods()
-	v.add_child(_label("결전 준비", 16 if touch else 26, Color(1.0, 0.6, 0.5)))
-	var r2 := RichTextLabel.new()
-	r2.bbcode_enabled = true
-	r2.fit_content = true
-	r2.add_theme_font_size_override("normal_font_size", 13 if touch else 20)
-	r2.text = "\n".join(PackedStringArray(m.notes.map(func(s): return "· " + s))) if not m.notes.is_empty() else "· 특별한 도움은 없다"
-	v.add_child(r2)
-	var sp := Control.new()
-	sp.size_flags_vertical = SIZE_EXPAND_FILL
-	v.add_child(sp)
-	v.add_child(_btn("결전: 붉은 수염의 습격", func():
-		_play("finale_in", func(_s, _k): _go_finale()), true))
+	v.add_child(Kit.spacer(0, 10))
+	v.add_child(Kit.cap("결전 준비", Kit.BAD))
+	if m.notes.is_empty():
+		v.add_child(Kit.label("특별한 도움은 없다.", 15, Kit.DIM))
+	for s in m.notes:
+		var h := Kit.hbox(10)
+		h.add_child(Kit.Diamond.make(Kit.px(6), Kit.BRASS))
+		var l := Kit.label(s, 15, Color("e3e6ec"), null, true)
+		l.size_flags_horizontal = SIZE_EXPAND_FILL
+		h.add_child(l)
+		v.add_child(h)
+	v.add_child(Kit.spacer(0, 8))
+	v.add_child(Kit.btn_main("결전", "붉은 수염의 습격", func():
+		_play("finale_in", func(_s, _k): _go_finale()), 58))
+
+
+## 가운데 카드 (내용만큼 높아진다)
+func _center_card(w: float) -> VBoxContainer:
+	var c := Kit.card(20, 28)
+	c.anchor_left = 0.5
+	c.anchor_right = 0.5
+	c.anchor_top = 0.5
+	c.anchor_bottom = 0.5
+	c.offset_left = -Kit.px(w / 2.0)
+	c.offset_right = Kit.px(w / 2.0)
+	c.grow_vertical = GROW_DIRECTION_BOTH
+	screen.add_child(c)
+	var v := Kit.vbox(10)
+	c.add_child(v)
+	desk._slide_in(c, Vector2(0, Kit.px(20)))
+	return v
 
 
 func _go_finale() -> void:
@@ -723,56 +944,100 @@ func _finale_result(res: Dictionary) -> void:
 		return
 	_clear()
 	bg.texture = Game.tex("backgrounds/scene/bg_guildhall_ruined.png")
-	bg.modulate = Color(0.5, 0.45, 0.45)
-	var v := _panel(0.3, 0.3, 0.7, 0.7)
-	v.add_child(_label("길드가 무너질 위기다…", 20 if touch else 32, Color(1.0, 0.55, 0.5)))
-	v.add_child(_btn("다시 맞선다", _go_finale, true))
-	v.add_child(_btn("처음으로", _show_title))
+	bg.modulate = Color(0.45, 0.42, 0.44)
+	Kit.shade(screen, "b", 0.8, 0.5)
+	var v := _center_card(620)
+	v.add_child(Kit.cap("결전 · 패배", Kit.BAD))
+	v.add_child(Kit.title("길드가 무너질 위기다", 34))
+	v.add_child(Kit.label("붉은 수염 일당이 길드 하우스 문턱까지 밀고 들어왔다. 다시 맞서면 처음부터 싸운다.", 15, Kit.DIM, null, true))
+	v.add_child(Kit.spacer(0, 8))
+	var h := Kit.hbox(10)
+	h.add_child(Kit.btn_sub("처음으로", "i_back", _show_title, 58, 170))
+	var again := Kit.btn_main("다시 맞선다", "결전", _go_finale, 58)
+	again.size_flags_horizontal = SIZE_EXPAND_FILL
+	h.add_child(again)
+	v.add_child(h)
 
 
 func _show_end() -> void:
 	_clear()
 	Game.stage = "end"
 	bg.texture = Game.tex("backgrounds/scene/bg_room_archive.png")
-	bg.modulate = Color(0.6, 0.55, 0.5)
-	var v := _panel(0.18, 0.06, 0.82, 0.94)
-	v.add_child(_label("1장 체험판 끝 · 단장이 쓴 연대기", 20 if touch else 34, Color(0.96, 0.84, 0.55)))
-	var r := _chronicle_text()
-	r.text += "\n[i]하웰 모험가 길드의 간판이 다시 걸렸다… 다음 이야기는 2장에서.[/i]"
-	v.add_child(r)
-	v.add_child(_btn("처음으로", _show_title, true))
+	bg.modulate = Color(0.55, 0.52, 0.5)
+	Kit.shade(screen, "b", 0.8, 0.5)
+	var c := _book_card()
+	c.head.add_child(Kit.cap("1장 체험판 끝"))
+	c.head.add_child(Kit.title("단장이 쓴 연대기", 36))
+	_chronicle(c.list)
+	var close := Kit.label("하웰 모험가 길드의 간판이 다시 걸렸다. 다음 이야기는 2장에서.", 16, Kit.BRASS_HI, null, true)
+	c.list.add_child(Kit.spacer(0, 8))
+	c.list.add_child(close)
+	c.foot.add_child(Kit.btn_main("처음으로", "제목 화면", _show_title, 58))
 
 
-## 완성한 페이지들을 이어 쓴 연대기 글
-func _chronicle_text() -> RichTextLabel:
-	var r := RichTextLabel.new()
-	r.bbcode_enabled = true
-	r.size_flags_vertical = SIZE_EXPAND_FILL
-	var fs := 15 if touch else 24
-	r.add_theme_font_size_override("normal_font_size", fs)
-	r.add_theme_font_size_override("italics_font_size", fs)
-	r.add_theme_font_size_override("bold_font_size", fs + 4)
-	r.add_theme_font_override("bold_font", bold)
-	r.add_theme_constant_override("line_separation", 6)
-	var t := ""
-	for pg in Game.pages:
+## 연대기 책 카드: 머리 + 스크롤 목록 + 아래 버튼 자리. {v, list}
+func _book_card() -> Dictionary:
+	var c := Kit.card(20, 30)
+	c.anchor_left = 0.5
+	c.anchor_right = 0.5
+	c.anchor_bottom = 1.0
+	c.offset_left = -Kit.px(430)
+	c.offset_right = Kit.px(430)
+	c.offset_top = Kit.px(96)
+	c.offset_bottom = -Kit.px(40)
+	screen.add_child(c)
+	var v := Kit.vbox(14)
+	c.add_child(v)
+	var head := Kit.vbox(2)
+	v.add_child(head)
+	var sc := ScrollContainer.new()
+	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	sc.size_flags_vertical = SIZE_EXPAND_FILL
+	var list := Kit.vbox(8)
+	list.size_flags_horizontal = SIZE_EXPAND_FILL
+	sc.add_child(list)
+	v.add_child(sc)
+	var foot := Kit.vbox(0)
+	v.add_child(foot)
+	desk._slide_in(c, Vector2(0, Kit.px(20)))
+	return {"head": head, "list": list, "foot": foot}
+
+
+## 완성한 페이지들: 의뢰 이름 + 완수/실패 + 연대기 문장
+func _chronicle(list: VBoxContainer) -> void:
+	if Game.pages.is_empty():
+		list.add_child(Kit.label("아직 완성한 페이지가 없다. 의뢰를 마치면 여기에 한 장씩 쌓인다.", 16, Kit.DIM, null, true))
+		return
+	for i in Game.pages.size():
+		var pg: Dictionary = Game.pages[i]
 		var res: String = Game.results.get(pg.quest, "")
-		var tag := "  [color=#8fc48a]완수[/color]" if res == "ok" else ("  [color=#d9796a]실패[/color]" if res == "ng" else "")
-		t += "[b][color=#f2d38a]%s[/color][/b]%s\n" % [Defs.QUESTS[pg.quest].name, tag]
+		if i > 0:
+			list.add_child(Kit.spacer(0, 6))
+		list.add_child(Kit.hr())
+		var h := Kit.hbox(12)
+		h.add_child(Kit.num(Desk.ROMAN[i % Desk.ROMAN.size()], 16, Kit.BRASS))
+		h.add_child(Kit.title(Defs.QUESTS[pg.quest].name, 24))
+		if res == "ok":
+			h.add_child(Kit.chip("완수", Color(Kit.GOOD, 0.2), Kit.GOOD))
+		elif res == "ng":
+			h.add_child(Kit.chip("실패", Color(Kit.BAD, 0.2), Kit.BAD))
+		list.add_child(h)
 		for ln in pg.lines:
-			t += "[color=#e8dcc4]— %s[/color]\n" % ln
-		t += "\n"
-	r.text = t
-	return r
+			var row := Kit.hbox(14)
+			var bar := ColorRect.new()
+			bar.color = Color(Kit.BRASS, 0.45)
+			bar.custom_minimum_size = Vector2(maxf(2.0, Kit.px(2)), 0)
+			bar.mouse_filter = MOUSE_FILTER_IGNORE
+			row.add_child(bar)
+			var l := Kit.label(ln, 16, Color("e3e6ec"), null, true)
+			l.size_flags_horizontal = SIZE_EXPAND_FILL
+			row.add_child(l)
+			list.add_child(row)
 
 
 func _show_book() -> void:
-	_clear()
-	bg.modulate = Color(0.5, 0.48, 0.45)
-	var v := _panel(0.18, 0.06, 0.82, 0.94)
-	v.add_child(_label("연대기", 20 if touch else 34, Color(0.96, 0.84, 0.55)))
-	var r := _chronicle_text()
-	if Game.pages.is_empty():
-		r.text = "아직 완성한 페이지가 없다."
-	v.add_child(r)
-	v.add_child(_btn("돌아가기", _show_hub, true))
+	town._frame("연대기", "완성한 페이지 %d장" % Game.pages.size(), _show_hub, "backgrounds/scene/bg_room_archive.png", 0.5)
+	var c := _book_card()
+	c.head.add_child(Kit.cap("하웰 모험가 길드 연대기"))
+	c.head.add_child(Kit.title("단장이 쓴 기록", 32))
+	_chronicle(c.list)

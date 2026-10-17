@@ -314,17 +314,35 @@ func show_place(id: String) -> void:
 			if Game.news.is_empty():
 				v.add_child(_quote("아직 붙은 소식이 없다. 주말이 지나면 우물가 게시판에 소식이 붙는다."))
 			else:
-				var r := RichTextLabel.new()
-				r.bbcode_enabled = true
-				r.fit_content = true
-				r.add_theme_font_size_override("normal_font_size", K.pxi(15))
-				r.add_theme_font_override("normal_font", K.f_body)
-				r.add_theme_font_override("bold_font", K.f_bold)
-				r.text = "\n".join(PackedStringArray(Game.news))
-				v.add_child(r)
+				v.add_child(K.cap("우물가 게시판 · 지난 주 소식"))
+				for it in Game.news:
+					v.add_child(_hr())
+					v.add_child(news_row(it, 14))
 	v.add_child(K.spacer(0, 6))
 	var back := K.btn_sub("마을로", "i_town", show_town, 50, 0)
 	v.add_child(back)
+
+
+const NEWS_TAG := {"ok": ["성공", K.GOOD], "half": ["절반", Color("ffd28a")], "miss": ["놓침", K.BAD], "quiet": ["소식", K.DIM]}
+
+
+## 소식 한 줄: [kind, 이름, 글] → 색 칩 + 이름 + 글
+func news_row(it, size := 16.0) -> Control:
+	var h := K.hbox(12)
+	if it is String:
+		h.add_child(K.label(it, size, Color("e3e6ec"), null, true))
+		return h
+	var tg: Array = NEWS_TAG.get(it[0], NEWS_TAG.quiet)
+	var chip := K.chip(tg[0], Color(tg[1], 0.2), tg[1], size - 3)
+	chip.custom_minimum_size.x = K.px(48)
+	chip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	h.add_child(chip)
+	var v := K.vbox(2)
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	v.add_child(K.bold(it[1], size + 1))
+	v.add_child(K.label(it[2], size - 1, K.DIM, null, true))
+	h.add_child(v)
+	return h
 
 
 ## 대사 한 덩이: 왼쪽 놋쇠 선 + 글
