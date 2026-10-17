@@ -24,6 +24,11 @@
 
 ## 3. 곡 카드 (1장 체험판)
 
+**곡 체계 (2026-10-17 사용자 결정):**
+- **공용 긴장곡** (4번): 모든 장의 위기 장면·결전 직전
+- **공용 보스 전투곡** (6번): 모든 장의 보스 전투
+- **보스 테마곡: 장마다 새로 만든다.** 전투곡이 아니라 그 보스의 캐릭터 곡이다. 보스가 처음 모습을 드러내는 장면, 결전 직전 등장 장면에 깐다. 1장은 10번(붉은 수염)
+
 **개성 규칙:** 곡마다 리드 악기, 박자, 조, 템포, 리듬 성격이 모두 달라야 한다. 앞 10초만 들어도 어느 곡인지 구별된다.
 
 | # | 파일 / 가제 | 쓰는 곳 | 리드 | 리듬 · 조 · 템포 | 개성 | 중세 한 방울 |
@@ -31,12 +36,13 @@
 | 1 | bgm_title / 다시 열린 문 ✅ | 타이틀 | 피아노 → 바이올린 | 6/8 흔들리는 리듬, G장조, 104 | 첫 여행을 떠나는 설렘. 피아노와 플루트의 부름으로 시작해 바이올린이 훅에서 날아오르고, 마지막 후렴이 크게 터진다 | 틴 휘슬이 바이올린에 대답 |
 | 2 | bgm_guild / 먼지 쌓인 장부 | 길드, 일상 대화 | 클라리넷과 피아노 2중주 | 4/4 느긋한 스윙, F장조, 86 | 카페 같은 아늑함. 클라리넷이 묻고 피아노가 답한다. 첼로 피치카토가 발끝을 까딱이게 한다. 이 곡만 브러시 스네어가 살짝 | 브리지에서 류트 한 소절 (살짝) |
 | 3 | bgm_chronicle / 잉크가 닿는 길 | 게시판, 연대기 페이지 | 아코디언 | 2/4 경쾌한 걸음, A장조, 116 | 유럽 시골길 같은 여행 느낌. 아코디언 선율 위로 바이올린 피치카토가 펜처럼 달린다 | 해머 덜시머가 반주 일부 |
-| 4 | bgm_tension / 붉은 수염의 그림자 | 위기 장면, 결전 직전 | 피아노 저음 | 5/4, D단조, 96 | 다섯 박이라 발이 걸리는 불안. 바이올린이 줄 가까이 긁는 소리(sul ponticello), 첼로가 낮게 숨 쉰다. 멜로디는 적고 공간이 넓다 | 허디거디의 낮은 지속음 |
+| 4 | bgm_tension / 다가오는 그림자 (공용 긴장곡) | 모든 장의 위기 장면, 결전 직전 | 피아노 저음 | 5/4, D단조, 96 | 다섯 박이라 발이 걸리는 불안. 바이올린이 줄 가까이 긁는 소리(sul ponticello), 첼로가 낮게 숨 쉰다. 멜로디는 적고 공간이 넓다 | 허디거디의 낮은 지속음 |
 | 5 | bgm_battle / 검과 주사위 | 일반 전투 | 피아노 리프와 바이올린 | 4/4 몰아치는 브레이크비트, E단조, 150 | 재즈 피아노 리프가 몰아치고 바이올린과 피아노가 솔로를 주고받는다. **이 곡만 드럼 세트와 베이스가 단단하게** 받친다 | 피들이 훅을 한 번 이어받음 |
-| 6 | bgm_boss / 길을 막는 자 | 붉은 수염 결전 | 바이올린과 피아노, 현악 합주 | **탱고**, A단조, 128 | 정열적인 탱고 리듬으로 메인 모티프를 단조로 비튼다. 중반에 장조로 돌아서며 희망이 비치는 반격 구간 | 프레임 드럼이 탱고 리듬에 |
+| 6 | bgm_boss_battle / 길을 막는 자 (공용 보스 전투곡) | 모든 장의 보스 전투 | 바이올린과 피아노, 현악 합주 | **탱고**, A단조, 128 | 정열적인 탱고 리듬으로 메인 모티프를 단조로 비튼다. 중반에 장조로 돌아서며 희망이 비치는 반격 구간 | 프레임 드럼이 탱고 리듬에 |
 | 7 | bgm_memory / 어린 날의 길드 | 호감도 CG, 체험판 끝 | 피아노 독주 → 첼로 | 3/4 아주 느리게, D장조, 66 | 메인 모티프를 느린 왈츠로. 앞 절반은 피아노 하나, 뒤에서 첼로가 대선율로 들어오고 끝에 다시 피아노만 남는다 | 하프 한 줄기 |
 | 8 | jingle_win | 전투 승리 | 피아노·바이올린 | 6초 | 메인 모티프 첫 네 음을 밝게 마무리 | 틴 휘슬 |
 | 9 | jingle_lose | 전투 패배 | 피아노·첼로 | 6초 | 메인 모티프 첫 네 음을 단조로 내려앉게 | 하프 |
+| 10 | bgm_theme_redbeard / 붉은 수염 (1장 보스 테마) | 붉은 수염이 모습을 드러내는 장면 (결전 직전 습격 장면, 소굴 정찰) | 낮은 첼로와 콘트라베이스 (활) | 12/8 건들거리는 무거운 걸음, C단조, 72 | 술 취한 행진처럼 건들거리는 거칠고 탐욕스러운 두목. 조금 우스꽝스럽지만 무섭다. 쿵쿵 밟는 프레임 드럼 위로 투박한 훅. 전투곡처럼 몰아치지 않는다 | 허디거디가 거칠게 으르렁 |
 
 ## 4. 만드는 법 (Suno)
 
@@ -61,6 +67,7 @@
 | 7 | `instrumental japanese new age piano ballad, slow waltz in 3/4, very slow solo piano rendition of the main theme, D major, 66 bpm, cello countermelody joins halfway, single harp glissando, tender bittersweet and nostalgic, intimate room sound, ends on solo piano` | `[Intro: solo piano] [Verse: theme slowly] [Chorus: cello joins] [Bridge: harp] [Outro: solo piano fades]` |
 | 8 | `instrumental short victory jingle, first four notes of the main theme, bright piano and violin, tin whistle, 6 seconds, final cadence` | `[Jingle]` |
 | 9 | `instrumental short defeat jingle, first four notes of the main theme in minor, soft piano and cello with harp, 6 seconds, falling final cadence` | `[Jingle]` |
+| 10 | `instrumental dark japanese new age villain character theme, slow swaggering heavy 12/8 rhythm like a drunken march, low bowed cello and double bass carry a crude menacing melody, rough growling hurdy-gurdy drone, staccato low piano chords, violin sneers in the middle section, stomping frame drum and hand percussion, C minor, 72 bpm, greedy brutish and a little comic, catchy sinister hook, intimate warm acoustic room sound` | `[Intro: frame drum stomps, hurdy-gurdy drone] [Theme: cello and bass melody] [Section B: piano stabs, violin sneers] [Theme: heavier, full] [Outro: drone and one last stomp]` |
 
 ## 5. 고르는 기준 (통과 못 하면 다시 생성)
 
