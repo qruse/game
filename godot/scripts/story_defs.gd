@@ -11,6 +11,9 @@ const SPEAKERS := {
 	"martha": {"name": "마르타", "path": "npcs/N01_martha/N01_portrait_%s.png"},
 	"basil": {"name": "공증인 바실", "path": "npcs/N02_basil/N02_portrait_%s.png"},
 	"farmer": {"name": "마을 사람", "path": "npcs/N07_villager_m/N07_portrait_neutral.png"},
+	"tobias": {"name": "촌장 토비아스", "path": "npcs/N11_tobias/N11_portrait_%s.png"},
+	"greta": {"name": "대장장이 그레타", "path": "npcs/N12_greta/N12_portrait_neutral.png"},
+	"pip": {"name": "잡화점 주인 핍", "path": "npcs/N13_pip/N13_portrait_neutral.png"},
 	"nun": {"name": "늙은 수녀", "path": ""},
 }
 
@@ -19,17 +22,17 @@ const SCENES := {
 	"opening": {
 		"bg": "backgrounds/scene/bg_guildhall_ruined.png", "cg": "cg/cg_ch1_inheritance.png", "cg_lines": 3,
 		"lines": [
-			["", "", "용사 에드릭의 은빛 등불 길드. 정문 등불이 꺼진 지 십오 년."],
-			["lina", "neutral", "오셨군요. 이 열쇠, 이제 당신 겁니다."],
+			["", "", "변경의 마을 하웰. 모험가 길드의 간판이 내려간 지 십오 년."],
+			["lina", "neutral", "촌장님이 맡기신 열쇠예요. 이제 당신 겁니다."],
 			["lina", "smile", "오늘부터 당신이 단장입니다."],
-			["basil", "neutral", "유언장대로라면 이 폐허는 당신 것입니다. 빚까지 포함해서요."],
-			["basil", "negative", "석 달 안에 길드를 되살리지 못하면 건물은 영주님께 넘어갑니다."],
+			["basil", "neutral", "재건 서류는 제가 맡았습니다. 이 폐허는 당신 것입니다. 빚까지 포함해서요."],
+			["basil", "negative", "상회에서 빌린 재건 자금, 잊지 마시고요. 지붕부터 고치려면 금화가 꽤 듭니다."],
 			["cecile", "smile", "금고 털러 왔더니 텅 비었더라고. 재밌어 보여서 눌러앉았어."],
 			["adelheid", "neutral", "…시끄러워. 난 책 읽을 자리만 있으면 돼."],
 			["lina", "angry", "되살릴 겁니다. 아버지의 이름을 걸고요."],
 			["", "", "그렇게 당신은 폐허의 단장이 되었다."],
 		],
-		"summary": "단장은 폐허가 된 길드와 녹슨 열쇠를 물려받았다.",
+		"summary": "단장은 촌장에게서 폐허가 된 하웰 모험가 길드의 열쇠를 받았다.",
 	},
 	"week1": {
 		"bg": "backgrounds/scene/bg_noticeboard.png",
@@ -127,11 +130,11 @@ const SCENES := {
 		"lines": [
 			["lina", "smile", "해냈어요, 단장! 길드는 아직 살아 있어요."],
 			["martha", "positive", "오늘 밤 술은 내가 쏜다!"],
-			["basil", "positive", "…서류에 적어 두죠. '은빛 등불 길드, 첫 승리'."],
-			["", "", "그날 밤, 단장은 십오 년 만에 정문 등불을 다시 켰다."],
-			["", "", "그리고 굳게 잠겨 있던 기록실 문틈으로도 희미한 빛이 새어 나왔다."],
+			["basil", "positive", "…서류에 적어 두죠. '하웰 모험가 길드, 첫 승리'."],
+			["", "", "그날 밤, 단장은 십오 년 만에 정문에 길드 간판을 다시 걸었다."],
+			["", "", "다음 날 아침, 길드 앞에 의뢰인들이 줄을 섰다."],
 		],
-		"summary": "길드는 붉은 수염을 물리쳤다. 기록실의 봉인이 흔들렸다.",
+		"summary": "길드는 붉은 수염을 물리치고 십오 년 만에 간판을 다시 걸었다.",
 	},
 }
 
@@ -242,7 +245,7 @@ const QUESTS := {
 				"text": "목록과 실제 책이 맞지 않는다.\n금서 한 칸이 비어 있다.",
 				"choices": [
 					{"label": "빠진 책을 찾는다", "stat": "int", "dc": 12, "who": "adelheid",
-						"ok": {"line": "빠진 책은 '등불의 서'. 누군가 최근에 가져갔다.", "next": "n3", "flag": "lantern_book"},
+						"ok": {"line": "빠진 책은 '재앙의 연대기'. 누군가 최근에 가져갔다.", "next": "n3", "flag": "lost_book"},
 						"ng": {"line": "빠진 책이 무엇인지 끝내 알아내지 못했다.", "next": "n3"}},
 					{"label": "책장 뒤를 뒤진다", "stat": "dex", "dc": 13, "who": "cecile",
 						"ok": {"line": "책장 뒤에서 붉은 수염의 인장이 찍힌 쪽지를 찾았다. 길드를 노린다는 내용이다.", "next": "n3", "flag": "redbeard_note"},
@@ -259,8 +262,10 @@ const QUESTS := {
 	},
 }
 
-const WEEK_QUESTS := ["bandits", "trapper", "archive"]
+## 주마다 들어오는 메인 의뢰. 체험판은 1주차에 셋(그중 둘), 2주차는 위탁 의뢰와 결전 준비만
+const WEEK_QUESTS_BY := {1: ["bandits", "trapper", "archive"], 2: []}
 const WEEK_PICKS := 2
+const FINALE_WEEK := 2  # 이 주의 주말에 결전
 const FINALE_BATTLE := 1
 
 ## 칸 종류별 표시

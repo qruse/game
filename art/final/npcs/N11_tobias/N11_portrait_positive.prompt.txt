@@ -1,0 +1,38 @@
+Asset: N11_portrait_positive
+Step: S33
+Date: 2026-10-17 (Asia/Seoul)
+Tool: built-in image_gen
+Model: identifier not exposed by built-in tool
+Attempts: 1; no retries
+Tool options: transparent_background=True
+Raw: art/raw/N11_portrait_positive_v1.png
+References (attachment order):
+art/final/npcs/N11_tobias/N11_portrait_neutral.png
+art/raw/S33_session/N11_face_mask.png
+Postprocessing: Elliptic face-mask-only composite over final neutral; all outside pixels and alpha copied from neutral.
+Face bounds: 365,108,560,315
+
+FULL PROMPT:
+Use case: stylized-concept
+Asset: N11_portrait_positive; S33 game illustration.
+
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas. Output 1024x1536 portrait PNG, genuinely transparent background, no backdrop, no ground shadow. One person only. Match existing NPC standing portrait format and comparable head scale.
+
+NPC PROMPT from characters.md (verbatim):
+Elder Tobias, the village chief of Harwell, a kindly but shrewd man in his late 60s, NOT a young man, a long oval face with deep laugh lines, a bald crown with a neat white fringe of hair, bushy white eyebrows, a short trimmed white beard, warm hazel eyes, a slightly stooped tall thin frame, a plain brown wool coat over a moss-green tunic, a walking staff carved with a small well, a ring of old keys on his belt, gentle knowing smile
+
+EDIT TARGET: input image 1 is the neutral Tobias portrait. Edit only the masked face area, eyebrows through chin, excluding the outer hair/beard silhouette, ears and clothing. Keep everything outside the face mask pixel-identical. Change the facial expression to: friendly smile. Keep facial identity, visibly late-60s age, wrinkles, hazel eyes and white facial hair. The accompanying face mask defines the only editable area. Do not redraw the body or shift any part of the image. Final output will composite only the masked face over the unchanged neutral original. Preserve transparency, camera, pose, staff, keys, clothing, silhouette and 1024x1536 canvas exactly.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.
+Input image 2 is a supporting face mask, NOT artwork: white ellipse is editable, black is protected. In the 1024x1536 target, editable ellipse bounds are x=365..560 and y=108..315. Only modify facial expression inside that ellipse. Return the full original portrait, not the mask.

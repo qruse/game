@@ -1,0 +1,35 @@
+Asset: bg_smithy
+Step: S33
+Date: 2026-10-17 (Asia/Seoul)
+Tool: built-in image_gen
+Model: identifier not exposed by built-in tool
+Attempts: 1; no retries
+Tool options: transparent_background=False
+Raw: art/raw/bg_smithy_v1.png
+References (attachment order):
+art/refs/style-anchor.png
+Postprocessing: 1920x1080 RGB-opaque PNG, canvas resize only.
+Face bounds: 
+
+FULL PROMPT:
+Use case: stylized-concept
+Asset: bg_smithy; S33 game illustration.
+
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Background art only, no characters, painterly anime background, atmospheric lighting, wide 16:9 composition, leave the lower center area uncluttered because character portraits will stand there. Generate at 16:9 landscape, intended final canvas 1920x1080.
+
+Interior of a village blacksmith's forge (see TOWN): glowing forge fire, anvil, hanging tools, racks of swords, shields and armor for sale, warm orange light.
+
+Independent eye-level interior composition. Material continuity only: humble frontier medieval oak beams, worn wood, plaster and modest stone, everyday practical furnishings. Reference image 1 is only a rendering/palette reference; do not depict its character or cross motif. No village panorama reference. No readable writing or labels, including on jars, ledgers and the village map; the map is a simple unlettered sketch.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

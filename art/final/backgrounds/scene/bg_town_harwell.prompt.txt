@@ -1,0 +1,38 @@
+Asset: bg_town_harwell
+Step: S33
+Date: 2026-10-17 (Asia/Seoul)
+Tool: built-in image_gen
+Model: identifier not exposed by built-in tool
+Attempts: 1; no retries
+Tool options: transparent_background=False
+Raw: art/raw/bg_town_harwell_v2.png
+References (attachment order):
+art/refs/style-anchor.png
+art/refs/emblem-harwell.png
+Postprocessing: 1920x1080 RGB-opaque PNG, canvas resize only.
+Face bounds: 
+
+FULL PROMPT:
+Use case: stylized-concept
+Asset: bg_town_harwell; S33 game illustration.
+
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Background art only, no characters, painterly anime background, atmospheric lighting, wide 16:9 composition, leave the lower center area uncluttered because character portraits will stand there. Generate at 16:9 landscape, intended final canvas 1920x1080.
+
+TOWN: a wide establishing view of Harwell, a small frontier village of timber-framed houses on a gentle hillside by a river ford, seen from a slightly elevated angle as a village overview. Six places, each clearly separated and readable as a click target: the two-storey timber guild house with a damaged roof and a torn blue banner with the silver well-and-crossed-swords emblem (art/refs/emblem-harwell.png); a cozy tavern with a hanging copper ladle sign; a blacksmith with a smoking chimney and an anvil out front; a general store with striped awnings and crates; the village chief's modest stone house with a small garden; and the central square with an old stone well. Fields and forest beyond, morning light, warm and inviting. No text or labels.
+
+Slightly elevated establishing view rather than an overhead map. Show all SIX destinations separately, with generous clear paths, air and visible gaps between the full building silhouettes; no overlapping destination facades or click areas. Spread the guild house, tavern, smithy, general store and chief house around the distinct well plaza, each with its own recognizable frontage. The guild house is a humble weathered timber structure with oak beams and plaster walls, NOT a palace, cathedral or monumental stone hall. Reference image 1: linework/rendering and medieval palette ONLY, do not copy the character, clothing or her cross motif. Reference image 2: EXACT Harwell guild heraldry for the torn blue guild banner ONLY: blue field, silver stone well, two crossed swords behind it. The emblem is the only permitted heraldic symbol. Do not add lantern heraldry. NO writing, lettering, labels, numbers, map pins, UI or borders.
+The required guild banner emblem is explicitly allowed; no unrelated logos.
+
+
+Do not include: any text, letters, watermark, signature, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

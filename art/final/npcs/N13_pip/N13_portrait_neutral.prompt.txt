@@ -1,0 +1,37 @@
+Asset: N13_portrait_neutral
+Step: S33
+Date: 2026-10-17 (Asia/Seoul)
+Tool: built-in image_gen
+Model: identifier not exposed by built-in tool
+Attempts: 1; no retries
+Tool options: transparent_background=True
+Raw: art/raw/N13_portrait_neutral_v1.png
+References (attachment order):
+art/refs/style-anchor.png
+art/final/npcs/N01_martha/N01_portrait_neutral.png
+Postprocessing: 1024x1536 canvas, no repositioning; native edge alpha; opaque interiors; despill.py RGB algorithm and unmagenta_hair.py blonde donor algorithm, equivalent C# execution (python unavailable).
+Face bounds: 
+
+FULL PROMPT:
+Use case: stylized-concept
+Asset: N13_portrait_neutral; S33 game illustration.
+
+Anime-style illustration for a Korean/Japanese subculture RPG, clean confident line art,
+cel shading with soft gradient highlights, detailed but readable rendering of fabric, chainmail and leather,
+expressive anime eyes, appealing character design.
+Setting is grounded low-fantasy medieval Europe (12th-14th century): chainmail, surcoats,
+wool, linen, leather, heraldry, candlelight, stone and timber.
+Palette: rich but slightly muted medieval colors - deep crimson, royal blue, ochre gold,
+forest green, parchment cream, warm browns.
+
+Dialogue standing portrait for a visual-novel style conversation screen: knee-up framing, character facing the viewer with the body angled slightly, eyes looking at the viewer, centered, the top of the head close to the top edge with a small margin, whole figure from head to knees inside the canvas, hands and props fully inside the canvas. Output 1024x1536 portrait PNG, genuinely transparent background, no backdrop, no ground shadow. One person only. Match existing NPC standing portrait format and comparable head scale.
+
+NPC PROMPT from characters.md (verbatim):
+Pip, the Harwell general store keeper, a plump fussy man in his mid 50s, NOT a young man, a round face with rosy cheeks, a large curled grey mustache, a bald head under a small embroidered cap, small bright eyes, short stocky build, a striped vest over a white shirt, a measuring cord around his neck, a wooden abacus in hand, an eager salesman smile
+
+Neutral expression override: calm closed mouth, quiet subtle smile or relaxed neutral expression. Personality descriptions of toothy/eager grins in the verbatim block are character references only; save expressive emotions for facial variants. Preserve ALL facial features, age, hair, markings, body type, costume and specified professional props in the verbatim block. Friendly village NPC: attractive and approachable at the stated real age, never a generic youthful anime companion. NOT a young girl; NOT a handsome young man. Do not make a grotesque enemy design. Reference 1 and reference 2 are STYLE, CANVAS, FIGURE/HEAD SCALE ONLY; do not copy their faces, hair, pose, clothing, props or color identity. Clearly mid 50s, gentle forehead creases and crow feet, round rosy-cheeked face, small bright shrewd eyes, large curled grey mustache, bald head under the small embroidered cap; short stocky plump silhouette. Tidy, likeable mature shopkeeper. Keep striped vest, measuring cord and wooden abacus distinct and fully visible. Calm closed-mouth salesman smile.
+
+Do not include: any text, letters, watermark, signature, logo, UI elements, frames or borders;
+modern objects or clothing (zippers, modern eyewear, sneakers, guns, phones);
+Japanese school uniforms; extra fingers or malformed hands; cropped head, hands or props;
+nudity, see-through clothing, underwear, or poses that focus on body parts.

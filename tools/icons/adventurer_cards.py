@@ -48,7 +48,8 @@ SAMPLES = [
 FONT = "font-family=\"'Noto Serif KR','Nanum Myeongjo','Malgun Gothic',serif\""
 
 
-def card(g, name, cls, power, tags, trait, share):
+def card(g, name, cls, power, tags, trait, share, frame=False):
+    """frame=True 면 글자·직업 문장·특기 태그를 빼고 틀만 그린다 (게임에서 코드로 채운다)"""
     edge, hi, seal = GRADE[g]
     s = g == "S"
     p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 340" width="240" height="340">',
@@ -66,10 +67,17 @@ def card(g, name, cls, power, tags, trait, share):
     # 직업 문장 메달
     p.append(f'<circle cx="120" cy="104" r="62" fill="url(#md{g})" stroke="{INK}" stroke-width="3"/>')
     p.append(f'<circle cx="120" cy="104" r="54" fill="none" stroke="{hi}" stroke-width="2" opacity="0.8"/>')
-    p.append(f'<g transform="translate(78 62) scale(0.7)" fill="#fff" stroke="none">{ICON[cls]}</g>')
+    if not frame:
+        p.append(f'<g transform="translate(78 62) scale(0.7)" fill="#fff" stroke="none">{ICON[cls]}</g>')
     # 등급 밀랍 인장
     p.append(f'<circle cx="44" cy="46" r="26" fill="{seal}" stroke="{INK}" stroke-width="3"/>')
     p.append(f'<circle cx="44" cy="46" r="20" fill="none" stroke="{hi}" stroke-width="1.5"/>')
+    if frame:  # 아래 글자 요소는 게임 코드가 그린다
+        p.append(f'<rect x="168" y="28" width="52" height="36" rx="6" fill="{INK}" opacity="0.85"/>')
+        p.append(f'<path d="M22 178 L218 178 L208 192 L218 206 L22 206 L32 192 Z" fill="{edge}" stroke="{INK}" stroke-width="2.5"/>')
+        p.append(f'<line x1="30" y1="270" x2="210" y2="270" stroke="{edge}" stroke-width="1.5" stroke-dasharray="4 3"/>')
+        p.append("</svg>")
+        return "".join(p)
     p.append(f'<text x="44" y="57" font-size="30" font-weight="bold" text-anchor="middle" fill="#fff" stroke="{INK}" stroke-width="1" {FONT}>{g}</text>')
     # 실력
     p.append(f'<rect x="168" y="28" width="52" height="36" rx="6" fill="{INK}" opacity="0.85"/>')
@@ -100,8 +108,17 @@ def chrome() -> str:
                             r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"] if os.path.exists(p))
 
 
+CLASS_KEY = {"전사": "warrior", "궁수": "archer", "마법사": "mage", "도적": "rogue", "수호자": "guardian", "사제": "priest", "견습": "novice"}
+UI_SRC = ROOT / "art/src/ui"  # tools/ui/render_ui.ps1 이 godot/ui/*.png 로 굽는다
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
+    for g in GRADE:
+        (UI_SRC / f"card_frame_{g}.svg").write_text(card(g, "", "전사", 0, [], "", 0, frame=True), encoding="utf-8")
+    for ko, key in CLASS_KEY.items():
+        (UI_SRC / f"cls_{key}.svg").write_text(
+            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120"><g fill="#fff" stroke="none">{ICON[ko]}</g></svg>', encoding="utf-8")
     svgs = []
     for row in SAMPLES:
         svg = card(*row)

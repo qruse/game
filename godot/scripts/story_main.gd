@@ -1,15 +1,18 @@
 extends Control
-## 1장 체험판 흐름: 제목 → 오프닝 → 길드 → 이번 주 의뢰(셋 중 둘) → 의뢰마다 연대기 페이지 → 주말 소식 → 결전 → 끝.
+## 1장 체험판 흐름: 제목 → 오프닝 → 하웰 마을 ⇄ 길드 하우스(의뢰 게시판, 위탁 의뢰, 스카우트, 재건) → 이번 주 의뢰(셋 중 둘)
+## → 의뢰마다 연대기 페이지 → 주말 장부 → 소식 → 다음 주 … → 결전 → 끝. 마을·운영 화면은 town.gd.
 ## 전투 칸은 fk.tscn 으로 넘어갔다가 Game.battle_res 를 들고 돌아온다.
-## 실행 옵션 (-- 뒤에): --story-shot=경로.png --story-at=초 --goto=hub|board|page:퀘스트|news|end|scene:장면|battle:퀘스트:칸 (+ --demo 면 전투 자동)
+## 실행 옵션 (-- 뒤에): --story-shot=경로.png --story-at=초 --goto=town|hub|place:장소|scout|jobs|roster|build|ledger|board|page:퀘스트|news|end|scene:장면|battle:퀘스트:칸 (+ --demo 면 전투 자동)
 
 const Defs = preload("res://scripts/story_defs.gd")
 const UI = preload("res://scripts/fk_ui.gd")
 const ScenePlayer = preload("res://scripts/scene_player.gd")
 const Page = preload("res://scripts/chronicle_page.gd")
 const Battle = preload("res://scripts/fk_battle.gd")
+const Town = preload("res://scripts/town.gd")
 
 var touch := false
+var town  # 마을·길드 운영 화면
 var bold: Font
 var bg: TextureRect
 var screen: Control
@@ -35,6 +38,7 @@ func _ready() -> void:
 	theme = t.theme
 	bold = t.bold
 	set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	town = Town.new(self)
 	var black := ColorRect.new()
 	black.color = Color(0.06, 0.05, 0.04)
 	black.set_anchors_preset(PRESET_FULL_RECT)
@@ -97,8 +101,35 @@ func _take_shot() -> void:
 func _debug_goto(g: String) -> void:
 	Game.reset()
 	match g.get_slice(":", 0):
+		"town":
+			town.show_town()
 		"hub":
 			_show_hub()
+		"scout":
+			town.show_scout()
+		"place":
+			town.show_place(g.get_slice(":", 1))
+		"roster":
+			for gr in ["S", "A", "B", "C", "D"]:
+				Game.roster.append(Game.make_adventurer(gr))
+			Game.facilities["dorm"] = 2
+			town.show_roster()
+		"jobs":
+			for gr in ["C", "D"]:
+				Game.roster.append(Game.make_adventurer(gr))
+			Game.jobs[0].crew = [Game.roster[0].id, Game.roster[2].id]
+			town._sel_job = 0
+			town.show_jobs()
+		"build":
+			Game.gold = 900
+			Game.mats = {"wood": 8, "iron": 3, "herb": 2}
+			town.show_build()
+		"ledger":
+			Game.roster.append(Game.make_adventurer("C"))
+			Game.jobs[0].crew = [Game.roster[0].id, Game.roster[2].id]
+			Game.jobs[1].crew = [Game.roster[1].id]
+			Game.quest_reward("북쪽 마을의 도적", true)
+			town.show_ledger(Game.settle(), _show_news)
 		"board":
 			Game.picks = ["trapper"]
 			_board_sel = "bandits"
@@ -109,6 +140,7 @@ func _debug_goto(g: String) -> void:
 		"news":
 			Game.picks = ["bandits", "trapper"]
 			Game.results = {"bandits": "ok", "trapper": "ng"}
+			Game.settle()
 			_show_news()
 		"scene":
 			_play(g.get_slice(":", 1), func(_s, _k): _show_hub())
@@ -212,46 +244,30 @@ func _show_title() -> void:
 	v.add_theme_constant_override("separation", 16)
 	c.add_child(v)
 	var t := Label.new()
-	t.text = "은빛 등불 길드"
+	t.text = "몰락한 길드 재건하기"
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_outlined(t, 44 if touch else 76, Color(0.96, 0.84, 0.55))
 	v.add_child(t)
-	var s := _label("Project D20 · 1장 체험판", 16 if touch else 26, Color(0.85, 0.8, 0.7), false)
+	var s := _label("하웰 모험가 길드 · 1장 체험판", 16 if touch else 26, Color(0.85, 0.8, 0.7), false)
 	s.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(s)
 	v.add_child(Control.new())
 	v.add_child(_btn("이야기 시작", func():
 		Game.reset()
-		_play("opening", func(_s, _k): _show_hub()), true))
+		_play("opening", func(_s, _k): town.show_town()), true))
 	v.add_child(_btn("전투 시험판", func(): get_tree().change_scene_to_file("res://fk.tscn")))
 
 
 # ── 길드 (허브) ─────────────────────────────────────
 
+## 길드 하우스 (단장의 책상). 마을에서 들어온다 (town.gd)
 func _show_hub() -> void:
-	_clear()
-	Game.stage = "hub"
-	bg.texture = Game.tex("backgrounds/scene/bg_guildhall_ruined.png")
-	bg.modulate = Color(0.8, 0.78, 0.75)
-	var head := Label.new()
-	head.text = "제%d주 · 은빛 등불 길드 (폐허)" % Game.week
-	head.position = Vector2(24, 18)
-	_outlined(head, 20 if touch else 32, Color(0.96, 0.84, 0.55))
-	screen.add_child(head)
-	var v := _panel(0.66, 0.2, 0.97, 0.8)
-	v.add_child(_label("단장의 책상", 18 if touch else 28, Color(0.96, 0.84, 0.55), false))
-	var left := _left_quests()
-	if Game.picks.is_empty():
-		v.add_child(_btn("이번 주 의뢰", _show_board, true))
-	elif not left.is_empty():
-		var q: Dictionary = Defs.QUESTS[left[0]]
-		v.add_child(_label("다음 의뢰: %s" % q.name, 14 if touch else 22))
-		v.add_child(_btn("출발", func(): _start_quest(left[0]), true))
-	else:
-		v.add_child(_label("이번 주 의뢰를 모두 마쳤다.", 14 if touch else 22))
-		v.add_child(_btn("주말: 소식 보기", _show_news, true))
-	v.add_child(_btn("연대기 (%d쪽)" % Game.pages.size(), _show_book))
-	v.add_child(_btn("처음으로", _show_title))
+	town.show_guild()
+
+
+## 주말: 위탁 의뢰 결과까지 정리한 장부 → 소식
+func _weekend() -> void:
+	town.show_ledger(Game.settle(), _show_news)
 
 
 func _left_quests() -> Array:
@@ -261,7 +277,10 @@ func _left_quests() -> Array:
 # ── 이번 주 의뢰: 지도 위 셋 중 둘 ─────────────────
 
 func _show_board() -> void:
-	_play("week1", func(_s, _k): _board())
+	if Defs.SCENES.has("week%d" % Game.week):
+		_play("week%d" % Game.week, func(_s, _k): _board())
+	else:
+		_board()
 
 
 func _board() -> void:
@@ -274,7 +293,7 @@ func _board() -> void:
 	head.position = Vector2(24, 18)
 	_outlined(head, 20 if touch else 32, Color(1.0, 0.92, 0.7))
 	screen.add_child(head)
-	for qid in Defs.WEEK_QUESTS:
+	for qid in Defs.WEEK_QUESTS_BY.get(Game.week, []):
 		var q: Dictionary = Defs.QUESTS[qid]
 		var b := Button.new()
 		b.focus_mode = FOCUS_NONE
@@ -352,7 +371,7 @@ func _show_page() -> void:
 func _sync_page() -> void:
 	var p: Dictionary = Game.page
 	var q: Dictionary = Defs.QUESTS[p.quest]
-	page_view.set_state(q, p.visited, p.lines, p.luck, p.done, "은빛 등불 길드 연대기 · 제%d주 · %s" % [Game.week, q.name])
+	page_view.set_state(q, p.visited, p.lines, p.luck, p.done, "하웰 모험가 길드 연대기 · 제%d주 · %s" % [Game.week, q.name])
 
 
 func _add_line(s: String) -> void:
@@ -518,8 +537,10 @@ func _finish_page() -> void:
 		Game.flags[q.ok_flag] = true
 	Game.pages.append({"quest": p.quest, "lines": p.lines.duplicate()})
 	_sync_page()
+	var rew: Dictionary = Game.quest_reward(q.name, ok)
 	side.add_child(_label("페이지 완성", 20 if touch else 34, Color(0.96, 0.84, 0.55)))
 	side.add_child(_label("의뢰 성공" if ok else "의뢰는 절반만 이뤘다", 14 if touch else 22, Color(0.6, 1.0, 0.6) if ok else Color(1.0, 0.7, 0.5)))
+	side.add_child(_label("보상: 금화 %d · 명성 %d" % [rew.gold, rew.fame], 13 if touch else 20, Color(1.0, 0.9, 0.6)))
 	side.add_child(_btn("마무리", func():
 		_play(q.outro_ok if ok else q.outro_ng, func(_s, _k): _show_hub()), true))
 
@@ -528,7 +549,7 @@ func _finish_page() -> void:
 
 func _week_news() -> Array:
 	var out: Array = []
-	for qid in Defs.WEEK_QUESTS:
+	for qid in Defs.WEEK_QUESTS_BY.get(Game.week, []):
 		var q: Dictionary = Defs.QUESTS[qid]
 		if not qid in Game.picks:
 			out.append("[color=#ffb08a]✖ %s[/color] — %s" % [q.name, q.skip.news])
@@ -570,8 +591,23 @@ func _show_news() -> void:
 	r.bbcode_enabled = true
 	r.fit_content = true
 	r.add_theme_font_size_override("normal_font_size", 14 if touch else 22)
-	r.text = "\n".join(PackedStringArray(_week_news()))
+	var lines := _week_news()
+	if lines.is_empty():
+		lines = ["조용한 한 주였다. 위탁 의뢰를 맡은 모험가들만 바삐 오갔다."]
+	Game.news = lines.duplicate()
+	r.text = "\n".join(PackedStringArray(lines))
 	v.add_child(r)
+	if Game.week < Defs.FINALE_WEEK:
+		var sp0 := Control.new()
+		sp0.size_flags_vertical = SIZE_EXPAND_FILL
+		v.add_child(sp0)
+		v.add_child(_label("다음 주에도 의뢰는 들어온다. 스카우트실에 새 지원자가 찾아온다.", 13 if touch else 20, Color(0.85, 0.8, 0.7)))
+		v.add_child(_btn("다음 주로", func():
+			Game.week += 1
+			Game.picks = []
+			Game.new_week()
+			town.show_town(), true))
+		return
 	var m := _finale_mods()
 	v.add_child(_label("결전 준비", 16 if touch else 26, Color(1.0, 0.6, 0.5)))
 	var r2 := RichTextLabel.new()
@@ -615,7 +651,7 @@ func _show_end() -> void:
 	var v := _panel(0.18, 0.06, 0.82, 0.94)
 	v.add_child(_label("1장 체험판 끝 · 단장이 쓴 연대기", 20 if touch else 34, Color(0.96, 0.84, 0.55)))
 	var r := _chronicle_text()
-	r.text += "\n[i]기록실 문틈으로 새어 나온 등불 빛… 다음 이야기는 2장에서.[/i]"
+	r.text += "\n[i]하웰 모험가 길드의 간판이 다시 걸렸다… 다음 이야기는 2장에서.[/i]"
 	v.add_child(r)
 	v.add_child(_btn("처음으로", _show_title, true))
 
