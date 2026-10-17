@@ -113,6 +113,8 @@ func _ready() -> void:
 			goto = a.get_slice("=", 1)
 	if _shot != "":
 		_take_shot()
+	if _shot != "" or goto != "":
+		Game.save_path = "user://autosave_test.dat"
 	# 전투에서 돌아왔으면 그 자리로
 	if not Game.battle_res.is_empty():
 		var res: Dictionary = Game.battle_res
@@ -141,6 +143,8 @@ func _debug_goto(g: String) -> void:
 	match g.get_slice(":", 0):
 		"title":
 			_show_title()
+		"continue":
+			_continue()
 		"town":
 			town.show_town()
 		"hub":
@@ -231,6 +235,7 @@ func _debug_goto(g: String) -> void:
 # ── 공용 ────────────────────────────────────────────
 
 func _clear() -> void:
+	Game.save()  # 자동 저장: 화면이 바뀔 때마다
 	for c in screen.get_children():
 		c.queue_free()
 	page_view = null
@@ -357,12 +362,25 @@ func _show_title() -> void:
 	v.add_child(Kit.spacer(0, 14))
 	v.add_child(Kit.shadowed(Kit.label("무너진 길드 하우스를 다시 세우고, 흩어진 모험가를 모은다.", 17, Color("cfd4de"))))
 	v.add_child(Kit.spacer(0, 44))
-	var b1 := Kit.btn_main("이야기 시작", "새로 시작", func():
+	var new_game := func():
+		Game.clear_save()
 		Game.reset()
-		_play("opening", func(_s, _k): town.show_town()), 60)
-	b1.custom_minimum_size.x = Kit.px(380)
-	b1.size_flags_horizontal = SIZE_SHRINK_BEGIN
-	v.add_child(b1)
+		_play("opening", func(_s, _k): town.show_town())
+	# 자동 저장이 있으면 이어하기가 주 버튼
+	if Game.has_save():
+		var b0 := Kit.btn_main("이어하기", _save_note(), _continue, 60)
+		b0.custom_minimum_size.x = Kit.px(380)
+		b0.size_flags_horizontal = SIZE_SHRINK_BEGIN
+		v.add_child(b0)
+		v.add_child(Kit.spacer(0, 10))
+		var bn := Kit.btn_sub("처음부터", "i_plus", func(): _confirm_new(new_game), 50, 380)
+		bn.size_flags_horizontal = SIZE_SHRINK_BEGIN
+		v.add_child(bn)
+	else:
+		var b1 := Kit.btn_main("이야기 시작", "새로 시작", new_game, 60)
+		b1.custom_minimum_size.x = Kit.px(380)
+		b1.size_flags_horizontal = SIZE_SHRINK_BEGIN
+		v.add_child(b1)
 	v.add_child(Kit.spacer(0, 10))
 	var b2 := Kit.btn_sub("전투 시험판", "i_sword", func(): get_tree().change_scene_to_file("res://fk.tscn"), 50, 380)
 	b2.size_flags_horizontal = SIZE_SHRINK_BEGIN
@@ -374,6 +392,75 @@ func _show_title() -> void:
 	ver.offset_top = -Kit.px(44)
 	screen.add_child(ver)
 	desk._slide_in(v, Vector2(-Kit.px(30), 0))
+
+
+## 이어하기 버튼 옆 작은 글: 몇 주차, 공사 단계
+func _save_note() -> String:
+	var f := FileAccess.open(Game.save_path, FileAccess.READ)
+	if f == null:
+		return ""
+	var d = str_to_var(f.get_as_text())
+	f.close()
+	if not d is Dictionary:
+		return ""
+	return "제%d주 · %s" % [d.get("week", 1), G.STAGES[clampi(d.get("build", 0), 0, G.STAGES.size() - 1)].name]
+
+
+## 처음부터: 자동 저장이 지워지니 한 번 묻는다
+func _confirm_new(go: Callable) -> void:
+	var root := Control.new()
+	root.set_anchors_preset(PRESET_FULL_RECT)
+	root.mouse_filter = MOUSE_FILTER_STOP
+	screen.add_child(root)
+	var dim := ColorRect.new()
+	dim.color = Color(Kit.SHADE, 0.7)
+	dim.set_anchors_preset(PRESET_FULL_RECT)
+	root.add_child(dim)
+	var c := Kit.card(20, 28)
+	c.anchor_left = 0.5
+	c.anchor_right = 0.5
+	c.anchor_top = 0.5
+	c.anchor_bottom = 0.5
+	c.offset_left = -Kit.px(280)
+	c.offset_right = Kit.px(280)
+	c.grow_vertical = GROW_DIRECTION_BOTH
+	root.add_child(c)
+	var v := Kit.vbox(12)
+	c.add_child(v)
+	v.add_child(Kit.cap("처음부터"))
+	v.add_child(Kit.title("새로 시작할까요?", 30))
+	v.add_child(Kit.label("자동 저장된 진행(%s)이 지워진다." % _save_note(), 15, Kit.DIM, null, true))
+	var h := Kit.hbox(10)
+	h.add_child(Kit.btn_sub("취소", "i_back", func(): root.queue_free(), 52, 140))
+	var ok := Kit.btn_main("처음부터", "", go, 52)
+	ok.size_flags_horizontal = SIZE_EXPAND_FILL
+	h.add_child(ok)
+	v.add_child(h)
+
+
+## 이어하기: 저장된 곳으로 돌아간다
+func _continue() -> void:
+	if not Game.load_save():
+		_show_title()
+		return
+	match Game.stage:
+		"page":
+			if Game.page.get("done", false):
+				_show_hub()
+			else:
+				_show_page()
+				var node: String = Game.page.node
+				_enter(Defs.QUESTS[Game.page.quest].nodes.start.next if node == "start" else node)
+		"weekend":
+			town.show_ledger(Game.settle(), _show_news)
+		"news":
+			_show_news()
+		"finale":
+			_show_news()
+		"end":
+			_show_end()
+		_:
+			town.show_town()
 
 
 ## 금색 장식 줄
@@ -397,6 +484,7 @@ func _show_hub() -> void:
 
 ## 주말: 위탁 의뢰 결과까지 정리한 장부 → 소식
 func _weekend() -> void:
+	Game.stage = "weekend"
 	town.show_ledger(Game.settle(), _show_news)
 
 
@@ -630,6 +718,7 @@ func _enter(id: String) -> void:
 	if p.visited.is_empty() or p.visited[-1] != id:
 		p.visited.append(id)
 	_sync_page()
+	Game.save()
 	var n: Dictionary = Defs.QUESTS[p.quest].nodes[id]
 	await get_tree().create_timer(0.6).timeout
 	_side_clear()

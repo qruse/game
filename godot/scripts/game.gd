@@ -37,6 +37,51 @@ var bond := {}  # NPC 호감도 {nora, martha} (G.BONDS)
 var bond_seen := {}  # NPC 이야기를 본 단계 수
 var _uid := 0
 
+# ── 자동 저장 (화면이 바뀔 때마다. 저장·불러오기 메뉴는 없다) ──
+var save_path := "user://autosave.dat"  # 확인용 실행(--goto, --story-shot)은 autosave_test.dat
+const SAVE_KEYS := ["week", "party", "picks", "results", "flags", "pages", "stage", "page",
+	"gold", "mats", "fame", "rank", "build", "facilities", "roster", "applicants", "jobs",
+	"ledger", "week_log", "week_in", "week_out", "news", "bond", "bond_seen", "_uid"]
+
+
+func save() -> void:
+	if stage == "opening":
+		return
+	var d := {"v": 1}
+	for k in SAVE_KEYS:
+		d[k] = get(k)
+	var f := FileAccess.open(save_path, FileAccess.WRITE)
+	if f == null:
+		return
+	f.store_string(var_to_str(d))
+	f.close()
+
+
+func has_save() -> bool:
+	return FileAccess.file_exists(save_path)
+
+
+func load_save() -> bool:
+	if not has_save():
+		return false
+	var f := FileAccess.open(save_path, FileAccess.READ)
+	if f == null:
+		return false
+	var d = str_to_var(f.get_as_text())
+	f.close()
+	if not d is Dictionary:
+		return false
+	reset()
+	for k in SAVE_KEYS:
+		if d.has(k):
+			set(k, d[k])
+	return true
+
+
+func clear_save() -> void:
+	if has_save():
+		DirAccess.remove_absolute(save_path)
+
 
 func reset() -> void:
 	week = 1
@@ -362,6 +407,10 @@ func new_week() -> void:
 
 ## 주말 정산 → 장부 한 페이지를 남기고 돌려준다
 func settle() -> Dictionary:
+	# 한 주에 한 번만 (이어하기로 장부 화면에 다시 와도 두 번 정산하지 않는다)
+	if flags.get("settled_%d" % week, false) and not ledger.is_empty():
+		return ledger[-1]
+	flags["settled_%d" % week] = true
 	var idle := jobs.any(func(j): return j.crew.is_empty())
 	_settle_jobs()
 	add_bond("nora", G.NORA_WEEK + (0 if idle else G.NORA_WEEK_FULL))
