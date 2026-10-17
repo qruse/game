@@ -48,6 +48,22 @@ func _ready() -> void:
 	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	add_child(bg)
+	# 가장자리를 어둡게 (그림 위 글자·틀이 떠 보이게)
+	var vig := TextureRect.new()
+	var gt := GradientTexture2D.new()
+	gt.fill = GradientTexture2D.FILL_RADIAL
+	gt.fill_from = Vector2(0.5, 0.5)
+	gt.fill_to = Vector2(1.1, 1.1)
+	var gr := Gradient.new()
+	gr.set_color(0, Color(0, 0, 0, 0.0))
+	gr.set_color(1, Color(0, 0, 0, 0.75))
+	gr.add_point(0.45, Color(0, 0, 0, 0.0))
+	gt.gradient = gr
+	vig.texture = gt
+	vig.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	vig.set_anchors_preset(PRESET_FULL_RECT)
+	vig.mouse_filter = MOUSE_FILTER_IGNORE
+	add_child(vig)
 	screen = Control.new()
 	screen.set_anchors_preset(PRESET_FULL_RECT)
 	add_child(screen)
@@ -56,12 +72,24 @@ func _ready() -> void:
 	player.bold = bold
 	add_child(player)
 	toast = Label.new()
-	toast.anchor_left = 0.1
-	toast.anchor_right = 0.9
-	toast.anchor_top = 0.05
+	toast.anchor_left = 0.5
+	toast.anchor_right = 0.5
+	toast.anchor_top = 0.12
+	toast.grow_horizontal = GROW_DIRECTION_BOTH
 	toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_outlined(toast, 16 if touch else 26, Color(1.0, 0.9, 0.65))
+	_outlined(toast, 16 if touch else 24, Color(1.0, 0.9, 0.65))
+	var tsb := StyleBoxFlat.new()
+	tsb.bg_color = Color(0.07, 0.05, 0.04, 0.88)
+	tsb.border_color = UI.GOLD
+	tsb.border_width_top = 2
+	tsb.border_width_bottom = 2
+	tsb.set_corner_radius_all(4)
+	tsb.content_margin_left = 40
+	tsb.content_margin_right = 40
+	tsb.content_margin_top = 10
+	tsb.content_margin_bottom = 12
+	toast.add_theme_stylebox_override("normal", tsb)
+	toast.modulate.a = 0.0
 	toast.mouse_filter = MOUSE_FILTER_IGNORE
 	add_child(toast)
 
@@ -166,6 +194,9 @@ func _clear() -> void:
 	for c in screen.get_children():
 		c.queue_free()
 	page_view = null
+	# 화면이 바뀔 때 살짝 밝아지며 나타난다
+	screen.modulate.a = 0.0
+	create_tween().tween_property(screen, "modulate:a", 1.0, 0.22)
 
 
 func _btn(text: String, cb: Callable, big := false) -> Button:
@@ -173,8 +204,23 @@ func _btn(text: String, cb: Callable, big := false) -> Button:
 	b.text = "  %s  " % text
 	b.focus_mode = FOCUS_NONE
 	b.custom_minimum_size = Vector2(0, (48 if touch else 64) if big else (40 if touch else 52))
+	if big:
+		b.add_theme_stylebox_override("normal", UI.sbt("btn_gold", 18, 9.0 if touch else 12.0))
+		b.add_theme_stylebox_override("hover", UI.sbt("btn_gold_hover", 18, 9.0 if touch else 12.0))
+		b.add_theme_color_override("font_color", Color(1.0, 0.94, 0.75))
 	b.pressed.connect(cb)
+	hover_pop(b)
 	return b
+
+
+## 마우스를 올리면 살짝 커진다
+func hover_pop(c: Control, k := 1.03) -> void:
+	c.resized.connect(func(): c.pivot_offset = c.size / 2.0)
+	c.mouse_entered.connect(func():
+		if c is BaseButton and c.disabled:
+			return
+		c.create_tween().tween_property(c, "scale", Vector2(k, k), 0.08))
+	c.mouse_exited.connect(func(): c.create_tween().tween_property(c, "scale", Vector2.ONE, 0.1))
 
 
 func _outlined(l: Label, sz: int, col: Color) -> void:
@@ -236,26 +282,57 @@ func _play(id: String, then: Callable) -> void:
 func _show_title() -> void:
 	_clear()
 	bg.texture = Game.tex("backgrounds/scene/bg_guildhall_past.png")
-	bg.modulate = Color(0.55, 0.5, 0.45)
+	bg.modulate = Color(0.5, 0.46, 0.42)
 	var c := CenterContainer.new()
 	c.set_anchors_preset(PRESET_FULL_RECT)
 	screen.add_child(c)
 	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 16)
+	v.add_theme_constant_override("separation", 10 if touch else 16)
 	c.add_child(v)
+	var em := TextureRect.new()
+	em.texture = UI.tex("emblem_harwell")
+	em.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	em.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	em.custom_minimum_size = Vector2(0, 110 if touch else 190)
+	v.add_child(em)
 	var t := Label.new()
 	t.text = "몰락한 길드 재건하기"
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_outlined(t, 44 if touch else 76, Color(0.96, 0.84, 0.55))
+	_outlined(t, 44 if touch else 80, Color(0.97, 0.86, 0.58))
+	t.add_theme_constant_override("outline_size", 14)
+	t.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.6))
+	t.add_theme_constant_override("shadow_offset_y", 6)
 	v.add_child(t)
-	var s := _label("하웰 모험가 길드 · 1장 체험판", 16 if touch else 26, Color(0.85, 0.8, 0.7), false)
+	v.add_child(divider(360.0 if touch else 520.0))
+	var s := _label("하웰 모험가 길드  ·  1장 체험판", 15 if touch else 24, Color(0.88, 0.82, 0.7), false)
 	s.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(s)
-	v.add_child(Control.new())
-	v.add_child(_btn("이야기 시작", func():
+	var gap := Control.new()
+	gap.custom_minimum_size = Vector2(0, 16 if touch else 36)
+	v.add_child(gap)
+	var bw := 300.0 if touch else 440.0
+	var b1 := _btn("이야기 시작", func():
 		Game.reset()
-		_play("opening", func(_s, _k): town.show_town()), true))
-	v.add_child(_btn("전투 시험판", func(): get_tree().change_scene_to_file("res://fk.tscn")))
+		_play("opening", func(_s, _k): town.show_town()), true)
+	b1.custom_minimum_size.x = bw
+	b1.size_flags_horizontal = SIZE_SHRINK_CENTER
+	v.add_child(b1)
+	var b2 := _btn("전투 시험판", func(): get_tree().change_scene_to_file("res://fk.tscn"))
+	b2.custom_minimum_size.x = bw
+	b2.size_flags_horizontal = SIZE_SHRINK_CENTER
+	v.add_child(b2)
+
+
+## 금색 장식 줄
+func divider(w: float) -> TextureRect:
+	var d := TextureRect.new()
+	d.texture = UI.tex("orn_divider")
+	d.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	d.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	d.custom_minimum_size = Vector2(w, w * 24.0 / 360.0)
+	d.size_flags_horizontal = SIZE_SHRINK_CENTER
+	d.mouse_filter = MOUSE_FILTER_IGNORE
+	return d
 
 
 # ── 길드 (허브) ─────────────────────────────────────
