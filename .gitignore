@@ -16,3 +16,6 @@ Thumbs.db
 tools/web/cloudflare/public/
 tools/web/cloudflare/node_modules/
 tools/web/cloudflare/.wrangler/
+
+# Music: original downloads stay local (game uses godot/audio/*.ogg)
+audio/raw/

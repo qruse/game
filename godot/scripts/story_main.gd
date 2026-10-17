@@ -357,6 +357,7 @@ func _play(id: String, then: Callable) -> void:
 
 func _show_title() -> void:
 	_clear()
+	Music.play("res://audio/bgm_title.ogg")
 	bg.texture = Game.tex("backgrounds/scene/bg_guildhall_past.png")
 	bg.modulate = Color(0.72, 0.68, 0.64)
 	Kit.shade(screen, "l", 0.92, 0.62)
@@ -433,6 +434,7 @@ func _peek_save() -> Dictionary:
 
 ## 게임 시작: 자동 저장이 있으면 그 자리로, 없으면 오프닝부터
 func _start_game() -> void:
+	Music.stop()  # 다른 화면 곡이 생기기 전까지는 타이틀에서만 음악
 	if _peek_save().is_empty() or not Game.load_save():
 		Game.clear_save()
 		Game.reset()
