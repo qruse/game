@@ -60,6 +60,8 @@ var events: Array = []
 var result := ""
 var downs := 0
 var round_event := {}
+var potions := 0  # 이야기 모드에서 들고 온 회복약 (Game.items)
+const POTION_HEAL := 10
 var _next_uid := 1
 
 
@@ -99,9 +101,12 @@ func _make_hero(key: String, i: int) -> Unit:
 	u.role = d.role
 	u.art = d.art
 	u.color = d.color
-	u.max_hp = d.hp
-	u.hp = d.hp
-	u.def = d.def
+	# 레벨·장비 (Game.hero_bonus): 체력, 방어, 스킬 위력
+	var bo: Dictionary = Game.hero_bonus(key)
+	u.max_hp = d.hp + bo.hp
+	u.hp = u.max_hp
+	u.def = d.def + bo.def
+	u.power = bo.power
 	u.spd = d.spd
 	u.mods = d.mod
 	u.skills = d.skills
@@ -414,8 +419,11 @@ func actions_for(u: Unit) -> Array:
 		elif u.cd.get(sid, 0) > 0:
 			ready = false
 			note = "대기 %d" % u.cd[sid]
-		out.append({"id": sid, "name": s.name, "kind": "ult" if sid == u.ult else "skill", "slots": s.get("slots", 0), "stat": s.get("stat", ""), "ready": ready and not targets(u, sid).is_empty(), "note": note, "desc": s.desc})
+		var desc: String = s.desc + ("  (레벨·장비 위력 +%d)" % u.power if u.power > 0 and s.has("power") else "")
+		out.append({"id": sid, "name": s.name, "kind": "ult" if sid == u.ult else "skill", "slots": s.get("slots", 0), "stat": s.get("stat", ""), "ready": ready and not targets(u, sid).is_empty(), "note": note, "desc": desc})
 	out.append({"id": "guard", "name": "방어", "kind": "basic", "slots": 0, "stat": "", "ready": true, "note": "", "desc": "다음 턴까지 방어 +3"})
+	if potions > 0:
+		out.append({"id": "potion", "name": "회복약", "kind": "item", "slots": 0, "stat": "", "ready": not targets(u, "potion").is_empty(), "note": "%d개" % potions, "desc": "동료 하나 체력 %d 회복 (판정 없음)" % POTION_HEAL})
 	return out
 
 
@@ -486,6 +494,8 @@ func targets(u: Unit, aid: String) -> Array:
 	var kind := ""
 	if aid == "guard":
 		kind = "self"
+	elif aid == "potion":
+		kind = "ally_hurt"
 	elif aid.begins_with("env:"):
 		var o := obj(int(aid.get_slice(":", 1)))
 		if o.used:
@@ -511,6 +521,10 @@ func targets(u: Unit, aid: String) -> Array:
 		"ally":
 			for a in side_units("ally"):
 				out.append({"k": "u", "uid": a.uid})
+		"ally_hurt":
+			for a in side_units("ally"):
+				if a.hp < a.max_hp:
+					out.append({"k": "u", "uid": a.uid})
 		"ally_any":
 			for a in side_units("ally", true):
 				if a.downed or a.hp < a.max_hp:
@@ -523,7 +537,7 @@ func preview(u: Unit, aid: String, t: Dictionary) -> Dictionary:
 	var rd := _redirect(aid, t)
 	aid = rd[0]
 	t = rd[1]
-	if aid == "guard" or (Defs.SKILLS.has(aid) and not Defs.SKILLS[aid].has("slots")):
+	if aid == "guard" or aid == "potion" or (Defs.SKILLS.has(aid) and not Defs.SKILLS[aid].has("slots")):
 		return {"n": 0, "chance": 1.0, "need": 0, "auto": 0, "stat": ""}
 	var stat := ""
 	var n := 0
@@ -572,6 +586,12 @@ func act(u: Unit, aid: String, t: Dictionary, locks := 0) -> void:
 		u.resolve = mini(100, u.resolve + 10)
 		_log("%s 방어 자세" % u.name)
 		return
+	if aid == "potion":
+		_pose(u, "skill")
+		potions -= 1
+		_log("%s 회복약" % u.name)
+		heal(unit(t.uid), POTION_HEAL)
+		return
 	var pv := preview(u, aid, t)
 	locks = clampi(locks, 0, mini(fate, pv.n - pv.auto))
 	fate -= locks
@@ -579,6 +599,7 @@ func act(u: Unit, aid: String, t: Dictionary, locks := 0) -> void:
 		_env(u, aid, t, locks)
 		return
 	var s: Dictionary = Defs.SKILLS[aid]
+	var pw: int = s.get("power", 0) + (u.power if u.side == "ally" else 0)
 	if s.has("cd"):
 		u.cd[aid] = s.cd
 	if aid == u.ult:
@@ -615,7 +636,7 @@ func act(u: Unit, aid: String, t: Dictionary, locks := 0) -> void:
 					add_st(a, "smoke", 1)
 				_log("  연막: 동료 전원 방어 +3")
 		"heal":
-			heal(tu, scaled(s.power, ok_n, pv.n))
+			heal(tu, scaled(pw, ok_n, pv.n))
 		"bless":
 			add_st(tu, "bless", ok_n)
 			if perfect:
@@ -623,7 +644,7 @@ func act(u: Unit, aid: String, t: Dictionary, locks := 0) -> void:
 		_:
 			if perfect and pv.n > 1:
 				_float(u, "완벽!", GOLD)
-			hurt(tu, scaled(s.power, ok_n, pv.n), "←" + s.name)
+			hurt(tu, scaled(pw, ok_n, pv.n), "←" + s.name)
 			if s.get("fire", false):
 				add_st(tu, "burn", 2)
 			if perfect and s.get("perfect", "") == "stun":
@@ -635,12 +656,12 @@ func _ult(u: Unit, s: Dictionary) -> void:
 	match s.target:
 		"all_enemies":
 			for e in side_units("enemy"):
-				hurt(e, s.power, "←" + s.name)
+				hurt(e, s.power + u.power, "←" + s.name)
 		"all_allies":
 			for a in side_units("ally", true):
 				for k in ["stun", "burn"]:
 					a.st.erase(k)
-				heal(a, s.power)
+				heal(a, s.power + u.power)
 		"self":
 			add_st(u, "oath", 2)
 			_log("  2라운드 동안 동료가 받을 공격을 리나가 대신 받는다")

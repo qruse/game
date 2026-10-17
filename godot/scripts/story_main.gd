@@ -15,9 +15,12 @@ const Desk = preload("res://scripts/guild_desk.gd")
 const G = preload("res://scripts/guild_defs.gd")
 const FDefs = preload("res://scripts/fk_defs.gd")
 const Talk = preload("res://scripts/talk.gd")
+const PDefs = preload("res://scripts/party_defs.gd")
+const Mates = preload("res://scripts/companions.gd")
 
 var touch := false
 var town  # 마을·길드 운영 화면
+var mates  # 동료 화면 (companions.gd)
 var desk  # 길드 하우스 로비
 var bold: Font
 var bg: TextureRect
@@ -47,6 +50,7 @@ func _ready() -> void:
 	Kit.apply_theme(theme)
 	set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 	town = Town.new(self)
+	mates = Mates.new(self)
 	desk = Desk.new(self, town)
 	var black := ColorRect.new()
 	black.color = Color(0.06, 0.05, 0.04)
@@ -145,6 +149,15 @@ func _debug_goto(g: String) -> void:
 			_show_title()
 		"continue":
 			_start_game()
+		"mates":
+			# mates:cecile:bond
+			Game.flags["seen_week%d" % Game.week] = true
+			Game.give_xp("lina", 150)
+			Game.heroes.lina.weapon = [1, 1]
+			Game.items = {"potion": 2, "apple": 1, "tea": 2, "knight_book": 1}
+			Game.bond_seen["lina"] = 1
+			Game.bond["lina"] = 14
+			mates.show(g.get_slice(":", 1) if g.get_slice_count(":") > 1 else "lina", g.get_slice(":", 2) if g.get_slice_count(":") > 2 else "grow")
 		"town":
 			town.show_town()
 		"hub":
@@ -159,6 +172,9 @@ func _debug_goto(g: String) -> void:
 			town.show_scout()
 		"place":
 			Game.bond["martha"] = 30
+			Game.gold = 700
+			Game.mats = {"wood": 4, "iron": 4, "herb": 2}
+			Game.items = {"potion": 1, "meat": 1, "flowers": 1}
 			town.show_place(g.get_slice(":", 1))
 		"roster":
 			for gr in ["S", "A", "B", "C", "D"]:
@@ -182,6 +198,8 @@ func _debug_goto(g: String) -> void:
 			Game.quest_reward("북쪽 마을의 도적", true)
 			town.show_ledger(Game.settle(), _show_news)
 		"board":
+			if g.get_slice(":", 1) == "rec":
+				Game.facilities["records"] = 3
 			Game.picks = ["trapper"]
 			_board_sel = "bandits"
 			_board()
@@ -512,6 +530,7 @@ func _board() -> void:
 	rw.add_child(Kit.icon("res_fame", 18, Color.WHITE))
 	rw.add_child(Kit.num("+%d" % G.QUEST_REWARD.ok.fame, 17))
 	v.add_child(rw)
+	_enemy_preview(v, q)
 	v.add_child(Kit.spacer(0, 4))
 	v.add_child(Kit.hr())
 	v.add_child(Kit.spacer(0, 4))
@@ -545,6 +564,36 @@ func _board() -> void:
 	go.disabled = need > 0
 	go.size_flags_horizontal = SIZE_EXPAND_FILL
 	acts.add_child(go)
+
+
+## 기록실 2레벨: 의뢰의 전투 칸 적 구성, 3레벨: 적 체력과 공격력까지
+func _enemy_preview(v: VBoxContainer, q: Dictionary) -> void:
+	var lv: int = Game.facilities.get("records", 0)
+	var fights: Array = []
+	for nid in q.nodes:
+		var n: Dictionary = q.nodes[nid]
+		if n.t == "battle" and not n.battle in fights:
+			fights.append(n.battle)
+	if fights.is_empty():
+		return
+	if lv < 2:
+		v.add_child(Kit.label("적 구성은 기록실 2레벨부터 보인다.", 12, Kit.DIM))
+		return
+	v.add_child(Kit.cap("기록실 · 예상되는 적"))
+	for bi in fights:
+		var cnt := {}
+		for e in FDefs.BATTLES[bi].enemies:
+			cnt[e] = cnt.get(e, 0) + 1
+		var h := HFlowContainer.new()
+		h.add_theme_constant_override("h_separation", Kit.pxi(6))
+		h.add_theme_constant_override("v_separation", Kit.pxi(4))
+		for e in cnt:
+			var en: Dictionary = FDefs.ENEMIES[e]
+			var t: String = "%s ×%d" % [en.name, cnt[e]] if cnt[e] > 1 else en.name
+			if lv >= 3:
+				t += " (체력 %d · 공격 %d)" % [en.hp, en.power]
+			h.add_child(Kit.chip(t, Color(Kit.BAD, 0.15), Color("ffd2c8"), 12))
+		v.add_child(h)
 
 
 ## 지도 위 의뢰 핀: 봉랍 인장 + 이름표 (고른 의뢰는 파랑, 보고 있는 의뢰는 놋쇠 테)
@@ -599,9 +648,23 @@ func _open_page(qid: String) -> void:
 	# 마르타 3단계(길드의 식탁): 출발 도시락 → 행운 주사위 +1
 	var luck0: int = mini(Game.LUCK_MAX, Game.LUCK_START + (1 if Game.bond_seen.get("martha", 0) >= 3 else 0))
 	Game.page = {"quest": qid, "node": "start", "lines": [], "visited": ["start"], "vars": {}, "luck": luck0, "fail": false, "done": false}
-	_show_page()
 	var q: Dictionary = Defs.QUESTS[qid]
+	var prep: Array = []
+	# 행운 부적: 빈 행운 주사위가 있으면 하나 쓴다
+	if luck0 < Game.LUCK_MAX and Game.use_item("charm"):
+		Game.page.luck += 1
+		prep.append("행운 부적을 하나 챙겼다.")
+	# 주방 2레벨: 식재료 하나로 도시락 → 이번 의뢰 전투에서 동료 체력 +
+	var kl: int = Game.facilities.get("kitchen", 0)
+	if kl >= 2:
+		var food := Game.use_food()
+		if food != "":
+			Game.page.vars["lunch"] = 8 if kl >= 3 else 4
+			prep.append("주방에서 %s(으)로 도시락을 쌌다." % PDefs.ITEMS[food].name)
+	_show_page()
 	_add_line("단장 일행은 '%s' 의뢰를 맡아 길을 나섰다." % q.name)
+	for s in prep:
+		_add_line(s)
 	_enter(q.nodes.start.next)
 
 
@@ -754,11 +817,13 @@ func _choose(ch: Dictionary, who: Dictionary) -> void:
 	if used:
 		p.luck -= 1
 		ok = true
+		Game.add_bond(who.key, G.CB_LUCK)  # 그 동료 판정에 행운 주사위를 써 줌
 	else:
 		roll = randi_range(1, 20)
 		ok = roll == 20 or (roll != 1 and roll + who.mod >= ch.dc)
 		if roll == 20:
 			p.luck = mini(Game.LUCK_MAX, p.luck + 1)
+	Game.add_bond(who.key, G.CB_CHECK_OK if ok else G.CB_CHECK_NG)  # "믿고 맡겨 줬다"
 	_sync_page()
 	_side_clear()
 	side.add_child(Kit.cap("판정 · %s · %s" % [FDefs.STAT[ch.stat], who.name]))
@@ -842,13 +907,14 @@ func _battle_node(n: Dictionary) -> void:
 	side.add_child(_luck_line(p.luck))
 	_side_fill()
 	side.add_child(Kit.btn_main("전투 시작", "파티 %d명" % Game.party.size(), func():
-		Game.battle_req = {"idx": n.battle, "party": Game.party.duplicate(), "luck": p.luck, "ambush": p.vars.get("ambush", false) and n.has("ambush_text")}
+		Game.battle_req = {"idx": n.battle, "party": Game.party.duplicate(), "luck": p.luck, "ambush": p.vars.get("ambush", false) and n.has("ambush_text"), "lunch": p.vars.get("lunch", 0)}
 		get_tree().change_scene_to_file("res://fk.tscn"), 58))
 
 
 func _battle_result(res: Dictionary) -> void:
 	var p: Dictionary = Game.page
 	p.luck = res.get("luck", p.luck)
+	_sync_potions(res)
 	p.vars.erase("ambush")
 	_sync_page()
 	var n: Dictionary = Defs.QUESTS[p.quest].nodes[p.node]
@@ -870,9 +936,14 @@ func _camp(n: Dictionary) -> void:
 	side.add_child(_luck_line(p.luck))
 	# 마르타 1단계(단골): 싸 준 음식으로 야영 칸 행운 주사위 +1 더
 	var gain := 2 if Game.bond_seen.get("martha", 0) >= 1 else 1
+	var kitchen: bool = Game.facilities.get("kitchen", 0) >= 1  # 주방 1레벨: 야영 행운 +1
+	if kitchen:
+		gain += 1
 	_side_text("모닥불 곁에서 쉬면 행운 주사위가 %d개 돌아온다 (최대 %d)." % [gain, Game.LUCK_MAX], Kit.DIM, 14)
-	if gain > 1:
+	if Game.bond_seen.get("martha", 0) >= 1:
 		side.add_child(Kit.chip("마르타가 싸 준 음식 · 행운 +1", Color(Kit.GOOD, 0.2), Kit.GOOD, 13))
+	if kitchen:
+		side.add_child(Kit.chip("길드 주방의 야영 요리 · 행운 +1", Color(Kit.GOOD, 0.2), Kit.GOOD, 13))
 	_side_fill()
 	side.add_child(Kit.btn_main("쉬어 간다", "행운 +%d" % gain, func():
 		p.luck = mini(Game.LUCK_MAX, p.luck + gain)
@@ -890,6 +961,9 @@ func _finish_page() -> void:
 	Game.pages.append({"quest": p.quest, "lines": p.lines.duplicate()})
 	_sync_page()
 	var rew: Dictionary = Game.quest_reward(q.name, ok)
+	for k in Game.party:
+		Game.add_bond(k, G.CB_PAGE)
+	var xp := Game.quest_xp(PDefs.XP_OK if ok else PDefs.XP_NG)
 	_side_head("페이지 완성 · %s" % q.name, "의뢰 성공" if ok else "절반의 성공", Kit.GOOD if ok else Color("ffd28a"))
 	_side_text("연대기에 한 페이지가 더해졌다." if ok else "의뢰는 절반만 이뤘다. 그래도 길은 기록에 남는다.")
 	side.add_child(Kit.spacer(0, 4))
@@ -902,9 +976,35 @@ func _finish_page() -> void:
 	rw.add_child(Kit.icon("res_fame", 24, Color.WHITE))
 	rw.add_child(Kit.num("+%d" % rew.fame, 24))
 	side.add_child(rw)
+	_xp_rows(xp)
 	_side_fill()
 	side.add_child(Kit.btn_main("마무리", "길드로 돌아간다", func():
 		_play(q.outro_ok if ok else q.outro_ng, func(_s, _k): _show_hub()), 58))
+
+
+## 전투에서 쓴 회복약을 가방에 반영
+func _sync_potions(res: Dictionary) -> void:
+	if not res.has("potions"):
+		return
+	var n: int = res.potions
+	if n > 0:
+		Game.items["potion"] = n
+	else:
+		Game.items.erase("potion")
+
+
+## 경험치 줄: 동료 이름 · +경험치 · 레벨 업
+func _xp_rows(xp: Array) -> void:
+	if xp.is_empty():
+		return
+	side.add_child(Kit.cap("경험치"))
+	for r in xp:
+		var h := Kit.hbox(10)
+		h.add_child(Kit.bold(r[0], 15))
+		h.add_child(Kit.num("+%d" % r[1], 15, Kit.DIM))
+		if r[2] > 0:
+			h.add_child(Kit.chip("레벨 업 · Lv %d" % r[3], Color(Kit.BLUE, 0.5), Color.WHITE, 12))
+		side.add_child(h)
 
 
 # ── 주말 소식 → 결전 ───────────────────────────────
@@ -990,6 +1090,18 @@ func _show_news() -> void:
 		l.size_flags_horizontal = SIZE_EXPAND_FILL
 		h.add_child(l)
 		v.add_child(h)
+	var due := Game.debt_due()
+	if due > 0:
+		var dh := Kit.hbox(10)
+		var dl := Kit.label("금저울 상회 빚: 이번 장 몫 %d 금화가 남았다. 결전 전에 못 갚으면 다음 장에 무보수 추심 의뢰가 붙는다." % due, 14, Color("ffd28a"), null, true)
+		dl.size_flags_horizontal = SIZE_EXPAND_FILL
+		dh.add_child(dl)
+		var db := Kit.btn_sub("몫 다 갚기", "res_gold", func():
+			Game.pay_debt(due)
+			_show_news(), 40, 130)
+		db.disabled = Game.gold < due
+		dh.add_child(db)
+		v.add_child(dh)
 	v.add_child(Kit.spacer(0, 8))
 	v.add_child(Kit.btn_main("결전", "붉은 수염의 습격", func():
 		_play("finale_in", func(_s, _k): _go_finale()), 58))
@@ -1020,7 +1132,15 @@ func _go_finale() -> void:
 
 
 func _finale_result(res: Dictionary) -> void:
+	_sync_potions(res)
 	if res.result == "win":
+		# 이번 장 상회 빚 몫을 못 갚았으면 다음 장에 추심 의뢰
+		if Game.debt_due() > 0:
+			Game.flags["collect_ch2"] = true
+		Game.flags["chapter1_done"] = true
+		for k in Game.party:
+			Game.add_bond(k, G.CB_FINALE)
+		Game.quest_xp(PDefs.XP_FINALE)
 		_play("finale_ok", func(_s, _k): _show_end())
 		return
 	_clear()

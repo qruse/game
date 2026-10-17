@@ -628,6 +628,7 @@ func _say(s: Control) -> void:
 		var b := K.btn_sub("이야기 %s" % ROMAN[st - 1], "i_book", _bond_scene.bind("nora", st), 34, 132)
 		who.add_child(b)
 	who.add_child(Talk.button(m, "nora", show, 34, 140))
+	who.add_child(Talk.gift_button(m, "nora", show, 34, 96))
 	v.add_child(who)
 	var box := SayBox.new()
 	for sd in [["left", 20], ["right", 44], ["top", 13], ["bottom", 14]]:
@@ -645,7 +646,7 @@ class SayBox extends MarginContainer:
 
 ## NPC 이야기 장면 → 본 단계 기록 → 로비로
 static func play_bond(main, id: String, st: int, then: Callable) -> void:
-	var b: Dictionary = G.BONDS[id]
+	var b: Dictionary = Game.bond_def(id)
 	main._play(b.scene + str(st), func(_s, _k):
 		Game.bond_seen[id] = st
 		main._show_toast("%s의 이야기 %s · %s" % [b.name, ROMAN[st - 1], b.rewards[st - 1]])
@@ -691,7 +692,9 @@ func _dock(s: Control) -> void:
 	h.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	s.add_child(h)
 	var idle := Game.jobs.filter(func(j): return j.crew.is_empty()).size()
+	var mate_n: int = Game.heroes.keys().filter(func(k): return Game.bond_ready(k) > 0).size()
 	var items := [
+		["i_chat", "동료", mate_n, m.mates.show.bind("", "")],
 		["i_scroll", "위탁 의뢰", idle if not Game.roster.is_empty() else 0, town.show_jobs],
 		["i_scope", "스카우트", Game.applicants.size(), town.show_scout],
 		["i_people", "모험가 명부", 0, town.show_roster],

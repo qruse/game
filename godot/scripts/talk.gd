@@ -27,6 +27,10 @@ static func can_talk(id: String) -> bool:
 
 static func portrait(id: String, expr: String) -> Texture2D:
 	var path: String = SDefs.SPEAKERS[id].path
+	# 동료는 [옷, 표정] 두 칸 (길드에서는 평상복)
+	if path.count("%s") == 2:
+		var t2: Texture2D = Game.tex(path % ["casual", expr])
+		return t2 if t2 != null else Game.tex(path % ["casual", "neutral"])
 	var t: Texture2D = Game.tex(path % expr)
 	return t if t != null else Game.tex(path % "neutral")
 
@@ -44,7 +48,7 @@ static func button(main, id: String, back: Callable, h := 42.0, w := 150.0) -> B
 static func open(main, id: String, back: Callable) -> void:
 	if not can_talk(id):
 		return
-	var b: Dictionary = G.BONDS[id]
+	var b: Dictionary = Game.bond_def(id)
 	var list: Array = T.TALKS[id].bond
 	var idx: int = int(Game.flags.get("talk_idx_" + id, 0)) % list.size()
 	var item: Array = list[idx]
@@ -88,7 +92,7 @@ static func open(main, id: String, back: Callable) -> void:
 	var hh2 := K.hbox(10)
 	hh2.add_child(K.shadowed(K.title(b.name, 30)))
 	var seen: int = Game.bond_seen.get(id, 0)
-	for i in 3:
+	for i in b.need.size():
 		hh2.add_child(K.Diamond.make(K.px(7), K.BRASS_HI, i < seen, i < seen))
 	head.add_child(hh2)
 	# 아래: 이름 + 대사
@@ -158,7 +162,7 @@ static func _answer(main, root: Control, id: String, a: Array, idx: int, pic: Te
 	else:
 		ch.add_child(K.chip("호감도가 다음 이야기 문턱에 닿아 있다", Color(K.BRASS, 0.3), K.BRASS_HI, 14))
 	if Game.bond_ready(id) > 0:
-		ch.add_child(K.shadowed(K.label("%s의 이야기 %s 를 볼 수 있다" % [G.BONDS[id].name, ["I", "II", "III"][Game.bond_ready(id) - 1]], 15, K.BRASS_HI)))
+		ch.add_child(K.shadowed(K.label("%s의 이야기 %s 를 볼 수 있다" % [Game.bond_def(id).name, ["I", "II", "III", "IV", "V"][Game.bond_ready(id) - 1]], 15, K.BRASS_HI)))
 	var done := K.btn_main("마친다", "", func():
 		root.queue_free()
 		back.call(), 52)
@@ -170,3 +174,61 @@ static func _type(l: Label) -> void:
 	l.visible_ratio = 0.0
 	var tw := l.create_tween()
 	tw.tween_property(l, "visible_ratio", 1.0, clampf(l.text.length() / 38.0, 0.2, 1.6))
+
+
+## 선물 버튼 (한 주에 한 번). 누르면 가진 선물 목록 창
+static func gift_button(main, id: String, back: Callable, h := 42.0, w := 130.0) -> Button:
+	var P = load("res://scripts/party_defs.gd")
+	var has := false
+	for k in Game.items:
+		if P.ITEMS[k].kind == "gift":
+			has = true
+	var on := Game.can_gift(id)
+	var b := K.btn_sub("선물" if on else "선물 줬다", "i_star", func(): _gift_box(main, id, back), h, w)
+	b.disabled = not on or not has
+	b.tooltip_text = "잡화점 선물 하나 (한 주에 한 번). 좋아함 +6 · 보통 +3 · 별로 +1" if has else "가진 선물이 없다. 잡화점에서 산다"
+	return b
+
+
+static func _gift_box(main, id: String, back: Callable) -> void:
+	var P = load("res://scripts/party_defs.gd")
+	var root := Control.new()
+	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.mouse_filter = Control.MOUSE_FILTER_STOP
+	main.screen.add_child(root)
+	var dim := ColorRect.new()
+	dim.color = Color(K.SHADE, 0.6)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.add_child(dim)
+	var c := K.card(20, 24)
+	c.anchor_left = 0.5
+	c.anchor_right = 0.5
+	c.anchor_top = 0.5
+	c.anchor_bottom = 0.5
+	c.offset_left = -K.px(260)
+	c.offset_right = K.px(260)
+	c.grow_vertical = Control.GROW_DIRECTION_BOTH
+	root.add_child(c)
+	var v := K.vbox(8)
+	c.add_child(v)
+	v.add_child(K.cap("선물 · 한 주에 한 번"))
+	v.add_child(K.title("%s에게 줄 선물" % Game.bond_def(id).name, 26))
+	for k in P.STORE_ORDER:
+		if P.ITEMS[k].kind != "gift" or Game.items.get(k, 0) <= 0:
+			continue
+		var p := K.pick(func():
+			var r := Game.give_gift(id, k)
+			root.queue_free()
+			if not r.is_empty():
+				var say: Array = P.GIFTS.get(id, {}).get("say", ["고마워.", "고마워.", "고마워."])
+				main._show_toast("%s: %s%s" % [Game.bond_def(id).name, say[r[0]], (" · 호감도 +%d" % r[1]) if r[1] > 0 else ""])
+			back.call(), 10)
+		var hh := K.hbox(8)
+		hh.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var nl := K.bold(P.ITEMS[k].name, 16)
+		nl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		hh.add_child(nl)
+		hh.add_child(K.num("×%d" % Game.items[k], 14, K.DIM))
+		p.add_child(hh)
+		v.add_child(p)
+	v.add_child(K.btn_sub("닫기", "i_close", func(): root.queue_free(), 42, 0))

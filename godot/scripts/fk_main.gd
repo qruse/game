@@ -1,4 +1,4 @@
-﻿extends Control
+extends Control
 ## 포 더 킹식 전투 시험판 화면.
 ## 실행 옵션 (-- 뒤에): --battle=0|1  --party=lina,cecile,adelheid  --demo  --shot=경로.png  --at=초,초,…  --touch
 
@@ -483,7 +483,12 @@ func _flush() -> void:
 ## 연대기에서 넘어온 조건: 들고 온 행운 주사위, 기습(적 첫 차례 기절), 보스 체력 증감
 func _apply_story(b) -> void:
 	b.fate = clampi(int(story.get("luck", b.fate)), 0, Battle.FATE_MAX)
+	b.potions = Game.items.get("potion", 0)
+	var lunch := int(story.get("lunch", 0))
 	for u in b.units:
+		if u.side == "ally" and lunch > 0:
+			u.max_hp += lunch
+			u.hp = u.max_hp
 		if u.side != "enemy":
 			continue
 		if story.get("ambush", false):
@@ -491,12 +496,14 @@ func _apply_story(b) -> void:
 		if u.boss and int(story.get("boss_hp", 0)) != 0:
 			u.max_hp = maxi(10, u.max_hp + int(story.boss_hp))
 			u.hp = u.max_hp
+	if lunch > 0:
+		b.events.append({"t": "log", "text": "주방 도시락: 동료 체력 +%d" % lunch})
 	if story.get("ambush", false):
 		b.events.append({"t": "log", "text": "기습! 적은 첫 차례에 움직이지 못한다"})
 
 
 func _back_to_story() -> void:
-	Game.battle_res = {"result": battle.result if battle != null else "lose", "luck": battle.fate if battle != null else 0}
+	Game.battle_res = {"result": battle.result if battle != null else "lose", "luck": battle.fate if battle != null else 0, "potions": battle.potions if battle != null else Game.items.get("potion", 0)}
 	Game.battle_req = {}
 	get_tree().change_scene_to_file("res://story.tscn")
 

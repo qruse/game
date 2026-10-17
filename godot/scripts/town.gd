@@ -8,12 +8,15 @@ const Desk = preload("res://scripts/guild_desk.gd")
 const Card = preload("res://scripts/adv_card.gd")
 const SDefs = preload("res://scripts/story_defs.gd")
 const Talk = preload("res://scripts/talk.gd")
+const P = preload("res://scripts/party_defs.gd")
+const FDefs = preload("res://scripts/fk_defs.gd")
 
 const ROMAN := ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
 
 var m  # story_main
 var _sel_app := -1  # 스카우트에서 고른 지원자 번호
 var _sel_job := -1  # 위탁 의뢰에서 고른 의뢰 번호
+var _smith_sel := ""  # 대장간에서 고른 동료
 
 
 func _init(main) -> void:
@@ -307,21 +310,20 @@ func show_place(id: String) -> void:
 			v.add_child(_bond_row("martha", back))
 			var acts := K.hbox(8)
 			acts.add_child(Talk.button(m, "martha", back, 46, 170))
+			acts.add_child(Talk.gift_button(m, "martha", back, 46, 110))
 			var fed: bool = Game.flags.get("food_%d" % Game.week, false)
 			var fb := K.btn_sub("이번 주 납품 끝" if fed else "식재료 납품", "res_herb", _deliver_food, 46, 170)
-			fb.disabled = fed or Game.mats.get("herb", 0) < 1
-			fb.tooltip_text = "약초 1 → 마르타 호감도 +%d (한 주에 한 번)" % FOOD_BOND
+			fb.disabled = fed or (Game.food_count() < 1 and Game.mats.get("herb", 0) < 1)
+			fb.tooltip_text = "잡화점 식재료 1개 (없으면 약초 1) → 마르타 호감도 +%d (한 주에 한 번)" % FOOD_BOND
 			acts.add_child(fb)
 			v.add_child(acts)
-			v.add_child(_note("마르타를 누르면 말을 건다. 식재료 납품은 약초 1개, 한 주에 한 번. 의뢰를 성공해도 호감도가 조금 오른다."))
+			v.add_child(_note("마르타를 누르면 말을 건다. 식재료 납품은 잡화점 식재료나 약초 1개, 한 주에 한 번. 의뢰를 성공해도 호감도가 조금 오른다."))
 			if pic_ref != null:
 				_talk_on_click(pic_ref, "martha")
 		"smithy":
-			v.add_child(_quote("어서 와, 단장! 장비 사고팔기랑 강화는 곧 시작할 거야. 무기고를 지어 두면 더 세게 두드려 줄게."))
-			v.add_child(_note("장비 사기·강화는 다음 작업에서 연다. 강화 상한은 길드 무기고 레벨을 따른다."))
+			_smithy(v)
 		"store":
-			v.add_child(_quote("회복약, 선물, 식재료! 뭐든 있습니다. 흥정은 환영이고요, 헤헤."))
-			v.add_child(_note("소모품·선물 판매는 다음 작업에서 연다."))
+			_store(v)
 		"chief":
 			_chief(v)
 		"square":
@@ -363,9 +365,12 @@ func news_row(it, size := 16.0) -> Control:
 const FOOD_BOND := 6  # 식재료 납품 한 번
 
 
-## 마르타에게 식재료(약초 1) 납품: 한 주에 한 번, 호감도
+## 마르타에게 식재료 납품 (잡화점 식재료, 없으면 약초 1): 한 주에 한 번, 호감도
 func _deliver_food() -> void:
-	if not Game.pay({"herb": 1}, "마르타에게 식재료 납품"):
+	if Game.food_count() > 0:
+		var f := Game.use_food()
+		Game.week_log.append("납품 · 마르타에게 %s" % P.ITEMS[f].name)
+	elif not Game.pay({"herb": 1}, "마르타에게 식재료 납품"):
 		return
 	Game.flags["food_%d" % Game.week] = true
 	var before: int = Game.bond.get("martha", 0)
@@ -398,7 +403,7 @@ func _talk_on_click(pic: TextureRect, id: String) -> void:
 
 ## NPC 호감도 줄: 이름 + 마름모 3개 + 막대 (+ 이야기 버튼)
 func _bond_row(id: String, back: Callable) -> Control:
-	var b: Dictionary = G.BONDS[id]
+	var b: Dictionary = Game.bond_def(id)
 	var v := K.vbox(6)
 	var h := K.hbox(8)
 	h.add_child(K.label(b.meter, 13, K.DIM))
@@ -896,8 +901,36 @@ func show_ledger(e: Dictionary, then: Callable) -> void:
 		fc.add_child(K.chip("부관 노라", Color(K.BLUE, 0.35), Color.WHITE, 12))
 		fc.add_child(K.label("다음 주 예상 수입 약 %d 금화 (최근 장부 평균)" % _forecast(), 14, K.DIM))
 		v.add_child(fc)
+	_debt_row(v, e, then)
 	v.add_child(K.spacer(0, 6))
 	v.add_child(K.btn_main("소식 보기", "제%d주 마무리" % e.week, then))
+
+
+## 금저울 상회 빚: 남은 빚, 이번 장까지 갚을 몫, 갚기 버튼 (docs/04-game-flow.md 3.8 ⑥)
+func _debt_row(v: VBoxContainer, e: Dictionary, then: Callable) -> void:
+	if Game.debt <= 0:
+		return
+	v.add_child(_hr())
+	var h := K.hbox(10)
+	var tv := K.vbox(2)
+	tv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var due := Game.debt_due()
+	tv.add_child(K.bold("금저울 상회 빚 · 남은 %d 금화" % Game.debt, 16, Color("ffd28a")))
+	tv.add_child(K.label(("이번 장이 끝나기 전에 %d 금화를 더 갚아야 한다. 못 갚으면 다음 장에 무보수 추심 의뢰가 붙는다." % due) if due > 0 else "이번 장 몫은 다 갚았다.", 13, K.DIM, null, true))
+	h.add_child(tv)
+	for n in [100, due]:
+		if n <= 0 or (n == due and due == 100):
+			continue
+		var amt: int = mini(n, Game.debt)
+		var b := K.btn_sub("%d 갚기" % amt if n == 100 else "몫 다 갚기", "res_gold", func():
+			var before := Game.gold
+			if Game.pay_debt(amt):
+				e.lines.append("지출 · 금저울 상회 빚 갚기 (금화 %d)" % (before - Game.gold))
+				e.spend += before - Game.gold
+			show_ledger(e, then), 40, 130)
+		b.disabled = Game.gold < amt
+		h.add_child(b)
+	v.add_child(h)
 
 
 ## 최근 장부 3주 수입 평균
@@ -941,3 +974,117 @@ func _total(key: String, val: String, col: Color) -> Control:
 	n.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	v.add_child(n)
 	return v
+
+
+# ── 대장간: 동료 장비 바꾸기 · 강화 (강화 상한은 무기고) ──
+
+func _smithy(v: VBoxContainer) -> void:
+	v.add_child(_quote("단장, 오늘은 뭘 두드려 줄까? 쓰던 건 값 쳐서 받아 줄게."))
+	if _smith_sel == "" or not Game.heroes.has(_smith_sel):
+		_smith_sel = Game.party[0]
+	var hs := K.hbox(6)
+	for k in Game.heroes:
+		var b := K.btn_sub(FDefs.HEROES[k].name, "", func():
+			_smith_sel = k
+			show_place("smithy"), 36, 0)
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		if k == _smith_sel:
+			b.add_theme_stylebox_override("normal", K.sb_flat(Color(K.BLUE, 0.45), K.BLUE_HI, 1))
+		hs.add_child(b)
+	v.add_child(hs)
+	var cap: int = Game.plus_cap()
+	v.add_child(K.label("강화 상한 +%d (무기고 %d레벨)" % [cap, Game.facilities.get("armory", 0)], 13, K.DIM))
+	for kind in ["weapon", "armor"]:
+		v.add_child(_hr())
+		var g: Array = Game.heroes[_smith_sel][kind]
+		var row := K.hbox(8)
+		row.add_child(K.chip(P.GEAR_KIND[kind], Color(1, 1, 1, 0.08), K.DIM, 12))
+		var nl := K.bold(P.gear_name(_smith_sel, kind, g[0], g[1]), 17)
+		nl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(nl)
+		row.add_child(K.label(_gear_fx(kind, g[0], g[1]), 13, K.DIM))
+		v.add_child(row)
+		# 강화
+		var ph := K.hbox(10)
+		if g[1] < cap:
+			var c := P.plus_cost(g[0], g[1])
+			ph.add_child(_cost(c, 14))
+			ph.add_child(K.spacer(0, 0, true))
+			var pb := K.btn_sub("강화 +%d" % (g[1] + 1), "i_hammer", func():
+				if Game.plus_gear(_smith_sel, kind):
+					m._show_toast("그레타: 좋아, 단단해졌어!")
+				show_place("smithy"), 38, 150)
+			pb.disabled = not Game.can_pay(c)
+			ph.add_child(pb)
+		else:
+			ph.add_child(K.label("강화 상한에 닿았다. 무기고를 올리면 더 할 수 있다." if Game.facilities.get("armory", 0) < 3 else "더 강화할 수 없다.", 13, K.DIM, null, true))
+		v.add_child(ph)
+		# 다음 단계 장비
+		var nt: int = g[0] + 1
+		if nt < P.TIERS.size():
+			var th := K.hbox(10)
+			var tv := K.vbox(2)
+			tv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			tv.add_child(K.label("새 장비 · %s (%s)" % [P.gear_name(_smith_sel, kind, nt, 0), _gear_fx(kind, nt, 0)], 14, Color("e3e6ec"), null, true))
+			var c2 := Game.gear_buy_cost(_smith_sel, kind, nt)
+			var ch := K.hbox(8)
+			ch.add_child(_cost(c2, 13))
+			var sell := Game.gear_sell_value(_smith_sel, kind)
+			if sell > 0:
+				ch.add_child(K.label("쓰던 것 판값 +%d" % sell, 12, K.GOOD))
+			tv.add_child(ch)
+			th.add_child(tv)
+			var locked: bool = Game.build < P.TIERS[nt].build
+			var bb := K.btn_sub("공사 %d단계 뒤" % P.TIERS[nt].build if locked else "사기", "i_anvil", func():
+				if Game.buy_gear(_smith_sel, kind, nt):
+					m._show_toast("그레타: 새 장비야. 아껴 써!")
+				show_place("smithy"), 38, 150)
+			bb.disabled = locked or not Game.can_pay(c2)
+			th.add_child(bb)
+			v.add_child(th)
+	v.add_child(_note("무기는 스킬 위력, 방어구는 방어와 체력을 올린다. 새 장비를 사면 쓰던 장비는 30% 값에 판다."))
+
+
+func _gear_fx(kind: String, tier: int, plus: int) -> String:
+	if kind == "weapon":
+		return "위력 +%d" % (tier + plus)
+	return "방어 +%d · 체력 +%d" % [tier, plus * 2]
+
+
+# ── 잡화점: 소모품 · 선물 · 식재료 ──
+
+const STORE_KIND := [["use", "소모품"], ["gift", "선물 · 동료와 노라, 마르타에게"], ["food", "식재료 · 마르타 납품, 주방 도시락"]]
+
+
+func _store(v: VBoxContainer) -> void:
+	v.add_child(_quote("회복약, 선물, 식재료! 뭐든 있습니다. 흥정은 환영이고요, 헤헤."))
+	for kd in STORE_KIND:
+		v.add_child(K.cap(kd[1]))
+		var gr := GridContainer.new()
+		gr.columns = 2
+		gr.add_theme_constant_override("h_separation", K.pxi(8))
+		gr.add_theme_constant_override("v_separation", K.pxi(6))
+		for id in P.STORE_ORDER:
+			var it: Dictionary = P.ITEMS[id]
+			if it.kind != kd[0]:
+				continue
+			var p := K.pick(func():
+				if Game.buy_item(id):
+					m._show_toast("핍: %s, 여기 있습니다! 헤헤." % it.name)
+				show_place("store"), 8)
+			p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			p.disabled = Game.gold < it.gold
+			p.tooltip_text = it.desc
+			var h := K.hbox(6)
+			h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			var nl := K.bold(it.name, 14, Color.WHITE if not p.disabled else K.DIM)
+			nl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			h.add_child(nl)
+			if Game.items.get(id, 0) > 0:
+				h.add_child(K.num("×%d" % Game.items[id], 12, K.DIM))
+			h.add_child(K.icon("res_gold", 16, Color.WHITE))
+			h.add_child(K.num(str(it.gold), 14, Color.WHITE if not p.disabled else K.BAD))
+			p.add_child(h)
+			gr.add_child(p)
+		v.add_child(gr)
+	v.add_child(_note("누르면 하나 산다. 회복약은 전투에서, 행운 부적은 의뢰를 떠날 때 저절로 쓴다. 선물은 길드의 동료 화면에서 준다."))

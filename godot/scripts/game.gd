@@ -36,12 +36,18 @@ var news: Array = []  # 지난 주말 소식 (마을 광장)
 var bond := {}  # NPC 호감도 {nora, martha} (G.BONDS)
 var bond_seen := {}  # NPC 이야기를 본 단계 수
 var _uid := 0
+# ── 동료 · 물건 · 빚 (docs/04-game-flow.md 5, 6절) ──
+const P = preload("res://scripts/party_defs.gd")
+var heroes := {}  # 합류한 동료 {lv, xp, weapon: [단계, 강화], armor: [단계, 강화]}
+var items := {}  # 잡화점 물건 id -> 개수
+var debt := 0  # 상회에 남은 빚
 
 # ── 자동 저장 (화면이 바뀔 때마다. 저장·불러오기 메뉴는 없다) ──
 var save_path := "user://autosave.dat"  # 확인용 실행(--goto, --story-shot)은 autosave_test.dat
 const SAVE_KEYS := ["week", "party", "picks", "results", "flags", "pages", "stage", "page",
 	"gold", "mats", "fame", "rank", "build", "facilities", "roster", "applicants", "jobs",
-	"ledger", "week_log", "week_in", "week_out", "news", "bond", "bond_seen", "_uid"]
+	"ledger", "week_log", "week_in", "week_out", "news", "bond", "bond_seen", "_uid",
+	"heroes", "items", "debt"]
 
 
 func save() -> void:
@@ -108,6 +114,11 @@ func reset() -> void:
 	bond = {"nora": 0, "martha": 0}
 	bond_seen = {"nora": 0, "martha": 0}
 	_uid = 0
+	heroes = {}
+	for k in ["lina", "cecile", "adelheid"]:
+		join(k)
+	items = {"potion": 2}
+	debt = G.DEBT
 	# 처음엔 촌장이 소개해 준 견습 둘이 명부에 있다
 	for g in ["F", "F"]:
 		roster.append(make_adventurer(g))
@@ -185,7 +196,7 @@ func do_build() -> bool:
 
 ## 다음 단계를 보기 전까지는 그 문턱에서 멈춘다
 func add_bond(id: String, n: int) -> void:
-	var b: Dictionary = G.BONDS[id]
+	var b: Dictionary = Game.bond_def(id)
 	var seen: int = bond_seen.get(id, 0)
 	var cap: int = b.need[seen] if seen < b.need.size() else b.need[-1]
 	bond[id] = mini(bond.get(id, 0) + n, cap)
@@ -193,7 +204,7 @@ func add_bond(id: String, n: int) -> void:
 
 ## 볼 수 있는 다음 단계 (1~3), 없으면 0
 func bond_ready(id: String) -> int:
-	var b: Dictionary = G.BONDS[id]
+	var b: Dictionary = Game.bond_def(id)
 	var seen: int = bond_seen.get(id, 0)
 	if seen >= b.need.size():
 		return 0
@@ -202,17 +213,192 @@ func bond_ready(id: String) -> int:
 	var ch: int = b.chapter[seen]
 	if ch > 0 and not flags.get("chapter%d_done" % ch, false):
 		return 0
+	# 장면이 아직 없는 단계는 열지 않는다 (체험판 범위)
+	if not load("res://scripts/story_defs.gd").SCENES.has(b.scene + str(seen + 1)):
+		return 0
 	return seen + 1
 
 
 ## 다음 단계 문턱까지 (0~1)
 func bond_ratio(id: String) -> float:
-	var b: Dictionary = G.BONDS[id]
+	var b: Dictionary = Game.bond_def(id)
 	var seen: int = bond_seen.get(id, 0)
 	if seen >= b.need.size():
 		return 1.0
 	var lo: int = 0 if seen == 0 else b.need[seen - 1]
 	return clampf(float(bond.get(id, 0) - lo) / float(b.need[seen] - lo), 0.0, 1.0)
+
+
+## 호감도 정의: NPC 는 G.BONDS, 동료는 5단계 (G.companion_bond)
+func bond_def(id: String) -> Dictionary:
+	if G.BONDS.has(id):
+		return G.BONDS[id]
+	return G.companion_bond(id, P_HEROES()[id].name)
+
+
+func P_HEROES() -> Dictionary:
+	return load("res://scripts/fk_defs.gd").HEROES
+
+
+# ── 동료: 합류 · 레벨 · 장비 ──
+
+func join(k: String) -> void:
+	if heroes.has(k):
+		return
+	heroes[k] = {"lv": 1, "xp": 0, "weapon": [0, 0], "armor": [0, 0]}
+	bond[k] = 0
+	bond_seen[k] = 0
+
+
+## 경험치를 주고, 오른 레벨 수를 돌려준다
+func give_xp(k: String, n: int) -> int:
+	var h: Dictionary = heroes[k]
+	var ups := 0
+	h.xp += n
+	while h.lv < P.LV_MAX and h.xp >= P.xp_need(h.lv):
+		h.xp -= P.xp_need(h.lv)
+		h.lv += 1
+		ups += 1
+		add_bond(k, G.CB_LEVEL)
+	if h.lv >= P.LV_MAX:
+		h.xp = 0
+	return ups
+
+
+## 의뢰를 마친 뒤 경험치: 파티는 전부, 남은 동료는 훈련장 비율만큼. [[이름, 얻은 경험치, 오른 레벨], ...]
+func quest_xp(base: int) -> Array:
+	var out: Array = []
+	var share: float = [0.0, 0.3, 0.5, 0.7][facilities.get("training", 0)]
+	for k in heroes:
+		var n: int = base if k in party else int(base * share)
+		if n <= 0:
+			continue
+		var ups := give_xp(k, n)
+		out.append([P_HEROES()[k].name, n, ups, heroes[k].lv])
+	return out
+
+
+## 레벨·장비로 붙는 전투 수치 {hp, def, power}
+func hero_bonus(k: String) -> Dictionary:
+	var h: Dictionary = heroes.get(k, {"lv": 1, "weapon": [0, 0], "armor": [0, 0]})
+	return {"hp": (h.lv - 1) * P.LV_HP + h.armor[1] * 2,
+		"def": h.armor[0],
+		"power": P.lv_power(h.lv) + h.weapon[0] + h.weapon[1]}
+
+
+func plus_cap() -> int:
+	return P.PLUS_BASE + facilities.get("armory", 0)
+
+
+## 대장간: 새 단계 장비 사기 (쓰던 것은 판다)
+func gear_buy_cost(k: String, kind: String, tier: int) -> Dictionary:
+	var t: Dictionary = P.TIERS[tier]
+	return {"gold": t.gold, "iron": t.iron}
+
+
+func gear_sell_value(k: String, kind: String) -> int:
+	var g: Array = heroes[k][kind]
+	var v: int = P.TIERS[g[0]].gold
+	for i in g[1]:
+		v += P.plus_cost(g[0], i).gold
+	return int(v * P.SELL_RATE)
+
+
+func buy_gear(k: String, kind: String, tier: int) -> bool:
+	var g: Array = heroes[k][kind]
+	if tier <= g[0] or build < P.TIERS[tier].build:
+		return false
+	var sell := gear_sell_value(k, kind)
+	var gname := P.gear_name(k, kind, tier, 0)
+	if not pay(gear_buy_cost(k, kind, tier), "%s %s" % [P_HEROES()[k].name, gname]):
+		return false
+	if sell > 0:
+		earn(sell, {}, 0, "쓰던 %s 판값" % P.gear_name(k, kind, g[0], g[1]))
+	heroes[k][kind] = [tier, 0]
+	return true
+
+
+func plus_gear(k: String, kind: String) -> bool:
+	var g: Array = heroes[k][kind]
+	if g[1] >= plus_cap():
+		return false
+	if not pay(P.plus_cost(g[0], g[1]), "%s 강화 +%d" % [P.gear_name(k, kind, g[0], 0), g[1] + 1]):
+		return false
+	g[1] += 1
+	return true
+
+
+# ── 잡화점 물건 · 선물 ──
+
+func buy_item(id: String) -> bool:
+	if not pay({"gold": P.ITEMS[id].gold}, P.ITEMS[id].name):
+		return false
+	items[id] = items.get(id, 0) + 1
+	return true
+
+
+func use_item(id: String) -> bool:
+	if items.get(id, 0) <= 0:
+		return false
+	items[id] -= 1
+	if items[id] <= 0:
+		items.erase(id)
+	return true
+
+
+func food_count() -> int:
+	var n := 0
+	for id in items:
+		if P.ITEMS[id].kind == "food":
+			n += items[id]
+	return n
+
+
+## 식재료 하나 쓰기 (가장 많은 것부터)
+func use_food() -> String:
+	var best_id := ""
+	for id in items:
+		if P.ITEMS[id].kind == "food" and (best_id == "" or items[id] > items[best_id]):
+			best_id = id
+	if best_id != "":
+		use_item(best_id)
+	return best_id
+
+
+func can_gift(who: String) -> bool:
+	return not flags.get("gift_%s_%d" % [who, week], false)
+
+
+## 선물: 한 사람에게 한 주에 한 번. 돌려주는 값 [등급(0 좋아함 1 보통 2 별로), 오른 호감도]
+func give_gift(who: String, id: String) -> Array:
+	if not can_gift(who) or not use_item(id):
+		return []
+	flags["gift_%s_%d" % [who, week]] = true
+	var gr := P.gift_grade(who, id)
+	var before: int = bond.get(who, 0)
+	add_bond(who, [P.GIFT_LIKE, P.GIFT_OK, P.GIFT_MEH][gr])
+	return [gr, bond.get(who, 0) - before]
+
+
+# ── 상회 빚 ──
+
+## 이번 장이 끝날 때까지 갚아야 할 누계
+func debt_due() -> int:
+	var ch := 1
+	while flags.get("chapter%d_done" % ch, false) and ch < G.DEBT_DUE.size():
+		ch += 1
+	var due := 0
+	for i in ch:
+		due += G.DEBT_DUE[i]
+	return maxi(0, due - (G.DEBT - debt))
+
+
+func pay_debt(n: int) -> bool:
+	n = mini(n, debt)
+	if n <= 0 or not pay({"gold": n}, "금저울 상회 빚 갚기"):
+		return false
+	debt -= n
+	return true
 
 
 func fac_max(id: String) -> int:
@@ -441,7 +627,7 @@ func best(stat: String, who := "") -> Dictionary:
 	for k in party:
 		if who != "" and k != who:
 			continue
-		var m: int = Defs.HEROES[k].mod.get(stat, 0)
+		var m: int = Defs.HEROES[k].mod.get(stat, 0) + (1 if bond_seen.get(k, 0) >= 2 else 0)  # 동료 2단계: 판정 +1
 		if m > mod:
 			mod = m
 			pick = k
