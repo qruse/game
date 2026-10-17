@@ -202,10 +202,10 @@ S09 일상복 시트에 설정에 없는 지팡이가 들어가고(Codex가 "정
 > 공통 의상 요소: **파란 서코트/망토에 은빛 등불 문장.** 현재 길드 재건 후 쓰일 문장과 같다.
 
 ### P01 에드릭 (Edric / エドリック) · 40대 · 전 길드장 · 지휘관
-- 이야기: 30년 전 재앙을 쓰러뜨린 **용사**. 몰락 사건의 중심이고 현재는 행방불명. 사실은 일행 중 가장 약했고, 사람을 믿고 맞는 자리에 세우는 힘으로 이겼다 (docs/02 8.0절)
-- MUST KEEP: 짧게 다듬은 흑갈색 머리와 수염, 회색 눈, 손등의 흉터, 파란 서코트의 은빛 등불 문장, 장검과 길드장의 등불 모양 펜던트, **개성: 잘생긴 영웅상이 아니라 친근하고 평범한 얼굴, 웃으면 눈가에 깊게 접히는 주름, 살짝 휜 코, 보통 체격(알도보다 작고 가늘다)**
+- 이야기: 30년 전 재앙을 쓰러뜨린 **용사**. 몰락 사건의 중심이고 현재는 행방불명. **누구보다 강한 검사이자 지휘관**이다 (2026-10-17 사용자 확정: 강한 건 에드릭, 약한 건 단장). docs/02 8.0절
+- MUST KEEP: 짧게 다듬은 흑갈색 머리와 수염, 회색 눈, 손등의 흉터, 파란 서코트의 은빛 등불 문장, 장검과 길드장의 등불 모양 펜던트, **개성: 위압적인 영웅상이 아니라 친근하고 소탈한 얼굴인데 은근히 잘생겼다(미형), 웃으면 눈가에 접히는 주름, 살짝 휜 코, 단련된 탄탄한 체격(알도보다 키는 작다)**
 - 말버릇: "등불은 싸우지 않는다. 길을 비출 뿐이다."
-- PROMPT: `Edric, a guildmaster in his early 40s with a friendly ordinary face rather than a handsome hero face, neatly trimmed dark brown hair and short beard, kind grey eyes with deep laugh lines, a slightly crooked nose, scarred hands, average build smaller than a knight, wearing a blue surcoat with a silver lantern emblem over a mail shirt, a lantern-shaped silver pendant, a longsword, warm trusting smile`
+- PROMPT: `Edric, a legendary hero and guildmaster in his early 40s, a friendly approachable everyman face that is still quietly handsome, neatly trimmed dark brown hair and short beard, kind grey eyes with laugh lines, a slightly crooked nose, scarred hands, a lean battle-hardened athletic build a little shorter than Aldo, wearing a blue surcoat with a silver lantern emblem over a mail shirt, a lantern-shaped silver pendant, a longsword, warm trusting smile`
 
 ### P02 기사 알도 (Sir Aldo / アルド) · 40대 · 탱커 · 리나의 아버지
 - 이야기: 몰락 때 죽었다고 알려져 있다. 리나와 닮은 얼굴
