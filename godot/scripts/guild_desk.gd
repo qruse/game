@@ -71,10 +71,12 @@ static func shade(s: Control) -> void:
 	s.add_child(v)
 
 
+## 로비 왼쪽: 부관 노라 (동료가 로비를 차지하지 않게. docs/04-game-flow.md 3.1)
 func _hero(s: Control) -> void:
-	var tex: Texture2D = Game.tex("characters/C01_lina/C01_portrait_casual_smile.png")
+	var expr := "positive" if _week_done() else "neutral"
+	var tex: Texture2D = Game.tex("npcs/N14_nora/N14_portrait_%s.png" % expr)
 	if tex == null:
-		tex = Game.tex("characters/C01_lina/C01_portrait_combat_smile.png")
+		tex = Game.tex("npcs/N14_nora/N14_portrait_neutral.png")
 	if tex == null:
 		return
 	var h := TextureRect.new()
@@ -580,10 +582,10 @@ class StageTrack extends Control:
 				draw_polyline(pts, K.BRASS_HI if i == cur + 1 else Color(K.BRASS, 0.5), maxf(1.0, K.px(2 if i == cur + 1 else 1.5)), true)
 
 
-# ── 리나 한마디 ──
+# ── 부관 노라 한마디 ──
 
 func _say(s: Control) -> void:
-	var line := _lina_line()
+	var line := _nora_line()
 	var v := K.vbox(5)
 	v.anchor_top = 1.0
 	v.anchor_bottom = 1.0
@@ -593,13 +595,30 @@ func _say(s: Control) -> void:
 	v.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	s.add_child(v)
 	var who := K.hbox(10)
-	who.add_child(K.shadowed(K.title("리나", 22, K.BRASS_HI)))
+	who.add_child(K.shadowed(K.cap("부관")))
+	who.add_child(K.shadowed(K.title("노라", 22, K.BRASS_HI)))
 	var ln := Bar.new()
 	ln.ratio = 1.0
 	ln.col = Color(K.BRASS, 0.7)
 	ln.custom_minimum_size = Vector2(K.px(120), 1)
 	ln.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	who.add_child(ln)
+	# 신임: 작은 마름모 3개 (본 단계) + 다음 단계 막대
+	var seen: int = Game.bond_seen.get("nora", 0)
+	for i in 3:
+		who.add_child(K.Diamond.make(K.px(6), K.BRASS_HI, i < seen))
+	var tb := Bar.new()
+	tb.ratio = Game.bond_ratio("nora")
+	tb.col = K.BLUE_HI
+	tb.custom_minimum_size = Vector2(K.px(60), K.px(3))
+	tb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	tb.tooltip_text = "신임 %d" % Game.bond.get("nora", 0)
+	tb.mouse_filter = Control.MOUSE_FILTER_PASS
+	who.add_child(tb)
+	var st := Game.bond_ready("nora")
+	if st > 0:
+		var b := K.btn_sub("이야기 %s" % ROMAN[st - 1], "i_chat", _bond_scene.bind("nora", st), 34, 132)
+		who.add_child(b)
 	v.add_child(who)
 	var box := SayBox.new()
 	for sd in [["left", 20], ["right", 44], ["top", 13], ["bottom", 14]]:
@@ -614,21 +633,41 @@ class SayBox extends MarginContainer:
 		draw_rect(Rect2(0, 0, maxf(2.0, K.px(2)), size.y), K.BRASS)
 
 
-func _lina_line() -> String:
+## NPC 이야기 장면 → 본 단계 기록 → 로비로
+static func play_bond(main, id: String, st: int, then: Callable) -> void:
+	var b: Dictionary = G.BONDS[id]
+	main._play(b.scene + str(st), func(_s, _k):
+		Game.bond_seen[id] = st
+		main._show_toast("%s의 이야기 %s · %s" % [b.name, ROMAN[st - 1], b.rewards[st - 1]])
+		then.call())
+
+
+func _bond_scene(id: String, st: int) -> void:
+	play_bond(m, id, st, show)
+
+
+func _week_done() -> bool:
+	var confirmed: bool = Game.flags.get("picked_%d" % Game.week, false)
+	return _week_quests().is_empty() or (confirmed and m._left_quests().is_empty())
+
+
+## 노라 말투: 깍듯한 존댓말, 문장마다 숫자
+func _nora_line() -> String:
 	var quests := _week_quests()
 	var confirmed: bool = Game.flags.get("picked_%d" % Game.week, false)
+	if Game.bond_ready("nora") > 0:
+		return "단장님, 5분만 시간 내 주시겠어요? 드릴 말씀이 하나 있습니다."
 	if quests.is_empty():
-		return "이번 주는 큰 의뢰가 없네요. 위탁 의뢰를 돌려 볼까요?"
+		return "이번 주 큰 의뢰는 0건입니다. 위탁 의뢰를 돌려 금화를 모아 두시죠."
 	if not confirmed:
-		match Game.picks.size():
-			0:
-				return "단장님! 게시판에 이번 주 의뢰가 붙었어요. %s만 고를 수 있대요." % ["하나", "둘", "셋"][SDefs.WEEK_PICKS - 1]
-			_:
-				return "하나 더 골라 주세요. 어떤 일이든 따라갈게요!"
+		var need: int = SDefs.WEEK_PICKS - Game.picks.size()
+		if Game.picks.is_empty():
+			return "게시판에 의뢰가 %d건 붙었습니다. 이번 주엔 %d건만 고르실 수 있어요." % [quests.size(), SDefs.WEEK_PICKS]
+		return "%d건 더 고르시면 됩니다. 마감은 웃는 얼굴로 기다릴게요." % need
 	var left: Array = m._left_quests()
 	if left.is_empty():
-		return "이번 주도 수고하셨어요. 장부 정리하고 좀 쉬어요."
-	return "준비됐어요. '%s'부터 가 볼까요?" % SDefs.QUESTS[left[0]].name
+		return "이번 주 일정 끝났습니다. 장부 정리하고 주말을 맞으시죠."
+	return "준비 끝났습니다. '%s'부터 출발하시죠. 남은 의뢰 %d건입니다." % [SDefs.QUESTS[left[0]].name, left.size()]
 
 
 # ── 아래 메뉴 ──

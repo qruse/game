@@ -146,10 +146,14 @@ func _debug_goto(g: String) -> void:
 			Game.flags["seen_week%d" % Game.week] = true
 			if g.get_slice(":", 1) == "pick":
 				Game.picks = ["bandits"]
+			if g.get_slice(":", 1) == "bond":
+				Game.bond["nora"] = 30
+				Game.bond_seen["nora"] = 0
 			_show_hub()
 		"scout":
 			town.show_scout()
 		"place":
+			Game.bond["martha"] = 30
 			town.show_place(g.get_slice(":", 1))
 		"roster":
 			for gr in ["S", "A", "B", "C", "D"]:

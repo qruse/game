@@ -125,7 +125,10 @@ func play(id: String) -> void:
 	_last = ""
 	_auto = false
 	_set_auto_look()
-	_bg.texture = Game.tex(_scene.get("bg", ""))
+	var bgp: String = _scene.get("bg", "")
+	if bgp == "@guild":  # 지금 공사 단계의 길드 하우스
+		bgp = load("res://scripts/guild_defs.gd").STAGES[Game.build].bg
+	_bg.texture = Game.tex(bgp)
 	_cg.texture = Game.tex(_scene.get("cg", ""))
 	visible = true
 	_show_line()

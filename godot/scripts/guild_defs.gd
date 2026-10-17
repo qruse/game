@@ -134,6 +134,21 @@ const PLACES := {
 }
 
 ## 선술집 소문 (주마다)
+## NPC 호감도 3단계 (docs/04-game-flow.md 6.4절). 기믹 없음, 장면 + 작은 보상
+## need: 단계별 문턱, chapter: 단계별로 마쳐야 하는 장 (flags "chapter%d_done"), scene: story_defs 장면 id 앞부분
+const BONDS := {
+	"nora": {"name": "노라", "meter": "신임", "need": [30, 60, 100], "chapter": [0, 1, 2], "scene": "nora_",
+		"stage_names": ["부관의 스크랩북", "수도에서 온 편지", "하웰의 부관"],
+		"rewards": ["장부에 다음 주 예상 수입이 보인다", "재건 공사 금화 비용 −5%", "위탁 의뢰 보수 +10%"]},
+	"martha": {"name": "마르타", "meter": "단골도", "need": [30, 60, 100], "chapter": [0, 1, 2], "scene": "martha_",
+		"stage_names": ["단골", "그때 그 국자", "길드의 식탁"],
+		"rewards": ["야영 칸 회복량 +1", "주말 소식에 선술집 소문 한 줄", "주방 시설의 출발 버프 +1단계"]},
+}
+## 신임이 오르는 일
+const NORA_WEEK := 6  # 주말 장부를 마칠 때마다
+const NORA_WEEK_FULL := 4  # 위탁 의뢰를 하나도 놀리지 않았으면 더
+const NORA_BUILD := 15  # 재건 공사 한 단계
+
 const RUMORS := {
 	1: ["북쪽 마을 사람들이 밤마다 도적 걱정을 한대.", "숲길 덫사냥꾼, 요즘 씀씀이가 헤퍼졌다더라."],
 	2: ["붉은 수염 패거리가 길드를 노린다는 소문이 돌아. 단단히 준비해 둬.", "모험가 지망생들이 스카우트실 앞을 기웃거리더라."],

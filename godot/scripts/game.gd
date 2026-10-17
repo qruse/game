@@ -33,6 +33,8 @@ var week_log: Array = []  # 이번 주에 쌓이는 장부 줄
 var week_in := 0
 var week_out := 0
 var news: Array = []  # 지난 주말 소식 (마을 광장)
+var bond := {}  # NPC 호감도 {nora, martha} (G.BONDS)
+var bond_seen := {}  # NPC 이야기를 본 단계 수
 var _uid := 0
 
 
@@ -58,6 +60,8 @@ func reset() -> void:
 	jobs = []
 	ledger = []
 	news = []
+	bond = {"nora": 0, "martha": 0}
+	bond_seen = {"nora": 0, "martha": 0}
 	_uid = 0
 	# 처음엔 촌장이 소개해 준 견습 둘이 명부에 있다
 	for g in ["F", "F"]:
@@ -104,6 +108,8 @@ func earn(g: int, m: Dictionary, f: int, why: String) -> void:
 func quest_reward(qname: String, ok: bool) -> Dictionary:
 	var r: Dictionary = G.QUEST_REWARD["ok" if ok else "ng"]
 	earn(r.gold, r.mats, r.fame, "의뢰 '%s' %s" % [qname, "성공" if ok else "절반의 성공"])
+	if ok:
+		add_bond("martha", 6)  # "길드 덕에 손님이 늘었어!"
 	return r
 
 
@@ -111,7 +117,10 @@ func quest_reward(qname: String, ok: bool) -> Dictionary:
 
 func stage_cost(i: int) -> Dictionary:
 	var s: Dictionary = G.STAGES[i]
-	var c := {"gold": s.gold}
+	var g: int = s.gold
+	if bond_seen.get("nora", 0) >= 2:  # 노라 2단계: 공사 금화 −5%
+		g = int(round(g * 0.95))
+	var c := {"gold": g}
 	c.merge(s.mats)
 	return c
 
@@ -123,7 +132,42 @@ func do_build() -> bool:
 		return false
 	build += 1
 	week_log.append("재건 · '%s' 공사를 마쳤다" % G.STAGES[build].name)
+	add_bond("nora", G.NORA_BUILD)
 	return true
+
+
+# ── NPC 호감도 (마르타 · 노라) ──
+
+## 다음 단계를 보기 전까지는 그 문턱에서 멈춘다
+func add_bond(id: String, n: int) -> void:
+	var b: Dictionary = G.BONDS[id]
+	var seen: int = bond_seen.get(id, 0)
+	var cap: int = b.need[seen] if seen < b.need.size() else b.need[-1]
+	bond[id] = mini(bond.get(id, 0) + n, cap)
+
+
+## 볼 수 있는 다음 단계 (1~3), 없으면 0
+func bond_ready(id: String) -> int:
+	var b: Dictionary = G.BONDS[id]
+	var seen: int = bond_seen.get(id, 0)
+	if seen >= b.need.size():
+		return 0
+	if bond.get(id, 0) < b.need[seen]:
+		return 0
+	var ch: int = b.chapter[seen]
+	if ch > 0 and not flags.get("chapter%d_done" % ch, false):
+		return 0
+	return seen + 1
+
+
+## 다음 단계 문턱까지 (0~1)
+func bond_ratio(id: String) -> float:
+	var b: Dictionary = G.BONDS[id]
+	var seen: int = bond_seen.get(id, 0)
+	if seen >= b.need.size():
+		return 1.0
+	var lo: int = 0 if seen == 0 else b.need[seen - 1]
+	return clampf(float(bond.get(id, 0) - lo) / float(b.need[seen] - lo), 0.0, 1.0)
 
 
 func fac_max(id: String) -> int:
@@ -272,6 +316,8 @@ func _settle_jobs() -> void:
 				gbonus += a.trait.get("gold", 0.0)
 				a.wins += 1
 			g *= 1.0 + gbonus
+			if bond_seen.get("nora", 0) >= 3:  # 노라 3단계: 위탁 보수 +10%
+				g *= 1.1
 			var net := int(g * (1.0 - minf(share, 60) / 100.0))
 			var m := {j.mat: j.mat_n} if j.mat != "" else {}
 			earn(net, m, j.fame, "위탁 '%s' 성공 · %s (몫 %d%% 뗌)" % [j.name, who, mini(share, 60)])
@@ -316,7 +362,9 @@ func new_week() -> void:
 
 ## 주말 정산 → 장부 한 페이지를 남기고 돌려준다
 func settle() -> Dictionary:
+	var idle := jobs.any(func(j): return j.crew.is_empty())
 	_settle_jobs()
+	add_bond("nora", G.NORA_WEEK + (0 if idle else G.NORA_WEEK_FULL))
 	var entry := {"week": week, "lines": week_log.duplicate(), "income": week_in, "spend": week_out}
 	ledger.append(entry)
 	return entry

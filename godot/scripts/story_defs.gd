@@ -9,6 +9,7 @@ const SPEAKERS := {
 	"cecile": {"name": "세실", "path": "characters/C02_cecile/C02_portrait_%s_%s.png", "outfit": "combat"},
 	"adelheid": {"name": "아델하이트", "path": "characters/C03_adelheid/C03_portrait_%s_%s.png", "outfit": "combat"},
 	"martha": {"name": "마르타", "path": "npcs/N01_martha/N01_portrait_%s.png"},
+	"nora": {"name": "부관 노라", "path": "npcs/N14_nora/N14_portrait_%s.png"},
 	"basil": {"name": "공증인 바실", "path": "npcs/N02_basil/N02_portrait_%s.png"},
 	"farmer": {"name": "마을 사람", "path": "npcs/N07_villager_m/N07_portrait_neutral.png"},
 	"tobias": {"name": "촌장 토비아스", "path": "npcs/N11_tobias/N11_portrait_%s.png"},
@@ -37,11 +38,65 @@ const SCENES := {
 	"week1": {
 		"bg": "backgrounds/scene/bg_noticeboard.png",
 		"lines": [
-			["martha", "neutral", "단장, 게시판에 의뢰가 셋이나 붙었어. 길드가 다시 열렸다고 소문이 났나 봐."],
-			["martha", "positive", "근데 일손이 셋뿐이잖아? 이번 주엔 둘만 골라."],
+			["nora", "positive", "길드가 다시 열렸다고 해서 수도에서 바로 왔습니다. 부관 자리, 비어 있죠? 서류는 3장 다 써 왔습니다."],
+			["nora", "neutral", "부관 노라입니다. 게시판에 의뢰가 3건 붙었네요. 일손이 셋뿐이니 이번 주엔 2건만 고르시죠."],
 			["lina", "neutral", "고르지 않은 일은… 누군가 대신 감당하겠죠."],
 		],
-		"summary": "이번 주 의뢰는 셋. 그중 둘만 할 수 있다.",
+		"summary": "부관 노라가 길드에 들어왔다. 이번 주 의뢰는 셋, 그중 둘만 할 수 있다.",
+	},
+	# ── NPC 3단계 이야기 (docs/04-game-flow.md 6.4절). bg "@guild" = 지금 길드 하우스 ──
+	"nora_1": {
+		"bg": "@guild",
+		"lines": [
+			["", "", "접수대 밑에서 낡은 스크랩북이 떨어졌다. 빛바랜 하웰 길드 의뢰서가 빼곡히 붙어 있다."],
+			["nora", "negative", "…보셨습니까. 네, 제 겁니다. 일곱 살 때부터 모았어요. 의뢰서 214장."],
+			["nora", "positive", "옛날부터 이 길드 팬이었거든요. 그러니 장부는 제가 끝까지 책임집니다. 다음 주 예상 수입도 미리 적어 드릴게요."],
+		],
+		"summary": "노라는 어릴 때부터 하웰 길드의 팬이었다. 장부에 다음 주 예상 수입이 적힌다.",
+	},
+	"nora_2": {
+		"bg": "@guild",
+		"lines": [
+			["", "", "수도 상회의 봉인이 찍힌 편지. 연봉을 두 배로 줄 테니 돌아오라는 내용이다."],
+			["nora", "neutral", "옛 상사입니다. 금화 두 배라니, 숫자만 보면 좋은 조건이죠."],
+			["nora", "positive", "답장은 벌써 썼어요. '하웰 부관 자리가 더 바빠서요.' 대신 상회에 아는 목수 값을 5% 깎아 달라고 적었습니다."],
+		],
+		"summary": "노라는 수도의 제안을 거절했다. 재건 공사 금화 비용이 5% 줄어든다.",
+	},
+	"nora_3": {
+		"bg": "@guild",
+		"lines": [
+			["", "", "길드 명부 첫 장. 노라의 이름 옆에는 늘 '임시 부관'이라고 적혀 있었다."],
+			["nora", "neutral", "임시라고 적어 둔 건, 이 길드가 다시 설 줄 몰라서였어요."],
+			["nora", "positive", "이제 고칩니다. 하웰 모험가 길드 부관, 노라. 위탁 보수 협상도 정식으로 제가 맡죠. 10%는 더 받아 오겠습니다."],
+		],
+		"summary": "노라는 정식 길드원이 되었다. 위탁 의뢰 보수가 10% 오른다.",
+	},
+	"martha_1": {
+		"bg": "backgrounds/scene/bg_tavern.png",
+		"lines": [
+			["martha", "neutral", "단장, 너희 길드 몫으로 외상 장부 하나 새로 폈다."],
+			["martha", "positive", "그리고 이거. 남은 고기파이야. 굶고 다니다 쓰러지면 외상도 못 받잖아!"],
+		],
+		"summary": "마르타가 길드 몫 외상 장부를 폈다. 야영 칸 회복량이 1 오른다.",
+	},
+	"martha_2": {
+		"bg": "backgrounds/scene/bg_tavern.png",
+		"lines": [
+			["martha", "neutral", "저 구석 자리, 옛날 용사 일행이 늘 앉던 데야. 에드릭 그 양반, 외상 안 갚고 사라졌지."],
+			["martha", "negative", "…장부? 아직 있지. 버리려다 매번 다시 넣어 둬."],
+			["martha", "positive", "대신 요즘 손님들 소문은 내가 다 듣고 있으니까, 주말마다 한 줄씩 흘려 줄게."],
+		],
+		"summary": "마르타는 옛 장부를 아직 간직하고 있다. 주말 소식에 선술집 소문이 한 줄 붙는다.",
+	},
+	"martha_3": {
+		"bg": "backgrounds/scene/bg_tavern.png",
+		"lines": [
+			["martha", "neutral", "가운데 탁자 비워 뒀다. 오늘부터 '하웰 길드 자리'야."],
+			["", "", "마르타가 낡은 외상 장부를 길드 사람들 앞에서 찢었다."],
+			["martha", "positive", "이제 너희가 이 마을 단골이야. 출발하는 날엔 도시락 챙겨 가!"],
+		],
+		"summary": "선술집에 하웰 길드 자리가 생겼다. 주방 시설의 출발 버프가 한 단계 오른다.",
 	},
 	"bandits_in": {
 		"bg": "backgrounds/scene/bg_village_square.png",

@@ -219,11 +219,11 @@ func _town_hint() -> String:
 func _alert(id: String) -> bool:
 	match id:
 		"guild":
-			return (not Game.flags.get("picked_%d" % Game.week, false) and not _week_quests().is_empty()) or (Game.jobs.any(func(j): return j.crew.is_empty()) and not Game.roster.is_empty())
+			return Game.bond_ready("nora") > 0 or (not Game.flags.get("picked_%d" % Game.week, false) and not _week_quests().is_empty()) or (Game.jobs.any(func(j): return j.crew.is_empty()) and not Game.roster.is_empty())
 		"chief":
 			return Game.can_rank_up()
 		"tavern":
-			return not Game.flags.get("rumor_%d" % Game.week, false)
+			return not Game.flags.get("rumor_%d" % Game.week, false) or Game.bond_ready("martha") > 0
 		"square":
 			return not Game.news.is_empty() and not Game.flags.get("news_%d" % Game.week, false)
 	return false
@@ -300,7 +300,8 @@ func show_place(id: String) -> void:
 			Game.flags["rumor_%d" % Game.week] = true
 			for r in G.RUMORS.get(Game.week, []):
 				v.add_child(_quote(r))
-			v.add_child(_note("식재료 납품(마르타 단골도)은 다음 작업에서 연다."))
+			v.add_child(_bond_row("martha", func(): show_place("tavern")))
+			v.add_child(_note("식재료 납품(단골도를 올리는 선물)은 다음 작업에서 연다. 지금은 의뢰를 성공할 때마다 단골도가 오른다."))
 		"smithy":
 			v.add_child(_quote("어서 와, 단장! 장비 사고팔기랑 강화는 곧 시작할 거야. 무기고를 지어 두면 더 세게 두드려 줄게."))
 			v.add_child(_note("장비 사기·강화는 다음 작업에서 연다. 강화 상한은 길드 무기고 레벨을 따른다."))
@@ -343,6 +344,32 @@ func news_row(it, size := 16.0) -> Control:
 	v.add_child(K.label(it[2], size - 1, K.DIM, null, true))
 	h.add_child(v)
 	return h
+
+
+## NPC 호감도 줄: 이름 + 마름모 3개 + 막대 (+ 이야기 버튼)
+func _bond_row(id: String, back: Callable) -> Control:
+	var b: Dictionary = G.BONDS[id]
+	var v := K.vbox(6)
+	var h := K.hbox(8)
+	h.add_child(K.label(b.meter, 13, K.DIM))
+	var seen: int = Game.bond_seen.get(id, 0)
+	for i in 3:
+		h.add_child(K.Diamond.make(K.px(7), K.BRASS_HI, i < seen, i < seen))
+	var bar := Desk.Bar.new()
+	bar.ratio = Game.bond_ratio(id)
+	bar.col = K.BLUE_HI
+	bar.custom_minimum_size = Vector2(K.px(120), K.px(4))
+	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(bar)
+	h.add_child(K.num(str(Game.bond.get(id, 0)), 13, K.DIM))
+	v.add_child(h)
+	var st := Game.bond_ready(id)
+	if st > 0:
+		v.add_child(K.btn_main("%s의 이야기 %s" % [b.name, ROMAN[st - 1]], b.stage_names[st - 1],
+			func(): Desk.play_bond(m, id, st, back), 50))
+	elif seen < 3:
+		v.add_child(K.label("다음 이야기 · %s" % b.stage_names[seen], 13, K.DIM))
+	return v
 
 
 ## 대사 한 덩이: 왼쪽 놋쇠 선 + 글
@@ -814,8 +841,24 @@ func show_ledger(e: Dictionary, then: Callable) -> void:
 	tot.add_child(_total("지출", "-%d" % e.spend, Color("ffc08a")))
 	tot.add_child(_total("남은 금화", str(Game.gold), K.BRASS_HI))
 	v.add_child(tot)
+	if Game.bond_seen.get("nora", 0) >= 1:  # 노라 1단계: 다음 주 예상 수입
+		var fc := K.hbox(8)
+		fc.add_child(K.chip("부관 노라", Color(K.BLUE, 0.35), Color.WHITE, 12))
+		fc.add_child(K.label("다음 주 예상 수입 약 %d 금화 (최근 장부 평균)" % _forecast(), 14, K.DIM))
+		v.add_child(fc)
 	v.add_child(K.spacer(0, 6))
 	v.add_child(K.btn_main("소식 보기", "제%d주 마무리" % e.week, then))
+
+
+## 최근 장부 3주 수입 평균
+func _forecast() -> int:
+	var last: Array = Game.ledger.slice(maxi(0, Game.ledger.size() - 3))
+	if last.is_empty():
+		return 0
+	var s := 0
+	for e in last:
+		s += int(e.income)
+	return roundi(float(s) / last.size())
 
 
 ## 장부 한 줄: 종류 표시 + 내용
