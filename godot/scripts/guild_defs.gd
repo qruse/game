@@ -146,7 +146,7 @@ const PLACES := {
 ## need: 단계별 문턱, chapter: 단계별로 마쳐야 하는 장 (flags "chapter%d_done"), scene: story_defs 장면 id 앞부분
 const BONDS := {
 	"nora": {"name": "노라", "meter": "호감도", "need": [30, 60, 100], "chapter": [0, 1, 2], "scene": "nora_",
-		"stage_names": ["부관의 스크랩북", "수도에서 온 편지", "하웰의 부관"],
+		"stage_names": ["지붕 위의 노라", "왕도에서 온 편지", "하웰의 부관"],
 		"rewards": ["장부에 다음 쪽 예상 수입이 보인다", "재건 공사 금화 비용 −5%", "위탁 의뢰 보수 +10%"]},
 	"martha": {"name": "마르타", "meter": "호감도", "need": [30, 60, 100], "chapter": [0, 1, 2], "scene": "martha_",
 		"stage_names": ["단골", "그때 그 국자", "길드의 식탁"],
